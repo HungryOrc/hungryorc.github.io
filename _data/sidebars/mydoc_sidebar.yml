@@ -18,39 +18,34 @@ entries:
       output: pdf
       type: frontmatter
 
-  - title: Overview
+  - title: Development
     output: web, pdf
     folderitems:
 
-    - title: Get started
-      url: /index.html
+    - title: Mobile
+      url: /tag_mobile.html
       output: web, pdf
-      type: homepage
-
-    - title: Introduction
-      url: /mydoc_introduction.html
-      output: web, pdf
-
-    - title: Supported features
-      url: /mydoc_supported_features.html
+  
+    - title: Web
+      url: /tag_web.html
       output: web, pdf
 
-    - title: About the theme author
-      url: /mydoc_about.html
-      output: web, pdf
-
-    - title: Support
-      url: /mydoc_support.html
-      output: web, pdf
-
-  - title: Release Notes
+  - title: Languages
     output: web, pdf
     folderitems:
 
-    - title: 6.0 Release notes
-      url: /mydoc_release_notes_60.html
+    - title: C++
+      url: /tag_c++.html
       output: web, pdf
 
-    - title: 5.0 Release notes
-      url: /mydoc_release_notes_50.html
+    - title: Javascript
+      url: /tag_javascript.html
+      output: web, pdf
+    
+    - title: Node.js
+      url: /tag_nodejs.html
+      output: web, pdf
+    
+    - title: Java
+      url: /tag_java.html
       output: web, pdf

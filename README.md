@@ -1,4 +1,4 @@
-# Tech Notes of the Orc
+## Orc's Tech Notes
 
 #### URL
 https://hungryorc.github.io/
