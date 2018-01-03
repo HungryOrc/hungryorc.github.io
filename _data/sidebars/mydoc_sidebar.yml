@@ -22,6 +22,10 @@ entries:
     output: web, pdf
     folderitems:
 
+    - title: General Programming
+      url: /tag_programming.html
+      output: web, pdf
+
     - title: Mobile
       url: /tag_mobile.html
       output: web, pdf
@@ -48,4 +52,12 @@ entries:
     
     - title: Java
       url: /tag_java.html
+      output: web, pdf
+  
+  - title: Algorithm
+    output: web, pdf
+    folderitems:
+
+    - title: All
+      url: /tag_algorithm.html
       output: web, pdf
