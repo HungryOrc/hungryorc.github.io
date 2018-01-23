@@ -36,6 +36,9 @@ addr == 20461005 // true, since we had: addr = &var
 
 val == 100 // true, since we had: val = *addr
 &val == 20461005 // false
+
+// 注意区别！reference 的格式：
+int& n1 = n2; // 意思是，变量n1 的 address 等于 变量n2 的 address，即 n1 是 n2 的 reference
 ```
 
 注意：
@@ -46,7 +49,7 @@ val == 100 // true, since we had: val = *addr
 
 ```c++
 int n1;
-int * intPointer1 = &n1; // 合法。这是对整形指针的声明和赋值二合一
+int * intPointer1 = &n1; // 合法。这是对整形指针的声明和赋值二合一，意思是：指针intPointer1 的 value 等于 变量n1 的 address
 
 int * intPointer2;
 intPointer = &n1; // 合法。这是先一句声明，再一句赋值
