@@ -1,5 +1,5 @@
 ---
-title: "Class Friend in C++"
+title: "Class: Friend"
 tags: [c++]
 keywords:
 summary:
