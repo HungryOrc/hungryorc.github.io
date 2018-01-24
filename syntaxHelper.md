@@ -90,6 +90,17 @@ When you want to insert paragraphs, notes, code snippets, or other matter in bet
 3.  Third item
 ```
 
+### 表格
+
+| 左对齐      |      右对齐 |    居中对齐   |
+|:-----------|-----------:|:------------:|
+| This       |       This |     This     
+| column     |     column |    column    
+| will       |       will |     will     
+| be         |         be |      be      
+| left       |      right |    center    
+| aligned    |    aligned |    aligned
+
 See the topics under "Formatting" in the sidebar for more information.
 
 ## Automated links
