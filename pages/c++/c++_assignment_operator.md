@@ -34,6 +34,6 @@ x = 2 + （y = 5）; // y = 5, x = 7
 
 ## Reference
 
-* [Assignment Operator](http://www.cplusplus.com/doc/tutorial/operators/)
+* [Assignment Operator [cplusplus.com]](http://www.cplusplus.com/doc/tutorial/operators/)
 
 {% include links.html %}

@@ -46,6 +46,6 @@ Total price: 155.75
 
 ## Reference
 
-* [stringstream](http://www.cplusplus.com/doc/tutorial/basic_io/)
+* [stringstream [cplusplus.com]](http://www.cplusplus.com/doc/tutorial/basic_io/)
 
 {% include links.html %}

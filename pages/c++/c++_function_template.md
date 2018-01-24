@@ -81,6 +81,6 @@ But there exists a major difference: the value of template parameters is determi
 
 ## Reference
 
-* [Overloads and Templates](http://www.cplusplus.com/doc/tutorial/functions2/)
+* [Overloads and Templates [cplusplus.com]](http://www.cplusplus.com/doc/tutorial/functions2/)
 
 {% include links.html %}

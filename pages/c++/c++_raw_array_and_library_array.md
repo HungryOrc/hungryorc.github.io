@@ -91,7 +91,7 @@ void foo(std::vector<int>& v); // pass by const reference of vector
 
 ## Reference
 
-* [Arrays](http://www.cplusplus.com/doc/tutorial/arrays/)
-* [Passing Array Into Function - Pointer vs Reference (C++ vs C)](https://stackoverflow.com/questions/35531914/passing-array-into-function-pointer-vs-reference-c-vs-c)
+* [Arrays [cplusplus.com]](http://www.cplusplus.com/doc/tutorial/arrays/)
+* [Passing Array Into Function - Pointer vs Reference (C++ vs C) [stackoverflow.com]](https://stackoverflow.com/questions/35531914/passing-array-into-function-pointer-vs-reference-c-vs-c)
 
 {% include links.html %}

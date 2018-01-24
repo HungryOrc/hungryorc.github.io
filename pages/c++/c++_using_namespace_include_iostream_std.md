@@ -18,8 +18,8 @@ Whether the elements in the std namespace are introduced with using declarations
 
 ## Reference
 
-* [Using Namespace and #include](https://stackoverflow.com/questions/5115556/c-using-namespace-and-include)
-* [Relationship Between iostream.h and Namespace std](https://stackoverflow.com/questions/23589657/what-is-the-relationship-between-iostream-and-namespace-std)
-* [The std namespace](http://www.cplusplus.com/doc/tutorial/namespaces/)
+* [Using Namespace and #include [stackoverflow.com]](https://stackoverflow.com/questions/5115556/c-using-namespace-and-include)
+* [Relationship Between iostream.h and Namespace std [stackoverflow.com]](https://stackoverflow.com/questions/23589657/what-is-the-relationship-between-iostream-and-namespace-std)
+* [The std namespace [cplusplus.com]](http://www.cplusplus.com/doc/tutorial/namespaces/)
 
 {% include links.html %}

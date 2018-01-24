@@ -147,6 +147,6 @@ friendPointer->favorite_movie.year = 2002;
 
 ## Reference
 
-* [Data Structures](http://www.cplusplus.com/doc/tutorial/structures/)
+* [Data Structures [cplusplus.com]](http://www.cplusplus.com/doc/tutorial/structures/)
 
 {% include links.html %}

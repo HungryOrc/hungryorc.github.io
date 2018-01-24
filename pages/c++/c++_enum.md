@@ -86,6 +86,6 @@ enum class EyeColor : char
 
 ## Reference
 
-* [Enumerated Types](http://www.cplusplus.com/doc/tutorial/other_data_types/)
+* [Enumerated Types [cplusplus.com]](http://www.cplusplus.com/doc/tutorial/other_data_types/)
 
 {% include links.html %}

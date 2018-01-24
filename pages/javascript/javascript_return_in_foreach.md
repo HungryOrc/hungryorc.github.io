@@ -18,6 +18,6 @@ toc: false
 
 ## Reference
 
-* [Go to “next” iteration in javascript forEach loop](https://stackoverflow.com/questions/31399411/go-to-next-iteration-in-javascript-foreach-loop/31399448)
+* [Go to “next” iteration in javascript forEach loop [stackoverflow.com]](https://stackoverflow.com/questions/31399411/go-to-next-iteration-in-javascript-foreach-loop/31399448)
 
 {% include links.html %}

@@ -59,7 +59,7 @@ int (&myArray)[10]
 
 ## Reference
 
-* [C++的一般引用及其数组引用（转）](http://blog.sina.com.cn/s/blog_80ce3a550101ln3x.html)
-* [C++ 中引用传递与指针传递的区别（进一步整理）](http://xinklabi.iteye.com/blog/653643)
+* [C++的一般引用及其数组引用（转）[blog.sina.com]](http://blog.sina.com.cn/s/blog_80ce3a550101ln3x.html)
+* [C++ 中引用传递与指针传递的区别（进一步整理）[iteye.com]](http://xinklabi.iteye.com/blog/653643)
 
 {% include links.html %}

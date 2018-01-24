@@ -42,7 +42,7 @@ It's necessary because an object's prototype contains additional properties for 
 
 ## Reference
 
-* [Object.entries() in Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries)
-* [Iterate Through Object Properties](https://stackoverflow.com/questions/8312459/iterate-through-object-properties)
+* [Object.entries() in Javascript [mozilla.org]](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries)
+* [Iterate Through Object Properties [stackoverflow.com]](https://stackoverflow.com/questions/8312459/iterate-through-object-properties)
 
 {% include links.html %}

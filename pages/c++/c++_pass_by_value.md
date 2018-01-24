@@ -54,7 +54,7 @@ int main ()
 
 ## Reference
 
-* [C++ 值传递、指针传递、引用传递详解](http://www.cnblogs.com/yanlingyin/archive/2011/12/07/2278961.html)
-* [Arguments passed by value and by reference](http://www.cplusplus.com/doc/tutorial/functions/)
+* [C++ 值传递、指针传递、引用传递详解 [cnblogs.com]](http://www.cnblogs.com/yanlingyin/archive/2011/12/07/2278961.html)
+* [Arguments passed by value and by reference [cplusplus.com]](http://www.cplusplus.com/doc/tutorial/functions/)
 
 {% include links.html %}

@@ -28,7 +28,7 @@ array = array.filter(element => (registeredElementName[element] !== undefined));
 
 ## Reference
 
-* [Javascript reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/)
-* [How to Remove Duplicates from JavaScript Array](https://codehandbook.org/how-to-remove-duplicates-from-javascript-array/)
+* [Javascript reference [mozilla.org]](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/)
+* [How to Remove Duplicates from JavaScript Array [codehandbook.org]](https://codehandbook.org/how-to-remove-duplicates-from-javascript-array/)
 
 {% include links.html %}

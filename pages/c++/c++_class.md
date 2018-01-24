@@ -389,11 +389,114 @@ template <> class mycontainer <char> { ... };
 When we declare specializations for a template class, we must also define ALL its members, even those identical to the generic template class, because there is no "inheritance" of members from the generic template to the specialization.
 
 
+## Destructor
+
+Destructors are member functions that do the necessary cleanup needed by a class when its lifetime ends. The classes we have defined in previous chapters **did not allocate any resource so they did not really require any clean up**. Destructor for an object is called at the end of the lifetime of the object.
+
+Let's imageine that **a class allocates dynamic memory to store the string it had as data member**. In this case, it would be very useful to have a function called automatically at the end of the object's life in charge of releasing this memory. To do this, we use a destructor. A destructor is a member function very similar to a default constructor: it takes no arguments and returns nothing, not even void. It also uses the class name as its own name, but preceded with a "tilde sign" `~`:
+
+```c++
+#include <iostream>
+#include <string>
+using namespace std;#
+
+class Example4 {
+    string * ptr;
+  public:
+    // constructors:
+    Example4 () : ptr(new string) {}
+    Example4 (const string& str) : ptr(new string(str)) {}
+    // destructor:
+    ~Example4 () {delete ptr;} // 这个 destructor 做的是把 member data 的动态内存释放了
+    // access content:
+    const string& content() const {return *ptr;}
+};
+
+int main () {
+  Example4 foo;
+  Example4 bar ("Example");
+  cout << "bar's content: " << bar.content() << '\n';
+}
+```
+
+On construction, `Example4` allocates storage for a string, this storage is later released by the destructor. For objects `foo` and `bar` in the main function, their destructors are called at the end of the main function.
+
+
+## Copy Constructor and Copy Assignment
+
+### Copy Constructor
+
+When an object (A) is passed an object (B) of its own type as argument, its **Copy Constructor** is invoked in order to construct a copy of B. 
+
+"Copy Constructor" is a constructor whose 1st parameter is of **type reference** to the class itself (possibly `const` qualified) and which can be invoked with a single argument of this type. For example, for a class `MyClass`, the explicit Copy Constructor might have the following signature:
+```c++
+// Explicit Copy Constructor
+MyClass::MyClass (const MyClass&); 
+```
+
+If a class has no custom "Copy Constructor/Assignment" nor "Move Constructor/Assignment" defined, an "IMPLICIT Copy Constructor" is automatically defined. For example, for a class such as:
+```c++
+class MyClass {
+  public:
+    int a, b; string c;
+};
+```
+The Implicit Copy Constructor defined for this class will perform a **Shallow Copy** of the members of the class, roughly equivalent to:
+```c++
+// underlying form of the Implicit Copy Constructor
+MyClass::MyClass(const MyClass& x) : a(x.a), b(x.b), c(x.c) {}
+```
+But for classes that have Pointers as their members, performing a Shallow Copy means the value of the Pointer is copied, but the variable/object to which the Pointer was pointing is NOT. So the Pointer members of the copy object and the original object will point to the same object, and on destruction, both objects would try to delete the same block of memory, which will probably cause the program to crash at runtime. This can be solved by defining the custom Copy Constructor to perform a **Deep Copy**, like the following:
+
+```c++
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Example5 {
+    string * ptr;
+  public:
+    Example5 (const string& str) : ptr(new string(str)) {}
+    ~Example5 () {delete ptr;}
+    // Copy Constructor: performs Deep Copy
+    Example5 (const Example5& x) : ptr(new string(x.content())) {}
+    
+    const string& content() const {return *ptr;}
+};
+
+int main () {
+  Example5 foo ("Example");
+  Example5 bar = foo; // object initialization: Copy Constructor called, 相当于 Example5 bar (foo)
+  ...
+}
+```
+The Deep Copy performed by this Copy Constructor allocates storage for a new string, which is initialized to contain a copy of the original object. In this way, both objects (copy and original) have distinct copies of the content stored in different locations.
+
+### Copy Assignment
+
+```c++
+MyClass foo;
+MyClass bar (foo); // object initialization for baz: Copy Constructor called
+MyClass baz = foo; // object initialization for baz: Copy Constructor called
+```
+```c++
+MyClass foo;
+foo = bar; // object foo had already been initialized: so this is a copy assignment, not a Copy Constructor
+```
+In `MyClass baz = foo`, `baz` is **initialized on construction using an equal sign, this is not an assignment operation** (although it may look like one)! It is **one way of the syntaxes to call the single-argument constructors**.
+
+
+
+
+
+
+
 
 
 ## Reference
 
-* [Classes (I)](http://www.cplusplus.com/doc/tutorial/classes/)
-* [Classes (II)](http://www.cplusplus.com/doc/tutorial/templates/)
+* [Classes (I) [cplusplus.com]](http://www.cplusplus.com/doc/tutorial/classes/)
+* [Classes (II) [cplusplus.com]](http://www.cplusplus.com/doc/tutorial/templates/)
+* [Special Members of Classes [cplusplus.com]](http://www.cplusplus.com/doc/tutorial/classes2/)
 
 {% include links.html %}

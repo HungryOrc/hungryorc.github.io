@@ -260,6 +260,6 @@ int main ()
 
 ## Reference
 
-* [Pointers](http://www.cplusplus.com/doc/tutorial/pointers/)
+* [Pointers [cplusplus.com]](http://www.cplusplus.com/doc/tutorial/pointers/)
 
 {% include links.html %}

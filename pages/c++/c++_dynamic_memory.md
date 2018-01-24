@@ -88,6 +88,6 @@ int main ()
 
 ## Reference
 
-* [Dynamic Memory](http://www.cplusplus.com/doc/tutorial/dynamic/)
+* [Dynamic Memory [cplusplus.com]](http://www.cplusplus.com/doc/tutorial/dynamic/)
 
 {% include links.html %}
