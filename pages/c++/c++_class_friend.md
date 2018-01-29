@@ -20,7 +20,7 @@ class Rectangle {
     Rectangle() {}
     Rectangle (int x, int y) : width(x), height(y) {}
     int area() {return width * height;}
-    friend Rectangle duplicate (const Rectangle&); // 朋友圈
+    friend Rectangle duplicate (const Rectangle&); // 在这里定义 谁可以进入自己
 };
 
 Rectangle duplicate (const Rectangle& param)
@@ -58,7 +58,7 @@ class Rectangle {
 };
 
 class Square {
-  friend class Rectangle; // 朋友圈
+  friend class Rectangle; // 在这里定义 谁可以进入自己
   private:
     int side;
   public:
@@ -74,10 +74,11 @@ int main () {
   Rectangle rect;
   Square sqr (4);
   rect.convert(sqr);
-  cout << rect.area();
+  cout << rect.area(); // 16
 }
 ```
 
+注意！Friendship 不可传递！The friend of a friend is not considered a friend, unless explicitly specified so.
 
 
 
