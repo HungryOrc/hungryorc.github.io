@@ -194,14 +194,13 @@ The following example uses the member functions we have just seen to obtain the 
 using namespace std;
 
 int main () {
-  streampos begin,end;
+  streampos begin, end;
   ifstream myfile ("example.bin", ios::binary);
   begin = myfile.tellg();
   myfile.seekg (0, ios::end);
   end = myfile.tellg();
   myfile.close();
-  cout << "size is: " << (end-begin) << " bytes.\n"; // "size is: 40 bytes."
-  return 0;
+  cout << "size is: " << (end - begin) << " bytes.\n"; // "size is: 40 bytes."
 }
 ```
 
