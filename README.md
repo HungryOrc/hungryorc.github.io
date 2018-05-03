@@ -2,7 +2,7 @@
 
 * URL of these notes: https://hungryorc.github.io/
 
-* This website implemented [Jekyll Documentation Theme](http://idratherbewriting.com/documentation-theme-jekyll/)
+* This website implemented [Jekyll Documentation Theme](http://idratherbewriting.com/documentation-theme-jekyll/), thanks to the author of this theme.
 
 ## How to add a new page
 
