@@ -10,6 +10,8 @@
 
 The default side bar is configured in this file: `/_data/sidebars/mydoc_sidebar.yml`.
 
+If this new page does not require a new folder/item in the side bar, then ignore this step.
+
 ### 2. Add a .md file in the `/pages` folder
 
 Find/create the sub folder to place the .md file.
