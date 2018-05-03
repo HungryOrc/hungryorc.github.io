@@ -10,6 +10,6 @@
 
 The default side bar is configured in this file: `/_data/sidebars/mydoc_sidebar.yml`.
 
-### 2. Add a .md file in the `hungryorc.github.io/pages/` folder
+### 2. Add a .md file in the `/pages` folder
 
 Find/create the sub folder to place the .md file.
