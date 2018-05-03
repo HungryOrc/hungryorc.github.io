@@ -13,3 +13,7 @@ The default side bar is configured in this file: `/_data/sidebars/mydoc_sidebar.
 ### 2. Add a .md file in the `/pages` folder
 
 Find/create the sub folder to place the .md file.
+
+### 3. Add the tag(s) for the new page in the tag list at `/_data/tags.yml`
+
+If the tag(s) already exist in the tag list, then ignore this step. 
