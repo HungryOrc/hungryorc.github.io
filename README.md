@@ -1,8 +1,8 @@
 # Orc's Tech Notes
 
-* URL https://hungryorc.github.io/
+* URL of these notes: https://hungryorc.github.io/
 
-* Implemented "Jekyll Documentation Theme" http://idratherbewriting.com/documentation-theme-jekyll/
+* This website implemented [Jekyll Documentation Theme](http://idratherbewriting.com/documentation-theme-jekyll/)
 
 ## How to add a new page
 
