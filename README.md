@@ -4,6 +4,10 @@
 
 * This website implemented [Jekyll Documentation Theme](http://idratherbewriting.com/documentation-theme-jekyll/), thanks to the author of this theme.
 
+* Notice
+  
+  * Any change saved on this git repo will be reflected on the URL listed above after a few seconds.
+
 ## How to add a new page
 
 ### 1. Add a new folder/item in the side bar
