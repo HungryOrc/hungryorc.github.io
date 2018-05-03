@@ -61,3 +61,11 @@ entries:
     - title: All
       url: /tag_algorithm.html
       output: web, pdf
+  
+  - title: Git
+    output: web, pdf
+    folderitems:
+
+    - title: All
+      url: /tag_git.html
+      output: web, pdf
