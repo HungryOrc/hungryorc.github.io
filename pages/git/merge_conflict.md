@@ -52,4 +52,3 @@ Merge from upstream `master` to local `master`, go to local `dev`, rebase local 
 
 [Resolving a merge conflict on GitHub [GitHub Help]](https://help.github.com/articles/resolving-a-merge-conflict-on-github/)
 
-{% include links.html %}
