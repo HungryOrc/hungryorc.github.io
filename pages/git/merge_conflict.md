@@ -9,9 +9,11 @@ folder: git
 toc: false
 ---
 
-## Steps
+Senario: when suubmitting PR from `dev` origin branch to `master` upstream branch, and found that there's a merge conflict (Github will notify you that "Auto-merge cannot be done" in this case).
 
-* Submit PR from `dev` branch to `master` branch, and found that there's a merge conflict (Github will notify you that "Auto-merge cannot be done" in this case)
+## Method 1
+
+Merge from upstream `master` to local `dev`, solve the conflicts on local `dev`, then push to origin `dev` by force.
 
 * In command line, git checkout to the `dev` branch
 
@@ -33,8 +35,21 @@ toc: false
 
 * Run `git add`, `git commit`
 
-* Push by force! Run `git push -f`. If all the conflicts were fixed correctly, then Github will be updated and show that Auto-merge is available now.
+* Push by force! Run `git push [origin dev] -f`. If all the conflicts were fixed correctly, then Github will be updated and show that Auto-merge is available now.
+
+## Method 2, essentially the same as Method 1
+
+Merge from upstream `master` to local `master`, go to local `dev`, rebase local `dev` to local `master`, solve the conflicts on local `dev`, push to orogin `dev` by force.
+
+* `git checkout master`
+* `git pull upstream master`
+* `git checkout dev`
+* `git rebase -i master`, 把 local `dev` 上的改动合并到 local `master` 上去
+* Solve the conflicts on local `dev`
+* `git push -f`, push to origin `dev` by force
 
 ## Reference
+
+[Resolving a merge conflict on GitHub [GitHub Help]](https://help.github.com/articles/resolving-a-merge-conflict-on-github/)
 
 {% include links.html %}
