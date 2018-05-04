@@ -27,11 +27,13 @@ toc: false
   Automatic merge failed; fix conflicts and then commit the result.
   ```
   
-  Essentially, `fetch` + `merge` means `pull`.
+  Essentially, `git fetch upstream master` + `git merge upstream/master` = `git pull upstream master`.
 
 * Slove the merge conflicts on the local machine
 
-* Run `git add`, `git commit`, `git push`. If all the conflicts were fixed correctly, then Github will be updated and show that Auto-merge is available now.
+* Run `git add`, `git commit`
+
+* Push by force! Run `git push -f`. If all the conflicts were fixed correctly, then Github will be updated and show that Auto-merge is available now.
 
 ## Reference
 
