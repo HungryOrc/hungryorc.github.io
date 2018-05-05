@@ -16,6 +16,9 @@ toc: false
 | L6 Presentation | 
 | L5 Session |
 | L4 Transport | TCP, UDP, L4 Firewalls
+| L3 Network | IP, Routers
+| L2 Data Link | Ethernet, Switches, Hubs(outdated)
+| L1 Physical | Hardware, Optical Fiber, Copper Wire(outdated)
 
 ## Packet
 
