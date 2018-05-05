@@ -10,8 +10,8 @@ toc: false
 ---
 
 ## OSI Model
-
-|:----|:----|:----|
+| | | |
+|:----:|:----|:----|
 | L7 | Application Layer | HTTP, FTP, SMTP, SSH, Telnet, L7 Firewalls |
 | L6 | Presentation Layer | 
 | L5 | Session Layer |
