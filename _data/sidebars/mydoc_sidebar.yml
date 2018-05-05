@@ -18,30 +18,30 @@ entries:
       output: pdf
       type: frontmatter
 
-  - title: Development
+  - title: General Programming
     output: web, pdf
     folderitems:
 
-    - title: General Programming
+    - title: All
       url: /tag_programming.html
-      output: web, pdf
-
-    - title: Mobile
-      url: /tag_mobile.html
-      output: web, pdf
-  
-    - title: Web
-      url: /tag_web.html
       output: web, pdf
 
   - title: Languages
     output: web, pdf
     folderitems:
 
+    - title: Java
+      url: /tag_java.html
+      output: web, pdf
+      
     - title: C++
       url: /tag_c++.html
       output: web, pdf
-
+      
+    - title: Pthon
+      url: /tag_python.html
+      output: web, pdf
+      
     - title: Javascript
       url: /tag_javascript.html
       output: web, pdf
@@ -50,9 +50,7 @@ entries:
       url: /tag_nodejs.html
       output: web, pdf
     
-    - title: Java
-      url: /tag_java.html
-      output: web, pdf
+
   
   - title: Algorithm
     output: web, pdf
@@ -61,7 +59,23 @@ entries:
     - title: All
       url: /tag_algorithm.html
       output: web, pdf
+
+  - title: Mobile Development
+    output: web, pdf
+    folderitems:
+    
+    - title: All
+      url: /tag_mobile.html
+      output: web, pdf
   
+  - title: Web Development
+    output: web, pdf
+    folderitems:
+    
+    - title: All
+      url: /tag_web.html
+      output: web, pdf
+      
   - title: Git
     output: web, pdf
     folderitems:
