@@ -31,7 +31,7 @@ toc: false
 
 
 ## Packet
-| Content for L2 | Content for L3 | Content for L4 | &nbsp&nbsp Content for L7 &nbsp&nbsp |
+| Content for L2 | Content for L3 | Content for L4 | ________ Content for L7 ________ |
 |----|----|----|----|
 
 
