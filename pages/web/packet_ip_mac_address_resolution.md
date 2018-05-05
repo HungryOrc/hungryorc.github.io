@@ -20,6 +20,16 @@ toc: false
 | L2 Data Link | Ethernet, Switches, Hubs(outdated)
 | L1 Physical | Hardware, Optical Fiber, Copper Wire(outdated)
 
+## TCP/IP Model
+| Layer |
+|:----|
+| L7 Application
+| L4 Transport
+| L3 Network / Internet
+| L1 & L2, Network Access and Network Interface
+
+
+
 ## Packet
 
 
