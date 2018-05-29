@@ -38,11 +38,15 @@ entries:
       url: /tag_c++.html
       output: web, pdf
       
-    - title: Pthon
-      url: /tag_python.html
+    - title: Python
       output: web, pdf
-      
-      - title: pytest
+      folderitems:
+
+      - title: All
+        url: /tag_python.html
+        output: web, pdf
+    
+      - title: Pytest
         url: /tag_pytest.html
         output: web, pdf
       
