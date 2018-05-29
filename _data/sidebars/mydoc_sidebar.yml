@@ -26,53 +26,54 @@ entries:
       url: /tag_programming.html
       output: web, pdf
 
-      - title: Languages
+  - title: Languages
+    output: web, pdf
+    folderitems:
+
+      subfolders:
+      - title: Java
         output: web, pdf
-        folderitems:
+        subfolderitems:
 
-        - title: Java
+        - title: All
+          url: /tag_java.html
           output: web, pdf
-          subfolderitems:
 
-          - title: All
-            url: /tag_java.html
-            output: web, pdf
+      - title: Python
+        output: web, pdf
+        subfolderitems:
 
-        - title: Python
+        - title: All
+          url: /tag_python.html
           output: web, pdf
-          subfolderitems:
 
-          - title: All
-            url: /tag_python.html
-            output: web, pdf
-
-          - title: Pytest
-            url: /tag_pytest.html
-            output: web, pdf
-
-        - title: C++
+        - title: Pytest
+          url: /tag_pytest.html
           output: web, pdf
-          subfolderitems:
 
-          - title: All
-            url: /tag_c++.html
-            output: web, pdf
+      - title: C++
+        output: web, pdf
+        subfolderitems:
 
-        - title: Javascript
+        - title: All
+          url: /tag_c++.html
           output: web, pdf
-          subfolderitems:
 
-          - title: All
-            url: /tag_javascript.html
-            output: web, pdf
+      - title: Javascript
+        output: web, pdf
+        subfolderitems:
 
-        - title: Node.js
+        - title: All
+          url: /tag_javascript.html
           output: web, pdf
-          subfolderitems:
 
-          - title: All
-            url: /tag_nodejs.html
-            output: web, pdf
+      - title: Node.js
+        output: web, pdf
+        subfolderitems:
+
+        - title: All
+          url: /tag_nodejs.html
+          output: web, pdf
 
 
   
