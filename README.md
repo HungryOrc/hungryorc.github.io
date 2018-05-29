@@ -24,8 +24,8 @@ Find/create the sub folder to place the .md file.
 
 If the tag(s) already exist in the tag list, then ignore this step. 
 
-### 4. Create a new `tag_xxx.md` file for the new tag
+### 4. Create a new `tag_xxx.md` file for the new tag in the `/pages/tags/` folder
 
-All the .md files for tags reside in folder `/pages/tags/`, take a look at any file in this folder, then you'll see how to create a new one, very simple and short files.
+All the .md files for tags reside here, take a look at any file in this folder, then you'll see how to create a new one, very simple and short files.
 
 Again, if this new page doesn't require a new tag, ignore this step.
