@@ -18,6 +18,8 @@ allowed-tags:
   - web
   - mobile
   - java
+  - python
+  - pytest
   - c++
   - javascript
   - nodejs
