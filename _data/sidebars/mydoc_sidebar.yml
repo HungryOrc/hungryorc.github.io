@@ -26,54 +26,54 @@ entries:
       url: /tag_programming.html
       output: web, pdf
 
-  - title: Languages
-    output: web, pdf
-    folderitems:
-
-    - title: Java
-      output: web, pdf
-      folderitems:
-
-      - title: All
-        url: /tag_java.html
+      - title: Languages
         output: web, pdf
-      
-    - title: Python
-      output: web, pdf
-      folderitems:
+        folderitems:
 
-      - title: All
-        url: /tag_python.html
-        output: web, pdf
-    
-      - title: Pytest
-        url: /tag_pytest.html
-        output: web, pdf
-    
-    - title: C++
-      output: web, pdf
-      folderitems:
+        - title: Java
+          output: web, pdf
+          subfolderitems:
 
-      - title: All
-        url: /tag_c++.html
-        output: web, pdf
-      
-    - title: Javascript
-      output: web, pdf
-      folderitems:
+          - title: All
+            url: /tag_java.html
+            output: web, pdf
 
-      - title: All
-        url: /tag_javascript.html
-        output: web, pdf
-    
-    - title: Node.js
-      output: web, pdf
-      folderitems:
+        - title: Python
+          output: web, pdf
+          subfolderitems:
 
-      - title: All
-        url: /tag_nodejs.html
-        output: web, pdf
-    
+          - title: All
+            url: /tag_python.html
+            output: web, pdf
+
+          - title: Pytest
+            url: /tag_pytest.html
+            output: web, pdf
+
+        - title: C++
+          output: web, pdf
+          subfolderitems:
+
+          - title: All
+            url: /tag_c++.html
+            output: web, pdf
+
+        - title: Javascript
+          output: web, pdf
+          subfolderitems:
+
+          - title: All
+            url: /tag_javascript.html
+            output: web, pdf
+
+        - title: Node.js
+          output: web, pdf
+          subfolderitems:
+
+          - title: All
+            url: /tag_nodejs.html
+            output: web, pdf
+
 
   
   - title: Algorithm
