@@ -46,15 +46,19 @@ L2 Contains:
 * Source MAC
 The Ethernet Standard of IEEE specifies MAC Addresses to be used for the source and destination address of each L2 frame.
 
-A MAC address is 48 bits (or 6 bytes) long. Typically for human reading they're written in the following format: `00:11:22:AB:CD:EF`.
+A MAC address is 48 bits (6 bytes) long. Typically for human reading they're written in the following format: `00:11:22:AB:CD:EF`.
 * The first 3 bytes of the MAC (the OUI) is assigned to a manufacturer of network equipment by an organization called IANA (Internet Assigned Numbers Authority).
 * The second 3 bytes is given out by that vendor and put on each network **interface**, not device. So one device can have multiple MAC, if it has multiple interfaces, for example a Router would have multiple interfaces (slots).
-* MAC address is intended to be globally unique, although it is used for local addressing.
+* MAC address is intended to be **globally unique**, although it is used for local addressing.
 
-### L3
+### L3 and IP (Internet Protocol)
 Contains:
 * Source IP 
 * Destination IP
+
+The Internet Protocol specifies that a 32 bit (4 byte) IP address should be written in the format of `11:22:33:44` for human reading. Each section is a decimal number between 0 and 255. 
+* Some numbers/number-patterns are reserved for special purposes.
+* Each IP address should be **globally unique** across the entire internet, with some exceptions.
 
 ## Addresses and Path Finding
 Why do we have 2 kinds of Addresses contained in L2 and L3 respectively? 
