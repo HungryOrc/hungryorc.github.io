@@ -36,11 +36,24 @@ toc: false
 | Content for L2 | Content for L3 | Content for L4 |              Content for L7              |
 └────────────────┴────────────────┴────────────────┴──────────────────────────────────────────┘
 |<------------------- Header --------------------->|<---------------- Payload --------------->|
-
+|<---------------------------------------- Frame -------------------------------------------->|
+                 |<------------------------------- Packet ----------------------------------->|
+                                  |<----------------------- Segment ------------------------->|
 ```
+### L2 
+Contains:
+* Destination MAC
+* Source MAC
 
+### L3
+Contains:
+* Source IP 
+* Destination IP
 
-
+## Address and Path Finding
+Why do we have 2 kinds of Addresses contained in L2 and L3 respectively? 
+* The MAC Addresses in L2 tell us where to go **next**, it's **Local Address**. It's frequently chagned in a Packet.
+* The IP Addresses in L3 tell us where to go **ultimately**, it's **Global Address**. It's usually not changed in a Packet, some exceptions apply.
 
 ## Reference
 
