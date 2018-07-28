@@ -40,23 +40,48 @@ toc: false
                  |<------------------------------- Packet ----------------------------------->|
                                   |<----------------------- Segment ------------------------->|
 ```
-### L2 
-Contains:
+### L2 and MAC (Media Access Control)
+L2 Contains:
 * Destination MAC
 * Source MAC
+The Ethernet Standard of IEEE specifies MAC Addresses to be used for the source and destination address of each L2 frame.
+
+A MAC address is 48 bits (or 6 bytes) long. Typically for human reading they're written in the following format: `00:11:22:AB:CD:EF`.
+* The first 3 bytes of the MAC (the OUI) is assigned to a manufacturer of network equipment by an organization called IANA (Internet Assigned Numbers Authority).
+* The second 3 bytes is given out by that vendor and put on each network **interface**, not device. So one device can have multiple MAC, if it has multiple interfaces, for example a Router would have multiple interfaces (slots).
+* MAC address is intended to be globally unique, although it is used for local addressing.
 
 ### L3
 Contains:
 * Source IP 
 * Destination IP
 
-## Address and Path Finding
+## Addresses and Path Finding
 Why do we have 2 kinds of Addresses contained in L2 and L3 respectively? 
 * The MAC Addresses in L2 tell us where to go **next**, it's **Local Address**. It's frequently chagned in a Packet.
 * The IP Addresses in L3 tell us where to go **ultimately**, it's **Global Address**. It's usually not changed in a Packet, some exceptions apply.
 
-## Reference
+## How does a Switch and a Router parse the Packet
+A packet is read by a device from its first bit to last bit as they are transmitted. The Packet's "headers" go first as they provide connection information for the "payload".
 
+A Switch only looks at the L2 header.
+
+A Router does the following in sequence:
+* Looks at the L2 header, make sure the packet is destined for it, then removes the L2 header.
+* Looks at the L3 header and manages to find out where to send the packet next.
+* Based on the finding of the previous step, place a new L2 header back on the packet.
+* Leaves the original L3 header unmodified in the packet.
+* Some Routers can also look into the L4 header if confiured to do so.
+  
+For a Firewall:
+* Firewalls typically look at at least the L4 header.
+* Some advanced Firewalls inspect the Frame all the way to L7 (the Application Layer) to make decisions or to filter the Frame if necessary. 
+  * The L7 portion of the packet is the portion that an Application on your computer cares most.
+  
+
+
+
+## Reference
 * [Packets 101 [Youtube]](https://www.youtube.com/watch?v=4o3trxRk8Wg)
 
 {% include links.html %}
