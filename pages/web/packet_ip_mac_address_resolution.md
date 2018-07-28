@@ -65,6 +65,11 @@ Why do we have 2 kinds of Addresses contained in L2 and L3 respectively?
 * The MAC Addresses in L2 tell us where to go **next**, it's **Local Address**. It's frequently chagned in a Packet.
 * The IP Addresses in L3 tell us where to go **ultimately**, it's **Global Address**. It's usually not changed in a Packet, some exceptions apply.
 
+To do the path finding, a device needs to know:
+* Its own MAC and IP addresses, which it should know already.
+* The ultimate-destination IP address, it can find it via "Name to IP Resolution" via the "DNS"
+* The next-hop MAC address, this is provided by the "Address Resolution Protocol"
+
 ## How does a Switch and a Router parse the Packet
 A packet is read by a device from its first bit to last bit as they are transmitted. The Packet's "headers" go first as they provide connection information for the "payload".
 
