@@ -19,7 +19,7 @@ The process of moving, you must ensure that a large dish is not at the top of th
 
 ## Example
 
-* Input: `3, 'A', 'C', 'B'` 
+* Input: 3 dishes in all, from pole A to pole C, the intermediate pole is B.
   * Output: 
     ```
     1: A -> C
@@ -32,14 +32,12 @@ The process of moving, you must ensure that a large dish is not at the top of th
     ```
 
 ## Solution
-
-目标子数组的首元素一定是 nums 中出现最多的元素（或之一，设它为 a）在整个数组里的第一次出现。
-目标子数组的尾元素一定是同样的这个 a 在整个数组里的最后一次出现。
-所以问题转化为：求nums中出现次数最多的某个元素第一次出现，到最后一次出现的子数组的最小长度。
-
-所以只需 walk through 数组 nums 一次，在此过程中用 2 个 map：一个记录当前元素值到目前为止出现的次数；另一个记录当前元素值出现的首位置，用于计算子数组长度。过程中要不断判断：
-* 是否需要更新 所有元素值出现的最大次数 maxCount
-* 如果当前元素值的出现次数 curCount == maxCount，可能需要更新 最短子数组长度 minLen。如果 curCount > maxCount，则必须更新 minLen。
+Main idea: 
+```
+Moving N dishes from A to C = Moving N-1 dishes from A to B, with the help of C +
+                              Moving 1 dish from A to C +
+			      Moving N-1 dishes from B to C, with the help of A
+```
 
 ### Complexity
 
