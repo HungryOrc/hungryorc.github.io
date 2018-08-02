@@ -34,9 +34,8 @@ toc: false
 
 ### Complexity
 
-#### Time: O(n)
-
-#### Space: O(n)
+* Time: O(n)
+* Space: O(n)
 
 ### Java
 
