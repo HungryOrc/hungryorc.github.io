@@ -4,7 +4,7 @@ tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: degree_of_array.html
+permalink: algorithm_degree_of_array.html
 folder: algorithm
 toc: false
 ---
