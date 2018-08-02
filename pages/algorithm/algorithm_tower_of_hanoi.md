@@ -1,10 +1,10 @@
 ---
-title: "Degree of Array"
-tags: [algorithm, subarray]
+title: "Tower of Hanoi"
+tags: [algorithm, recursion]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_degree_of_array.html
+permalink: algorithm_tower_of_hanoi.html
 folder: algorithm
 toc: false
 ---
@@ -32,7 +32,6 @@ The process of moving, you must ensure that a large dish is not at the top of th
     ```
 
 ## Solution
-Main idea: 
 ```
 Moving N dishes from A to C = Moving N-1 dishes from A to B, with the help of C +
                               Moving 1 dish from A to C +
@@ -41,10 +40,9 @@ Moving N dishes from A to C = Moving N-1 dishes from A to B, with the help of C 
 
 ### Complexity
 
-#### Time: O(2^n)
-T(n) = 2 * T(n-1) + 1, so you can get the answer...
-
-#### Space: O(n)
+* Time: O(2^n)
+  * T(n) = 2 * T(n-1) + 1, so you can get the answer...
+* Space: O(n)
 
 ### Java
 This solution is a bit different to the requirement of the question above, but the overall methodology is the same.
@@ -52,24 +50,23 @@ This solution is a bit different to the requirement of the question above, but t
 ```java
 public class Hanoi {
 	
-	public void hanoiMove(int dishNum, char from, char to, char inter) {
-		if (dishNum == 1) {
-			System.out.println("1: " + from + " -> " + to);
-			return;
-		}
-		
-		hanoiMove(dishNum - 1, from, inter, to);
-		
-		System.out.println(dishNum + ": " + from + " -> " + to);
-		
-		hanoiMove(dishNum - 1, inter, to, from);
+    public void hanoiMove(int dishNum, char from, char to, char inter) {
+	if (dishNum == 1) {
+	    System.out.println("1: " + from + " -> " + to);
+	    return;
 	}
-	
-	public static void main(String[] args) {
-		Hanoi hano = new Hanoi();
 		
-		hano.hanoiMove(4, 'A', 'C', 'B');
-	} 
+	hanoiMove(dishNum - 1, from, inter, to);
+		
+	System.out.println(dishNum + ": " + from + " -> " + to);
+		
+	hanoiMove(dishNum - 1, inter, to, from);
+    }
+	
+    public static void main(String[] args) {
+	Hanoi hano = new Hanoi();	
+	hano.hanoiMove(4, 'A', 'C', 'B');
+    } 
 }
 ```
 
