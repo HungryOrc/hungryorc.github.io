@@ -73,7 +73,7 @@ public:
 
 
 ## Reference
-
-* [Degree of an Array - 九章算法](https://www.jiuzhang.com/solution/shu-zu-de-du-shu/)
+* [Degree of an Array - LeetCode](https://leetcode.com/problems/degree-of-an-array/description/)
+* [Answer for Degree of an Array - 九章算法](https://www.jiuzhang.com/solution/shu-zu-de-du-shu/)
 
 {% include links.html %}
