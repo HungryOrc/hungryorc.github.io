@@ -1,7 +1,7 @@
 ---
 title: "Degree of Array"
 tags: [algorithm]
-keywords:
+keywords: Array
 summary:
 sidebar: mydoc_sidebar
 permalink: algorithm_degree_of_array.html
@@ -16,14 +16,11 @@ toc: false
 ## Example
 
 * Input: [1, 2, 2, 3, 1]
-
-  Output: 2
-
-  nums的度为2，因为元素1和2都出现了2次。和原数组具有相同度数的连续子数组有：[1, 2, 2, 3, 1], [1, 2, 2, 3], [2, 2, 3, 1], [1, 2, 2], [2, 2, 3], [2, 2]。其中最短的长度为2。
+  * Output: 2
+  * nums的度为2，因为元素1和2都出现了2次。和原数组具有相同度数的连续子数组有：[1, 2, 2, 3, 1], [1, 2, 2, 3], [2, 2, 3, 1], [1, 2, 2], [2, 2, 3], [2, 2]。其中最短的长度为2。
 
 * Input: [1,2,2,3,1,4,2]
-
-  Output: 6
+  * Output: 6
 
 ## Solution
 
