@@ -31,7 +31,8 @@ toc: false
 * 是否需要更新 所有元素值出现的最大次数 maxCount
 * 如果当前元素值的出现次数 curCount == maxCount，可能需要更新 最短子数组长度 minLen。如果 curCount > maxCount，则必须更新 minLen。
 
-Attention! We are setting `minLen = nums.length` initially, but if all the numbers in the array only appear once, then we must return `minLen` to be 1! If any of the numbers in the array appears more than once, then `minLen` can be calculated correctly by the following algorithm.
+### Attention
+* We are setting `minLen = nums.length` initially, but if all the numbers in the array only appear once, then we must return `minLen` to be 1! If any of the numbers in the array appears more than once, then `minLen` can be calculated correctly by the following algorithm.
 
 ### Complexity
 
@@ -67,9 +68,8 @@ class Solution {
             } else {
                 curCount ++;
                 counts.put(curNum, curCount);
-                
                 int curStart = startIndexes.get(curNum);
-                int curLen = i - curStart + 1;
+                curLen = i - curStart + 1;
             }
             
             if (curCount > maxCount) {
