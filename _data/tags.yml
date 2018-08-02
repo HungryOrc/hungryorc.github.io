@@ -13,8 +13,11 @@ allowed-tags:
   - news
   - troubleshooting
   - the_above_are_the_old_tags_just_ignore_them!!!_--------------------
+  # Algorithm Tags
   - algorithm
+  - subarray
   - dynamic_programming
+  # Other Tags
   - web
   - mobile
   - java
