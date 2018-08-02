@@ -31,6 +31,8 @@ toc: false
 * 是否需要更新 所有元素值出现的最大次数 maxCount
 * 如果当前元素值的出现次数 curCount == maxCount，可能需要更新 最短子数组长度 minLen。如果 curCount > maxCount，则必须更新 minLen。
 
+Attention! We are setting `minLen = nums.length` initially, but if all the numbers in the array only appear once, then we must return `minLen` to be 1! If any of the numbers in the array appears more than once, then `minLen` can be calculated correctly by the following algorithm.
+
 ### Complexity
 
 * Time: O(n)
@@ -39,6 +41,50 @@ toc: false
 ### Java
 
 ```java
+class Solution {
+    
+    public int findShortestSubArray(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        
+        HashMap<Integer, Integer> startIndexes = new HashMap<>();
+        HashMap<Integer, Integer> counts = new HashMap<>();
+        
+        int arrayLen = nums.length;
+        int minLen = arrayLen;
+        int curLen = 0;
+        int maxCount = 0;
+        
+        for (int i = 0; i < arrayLen; i++) {
+            int curNum = nums[i];
+            int curCount = counts.getOrDefault(curNum, 0);
+            
+            if (curCount == 0) {
+                counts.put(curNum, 1);
+                startIndexes.put(curNum, i);
+                curLen = 1;
+            } else {
+                curCount ++;
+                counts.put(curNum, curCount);
+                
+                int curStart = startIndexes.get(curNum);
+                int curLen = i - curStart + 1;
+            }
+            
+            if (curCount > maxCount) {
+                minLen = curLen;
+                maxCount = curCount;
+            } else if (curCount == maxCount) {
+                if (curLen < minLen) {
+                    minLen = curLen;
+                }
+            }
+        }
+
+        return minLen;
+    }
+}
 ```
 
 ### C++
