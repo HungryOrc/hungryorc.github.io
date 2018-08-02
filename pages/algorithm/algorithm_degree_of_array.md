@@ -1,7 +1,7 @@
 ---
 title: "Degree of Array"
-tags: [algorithm]
-keywords: Array
+tags: [algorithm, subarray]
+keywords:
 summary:
 sidebar: mydoc_sidebar
 permalink: algorithm_degree_of_array.html
