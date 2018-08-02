@@ -41,7 +41,10 @@ Moving N dishes from A to C = Moving N-1 dishes from A to B, with the help of C 
 
 ### Complexity
 
-Time: O(n), Space: O(n)
+#### Time: O(2^n)
+T(n) = 2 * T(n-1) + 1, so you can get the answer...
+
+#### Space: O(n)
 
 ### Java
 This solution is a bit different to the requirement of the question above, but the overall methodology is the same.
