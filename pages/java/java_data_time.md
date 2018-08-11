@@ -35,7 +35,20 @@ System.out.println(f.format(d2)); // Sunday, September 26, 2018
 
 ## Date and Time for Java 8 and after
 ```java
+import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+...
+LocalDateTime ldt = LocalDateTime.now();
+System.out.println(ldt); // 2018-10-05T12:29:45.890832456
 
+// the new Java's month index starts at One, not Zero, that's great!
+LocalDate ld = LocalDate.of(2018, 1, 20);
+System.out.println(ld); // 2018-01-20
+
+// format Date and Time
+DateTimeFormatter dtf = DateTimeFormatter.ofPattern("M/d/yyyy");
+System.out.println(dtf.format(ld)); // 1/20/2018
 ```
 
 ## Reference
