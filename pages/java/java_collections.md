@@ -12,6 +12,7 @@ toc: false
 ## Interfaces for the concrete Collection Classes
 Currently there are 4 Interfaces for the implementation of the concrete Collection Classes in Java: `List`, `Deque` (sounds "Dee-Q"), `Set`, `Map`. 
 The interface `Queue` is not quite used now. Some concrete Collection Classes implements more than 1 type of the above Interfaces.
+
 | Interface | Linked List | Resizable Array | Balanced Tree | Hash Table | Hash Table + Linked List |
 |:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
 | List | LinkedList | ArrayList | | | |
