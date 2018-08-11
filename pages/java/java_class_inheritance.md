@@ -16,7 +16,7 @@ toc: false
 * 定义自己的 constructor
 * 而且这个 constructor 必须带参数，这些参数一一对应于 super class 的 constructor 的那些参数
 * 而且这个 constructor 里面必须含有 super class 的 constructor，用 `super` key word：
-  ```
+  ```java
   public class Animal {
       String name;
       int age;
@@ -27,7 +27,7 @@ toc: false
       ...
   }
   ```
-  ```
+  ```java
   publis class Cat extends Animal {
       public Cat(String name, int age) {
           super(name, age);
