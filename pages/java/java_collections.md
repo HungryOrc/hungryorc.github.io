@@ -20,6 +20,11 @@ The interface `Queue` is not quite used now. Some concrete Collection Classes im
 | Set | | | TreeSet | HashSet | LinkedHashSet |
 | Map | | | TreeMap | HashMap | LinkedHashMap |
 
+When declaring a Collection object in Java, it's a good practice to set the type of the collection as the Interface, and when instantiating the object, use a construction method for a concrete Collection class. Such as:
+```
+List<String> myList = new ArrayList<>();
+```
+
 ## Reference
 * [Collection Implementations [Oracle]](https://docs.oracle.com/javase/tutorial/collections/implementations/index.html)
 
