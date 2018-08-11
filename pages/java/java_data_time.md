@@ -23,10 +23,13 @@ Date now = new Date();
 GregorianCalendar gc = new GregorianCalendar(2018, 8, 23); 
 Date d1 = gc.getTime(); // 9-23-2018
 
-gc.add(GregorianCalendar.DATE, 3); // add 3 days. you can add by day/month/year...
+// add 3 days. you can add by day/month/year...
+gc.add(GregorianCalendar.DATE, 3);
 Date d2 = gc.getTime(); // 9-26-2018
 
-
+// format Date and Time
+DateFormat f = DateFormat.getDateInstance(DateFormat.FULL);
+System.out.println(f.format(d2)); // Sunday, September 26, 2018
 ```
 
 ## Date and Time for Java 8 and after
