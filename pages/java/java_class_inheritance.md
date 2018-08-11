@@ -14,27 +14,45 @@ toc: false
 
 如果 super class 的所有 constructor 都是带参数的，那么 derived class 就必须：
 * 定义自己的 constructor
-* 而且这个 constructor 必须带参数，这些参数一一对应于 super class 的 constructor 的那些参数
+* 而且这个 constructor 必须带参数
 * 而且这个 constructor 里面必须含有 super class 的 constructor，用 `super` key word：
   ```java
   public class Animal {
-      String name;
-      int age;
-      public Animal(String name, int age) {
-          this.name = name;
-          this.age = age;
+      ...
+      public Animal(String name, int age, boolean isPet) {
+          ...
       }
       ...
   }
   ```
   ```java
   publis class Cat extends Animal {
-      public Cat(String name, int age) {
-          super(name, age);
+      public Cat(String name, int age, boolean isPet) {
+          super(name, age, isPet);
       }
       ...
   }
   ```
+* derived class 的 constructor 的参数未必要与 super class 的 constructor 的参数一一对应,
+  * 比如可以前者只take in 后者的部分参数，而后者的剩余参数在 call `super` 的时候在 `super` 里写定：
+    ```java
+    public class Cat extends Animal {
+        public Cat(String name, int age) {
+            super(name, age, true);
+        }
+    }
+    ```
+  * 也可以前者比后者的参数多：
+    ```java
+    public class Cat extends Animal {
+        ...
+        public Cat(String name, int age, boolean isPet, boolean catchRat) {
+            super(name, age, isPet);
+            this.catchRat = catchRat;
+        }
+    }
+    ```
+
 
 ## Reference
 
