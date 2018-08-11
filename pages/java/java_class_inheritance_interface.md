@@ -28,7 +28,7 @@ toc: false
   }
   ```
   ```java
-  publis class Cat extends Animal {
+  public class Cat extends Animal {
       public Cat(String name, int age, boolean isPet) {
           super(name, age, isPet);
       }
