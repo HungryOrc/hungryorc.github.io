@@ -1,10 +1,10 @@
 ---
-title: "Class Inheritance in Java"
+title: "Class Inheritance and Interface in Java"
 tags: [java]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: java_class_inheritance.html
+permalink: java_class_inheritance_interface.html
 folder: java
 toc: false
 ---
@@ -64,6 +64,10 @@ public class XYZ {
 }
 ```
 Since `getClass()` is a member function of the class `Object`, so any class in Java can use this method directly. 
+
+## Interface
+Interface 是一个 contract 君子协定，接受了这个 interface 就意味着将来必须做这个 interface 所规定要做的所有事。
+
 
 ## Reference
 
