@@ -14,8 +14,19 @@ toc: false
 import java.util.Date;
 import java.util.GregorianCalendar;
 ...
-Date now = new Date(); // current date and time
-GregorianCalendar gc = new GregorianCalendar(2018, 8, 23); // specified date and time
+// current date and time
+Date now = new Date();
+
+// specified date and time
+// 8 for the 2nd parameter, namely for month, will result in Sep,
+// since the months in the old Java starts at Zero
+GregorianCalendar gc = new GregorianCalendar(2018, 8, 23); 
+Date d1 = gc.getTime(); // 9-23-2018
+
+gc.add(GregorianCalendar.DATE, 3); // add 3 days. you can add by day/month/year...
+Date d2 = gc.getTime(); // 9-26-2018
+
+
 ```
 
 ## Date and Time for Java 8 and after
