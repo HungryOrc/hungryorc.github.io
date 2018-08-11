@@ -21,7 +21,7 @@ The interface `Queue` is not quite used now. Some concrete Collection Classes im
 | Map | | | TreeMap | HashMap | LinkedHashMap |
 
 When declaring a Collection object in Java, it's a good practice to set the type of the collection as the Interface, and when instantiating the object, use a construction method for a concrete Collection class. Such as:
-```
+```java
 List<String> myList = new ArrayList<>();
 ```
 
