@@ -69,11 +69,22 @@ Since `getClass()` is a member function of the class `Object`, so any class in J
 
 ## Interface
 Interface 是一个 contract 君子协定，接受了这个 interface 就意味着将来必须做这个 interface 所规定要做的所有事。
-
 ```java
 // Action.java
 public interface Action {
-    void 
+    void walk();
+    String speak();
+    double jump();
+}
+```
+```java
+// Cat.java
+public class Cat implements Action {
+    ...
+    public void walk() {...}
+    public String speak() {...}
+    public int jump() {...}
+    ...
 }
 ```
 
