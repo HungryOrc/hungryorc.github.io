@@ -67,6 +67,10 @@ public class XYZ {
 ```
 Since `getClass()` is a member function of the class `Object`, so any class in Java can use this method directly. 
 
+### Abstract Class
+Abstract Class 可以有 abstract method，也可以同时有 concrete method。
+
+
 ## Interface
 Interface 是一个 contract 君子协定，接受了这个 interface 就意味着将来必须做这个 interface 所规定要做的所有事。
 ```java
