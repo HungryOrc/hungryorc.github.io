@@ -53,6 +53,17 @@ toc: false
     }
     ```
 
+### Get the class name of the current object
+This is a very useful trick, especially when you want to figure out the actual class of an object in a long long inheritance hierarchy:
+```java
+public class XYZ {
+    ...
+    public String getClassName() {
+        return getClass().getSimpleName(); // this will return "XYZ"
+    }
+}
+```
+Since `getClass()` is a member function of the class `Object`, so any class in Java can use this method directly. 
 
 ## Reference
 
