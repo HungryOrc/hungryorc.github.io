@@ -52,5 +52,6 @@ System.out.println(dtf.format(ld)); // 1/20/2018
 ```
 
 ## Reference
+* [Work with dates and times [LinkedIn Learning]](https://www.linkedin.com/learning/java-essential-training-objects-and-apis/work-with-dates-and-times)
 
 {% include links.html %}
