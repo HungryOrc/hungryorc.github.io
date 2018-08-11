@@ -87,6 +87,7 @@ public class Cat implements Action {
     ...
 }
 ```
+注意！在 interface 里面不给methods任何 access modifier，比如 public、private 之类。在运用 interface 的class里需要这些 access modifier。
 
 ## Reference
 
