@@ -13,6 +13,7 @@ toc: false
 ```java
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.text.DateFormat;
 ...
 // current date and time
 Date now = new Date();
