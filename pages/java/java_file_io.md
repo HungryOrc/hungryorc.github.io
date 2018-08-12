@@ -47,7 +47,7 @@ try (
 ```
 
 ## Read and write txt file with `Path`, starting with Java 7
-`Path` in Java represents either a file or a directory. Using `Path` to do the file I/O is more convenient than the previous way.
+`Path` in Java represents either a file or a directory. Using `Path` to do the file I/O is more convenient than the previous way. You don't need to work with "streams" or "buffered" stuff, and you don't need to "close" anything after you are done.
 ```java
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -73,9 +73,12 @@ try {
 }
 ```
 
+To learn more about the new I/O system in Java, see the docs of the [Class Files](https://docs.oracle.com/javase/7/docs/api/java/nio/file/Files.html) and [Interface Path](https://docs.oracle.com/javase/7/docs/api/java/nio/file/Path.html) in the [Package java.nio.file](https://docs.oracle.com/javase/7/docs/api/java/nio/file/package-summary.html).
 
 ## Reference
+* [Package java.nio.file [Oracle doc]](https://docs.oracle.com/javase/7/docs/api/java/nio/file/package-summary.html)
 * [Copy files with readers and buffers [LinkedIn Learning]](https://www.linkedin.com/learning/java-essential-training-objects-and-apis/copy-files-with-readers-and-buffers)
+* [Copy files with Path and Files classes [LinkedIn Learning]](https://www.linkedin.com/learning/java-essential-training-objects-and-apis/copy-files-with-path-and-files-classes)
 
 
 {% include links.html %}
