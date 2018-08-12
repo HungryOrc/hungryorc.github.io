@@ -8,7 +8,7 @@ permalink: java_file_io.html
 folder: java
 toc: false
 ---
-There are multiple ways to do file I/O in java.
+There are 2 ways to do file I/O in java.
 
 ## Read and write txt file in traditional way, with `FileReader/Writer` and `BufferedReader`
 ```java
@@ -51,6 +51,9 @@ try (
 ```java
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import io.IOException;
 
 ...
 // in get(...), 
@@ -59,6 +62,15 @@ import java.nio.file.Paths;
 // the Java project, not including the file name, each of these strings represents a folder name.
 // so the following parameters represents: "docs/subFolder/subsubFolder/doc1.txt":
 Path sourceFilePath = Paths.get("docs", "subFolder", "subsubFolder", "doc1.txt");
+Path targetFilePath = Paths.get("docs", "backup", "doc2.txt");
+
+// "REPLACE_EXISTING" means if there is an existing file in the target path with the file name
+// specified name above ("doc2.txt"), then that file will be replaced
+try { 
+    File.copy(sourceFilePath, targetFilePath, StandardCopyOption.REPLACE_EXISTING);
+} catch (IOException e) {
+    e.printStackTrace();
+}
 ```
 
 
