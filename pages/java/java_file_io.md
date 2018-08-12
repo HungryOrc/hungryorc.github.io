@@ -14,7 +14,6 @@ There are multiple ways to do file I/O in java. The following is a popular way.
 ```java
 import java.io.FileReader;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -26,7 +25,8 @@ String targetFilePath = "docs/doc2.txt";
 
 // put the 3 reader/writer in the "()" after the "try" before the "{}" is
 // to make them to be closed automatically after the try-catch block,
-// no matter there will be an Exception or not
+// no matter there will be an Exception or not.
+// this syntax is valid beginning with Java 7
 try (
     FileReader fileReader = new FileReader(sourceFilePath);
     // buffered reader is to read the file a bit at a time
@@ -41,8 +41,6 @@ try (
         }
         fileWriter.write(line + "\n");
     }
-} catch (FileNotFoundException e) {
-    e.printStackTrace();
 } catch (IOException e) {
     e.printStackTrace();
 }
