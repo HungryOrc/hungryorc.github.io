@@ -75,10 +75,40 @@ try {
 
 To learn more about the new I/O system in Java, see the docs of the [Class Files](https://docs.oracle.com/javase/7/docs/api/java/nio/file/Files.html) and [Interface Path](https://docs.oracle.com/javase/7/docs/api/java/nio/file/Path.html) in the [Package java.nio.file](https://docs.oracle.com/javase/7/docs/api/java/nio/file/package-summary.html).
 
+## Parse a JSON file
+Use the open source Java library `Gson` which is made by Google to parse Json in Java. Open source Java libraries are compiled into `.JAR` (Java Archive) files. `.JAR` files are `.ZIP` files, but they have some special information in them, in the form of manifest, and compiled Java Classes. The `.JAR` file can be copied into a Java project (maybe in a sub folder named `lib`), and right click it -> add as a library (these steps might not apply for all kinds of IDEs). 
+```java
+import com.google.gson.Gson; // com.google.gson is the package name
+import com.google.gson.stream.JsonReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+...
+String filePath = "docs/doc1.txt";
+
+Gson gson = new Gson();
+try (
+    FileReader fileReader = new FileReader(filePath);
+    JsonReader jsonReader = new JsonReader(fileReader);
+) {
+    // Student is a custom Class
+    // Student[].class means this is the kind of format that i want gson to pass into
+    Student[] students = gson.fromJson(jsonReader, Student[].class);
+    
+    for (Student s : students) {
+        System.out.println(s);
+    }
+} catch (IOException e) {
+    e.printStackTrace();
+}
+```
+
 ## Reference
 * [Package java.nio.file [Oracle doc]](https://docs.oracle.com/javase/7/docs/api/java/nio/file/package-summary.html)
 * [Copy files with readers and buffers [LinkedIn Learning]](https://www.linkedin.com/learning/java-essential-training-objects-and-apis/copy-files-with-readers-and-buffers)
 * [Copy files with Path and Files classes [LinkedIn Learning]](https://www.linkedin.com/learning/java-essential-training-objects-and-apis/copy-files-with-path-and-files-classes)
+* [Parse a JSON file [LinkedIn Learning]](https://www.linkedin.com/learning/java-essential-training-objects-and-apis/parse-a-json-file)
+
 
 
 {% include links.html %}
