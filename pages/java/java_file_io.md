@@ -10,7 +10,7 @@ toc: false
 ---
 There are multiple ways to do file I/O in java. The following is a popular way.
 
-## Read txt file
+## Read and write txt file
 ```java
 import java.io.FileReader;
 import java.io.BufferedReader;
