@@ -44,7 +44,7 @@ public class MyException extends Exception {
 ```
 ```java
 // Main.java
-import <package name>.MyException;
+import <packageName>.MyException;
 ...
 public class Main {
     public static void main(String[] args) {
@@ -52,7 +52,7 @@ public class Main {
         try {
             ...
         } catch (MyException e) {
-            System.out.prinln(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 }
