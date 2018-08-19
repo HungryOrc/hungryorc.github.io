@@ -31,10 +31,15 @@ try (
 
 ## Custom Exceptions
 ```java
-// WrongFileException.java
-
-public class WrongFileException extends Exception {
+// MyException.java
+public class MyException extends Exception {
+    // this member variable is required by Java for all kinds of Exceptions
+    public static final long serialVersionUID = 42L;
     
+    // this member method is also required
+    public String getMessage() {
+        return "Haha! You never saw this kind of Exception before right?";
+    }
 }
 ```
 
