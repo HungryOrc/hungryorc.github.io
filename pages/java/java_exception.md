@@ -42,6 +42,21 @@ public class MyException extends Exception {
     }
 }
 ```
+```java
+// Main.java
+import <package name>.MyException;
+...
+public class Main {
+    public static void main(String[] args) {
+        ...
+        try {
+            ...
+        } catch (MyException e) {
+            System.out.prinln(e.getMessage());
+        }
+    }
+}
+```
 
 
 
