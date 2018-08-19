@@ -29,20 +29,14 @@ public class Cat implements Comparable<Cat> {
 }
 ```
 
-The following example sort the Cat Objects by their ages, in asccending order.
+Another example, reusing the `compareTo()` function of `String` type:
 ```java
 public class Cat implements Comparable<Cat> {
-    private int age;
+    private String name;
     ...
     @Override
     public int compareTo(Cat other) {
-        if (this.age > other.age) {
-            return 1;
-        } else if (this.age < other.age) {
-            return -1;
-        } else {
-            reuturn 0;
-        }
+        return this.name.compareTo(other.name); // this.name is a String
     }
 }
 ```
