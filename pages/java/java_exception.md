@@ -29,7 +29,13 @@ try (
 }
 ```
 
+## Custom Exceptions
+
+
+
+
 ## Reference
 * [The try-with-resources Statement [Oracle doc]](https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html)
+* [Defining and throwing a custom exception [LinkedIn Learning]](https://www.linkedin.com/learning/advanced-java-programming/defining-and-throwing-a-custom-exception)
 
 {% include links.html %}
