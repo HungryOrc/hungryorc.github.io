@@ -10,6 +10,8 @@ toc: false
 ---
 
 ## Make a custom Class to be Comparable
+1. The custom Class must implement the `Interface Comparable`, and the type inside the `<...>` must be this Class's name.
+2. Inside this Class, must override the `compareTo(...)` method
 
 The following example sort the Cat Objects by their ages, in asccending order.
 ```java
