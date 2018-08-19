@@ -10,6 +10,7 @@ toc: false
 ---
 
 ## Make a custom Class to be Comparable
+Steps:
 1. The custom Class must implement the `Interface Comparable`, and the type inside the `<...>` must be this Class's name.
 2. Inside this Class, must override the `compareTo(...)` method
 
