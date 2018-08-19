@@ -30,7 +30,13 @@ try (
 ```
 
 ## Custom Exceptions
+```java
+// WrongFileException.java
 
+public class WrongFileException extends Exception {
+    
+}
+```
 
 
 
