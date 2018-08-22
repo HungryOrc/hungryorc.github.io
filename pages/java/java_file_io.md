@@ -47,7 +47,10 @@ try (
 ```
 
 ## Read and write txt file with `Path`, starting with Java 7
-`Path` in Java represents either a file or a directory. Using `Path` to do the file I/O is more convenient than the previous way. You don't need to work with "streams" or "buffered" stuff, and you don't need to "close" anything after you are done.
+`Path` is an `Interface` in the `java.nio.file` Package, `nio` means "New Input and Output". A `Path` represents either a file or a directory. Using `Path` to do the file I/O is more convenient than the previous way. You don't need to work with "streams" or "buffered" stuff, and you don't need to "close" anything after you are done.
+
+There is also a `Paths` Class in the `java.nio.file` Package, this class consists exclusively of **static** methods that return a `Path` by converting a "path string" or "URI".
+
 ```java
 import java.nio.file.Path;
 import java.nio.file.Paths;
