@@ -1,6 +1,6 @@
 ---
 title: "Question list of big class"
-tags: [algorithm]
+tags: [algorithm, algorithm_overview]
 keywords:
 summary:
 sidebar: mydoc_sidebar
