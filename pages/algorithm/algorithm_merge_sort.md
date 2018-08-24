@@ -11,8 +11,12 @@ toc: false
 
 ## Overview
 
+Merge Sort 可以用 Recursive 或 Iterative 的方式实现
 
 
+
+#### Recursive
+```java
 public class MergeSort {
   
   public int[] mergeSortOfIntArray(int[] array) {
@@ -20,25 +24,11 @@ public class MergeSort {
       return array;
     }
     
-    // 方式1：采用 Recursive式 的 merge sort
-    // allocate helper array to deal with the merging step
-    // so the space complexity is O(n)
     int[] helperArray = new int[array.length];
     mergeSort(array, helperArray, 0, array.length - 1);
-    
-    // 方式2：采用 Iterative式 的 merge sort
-    // mergeSort(array, array.length);
-    
+
     return array;
   }
-  
-  
-  // 核心的 merge sort 函数
-  // 一共有2种方式，一种是Recursive，一种是Iterative
-  // ---------------------------------------------------------------------------------------
-  
-  
-  // 方式1：Recursive
   
   private void mergeSort(int[] array, int[] helperArray, int start, int end) {
     if (start >= end) { // when there is only 1 element or 0 element
@@ -51,11 +41,25 @@ public class MergeSort {
     
     merge(array, helperArray, start, mid, end);
   }
+}
+```
+
+
+
+#### 方式2：采用 Iterative式 的 merge sort
+```java
+public class MergeSort {
   
-  
-  // 方式2：Iterative
-  // http://www.geeksforgeeks.org/iterative-merge-sort/
-  // Iterative mergesort function to sort arr[0...n-1]
+  public int[] mergeSortOfIntArray(int[] array) {
+    if (array == null || array.length <= 1) {
+      return array;
+    }
+    
+    mergeSort(array, array.length);
+    
+    return array;
+  }
+
   
   private void mergeSort(int array[]) {
      int n = array.length;
@@ -123,7 +127,7 @@ public class MergeSort {
     // since they are already in their rightious position, haha
   }
 }
-
+```
 
 
 
