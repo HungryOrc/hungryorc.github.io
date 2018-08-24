@@ -84,7 +84,11 @@ entries:
   - title: Algorithm
     output: web, pdf
     folderitems:
-
+    
+    - title: Overview
+      url: /tag_algorithm_overview.html
+      output: web, pdf    
+    
     - title: All
       url: /tag_algorithm.html
       output: web, pdf
