@@ -17,6 +17,7 @@ allowed-tags:
   - algorithm
   - algorithm_overview
   - recursion
+  - sorting
   - subarray
   - dynamic_programming
   # Other Tags
