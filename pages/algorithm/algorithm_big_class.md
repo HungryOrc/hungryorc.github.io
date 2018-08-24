@@ -14,7 +14,7 @@ toc: false
 * Merge Sort
 
 
-TODO:
+TODO: page 17
 * Copy merge sort java code from my github to my note
 * Laicode for lecture 1
 
