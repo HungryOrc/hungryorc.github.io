@@ -17,6 +17,7 @@ toc: false
 ### Java
 ```java
 public class SelectionSort {
+
     public int[] selectionSort(int[] nums) {
         if (nums == null || nums.length == 0) {
             return nums;
@@ -44,6 +45,9 @@ public class SelectionSort {
 }
 ```
 
+## Complexity
+* Time: O(n^2)
+* Space: O(1)
 
 
 {% include links.html %}
