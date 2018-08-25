@@ -9,13 +9,23 @@ folder: algorithm
 toc: false
 ---
 
+## 大课讲义
+### Completed
+Until page 19, quick sort
+
 1. Array and Sorting Algorithms
 * Selection Sort
 * Merge Sort
 
-
-TODO: page 19, quick sort
+### TODO
 * Laicode for lecture 1
+
+## Mock Interview Questions
+### Completed
+
+
+### TODO
+8/25 4 questions
 
 
 
