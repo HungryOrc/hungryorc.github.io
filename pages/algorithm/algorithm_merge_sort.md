@@ -35,7 +35,8 @@ public class MergeSort {
     }
   
     // ---------------------------------------------------------------------------------------
-    // 以下的2个函数二选一使用
+    // 以下的2个函数二选一使用，一个recursive，一个iterative
+    // 对于merge sort来说，recursive way的代码更简洁，思路更漂亮，宜用resursive way
   
     // 方式1：Recursive
     private void recurMergeSort(int[] array, int[] helperArray, int start, int end) {
@@ -53,66 +54,63 @@ public class MergeSort {
     // 方式2：Iterative
     private void iterMergeSort(int array[]) {
         int n = array.length;
-        int curr_size;  // 当前每一段要被merge的 sub array的大小：1,2,4,8......
-        int left_start; // For picking starting index of left subarray to be merged
-        // Merge subarrays in bottom up manner.  First merge subarrays of
-        // size 1 to create sorted subarrays of size 2, then merge subarrays
-        // of size 2 to create sorted subarrays of size 4, and so on.
-        for (curr_size = 1; curr_size <= n-1; curr_size = 2 * curr_size) {
-       
-         // Pick starting point of different subarrays of current size
-         for (left_start = 0; left_start < n-1; left_start += 2 * curr_size) {
-           
-             // Find ending point of left subarray. mid+1 is starting point of right subarray
-             int mid = left_start + curr_size - 1;
-              int right_end = Math.min(left_start + 2*curr_size - 1, n-1);
-              // Merge Subarrays arr[left_start...mid] & arr[mid+1...right_end]
-             int[] helperArray = new int[array.length];
-             merge(arr, helperArray, left_start, mid, right_end);
-         }
-     }
-  }
+        int curSize;  // 当前每一段要被merge的 sub array 的大小：1,2,4,8......
+        int leftStart;
+        for (curSize = 1; curSize <= n-1; curSize = 2 * curSize) {
+            // Pick starting point of different subarrays of current size
+            for (leftStart = 0; leftStart < n - 1; leftStart += 2 * curSize) {
+                // find ending point of left subarray. mid+1 is starting point of right subarray
+                int mid = leftStart + curSize - 1;
+                // find ending point of right subarray
+                int rightEnd = Math.min(leftStart + 2 * curSize - 1, n - 1);
+                // Merge two subarrays: array[leftStart...mid] and array[mid+1...rightEnd]
+                int[] helperArray = new int[array.length];
+                merge(array, helperArray, leftStart, mid, rightEnd);
+            }
+        }
+    }
   
-  // 以上的2个函数二选一使用
-  // ---------------------------------------------------------------------------------------
+    // 以上的2个函数二选一使用
+    // ---------------------------------------------------------------------------------------
  
-  private void merge(int[] array, int[] helperArray, int start, int mid, int end) {
-    if (start >= end) { // when there is only 1 element or 0 element
-      return;
-    }
+    // 这一步是merge两个已经排好序的array。宗旨是：谁小移谁
+    private void merge(int[] array, int[] helperArray, int start, int mid, int end) {
+        if (start >= end) { // when there is only 1 element or 0 element
+            return;
+        }
     
-    // copy the section between start and end in the array to the helper array, 
-    // then we will merge the 2 parts in the helper array back to the original array
-    for (int i = start; i <= end; i++) {
-      helperArray[i] = array[i];
-    }
+        // copy the part between the start index and end index in the original array
+        // to the helper array
+        for (int i = start; i <= end; i++) {
+            helperArray[i] = array[i];
+        }
     
-    // let the merge begin!
-    int left = start;
-    int right = mid + 1;
-    int index = start;
+        // let the merge begin!
+        int left = start;
+        int right = mid + 1;
+        int index = start;
+        while (left <= mid && right <= end) {
+            if (helperArray[left] <= helperArray[right]) {
+                array[index] = helperArray[left];
+                index ++;
+                left ++;
+            } else {
+                array[index] = helperArray[right];
+                index ++;
+                right ++;
+            }
+        }
     
-    while (left <= mid && right <= end) {
-      if (helperArray[left] <= helperArray[right]) {
-        array[index] = helperArray[left];
-        index ++;
-        left ++;
-      } else {
-        array[index] = helperArray[right];
-        index ++;
-        right ++;
-      }
-    }
+        // if there are still some elements left at the left side, we need to copy them
+        while (left <= mid) {
+            array[index] = helperArray[left];
+            index ++;
+            left ++;
+        }
     
-    // if there are still some elements left at the left side, we need to copy them
-    while (left <= mid) {
-      array[index] = helperArray[left];
-      index ++;
-      left ++;
+        // if there are still some elements left at the right side, we do nothing,
+        // since they are already in their rightious position, hahahaha
     }
-    // if there are still some elements left at the right side, we do nothing,
-    // since they are already in their rightious position, haha
-  }
 }
 ```
 
