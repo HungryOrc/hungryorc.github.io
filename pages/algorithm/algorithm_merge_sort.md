@@ -22,53 +22,43 @@ public class MergeSort {
     public int[] mergeSortOfIntArray(int[] array) {
         if (array == null || array.length <= 1) {
             return array;
+        }
+    
+        // 方式1：Recursive merge sort
+        int[] helperArray = new int[array.length];
+        recurMergeSort(array, helperArray, 0, array.length - 1);
+    
+        // 方式2：Iterative merge sort
+        // iterMergeSort(array);
+    
+        return array;
     }
+  
+    // ---------------------------------------------------------------------------------------
+    // 以下的2个函数二选一使用
+  
+    // 方式1：Recursive
+    private void recurMergeSort(int[] array, int[] helperArray, int start, int end) {
+        if (start >= end) { // when there is only 1 element or 0 element
+            return;
+        }
     
-    // 方式1：采用 Recursive式 的 merge sort
-    // allocate helper array to deal with the merging step
-    // so the space complexity is O(n)
-    int[] helperArray = new int[array.length];
-    mergeSort(array, helperArray, 0, array.length - 1);
+        int mid = start + (end - start) / 2;
+        recurMergeSort(array, helperArray, start, mid);
+        recurMergeSort(array, helperArray, mid + 1, end);
     
-    // 方式2：采用 Iterative式 的 merge sort
-    // mergeSort(array, array.length);
-    
-    return array;
-  }
-  
-  
-  // 核心的 merge sort 函数
-  // 一共有2种方式，一种是Recursive，一种是Iterative
-  // ---------------------------------------------------------------------------------------
-  
-  
-  // 方式1：Recursive
-  
-  private void mergeSort(int[] array, int[] helperArray, int start, int end) {
-    if (start >= end) { // when there is only 1 element or 0 element
-      return;
+        merge(array, helperArray, start, mid, end);
     }
-    
-    int mid = start + (end - start) / 2;
-    mergeSort(array, helperArray, start, mid);
-    mergeSort(array, helperArray, mid + 1, end);
-    
-    merge(array, helperArray, start, mid, end);
-  }
-  
-  
-  // 方式2：Iterative
-  // http://www.geeksforgeeks.org/iterative-merge-sort/
-  // Iterative mergesort function to sort arr[0...n-1]
-  
-  private void mergeSort(int array[]) {
-     int n = array.length;
-     int curr_size;  // 当前每一段要被merge的 sub array的大小：1,2,4,8......
-     int left_start; // For picking starting index of left subarray to be merged
-      // Merge subarrays in bottom up manner.  First merge subarrays of
-     // size 1 to create sorted subarrays of size 2, then merge subarrays
-     // of size 2 to create sorted subarrays of size 4, and so on.
-     for (curr_size = 1; curr_size <= n-1; curr_size = 2 * curr_size) {
+
+    // 方式2：Iterative
+    private void iterMergeSort(int array[]) {
+        int n = array.length;
+        int curr_size;  // 当前每一段要被merge的 sub array的大小：1,2,4,8......
+        int left_start; // For picking starting index of left subarray to be merged
+        // Merge subarrays in bottom up manner.  First merge subarrays of
+        // size 1 to create sorted subarrays of size 2, then merge subarrays
+        // of size 2 to create sorted subarrays of size 4, and so on.
+        for (curr_size = 1; curr_size <= n-1; curr_size = 2 * curr_size) {
        
          // Pick starting point of different subarrays of current size
          for (left_start = 0; left_start < n-1; left_start += 2 * curr_size) {
@@ -83,9 +73,9 @@ public class MergeSort {
      }
   }
   
+  // 以上的2个函数二选一使用
   // ---------------------------------------------------------------------------------------
  
-   
   private void merge(int[] array, int[] helperArray, int start, int mid, int end) {
     if (start >= end) { // when there is only 1 element or 0 element
       return;
