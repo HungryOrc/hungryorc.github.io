@@ -19,9 +19,9 @@ Merge Sort 可以用 Recursive 或 Iterative 的方式实现
 ```java
 public class MergeSort {
   
-  public int[] mergeSortOfIntArray(int[] array) {
-    if (array == null || array.length <= 1) {
-      return array;
+    public int[] mergeSortOfIntArray(int[] array) {
+        if (array == null || array.length <= 1) {
+            return array;
     }
     
     // 方式1：采用 Recursive式 的 merge sort
