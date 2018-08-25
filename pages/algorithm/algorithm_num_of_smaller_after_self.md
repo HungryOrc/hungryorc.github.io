@@ -29,7 +29,7 @@ For example, [5,2,3,6,1], by the time we reach 2, we should already have a sorte
 findIndex() returns 1, which is the index where 2 should be inserted and is ALSO the number smaller than 2. 
 Then we insert 2 into the sorted array to form [1,2,3,6], and set `counts[1]` to be 1 (relevant to the 2 at `nums[1]`).
 
-Then keep doing this till the start of the input int[] array.
+Then keep doing this till the start of array `nums`.
 
 #### Complexity
 * Time: O(n^2)
