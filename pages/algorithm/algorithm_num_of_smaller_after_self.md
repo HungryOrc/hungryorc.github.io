@@ -17,9 +17,12 @@ In the `counts` array, `counts[i]` is the number of smaller elements to the righ
 * Input: nums = [5, 2, 6, 1]
   * Output: counts = [2, 1, 1, 0]
 
-## Solution 1
+## Solution 1: Merge Sort
 
-从尾部开始做 + ArrayList + 二分查找。Ref: https://discuss.leetcode.com/topic/31173/my-simple-ac-java-binary-search-code
+## Solution 2: Segment Tree
+
+## Solution 3: 从尾部开始做 + ArrayList + 二分查找
+Ref: https://discuss.leetcode.com/topic/31173/my-simple-ac-java-binary-search-code
 
 对于数组里最右边的那个数，它右边比它小的数一定是0个，从它开始往左推导。Maintain an sorted ArrayList of numbers that had been visited. 
 
