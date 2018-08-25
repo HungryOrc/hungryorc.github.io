@@ -15,7 +15,6 @@ toc: false
 
 
 TODO: page 19, quick sort
-* [4,2,3,1] -> [3,1,1,0], number of numbers that are smaller than myself to the right of myself
 * Laicode for lecture 1
 
 
