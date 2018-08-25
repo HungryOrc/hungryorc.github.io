@@ -18,6 +18,8 @@ In the `counts` array, `counts[i]` is the number of smaller elements to the righ
   * Output: counts = [2, 1, 1, 0]
 
 ## Solution
+
+### Solution 1
 从尾部开始做 + ArrayList + 二分查找。Ref: https://discuss.leetcode.com/topic/31173/my-simple-ac-java-binary-search-code
 
 对于数组里最右边的那个数，它右边比它小的数一定是0个，从它开始往左推导。Maintain an sorted ArrayList of numbers that had been visited. 
@@ -29,10 +31,9 @@ Then we insert 2 into the sorted array to form [1,2,3,6], and set `counts[1]` to
 
 Then keep doing this till the start of the input int[] array.
 
-### Complexity
-
-* Time: O(2^n)
-  * T(n) = 2 * T(n-1) + 1, so you can get the answer...
+#### Complexity
+* Time: O(n^2)
+  * Every insertion into the arraylist costs O(n) time.
 * Space: O(n)
 
 ### Java
@@ -99,6 +100,6 @@ public class Solution {
 ```
 
 ## Reference
-* [Count of Smaller Numbers After Self [LeetCode]](https://lintcode.com/problem/tower-of-hanoi/description)
+* [Count of Smaller Numbers After Self [LeetCode]](https://leetcode.com/problems/count-of-smaller-numbers-after-self/description/)
 
 {% include links.html %}
