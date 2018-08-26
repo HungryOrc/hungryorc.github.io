@@ -19,6 +19,7 @@ Until page 19, quick sort
 
 ### TODO
 * Laicode for lecture 1
+* 看 heapify 的视频，看一两个短视频
 
 ## Mock Interview Questions
 ### Completed
