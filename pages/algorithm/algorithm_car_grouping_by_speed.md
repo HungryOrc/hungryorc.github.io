@@ -10,12 +10,9 @@ toc: false
 ---
 
 ## Description
+n 个车依次出发，行驶于一条无限长的单车道上，行驶方向都相同。各个车都是匀速行驶，它们的速度都记录在数组 `double[] speeds` 里。那么经过无限长的时间以后，所有的车都会被分组，因为后面的车永远不可能超过前面的车。求最后分为了几个组，每个组里有几辆车。
 
-Tower of Hanoi problem, is a well-known problem. On the A, B, C three pillars, there are n disks of different sizes (radii 1-n), they are stacked in a start on A, your goal is to a minimum number of legal steps to move all the plates move from A to C tower tower.
-Each step in the rules of the game are as follows:
-
-Each step is only allowed to move a plate (from the top of one pillars to the top of another pillars)
-The process of moving, you must ensure that a large dish is not at the top of the small plates (small can be placed on top of a large, below the maximum plate size can not have any other dish)
+可以看出，在这题的条件下，相邻的两辆车之间的出发间隔时间的大小是无所谓的。
 
 ## Example
 
