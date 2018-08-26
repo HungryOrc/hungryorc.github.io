@@ -35,7 +35,7 @@ n 个车依次出发，行驶于一条无限长的单车道上，行驶方向都
 ```java
 public class Solution {
 
-    public List<Integer> grouping(int[] speeds) {
+    public List<Integer> grouping(double[] speeds) {
         if (speeds == null || speeds.length == 0) {
             return null;
         }
