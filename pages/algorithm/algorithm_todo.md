@@ -4,7 +4,7 @@ tags: [algorithm, algorithm_overview]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_big_class.html
+permalink: algorithm_todo.html
 folder: algorithm
 toc: false
 ---
