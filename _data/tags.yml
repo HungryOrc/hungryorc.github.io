@@ -19,6 +19,8 @@ allowed-tags:
   - recursion
   - sorting
   - subarray
+  - binary_tree
+  - binary_tree_traversal
   - dynamic_programming
   # Other Tags
   - web
