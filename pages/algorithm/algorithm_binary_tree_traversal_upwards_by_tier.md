@@ -28,51 +28,56 @@ toc: false
   * B,F,G,E 都是 leaf，它们属于同一个“阶层” (tier)。
   * 如果把上面这几个 leaves 都去掉，那么剩下的树，leaf tier 就是 D。C 和 D 不是一个阶层，C 是更高一个阶层的。去掉 D 以后，C 才变成 leaf。
 
-## Complexity
-* Time: O(n)
-* Space: O(n)
+
   
 ## Solution
-Recursive way.
+Recursively traverse the binary tree, 从上到下。最后的答案要求是从下到上，但我们一开始的思路和步骤是从上到下，层层向下转包。核心思想是：
+```java
+int tierOfCurNode = Math.max(getTier(node.left), getTier(node.right)) + 1;
+```
+
+### Complexity
+* Time: O(n)
+* Space: O(n)
+
 ### Java
 ```java
 class TreeNode {
-	char val;
-	TreeNode left;
-	TreeNode right;
+    char val;
+    TreeNode left, right;
 }
-
-// 
+ 
 public class Solution {
 	
-	public List<List<TreeNode>> outputLeaves (TreeNode root) {
-		if (root == null) {
-			return null;
-}
+    public List<List<TreeNode>> outputLeaves (TreeNode root) {
+        if (root == null) {
+            return null;
+        }
 
-		List<List<TreeNode>> result = new ArrayList<>();
-		
-		getTier(root, result);
-		return result;
-}
+        List<List<TreeNode>> result = new ArrayList<>();		
+        getTier(root, result);
+        return result;
+    }
 
-private int getTier(TreeNode node, List<List<TreeNode>> result) {
+    private int getTier(TreeNode node, List<List<TreeNode>> result) {
 	// let all leaf nodes to be at Tier 0,
 	// then the null nodes one tier below the leaf nodes will be at Tier -1
-	if (node == null) {
-		return -1;
-}
+        if (node == null) {
+            return -1;
+        }
 
-int tierOfCurNode = Math.max(getTier(node.left), getTier(node.right)) + 1;
+        int tierOfCurNode = Math.max(getTier(node.left), getTier(node.right)) + 1;
 
-if (result.size < tierOfCurNode + 1) {
-	result.add(new ArrayList<TreeNode>());
-}
+        // result 里最先放入的是最初的那一层 leaves
+	// 每加一层，都需要在 result 里先加入一个空的 ArrayList。包括我们第一次放进去最初的那一层leaves的时候
+        if (result.size < tierOfCurNode + 1) {
+            result.add(new ArrayList<TreeNode>());
+        }
 
-result.get(tierOfCurNode).add(curNode);
+        result.get(tierOfCurNode).add(curNode);
 
-return tierOfCurNode;
-}
+        return tierOfCurNode;
+    }
 }
 ```
 
