@@ -43,10 +43,10 @@ public class Solution {
         List<Integer> groupSizes = new ArrayList<>();
 
         int countCurGrp = 1;
-        int leadSpeedCurGrp = speeds[0];
+        double leadSpeedCurGrp = speeds[0];
     
         for (int i = 1; i < speeds.length; i++) {
-            int curSpeed = speeds[i];
+            double curSpeed = speeds[i];
             if (curSpeed > leadSpeedCurGrp) {
                 countCurGrp ++;
             } else { // if (curSpeed <= leadSpeedCurGrp)
