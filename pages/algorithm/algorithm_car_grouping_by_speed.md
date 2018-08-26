@@ -16,60 +16,54 @@ n 个车依次出发，行驶于一条无限长的单车道上，行驶方向都
 
 ## Example
 
-* Input: 3 dishes in all, from pole A to pole C, the intermediate pole is B.
-  * Output: 
-    ```
-    1: A -> C
-    2: A -> B
-    1: C -> B
-    3: A -> C
-    1: B -> A
-    2: B -> C
-    1: A -> C
-    ```
+* Input: 车速依次为：[2.5, 4, 1, 3.1, 1, 0.5]
+  * Output: [2, 2, 1, 1]，因为最后会被分为4组，第一组是前两辆车，第二组是第三第四两辆车，第三组是第五辆车，第四组是第六辆车
 
 ## Solution
-```
-Moving N dishes from A to C = Moving N-1 dishes from A to B, with the help of C +
-                              Moving 1 dish from A to C +
-			      Moving N-1 dishes from B to C, with the help of A
-```
+要点：
+* 相邻两个车，后面的车速如果高于前面的，那么后面车的车速最终一定会等于前车车速。它们会组成一个group，当然这个group里可能还会有别的车。
+  * 所以最终所有的车会组成多个这样的group，每个group有一个领头的车，一个group内的所有车的车速都等于领头车的车速。
+* 如果全部的groups都稳定以后，某一个领头车的速度是 v，后面若干个车以后的某个车的速度小于 v，那么这两个车之间的距离会越来越大。如果后面这个车的速度等于 v，那么这两个车之间永远不会相遇，这个速度相等又不会相遇的情况容易被遗漏，要注意。
+
+所以，把这个数组从头到尾遍历一遍就行了。
 
 ### Complexity
-
-* Time: O(2^n)
-  * T(n) = 2 * T(n-1) + 1, so you can get the answer...
-* Space: O(n)
+* Time: O(n)
+* Space: O(1)
 
 ### Java
-This solution is a bit different to the requirement of the question above, but the overall methodology is the same.
-
 ```java
-public class Hanoi {
-	
-    public void hanoiMove(int dishNum, char from, char to, char inter) {
-	if (dishNum == 1) {
-	    System.out.println("1: " + from + " -> " + to);
-	    return;
-	}
-		
-	hanoiMove(dishNum - 1, from, inter, to);
-		
-	System.out.println(dishNum + ": " + from + " -> " + to);
-		
-	hanoiMove(dishNum - 1, inter, to, from);
+public class Solution {
+
+    public List<Integer> grouping(int[] speeds) {
+        if (speeds == null || speeds.length == 0) {
+            return null;
+        }
+
+        List<Integer> groupSizes = new ArrayList<>();
+
+        int countCurGrp = 1;
+        int leadSpeedCurGrp = speeds[0];
+    
+        for (int i = 1; i < speeds.length; i++) {
+            int curSpeed = speeds[i];
+            if (curSpeed > leadSpeedCurGrp) {
+                countCurGrp ++;
+            } else { // if (curSpeed <= leadSpeedCurGrp)
+                groupSizes.add(countCurGrp);
+                countCurGrp = 1;
+                leadSpeedCurGrp = curSpeed;
+            }
+        }
+
+        groupSizes.add(countCurGrp); // for the last group
+
+        return groupSizes;
     }
-	
-    public static void main(String[] args) {
-	Hanoi hano = new Hanoi();	
-	hano.hanoiMove(4, 'A', 'C', 'B');
-    } 
 }
 ```
 
-
 ## Reference
 
-* [Tower of Hanoi - LintCode](https://lintcode.com/problem/tower-of-hanoi/description)
 
 {% include links.html %}
