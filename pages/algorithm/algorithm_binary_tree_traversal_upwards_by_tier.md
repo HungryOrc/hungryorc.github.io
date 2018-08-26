@@ -1,6 +1,6 @@
 ---
 title: "Binary Tree Traversal Upwards by Tier"
-tags: [algorithm, binary_tree, binary_tree_traversal]
+tags: [algorithm, binary_tree, binary_tree_traversal, recursion]
 keywords:
 summary:
 sidebar: mydoc_sidebar
