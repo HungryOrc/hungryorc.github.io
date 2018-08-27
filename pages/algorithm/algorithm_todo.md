@@ -26,7 +26,7 @@ Until page 19, quick sort
 
 
 ### TODO
-8/25 4 questions, 这几道题的答案问一下jack老师！！！！！
+8/25 4 questions, 这几道题的答案问一下jack老师！！！！！问jennifer老师，这类问题应该怎么问，到哪问？我查了leet和laicode都没有这题，所以才问
 
 
 
