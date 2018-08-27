@@ -17,9 +17,6 @@ toc: false
 
 ## Example
 
-* Input: 车速依次为：[2.5, 4, 1, 3.1, 1, 0.5]
-  * Output: [2, 2, 1, 1]，因为最后会被分为4组，第一组是前两辆车，第二组是第三第四两辆车，第三组是第五辆车，第四组是第六辆车
-
 ## Solution
 把这个100cm的木头分成100段，每段都是 `[i, i+1)`，其中i是0到99的整数。当然还有一个点要算上，就是坐标100的那一个点。
 
@@ -103,7 +100,24 @@ public class Solution {
         }
     }
     
+    // spot is guaranteed to be in the range [0, 100]
+    public boolean isWet(double spot) {
+        if (spot == 100) {
+            return wetAt100;
+        }
+        
+        int sectionIndex = (int)Math.floor(spot);
+        Section section = wood[sectionIndex];
+        if (section.dryStart <= spot && section.dryEnd > spot) {
+            return false;
+        } else {
+            return true;
+        }
+    }
     
+    public boolean isFullyWet() {
+        return nonWetSections.isEmpty();
+    }
 }
 ```
 
