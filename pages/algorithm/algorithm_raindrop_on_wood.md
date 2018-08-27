@@ -36,7 +36,7 @@ toc: false
 * 每个 Section 维持一个 dry part，dry part要有起始点和终止点，dry part的形状是前闭区间后开区间。每次有一滴雨滴下来，我们就要update一个或两个Section的dry part数据
 * 用一个hashset来维护所有的没全湿的Sections。如果一个Section全湿了，即它的dry part不存在了，那么就把这个Section从这个hashset里去掉
 * 要查某一点当前是否wet，就先找到那个Section（用double向下取整就行），然后看这个Section是否全湿了，如果它没全湿，就看它的dry part是否包含这一点
-* 要查整个木头是否都全湿了，就看之前所说的那个hashset是否空了
+* 要查整个木头是否都全湿了，就看之前所说的那个hashset是否空了。还要特别看一下100那个点是否湿了。
 
 ### Complexity
 * Time
@@ -47,11 +47,63 @@ toc: false
 
 ### Java
 ```java
-public class Solution {
+class Section {
+    public double start;
+    public double dryStart, dryEnd;
+}
 
-    public List<Integer> grouping(double[] speeds) {
-        
+public class Solution {
+    public boolean wetAt100 = false;
+    
+    public Section[] wood = new Section[100];
+    for (int i = 0; i < 100; i++) {
+        wood[i].start = i;
+        wood[i].dryStart = i;
+        wood[i].dryEnd = i + 1;
     }
+    
+    public HashSet<Integer> nonWetSections = new HashSet<>();
+    for (int i = 0; i < 100; i++) {
+        nonWetSections.add(i);
+    }
+    
+    public void raindrop(double start) {
+        if (start < 0 && start > -1) {
+            updateDryZone(0, start);
+        } else if (start > 99 && start <= 100) {
+            updateDryZone(99, start);
+            wetAt100 = true;
+        } else if (start >= 0 && start <= 99) {
+            int sectionIndex = (int)Math.floor(start);
+            updateDryZone(sectionIndex, start);
+            
+            // the current raindrop may affect the next Section
+            if (start > sectionIndex) {
+                updateDryZone(sectionID + 1, start);
+            }
+        }
+    }
+    
+    private void updateDryZone(int sectionIndex, double start) {
+        // if the current section is already fully wet, then we do nothing
+        if (!nonWetSections.contains(sectionId)) {
+            return;
+        }
+        
+        Section section = wood[sectionIndex];
+        if (start < sectionIndex) {
+            section.dryStart = Math.max(start + 1, section.dryStart);
+        } else { // start >= sectionIndex
+            section.dryEnd = Math.min(start, section.dryEnd);
+        }
+        
+        // check if current section is now all wet
+        if (section.dryEnd <= section.dryStart) {
+            nonWetSections.remove(sectionIndex);
+        }
+    }
+    
+    
 }
 ```
 
