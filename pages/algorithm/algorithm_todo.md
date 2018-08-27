@@ -26,7 +26,7 @@ Until page 19, quick sort
 
 
 ### TODO
-8/25 4 questions
+8/25 4 questions, 这几道题的答案问一下jack老师！！！！！
 
 
 
