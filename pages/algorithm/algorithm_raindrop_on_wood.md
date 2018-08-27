@@ -10,7 +10,10 @@ toc: false
 ---
 
 ## Description
-有一块木头长100cm。设木头的方向为x轴，木头的一端为0，另一端为100。雨滴可以打到任何的x坐标，包括小于0或大于100的坐标。雨滴的个数可以非常大。每个雨滴的宽度都是1cm。每个雨滴打湿的范围都是 [start, start + 1)，注意左边是闭区间，右边是开区间
+有一块木头长100cm。设木头的方向为x轴，木头的一端为0，另一端为100。雨滴可以打到任何的x坐标，包括小于0或大于100的坐标。雨滴的个数可以非常大。每个雨滴的宽度都是1cm。每个雨滴打湿的范围都是 `[start, start + 1)`，注意左边是闭区间，右边是开区间，`start`是一个double数值。实现3个API：
+* void raindrop(double start); // drop a raindrop
+* boolean isWet(double spot); // spot is an x axis cooridate in range [0, 100]
+* boolean isFullyWet(); // the whole wood is wet or not
 
 ## Example
 
@@ -18,45 +21,36 @@ toc: false
   * Output: [2, 2, 1, 1]，因为最后会被分为4组，第一组是前两辆车，第二组是第三第四两辆车，第三组是第五辆车，第四组是第六辆车
 
 ## Solution
-要点：
-* 相邻两个车，后面的车速如果高于前面的，那么后面车的车速最终一定会等于前车车速。它们会组成一个group，当然这个group里可能还会有别的车。
-  * 所以最终所有的车会组成多个这样的group，每个group有一个领头的车，一个group内的所有车的车速都等于领头车的车速。
-* 如果全部的groups都稳定以后，某一个领头车的速度是 v，后面若干个车以后的某个车的速度小于 v，那么这两个车之间的距离会越来越大。如果后面这个车的速度等于 v，那么这两个车之间永远不会相遇，这个速度相等又不会相遇的情况容易被遗漏，要注意。
+把这个100cm的木头分成100段，每段都是 `[i, i+1)`，其中i是0到99的整数。当然还有一个点要算上，就是坐标100的那一个点。
 
-所以，把这个数组从头到尾遍历一遍就行了。
+关键点：
+* 上述分段得到的每一段木头，无论多少雨滴怎么打它，它上面的dry part都一定只有一段，不会有两段！
+  * 比如对于 `[i, i+1)`，如果雨点的起始点正好在i坐标，那么这一整段都正好湿了
+  * 如果雨点的起始点在i的左边，设为j，那么这一段上的dry part会变为 `[j+1, i+1)`，如果又滴下来一个雨点，它的起始点在j和i+1之间，设为k，则dry part会变为 `[j+1, k)`。继续下去，可能会有很多雨点，把这一段都打湿
+  * 如果雨点的起始点正好在 i+1 处，那么对于这个小段的木头，没有影响
+* 任何一个雨滴，它最多能打湿两个小段的木头（的各一部分）
+
+所以可以这么做：
+* 搞一个 class Section，有个 int type 起始点（那么终点自然也有知道了），用来表示 `[i, i+1)` 这一段木头 
+* 整个一米长的木头就是 array of Sections
+* 每个 Section 维持一个 dry part，dry part要有起始点和终止点，dry part的形状是前闭区间后开区间。每次有一滴雨滴下来，我们就要update一个或两个Section的dry part数据
+* 用一个hashset来维护所有的没全湿的Sections。如果一个Section全湿了，即它的dry part不存在了，那么就把这个Section从这个hashset里去掉
+* 要查某一点当前是否wet，就先找到那个Section（用double向下取整就行），然后看这个Section是否全湿了，如果它没全湿，就看它的dry part是否包含这一点
+* 要查整个木头是否都全湿了，就看之前所说的那个hashset是否空了
 
 ### Complexity
-* Time: O(n)
-* Space: O(1)
+* Time
+  * void raindrop(double start); // O(1)
+  * boolean isWet(double spot); // O(1)
+  * boolean isFullyWet(); // O(1)
+* Space: O(100)，如果认为木头的长度是m厘米，则空间复杂度为 O(m)。这个解法用到了好几个数据结构，但它们的空间都是 O(m)
 
 ### Java
 ```java
 public class Solution {
 
     public List<Integer> grouping(double[] speeds) {
-        if (speeds == null || speeds.length == 0) {
-            return null;
-        }
-
-        List<Integer> groupSizes = new ArrayList<>();
-
-        int countCurGrp = 1;
-        double leadSpeedCurGrp = speeds[0];
-    
-        for (int i = 1; i < speeds.length; i++) {
-            double curSpeed = speeds[i];
-            if (curSpeed > leadSpeedCurGrp) {
-                countCurGrp ++;
-            } else { // if (curSpeed <= leadSpeedCurGrp)
-                groupSizes.add(countCurGrp);
-                countCurGrp = 1;
-                leadSpeedCurGrp = curSpeed;
-            }
-        }
-
-        groupSizes.add(countCurGrp); // for the last group
-
-        return groupSizes;
+        
     }
 }
 ```
