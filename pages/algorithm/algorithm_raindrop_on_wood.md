@@ -47,22 +47,32 @@ toc: false
 class Section {
     public double start;
     public double dryStart, dryEnd;
+    
+    public Section(double start) {
+    	this.start = start;
+    	this.dryStart = start;
+    	this.dryEnd = start + 1;
+    }
 }
 
 public class Solution {
-    public boolean wetAt100 = false;
-    
-    public Section[] wood = new Section[100];
-    for (int i = 0; i < 100; i++) {
-        wood[i].start = i;
-        wood[i].dryStart = i;
-        wood[i].dryEnd = i + 1;
-    }
-    
-    public HashSet<Integer> nonWetSections = new HashSet<>();
-    for (int i = 0; i < 100; i++) {
-        nonWetSections.add(i);
-    }
+	public boolean wetAt100;
+	public Section[] wood;
+	public HashSet<Integer> nonWetSections;
+	
+	public Solution() {
+		wetAt100 = false;
+		
+	    wood = new Section[100];
+	    for (int i = 0; i < 100; i++) {
+	    	wood[i] = new Section(i);
+	    }
+	    
+	    nonWetSections = new HashSet<>();
+	    for (int i = 0; i < 100; i++) {
+	        nonWetSections.add(i);
+	    }
+	}
     
     public void raindrop(double start) {
         if (start < 0 && start > -1) {
@@ -76,14 +86,14 @@ public class Solution {
             
             // the current raindrop may affect the next Section
             if (start > sectionIndex) {
-                updateDryZone(sectionID + 1, start);
+                updateDryZone(sectionIndex + 1, start);
             }
         }
     }
     
     private void updateDryZone(int sectionIndex, double start) {
         // if the current section is already fully wet, then we do nothing
-        if (!nonWetSections.contains(sectionId)) {
+        if (!nonWetSections.contains(sectionIndex)) {
             return;
         }
         
@@ -117,6 +127,23 @@ public class Solution {
     
     public boolean isFullyWet() {
         return nonWetSections.isEmpty();
+    }
+    
+    // -------------------------------------------------------------
+    // main
+    
+    public static void main(String[] args) {
+        Solution solu = new Solution();
+        
+        solu.raindrop(-0.3);
+        System.out.println(solu.isWet(0.5)); // true
+        
+        solu.raindrop(99);
+        System.out.println(solu.isWet(100)); // false
+        solu.raindrop(99.0001);
+        System.out.println(solu.isWet(100)); // true
+        
+        System.out.println(solu.isFullyWet()); // false
     }
 }
 ```
