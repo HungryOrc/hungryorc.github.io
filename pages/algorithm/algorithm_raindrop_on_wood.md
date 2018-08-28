@@ -61,7 +61,7 @@ public class Solution {
 	public HashSet<Integer> nonWetSections;
 	
 	public Solution() {
-		wetAt100 = false;
+	    wetAt100 = false;
 		
 	    wood = new Section[100];
 	    for (int i = 0; i < 100; i++) {
