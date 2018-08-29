@@ -20,6 +20,7 @@ Until page 19, quick sort
 ### TODO
 * Laicode for lecture 1
 * 看 heapify 的视频，看一两个短视频
+* 把我总结的几个 peak 题目，以前总结的，都归纳到新note里去
 
 * 小组课
   * 路径那一题，不算字母，用数字搞，怎么搞，怎么回溯
