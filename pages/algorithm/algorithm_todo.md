@@ -21,6 +21,11 @@ Until page 19, quick sort
 * Laicode for lecture 1
 * 看 heapify 的视频，看一两个短视频
 
+* 小组课
+  * 路径那一题，不算字母，用数字搞，怎么搞，怎么回溯
+  * 马往外跳那一题，leet code 也有
+
+
 ## Mock Interview Questions
 ### Completed
 
