@@ -38,7 +38,7 @@ class Solution {
 
     public int findGlobalPeak(int[] nums) {
         if (nums == null || nums.length < 3) {
-            return null;
+            return Integer.MIN_VALUE;
         }
     
         // 题意说了，数组最少长度为3，左右边界处不会是peak
