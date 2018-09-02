@@ -40,7 +40,7 @@ class Solution {
 
     public int findPeak(int[] A) {
         if (A == null || A.length < 3) {
-            return null;
+            return Integer.MIN_VALUE;
         }
     
         // 题意说了，左右边界处不会是peak
@@ -79,7 +79,7 @@ class Solution {
 
     public int findPeak(int[] nums) {
         if (nums == null || nums.length < 3) {
-            return null;
+            return Integer.MIN_VALUE;
         }
         
         // 从第二个元素开始，到倒数第二个元素结束搜索。因为题目说了第一个和最后一个不是
