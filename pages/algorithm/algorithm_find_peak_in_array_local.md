@@ -71,7 +71,7 @@ recursion做法竟然比 iteration做法快，beat LeetCode 99%，我感觉如�
 * Space: O(logn)，这是因为call stack 共有 logn 层，每层里面都是 O(1) 的空间消耗
 
 ### Java
-```
+```java
 class Solution {
 
     public int findPeak(int[] nums) {
