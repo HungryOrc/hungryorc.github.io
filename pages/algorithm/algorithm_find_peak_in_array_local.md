@@ -4,7 +4,7 @@ tags: [algorithm, binary_search]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_find_peak_locally_in_array.html
+permalink: algorithm_find_peak_in_array_local.html
 folder: algorithm
 toc: false
 ---
