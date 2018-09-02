@@ -15,7 +15,8 @@ toc: false
 * boolean isWet(double spot); // spot is an x axis cooridate in range [0, 100]
 * boolean isFullyWet(); // the whole wood is wet or not
 
-## Example
+### Example
+略
 
 ## Solution
 把这个100cm的木头分成100段，每段都是 `[i, i+1)`，其中i是0到99的整数。当然还有一个点要算上，就是坐标100的那一个点。
