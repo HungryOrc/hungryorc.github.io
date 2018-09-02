@@ -12,6 +12,10 @@ toc: false
 ## Overview
 从小到大排序。从左到右遍历数组，找到最小的，然后把最小的和最左的swap。接下来从左边第二个开始重复上述过程。然后是左边第三个......
 
+## Complexity
+* Time: O(n^2)
+* Space: O(1)
+
 ## Implementation
 
 ### Java
@@ -44,10 +48,5 @@ public class SelectionSort {
     }
 }
 ```
-
-## Complexity
-* Time: O(n^2)
-* Space: O(1)
-
 
 {% include links.html %}
