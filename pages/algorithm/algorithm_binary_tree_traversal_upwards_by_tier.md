@@ -12,7 +12,7 @@ toc: false
 ## Description
 逐步给出 binary tree 的各个 leaf node，从下到上，从左到右。要求按照 Tier 输出结果，而非按照 Level 输出结果！这两种方式的区别如下：
 
-## Example
+### Example
 ```
       A
     /   \
@@ -80,6 +80,5 @@ public class Solution {
     }
 }
 ```
-
 
 {% include links.html %}
