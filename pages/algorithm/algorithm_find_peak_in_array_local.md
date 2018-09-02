@@ -15,7 +15,10 @@ toc: false
 
 要求找到任何一个局部最大值，需要满足：`A[i] > A[i - 1] && A[i] > A[i + 1]`。返回这个 local peak 的index。
 
-## Example
+### 联系类似题目
+如果数组的第一个和最后一个元素可以是 local peak，那么做法也是基本一样的。
+
+### Example
 * Input: [1, 2, 3, 1, 5, 6, -4, 0]
   * Output: 2 (index of 3) or 5 (index of 6)
 
