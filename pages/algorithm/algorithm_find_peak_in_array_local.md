@@ -19,15 +19,17 @@ toc: false
 * Input: [1, 2, 3, 1, 5, 6, -4, 0]
   * Output: 2 (index of 3) or 5 (index of 6)
 
-## Solution
+## Solution 1
 `A[0] < A[1] && A[A.length - 2] > A[A.length - 1]` 这个条件是非常关键的。它不仅显示了数组的第一个和最后一个元素都不可能是 local peak，
 而且更重要的是揭示了如下规律：
 * 如果某个元素a比它左边相邻的元素小，那么a与数组的开头之间（不包括a本身），一定存在至少一个peak
-* 如果某个元素a比它左边相邻的元素大，那么a与数组的结尾之间（包括a本身），一定存在至少一个peak！
+* 如果某个元素a比它左边相邻的元素大，那么a与数组的结尾之间（包括a本身），一定存在至少一个peak
+
+用 iteration 的方式来做。
 
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(logn)
+* Space: O(1)
 
 ### Java
 ```java
@@ -56,6 +58,17 @@ class Solution {
     }
 }
 ```
+
+## Solution 2
+思路和前面的Solution是一样的。只是用 resursion 的方式来做。
+
+Binary Search 用 resursion 做是有点别扭，权当练习。
+
+### Complexity
+* Time: O(logn)
+* Space: O(logn)，这是因为call stack 共有 logn 层，每层里面都是 O(1) 的空间消耗
+
+### Java
 
 ## Reference
 * [Find Peak Element [LeetCode]](https://leetcode.com/problems/find-peak-element/description/)
