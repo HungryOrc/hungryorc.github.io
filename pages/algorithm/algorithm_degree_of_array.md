@@ -10,11 +10,9 @@ toc: false
 ---
 
 ## Description
-
 一个数组的"度(Degree)"等于它里面出现最多的元素的次数。非空数组nums的元素都是非负整数，找到具有和 nums 相同 degree 的连续 subarray 的最小长度。
 
-## Example
-
+### Example
 * Input: [1, 2, 2, 3, 1]
   * Output: 2
   * nums的degree为2，因为元素1和2都出现了2次。和原数组具有相同度数的连续子数组有：[1, 2, 2, 3, 1], [1, 2, 2, 3], [2, 2, 3, 1], [1, 2, 2], [2, 2, 3], [2, 2]。其中最短的长度为2。
@@ -22,7 +20,6 @@ toc: false
   * Output: 6
 
 ## Solution
-
 目标子数组的首元素一定是 nums 中出现最多的元素（或之一，设它为 a）在整个数组里的第一次出现。
 目标子数组的尾元素一定是同样的这个 a 在整个数组里的最后一次出现。
 所以问题转化为：求nums中出现次数最多的某个元素第一次出现，到最后一次出现的子数组的最小长度。
@@ -35,7 +32,6 @@ toc: false
 * We are setting `minLen = nums.length` initially, but if all the numbers in the array only appear once, then we must return `minLen` to be 1! If any of the numbers in the array appears more than once, then `minLen` can be calculated correctly by the following algorithm.
 
 ### Complexity
-
 * Time: O(n)
 * Space: O(n)
 
