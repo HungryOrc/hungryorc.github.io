@@ -71,13 +71,14 @@ class Solution {
             if (mid == 0) {
                 return Math.max(localPeak, nums[left], nums[right]);
             }
+            ////////
             
             if (nums[mid] > nums[mid - 1]) {
                 localPeak = Math.max(localPeak, nums[mid]);
                 left = mid + 1;
             } else if (nums[mid] < nums[mid - 1]) {
                 localPeak = Math.max(localPeak, nums[mid - 1]);
-                right = mid - 1;
+                right = mid - 2;
             } else { // nums[mid] == nums[mid - 1]
                 localPeak = Math.max(localPeak, nums[mid]);
                 
@@ -87,7 +88,18 @@ class Solution {
                 return Math.max(localPeak, peakOfTwoSides);
             }
         }
+        
+        if (validIndex(left, nums.length)) {
+            localPeak = Math.max(localPeak, nums[left]);
+        }
+        if (validIndex(right, nums.length)) {
+            localPeak = Math.max(localPeak, nums[right]);
+        }
         return localPeak;
+    }
+    
+    private boolean validIndex(index, len) {
+        return (index >= 0) && (index <= len - 1);
     }
 }
 ```
