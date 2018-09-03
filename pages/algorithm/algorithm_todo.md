@@ -28,14 +28,8 @@ Until page 19, quick sort
   * 马往外跳那一题，leet code 也有
 
 
-## Mock Interview Questions
-### Completed
-
-
-### TODO
-8/25 4 questions, 这几道题的答案问一下jack老师！！！！！问jennifer老师，这类问题应该怎么问，到哪问？我查了leet和laicode都没有这题，所以才问
-
-
-
+* Mock Interview Questions
+  * 这题为什么非要写 ////?//// 里的这一段？为什么要特殊处理 mid == 0 的情况？
+    * https://github.com/HungryOrc/hungryorc.github.io/blob/master/pages/algorithm/algorithm_find_global_peak_in_A-shape_array_with_duplicates.md
 
 {% include links.html %}
