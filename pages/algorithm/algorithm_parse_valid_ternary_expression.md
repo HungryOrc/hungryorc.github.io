@@ -78,10 +78,10 @@ class Solution {
         // 从最右边的一个char开始往左走
         int i = chars.length - 1;
         while (i >= 0) {
-           	char curChar = chars[i];
-        	   // T, F, or 0-9. 只把这些char放到另一个stack里去
-        	   if (curChar != '?' && curChar != ':') {
-        		      stack.push(curChar);
+            char curChar = chars[i];
+            // T, F, or 0-9. 只把这些char放到另一个stack里去
+            if (curChar != '?' && curChar != ':') {
+                stack.push(curChar);
         	   } else if (curChar == '?') {
         		  char secondChar = stack.pop();
         		  char thirdChar = stack.pop();
