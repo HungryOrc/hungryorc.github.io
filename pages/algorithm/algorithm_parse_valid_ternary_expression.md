@@ -89,10 +89,11 @@ class Solution {
                 i--;
                 char firstChar = chars[i];
             
-            if (firstChar == 'T') {
-                stack.push(secondChar);
-            } else { // firstChar == 'F'
-                stack.push(thirdChar);
+                if (firstChar == 'T') {
+                    stack.push(secondChar);
+                } else { // firstChar == 'F'
+                    stack.push(thirdChar);
+                }
             }
             
             i--; // 无论如何都要往左走一步的
