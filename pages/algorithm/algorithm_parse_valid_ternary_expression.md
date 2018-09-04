@@ -25,15 +25,19 @@ You can always assume that the given expression is valid and only consists of di
 * Input: "F?1:T?4:5"
   * Output: "4"
   * The conditional expressions group right-to-left, it is read/evaluated as:
-             "(F ? 1 : (T ? 4 : 5))"                   "(F ? 1 : (T ? 4 : 5))"
-          -> "(F ? 1 : 4)"                 or       -> "(T ? 4 : 5)"
-          -> "4"                                    -> "4"
+    ```
+       "(F ? 1 : (T ? 4 : 5))"                   "(F ? 1 : (T ? 4 : 5))"
+    -> "(F ? 1 : 4)"                 or       -> "(T ? 4 : 5)"
+    -> "4"                                    -> "4"
+    ```
 * Input: "T?T?F:5:3"
   * Output: "F"
   * The conditional expressions group right-to-left, it is read/evaluated as:
-             "(T ? (T ? F : 5) : 3)"                   "(T ? (T ? F : 5) : 3)"
-          -> "(T ? F : 3)"                 or       -> "(T ? F : 5)"
-          -> "F"                                    -> "F"
+    ```
+       "(T ? (T ? F : 5) : 3)"                   "(T ? (T ? F : 5) : 3)"
+    -> "(T ? F : 3)"                 or       -> "(T ? F : 5)"
+    -> "F"                                    -> "F"
+    ```
 
 ## Solution
 ```
