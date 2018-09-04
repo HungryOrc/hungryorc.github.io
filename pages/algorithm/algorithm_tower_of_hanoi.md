@@ -68,6 +68,6 @@ public class Hanoi {
 ```
 
 ## Reference
-* [Tower of Hanoi - LintCode](https://lintcode.com/problem/tower-of-hanoi/description)
+* [Tower of Hanoi [LintCode]](https://lintcode.com/problem/tower-of-hanoi/description)
 
 {% include links.html %}
