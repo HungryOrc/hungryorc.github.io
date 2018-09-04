@@ -67,12 +67,6 @@ class Solution {
         while (left + 1 < right) {
             int mid = left + (right - left) / 2;
             
-            //// 为什么要有下面这段？？？？？？
-            if (mid == 0) {
-                return Math.max(localPeak, nums[left], nums[right]);
-            }
-            ////////
-            
             if (nums[mid] > nums[mid - 1]) {
                 localPeak = Math.max(localPeak, nums[mid]);
                 left = mid + 1;
