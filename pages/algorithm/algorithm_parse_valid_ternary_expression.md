@@ -82,15 +82,15 @@ class Solution {
             // T, F, or 0-9. 只把这些char放到另一个stack里去
             if (curChar != '?' && curChar != ':') {
                 stack.push(curChar);
-        	   } else if (curChar == '?') {
-        		  char secondChar = stack.pop();
-        		  char thirdChar = stack.pop();
-        		
-        		  i--;
-        		  char firstChar = chars[i];
-        		
-        		  if (firstChar == 'T') {
-        			     stack.push(secondChar);
+            } else if (curChar == '?') {
+                char secondChar = stack.pop();
+                char thirdChar = stack.pop();
+
+                i--;
+                char firstChar = chars[i];
+            
+            if (firstChar == 'T') {
+                stack.push(secondChar);
         		  } else { // firstChar == 'F'
         			     stack.push(thirdChar);
         		  }
