@@ -13,24 +13,27 @@ toc: false
 Given a string representing arbitrarily nested ternary expressions, calculate the result of the expression. 
 You can always assume that the given expression is valid and only consists of digits 0-9, ?, :, T and F 
 (T and F represent True and False respectively).
-* The length of the given string is ≤ 10000.
+* The length of the given string can be very long.
 * Each number will contain only one digit.
 * The conditional expressions group right-to-left (as usual in most languages).
 * The condition will always be either T or F. That is, the condition will never be a digit.
 * The result of the expression will always evaluate to either a digit 0-9, T or F.
 
 ### Example
-* Input: 3 dishes in all, from pole A to pole C, the intermediate pole is B.
-  * Output: 
-    ```
-    1: A -> C
-    2: A -> B
-    1: C -> B
-    3: A -> C
-    1: B -> A
-    2: B -> C
-    1: A -> C
-    ```
+* Input: Input: "T?2:3"
+  * Output: "2"
+* Input: "F?1:T?4:5"
+  * Output: "4"
+  * The conditional expressions group right-to-left, it is read/evaluated as:
+             "(F ? 1 : (T ? 4 : 5))"                   "(F ? 1 : (T ? 4 : 5))"
+          -> "(F ? 1 : 4)"                 or       -> "(T ? 4 : 5)"
+          -> "4"                                    -> "4"
+* Input: "T?T?F:5:3"
+  * Output: "F"
+  * The conditional expressions group right-to-left, it is read/evaluated as:
+             "(T ? (T ? F : 5) : 3)"                   "(T ? (T ? F : 5) : 3)"
+          -> "(T ? F : 3)"                 or       -> "(T ? F : 5)"
+          -> "F"                                    -> "F"
 
 ## Solution
 ```
@@ -48,29 +51,10 @@ Moving N dishes from A to C = Moving N-1 dishes from A to B, with the help of C 
 This solution is a bit different to the requirement of the question above, but the overall methodology is the same.
 
 ```java
-public class Hanoi {
-	
-    public void hanoiMove(int dishNum, char from, char to, char inter) {
-	if (dishNum == 1) {
-	    System.out.println("1: " + from + " -> " + to);
-	    return;
-	}
-		
-	hanoiMove(dishNum - 1, from, inter, to);
-		
-	System.out.println(dishNum + ": " + from + " -> " + to);
-		
-	hanoiMove(dishNum - 1, inter, to, from);
-    }
-	
-    public static void main(String[] args) {
-	Hanoi hano = new Hanoi();	
-	hano.hanoiMove(4, 'A', 'C', 'B');
-    } 
-}
+
 ```
 
 ## Reference
-* [Tower of Hanoi - LintCode](https://lintcode.com/problem/tower-of-hanoi/description)
+* [Ternary Expression Parser [LeetCode]](https://leetcode.com/problems/ternary-expression-parser/description/)
 
 {% include links.html %}
