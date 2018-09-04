@@ -91,10 +91,10 @@ class Solution {
             
             if (firstChar == 'T') {
                 stack.push(secondChar);
-        		  } else { // firstChar == 'F'
-        			     stack.push(thirdChar);
-        		  }
-        }
+            } else { // firstChar == 'F'
+                stack.push(thirdChar);
+            }
+            
             i--; // 无论如何都要往左走一步的
         }
         
