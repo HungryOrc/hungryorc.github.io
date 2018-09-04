@@ -52,6 +52,7 @@ You can always assume that the given expression is valid and only consists of di
 
 步骤：
 * 从`s`的最右边的char开始，向左走。用一个stack来装这些chars，那么越靠后的char就越接近栈底
+  * stack里只装非?也非:的字符
 * 遇到`?`就：
   * 从stack里pop出来两个数，首先pop出来的就是`?`之后的第一个char (call it `second char`)，然后pop出来的就是`?`之后紧贴着的那个`:`之后的那个char (call it `third char`)
   * 在`s`里再往左看一个char，这个char就是`?`左边紧贴着的那个char (call it `first char`)
