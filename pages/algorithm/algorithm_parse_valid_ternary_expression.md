@@ -40,20 +40,22 @@ You can always assume that the given expression is valid and only consists of di
     ```
 
 ## Solution
-```
-Moving N dishes from A to C = Moving N-1 dishes from A to B, with the help of C +
-                              Moving 1 dish from A to C +
-			      Moving N-1 dishes from B to C, with the help of A
-```
+
+
+步骤：
+* 从 given String (设为`s`) 的最右边的char开始，向左走。用一个stack来装这些chars，那么越靠后的char就越接近栈底
+* 遇到`?`就：
+  * 从stack里pop出来两个数，首先pop出来的就是`?`之后的第一个char (call it `second char`)，然后pop出来的就是`?`之后紧贴着的那个`:`之后的那个char (call it `third char`)
+  * 在`s`里再往左看一个char，这个char就是`?`左边紧贴着的那个char (call it `first char`)
+  * 有了这3个char，就可以推出这个5-char组合的值，要么是 second char，要么是 third char
+  * 把这个结果push回到stack里去
+* 继续在 `s` 里往左走，直到 `s` 的左边第一个char
 
 ### Complexity
-* Time: O(2^n)
-  * T(n) = 2 * T(n-1) + 1, so you can get the answer...
-* Space: O(n)
+* Time: O(n)
+* Space: O(n), for the stack
 
 ### Java
-This solution is a bit different to the requirement of the question above, but the overall methodology is the same.
-
 ```java
 
 ```
