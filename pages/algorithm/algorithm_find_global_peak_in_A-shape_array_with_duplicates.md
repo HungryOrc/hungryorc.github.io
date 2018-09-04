@@ -12,14 +12,14 @@ toc: false
 ## Description
 一个整数数组 nums，有重复元素，整个数组的元素值先升后降，数组长度 >= 3。
 
-要求找到全局最大值，返回其 index。
+要求返回全局最大值。
 
 ### 相似题目
 数组先升后降，但是没有重复元素，找 global peak 那一题
 
 ### Example
 * Input: [1, 2, 2, 2, 6, 4, 0, 0]
-  * Output: 4 (index of 6)
+  * Output: 6
 
 ## Solution
 还是用二分法。但是如果一个元素的左边及右边相邻的元素都小于等于它，并不能判定这个元素就是 global peak。因为它们可能只是局部平台而已。
