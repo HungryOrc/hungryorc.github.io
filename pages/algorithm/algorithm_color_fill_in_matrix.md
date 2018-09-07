@@ -47,7 +47,7 @@ class BFS {
     }
     
     // private，static，final：装 X 三连！
-    private static final int[][] DIRS = new int[][]{
+    private static final int[][] DIRS = {
         {1,0}, {-1,0}, {0,1}, {0,-1}
     };
     
