@@ -52,7 +52,7 @@ class Solution {
             return 0;
         }
 
-        int curArea = 0;
+        int curArea = 0; // 注意这个写法！curArea不一定要搞成一个长度为1的int数组然后跟着每层recursion传递
         if (grid[x][y] == 1) {
             grid[x][y] = 0;
             curArea = 1;
