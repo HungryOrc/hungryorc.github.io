@@ -27,7 +27,6 @@ DFS，2层 for loop 然后 recursion
 ### Java
 ```java
 class Solution {
-    private int maxArea = 0;
     private static final int[][] DIRS = new int[][]{{1,0}, {-1,0}, {0,1}, {0,-1}};
     
     public int maxAreaOfIsland(int[][] grid) {
@@ -35,10 +34,12 @@ class Solution {
             return 0;
         }
         
+        int maxArea = 0; // 注意这里及下面的写法！根本不用设maxArea为全局变量！
+        
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
                 if (grid[i][j] == 1) {
-                    findMax(grid, i, j, new int[1]);
+                    maxArea = Math.max(maxArea, findMax(grid, i, j));
                 }
             }
         }
@@ -46,20 +47,21 @@ class Solution {
         return maxArea;
     }
     
-    private void findMax(int[][] grid, int x, int y, int[] curArea) {
+    private int findMax(int[][] grid, int x, int y) {
         if (x < 0 || y < 0 || x >= grid.length || y >= grid[0].length) {
-            return;
+            return 0;
         }
 
+        int curArea = 0;
         if (grid[x][y] == 1) {
             grid[x][y] = 0;
-            curArea[0] ++;
-            maxArea = Math.max(curArea[0], maxArea);
+            curArea = 1;
             
             for (int[] dir : DIRS) {
-                findMax(grid, x + dir[0], y + dir[1], curArea);
+                curArea += findMax(grid, x + dir[0], y + dir[1]);
             }
         }
+        return curArea;
     }
 }
 ```
