@@ -47,7 +47,9 @@ class BFS {
     }
     
     // private，static，final：装 X 三连！
-    private static final int[][] DIRS = new int[][]{{1,0}, {-1,0}, {0,1}, {0,-1}};
+    private static final int[][] DIRS = new int[][]{
+        {1,0}, {-1,0}, {0,1}, {0,-1}
+    };
     
     private void fill(int[][] image, int sr, int sc, int newColor, int oldColor) {
         if (sr < 0 || sc < 0 || sr >= image.length || sc >= image[0].length) {
