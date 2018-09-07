@@ -27,7 +27,9 @@ DFS，2层 for loop 然后 recursion
 ### Java
 ```java
 class Solution {
-    private static final int[][] DIRS = new int[][]{{1,0}, {-1,0}, {0,1}, {0,-1}};
+    private static final int[][] DIRS = {
+        {1,0}, {-1,0}, {0,1}, {0,-1}
+    };
     
     public int maxAreaOfIsland(int[][] grid) {
         if (grid == null || grid.length == 0 || grid[0].length == 0) {
