@@ -26,7 +26,7 @@ Example: nums = [5,2,6,1], indexes = [0,1,2,3]. After sort: indexes = [3,1,0,2]
 
 While doing the merge part, say that we are merging left[] and right[], left[] and right[] are already sorted.
 We keep an int `rightcount` to record how many numbers from right[] we have added 
-and keep an array `count[]` to record the result.
+and keep the array `count[]` to record the result.
 
 When we move a number from right[] into the new sorted array, we increase rightcount by 1.
 
@@ -100,7 +100,6 @@ public class Solution {
 }
 ```
 
-## Solution 1.5: 自己做一个新的class，compare的方法是根据index，然后搞一个数组出来，往里面装所有元素，然后arrays.sort之类的。最后把index都取出来
 
 ## Solution 2: Segment Tree
 
