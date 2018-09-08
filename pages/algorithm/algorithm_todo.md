@@ -37,6 +37,7 @@ Permutations - medium
 Permutations II - medium
 N-Queens - medium
 
+* 9.8 的 mock interview 的四道题！！！
 
 * Laicode for lecture 1
 * 看 heapify 的视频，看一两个短视频
