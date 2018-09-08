@@ -20,7 +20,7 @@ In the `counts` array, `counts[i]` is the number of smaller elements to the righ
 ## Solution 1: Merge Sort
 Ref: https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/76583/11ms-JAVA-solution-using-merge-sort-with-explanation
 
-The basic idea is to do a **merge sort** to `nums[]`. To record the result, we need to keep the index of each number in the original array. So instead of sort the number in `nums`, we **sort the indexes** of each number.
+Instead of sort the numbers in the array, we **sort the indexes** of each number.
 
 Example: nums = [5,2,6,1], indexes = [0,1,2,3]. After sort: indexes = [3,1,0,2]
 
@@ -99,6 +99,8 @@ public class Solution {
   }
 }
 ```
+
+## Solution 1.5: 自己做一个新的class，compare的方法是根据index，然后搞一个数组出来，往里面装所有元素，然后arrays.sort之类的。最后把index都取出来
 
 ## Solution 2: Segment Tree
 
