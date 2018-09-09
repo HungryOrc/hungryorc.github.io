@@ -20,17 +20,7 @@ In the `counts` array, `counts[i]` is the number of smaller elements to the righ
 ## Solution 1: Merge Sort
 Ref: https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/76583/11ms-JAVA-solution-using-merge-sort-with-explanation
 
-Instead of sort the numbers in the array, we **sort the indexes** of each number.
-
-Example: nums = [5,2,6,1], indexes = [0,1,2,3]. After sort: indexes = [3,1,0,2]
-
-While doing the merge part, say that we are merging left[] and right[], left[] and right[] are already sorted.
-We keep an int `rightcount` to record how many numbers from right[] we have added 
-and keep the array `count[]` to record the result.
-
-When we move a number from right[] into the new sorted array, we increase rightcount by 1.
-
-When we move a number from left[] into the new sorted array, we increase `count[index of the number]` by rightcount.
+如果
 
 ### Complexity
 * Time: O(n logn)
