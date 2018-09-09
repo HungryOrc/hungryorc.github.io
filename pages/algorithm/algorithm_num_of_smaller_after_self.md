@@ -20,11 +20,12 @@ In the `counts` array, `counts[i]` is the number of smaller elements to the righ
 ## Solution 1: Merge Sort
 Ref: https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/76583/11ms-JAVA-solution-using-merge-sort-with-explanation
 
-我们要求的是，对于数组里nums[i]，要找数组里index > i
-我们要求的东西是，对于nums[i]，要找数组里index的
-我们要求的东西是，对于nums[i]，要找数组里index数
-我们要求的东西是，对于nums[i]，要找数组里index
-如果我们sort数组里的numbers，那么它们之间的顺序就丢失了，就算知道数组里有几个数小于nums[i]，我们也不知道这些小于它的数，它们的indexes是否大于i。
+我们要求的是，对于数组里的数nums[i]，要找数组里index > i，而且值小于nums[i]的数。
+所以直接sort数组里的数是不行的，那样它们之间的顺序就丢失了，就算知道数组里有几个数小于nums[i]，我们也不知道这些小于它的数，它们的indexes是否大于i。
+所以我们转而考虑sort这些数的indexes。
+
+以数组nums = [5,6,1,2]为例。各个数的indexes自然是[0,1,2,3]，我们把这个称为序数数组：indexes = [0,1,2,3].
+
 
 ### Complexity
 * Time: O(n logn)
