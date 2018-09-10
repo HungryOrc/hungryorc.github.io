@@ -53,14 +53,15 @@ Ref: https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/7
                                                       +1            +1
   ```
   * 主要注意 counts 数组的变化过程。在这一步里，2个subarray:[1][6]和[2][3]要merge在一起，而这两个subarray本身都是sorted。那么merge过程就是谁小移谁。但如前所述，我们实质上是哪个num小，就移这个num的index，而非移这个num本身。在这个移动的过程中，我们就要得到有多少个数在自己的右边而且比自己小！关键点如下，具体以此数组为例：
-  * 首先要移num=1，即移index=0。
+  * 首先要移左subarray里的num=1，即移index=0。
     * 因为num=1属于左subarray，所以它不会是任何右subarray里的数的“右小”数
     * 另一方面，num=1如果是左subarray里的任何数的“右小”数，那么这种关系一定已经反映在左subarray里的数的counts数组里了
     * 所以num=1的移动不会造成counts数组的任何变化
-  * 然后移num=2，即移index=3.因为num=2属于右subarray，所以把它merge到总数组里的时候，**意味着左subarray里当前任何还没有被merge到总数组里的数，都存在num=2这么一个“右小”数，即当前左subarray里的这些数相对应的count值都要+1！**
+  * 然后移右subarray里的num=2，即移index=3。因为num=2属于右subarray，所以把它merge到总数组里的时候，**意味着左subarray里当前任何还没有被merge到总数组里的数，都存在num=2这么一个“右小”数，即当前左subarray里的这些数相对应的count值都要+1！**
     * 当前左subarray里只剩下num=6了（左subarray里的num=1在前一步里已经被merge到总数组里），所以num=6对应的index=1对应的counts[1]的值要 +1
-    * 当前右
-    
+    * 当前右subarray里的num=3的count值并不受num=2的移动的影响，因为当前在右subarray里，num=3在num=2的右边
+  * 然后移右subarray里的num=3，即index=2。同理上一步，因为num=3属于右subarray，所以当前左subarray里剩下的所有数对应的index对应的count都要 +1！
+  * 最后移左subarray里的num=6，即index=1。同理前面的分析，它的移动不影响左右subarray里的任何数对应的index对应的count值
     
 ### Complexity
 * Time: O(n logn)
