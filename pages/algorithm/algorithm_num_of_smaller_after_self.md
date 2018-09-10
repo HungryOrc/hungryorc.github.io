@@ -27,10 +27,10 @@ Ref: https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/7
 以数组nums = [1,6,3,2]为例。各个数的indexes自然是[0,1,2,3]，我们把这个称为序数数组：indexes = [0,1,2,3]。在排序的过程中，每次需要swap数组nums里的两个数的时候，我们转而swap数组indexes里的两个index，而保持nums数组永远不变（永远哦）。每次我们要去找nums数组里的数的时候，我们就经由indexes数组里的index来找。我们用 merge sort 来实现整个过程，因为 merge sort 的 swap 过程比较清晰易懂：
 * 每2个数之间的merge
   ```
-  nums before merge:          [1][6] [3][2]
-      nums should turn into:  [1][6] [2][3], but we keep it intact, instead we merge the indexes array:
-  indexes before merge:       [0][1] [2][3]
-      indexes after merge:    [0][1] [3][2], 它们表征了nums数组里经过两两merge以后各个数的相对位置关系
+  nums before merge:         [1][6] [3][2]
+      nums should turn into: [1][6] [2][3], but we keep it intact, instead we merge the indexes array:
+  indexes before merge:      [0][1] [2][3]
+      indexes after merge:   [0][1] [3][2], 它们表征了nums数组里经过两两merge以后各个数的相对位置关系
   ```
   * 在上面的过程里，nums数组里的1和6没动，所以对于它们来说，意味着在这一步里没有发现1右边有比它小的数，也没发现6右边有比它小的数
   * nums数组里的3和2对调了位置，2从3的右边调到了3的左边，所以对于3来说，意味着发现了它右边有一个比它小的数，对于2来说，这一步里没有发现它右边有比它小的数
