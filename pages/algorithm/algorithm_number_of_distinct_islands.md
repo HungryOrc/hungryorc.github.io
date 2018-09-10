@@ -66,8 +66,10 @@ sRR_D__L  意味着    s11    过程是    s    s1    s11    s11    1s11
 我的code
 ```java
 class Solution {
-    private static final int[][] DIRS = new int[][]{{1,0}, {-1,0}, {0,1}, {0,-1}};
-    private static final char[] DIR_CHARS = new int[]{'L', 'R', 'U', 'D'};
+    private static final int[][] DIRS = {
+        {1,0}, {-1,0}, {0,1}, {0,-1}
+    };
+    private static final char[] DIR_CHARS = {'L', 'R', 'U', 'D'};
     
     public int numDistinctIslands(int[][] grid) {
         if (grid == null || grid.length == 0 || grid[0].length == 0) {
