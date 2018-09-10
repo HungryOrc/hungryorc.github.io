@@ -4,7 +4,7 @@ tags: [algorithm, recursion]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_num_of_smaller_after_self.html
+permalink: algorithm_number_of_smaller_after_self.html
 folder: algorithm
 toc: false
 ---
