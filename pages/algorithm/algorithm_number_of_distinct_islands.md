@@ -60,7 +60,7 @@ sRR_D__L  意味着    s11    过程是    s    s1    s11    s11    1s11
 
 ### Complexity
 * Time: O(n*m)，n是grid的行数，m是grid的列数
-* Space: O(n*m)，最长的call stack的长度是把grid里的所有点都串在一个DFS路径里？？？ 这个答案对么 ？？？
+* Space: O(n*m)，最长的call stack的长度是把grid里的所有点都串在一个DFS路径里，那么这次DFS就有 n*m 层，每层空间消耗 O(1)
 
 ### Java
 我的code
