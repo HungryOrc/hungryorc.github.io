@@ -68,71 +68,104 @@ Ref: https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/7
 * Space: O(n)
 
 ### Java
+这段 code 是我自己写的
 ```java
-public class Solution {
-  int[] count;
-  public List<Integer> countSmaller(int[] nums) {
-      List<Integer> res = new ArrayList<Integer>();     
-
-      count = new int[nums.length];
-      int[] indexes = new int[nums.length];
-      for(int i = 0; i < nums.length; i++){
-       indexes[i] = i;
-      }
-      mergesort(nums, indexes, 0, nums.length - 1);
-      for(int i = 0; i < count.length; i++){
-       res.add(count[i]);
-      }
-      return res;
-  }
-  private void mergesort(int[] nums, int[] indexes, int start, int end){
-   if(end <= start){
-    return;
-   }
-   int mid = (start + end) / 2;
-   mergesort(nums, indexes, start, mid);
-   mergesort(nums, indexes, mid + 1, end);
-
-   merge(nums, indexes, start, end);
-  }
-  private void merge(int[] nums, int[] indexes, int start, int end){
-   int mid = (start + end) / 2;
-   int left_index = start;
-   int right_index = mid+1;
-   int rightcount = 0;    	
-   int[] new_indexes = new int[end - start + 1];
-
-   int sort_index = 0;
-   while(left_index <= mid && right_index <= end){
-    if(nums[indexes[right_index]] < nums[indexes[left_index]]){
-     new_indexes[sort_index] = indexes[right_index];
-     rightcount++;
-     right_index++;
-    }else{
-     new_indexes[sort_index] = indexes[left_index];
-     count[indexes[left_index]] += rightcount;
-     left_index++;
+class Solution {
+    
+    public List<Integer> countSmaller(int[] nums) {
+        List<Integer> result = new ArrayList<>();
+        
+        if (nums == null || nums.length == 0) {
+            return result;
+        }
+        
+        int len = nums.length;
+        int[] counts = new int[len];
+        int[] indexes = new int[len];
+        for (int i = 0; i < len; i++) {
+            indexes[i] = i;
+        }
+        
+        countSmallerByMergeSort(nums, 0, len - 1, indexes, counts);
+        
+        for (int count : counts) {
+            result.add(count);
+        }
+        return result;
     }
-    sort_index++;
-   }
-   while(left_index <= mid){
-    new_indexes[sort_index] = indexes[left_index];
-    count[indexes[left_index]] += rightcount;
-    left_index++;
-    sort_index++;
-   }
-   while(right_index <= end){
-    new_indexes[sort_index++] = indexes[right_index++];
-   }
-   for(int i = start; i <= end; i++){
-    indexes[i] = new_indexes[i - start];
-   }
-  }
+    
+    private void countSmallerByMergeSort(int[] nums, int left, int right,
+                                        int[] indexes, int[] counts) {
+        if (left >= right) {
+            return;
+        }
+        
+        int mid = left + (right - left) / 2;
+        countSmallerByMergeSort(nums, left, mid, indexes, counts);
+        countSmallerByMergeSort(nums, mid+1, right, indexes, counts);
+        
+        mergeAndCount(nums, left, mid, right, indexes, counts);
+    }
+    
+    private void mergeAndCount(int[] nums, int left, int mid, int right,
+                              int[] indexes, int[] counts) {
+        int[] mergedIndexes = new int[right - left + 1];
+        int numOfMergedIndexesInThisRound = 0;
+        int movesFromRightSubarray = 0;
+        
+        int indexL = left;
+        int indexR = mid + 1;
+        
+        while (indexL <= mid && indexR <= right) {
+            // use <= instead of < here!! since if equal, then the right one 
+            // does not count as the smaller and righter one of the left one!
+            if (nums[indexes[indexL]] <= nums[indexes[indexR]]) {
+                mergedIndexes[numOfMergedIndexesInThisRound] = indexes[indexL];
+                
+                // do this before indexL is incremented!!
+                // update the counts array of the indexes of the left subarray
+                counts[indexes[indexL]] += movesFromRightSubarray;
+            
+                indexL ++;
+                numOfMergedIndexesInThisRound ++;
+            } else {
+                mergedIndexes[numOfMergedIndexesInThisRound] = indexes[indexR];
+                
+                movesFromRightSubarray++;
+                
+                indexR ++;
+                numOfMergedIndexesInThisRound ++;
+            }
+        }
+        
+        while (indexL <= mid) { // right subarray is empty now
+            mergedIndexes[numOfMergedIndexesInThisRound] = indexes[indexL];
+            
+            // do this before indexL is incremented!! 
+            counts[indexes[indexL]] += movesFromRightSubarray;
+            
+            indexL ++;
+            numOfMergedIndexesInThisRound ++;
+        }
+        
+        while (indexR <= right) { // left subarray is empty now
+            mergedIndexes[numOfMergedIndexesInThisRound] = indexes[indexR];
+            indexR ++;
+            numOfMergedIndexesInThisRound ++;          
+        }
+        
+        // copy the section of the merged indexes back to the original indexes array
+        for (int i = 0; i < mergedIndexes.length; i++) {
+            indexes[left + i] = mergedIndexes[i];
+        }
+    }
 }
 ```
 
-
 ## Solution 2: Segment Tree
+Ref: https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/76674/3-Ways-(Segment-Tree-Binary-Indexed-Tree-Merge-Sort)-clean-Java-code
+
+Segment Tree 是怎么回事
 
 ## Solution 3: 从尾部开始做 + ArrayList + 二分查找
 Ref: https://discuss.leetcode.com/topic/31173/my-simple-ac-java-binary-search-code
