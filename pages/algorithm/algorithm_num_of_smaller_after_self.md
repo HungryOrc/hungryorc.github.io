@@ -142,10 +142,7 @@ class Solution {
         
         while (indexL <= mid) { // right subarray is empty now
             mergedIndexes[numOfMergedIndexesInThisRound] = indexes[indexL];
-            
-            // do this before indexL is incremented!! 
             counts[indexes[indexL]] += movesFromRightSubarray;
-            
             indexL ++;
             numOfMergedIndexesInThisRound ++;
         }
