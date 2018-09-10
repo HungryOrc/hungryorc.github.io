@@ -58,8 +58,10 @@ Ref: https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/7
     * 另一方面，num=1如果是左subarray里的任何数的“右小”数，那么这种关系一定已经反映在左subarray里的数的counts数组里了
     * 所以num=1的移动不会造成counts数组的任何变化
   * 然后移num=2，即移index=3.因为num=2属于右subarray，所以把它merge到总数组里的时候，**意味着左subarray里当前任何还没有被merge到总数组里的数，都存在num=2这么一个“右小”数，即当前左subarray里的这些数相对应的count值都要+1！**
-    * 当前
-
+    * 当前左subarray里只剩下num=6了（左subarray里的num=1在前一步里已经被merge到总数组里），所以num=6对应的index=1对应的counts[1]的值要 +1
+    * 当前右
+    
+    
 ### Complexity
 * Time: O(n logn)
 * Space: O(n)
