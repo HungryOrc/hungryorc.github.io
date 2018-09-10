@@ -14,7 +14,6 @@ toc: false
 Until page 19, quick sort
 
 1. Array and Sorting Algorithms
-* Selection Sort
 * Merge Sort
 
 ### TODO
