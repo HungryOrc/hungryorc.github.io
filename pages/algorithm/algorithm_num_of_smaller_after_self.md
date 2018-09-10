@@ -22,7 +22,8 @@ Ref: https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/7
 
 我们要求的是，对于数组里的数nums[i]，要找数组里index > i，而且值小于nums[i]的数。
 所以直接sort数组里的数是不行的，那样它们之间的顺序就丢失了，就算知道数组里有几个数小于nums[i]，我们也不知道这些小于它的数，它们的indexes是否大于i。
-所以我们转而考虑sort这些数的indexes。（另外我们用counts数组表示nums里的每个数的右边有几个比它小的，比如counts[3]=2的话表示nums[3]这个数的右边有2个比nums[3]小的数）
+所以我们转而考虑sort这些数的indexes。
+另外我们用一个名为counts的数组表示nums里的每个数的右边有几个比它小的，比如counts[3]=2的话表示nums[3]这个数的右边有2个比nums[3]小的数。
 
 以数组nums = [1,6,3,2]为例。各个数的indexes自然是[0,1,2,3]，我们把这个称为序数数组：indexes = [0,1,2,3]。在排序的过程中，每次需要swap数组nums里的两个数的时候，我们转而swap数组indexes里的两个index，而保持nums数组永远不变（永远哦）。每次我们要去找nums数组里的数的时候，我们就经由indexes数组里的index来找。我们用 merge sort 来实现整个过程，因为 merge sort 的 swap 过程比较清晰易懂：
 * 每2个数之间的merge
@@ -31,10 +32,33 @@ Ref: https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/7
       nums should turn into: [1][6] [2][3], but we keep it intact, instead we merge the indexes array:
   indexes before merge:      [0][1] [2][3]
       indexes after merge:   [0][1] [3][2], 它们表征了nums数组里经过两两merge以后各个数的相对位置关系
+  counts after merge:        [0][0] [1][0]
+                                     ^
+                                    +1
   ```
   * 在上面的过程里，nums数组里的1和6没动，所以对于它们来说，意味着在这一步里没有发现1右边有比它小的数，也没发现6右边有比它小的数
   * nums数组里的3和2对调了位置，2从3的右边调到了3的左边，所以对于3来说，意味着发现了它右边有一个比它小的数，对于2来说，这一步里没有发现它右边有比它小的数
   * 所以在这一步里，对于nums数组里的4个数，3所对应的count应该+1，其它数的count不变
+* 每4个数之间的merge
+  ```
+  nums array (actually we are not changing them):
+      to be merged: [1][6]  [2][3] -> [6]  [2][3] -> [6]  [3] -> [6]       -> completed
+      merge result:                   [1]         -> [1][2]   -> [1][2][3] -> [1][2][3][6]
+  indexes array:
+      to be merged: [0][1]  [3][2] -> [1]  [3][2] -> [1]  [2] -> [1]       -> completed
+      merge result:                   [0]         -> [0][3]   -> [0][3][2] -> [0][3][2][1]
+  counts array:
+                    [0][0]  [1][0] ->[0][0][1][0]->[0][1][1][0]->[0][2][1][0]->[0][2][1][0]
+                                                       ^             ^
+                                                      +1            +1
+  ```
+  * 主要注意 counts 数组的变化过程。在这一步里，2个subarray:[1][6]和[2][3]要merge在一起，而这两个subarray本身都是sorted。那么merge过程就是谁小移谁。但如前所述，我们实质上是哪个num小，就移这个num的index，而非移这个num本身。在这个移动的过程中，我们就要得到有多少个数在自己的右边而且比自己小！关键点如下，具体以此数组为例：
+  * 首先要移num=1，即移index=0。
+    * 因为num=1属于左subarray，所以它不会是任何右subarray里的数的“右小”数
+    * 另一方面，num=1如果是左subarray里的任何数的“右小”数，那么这种关系一定已经反映在左subarray里的数的counts数组里了
+    * 所以num=1的移动不会造成counts数组的任何变化
+  * 然后移num=2，即移index=3.因为num=2属于右subarray，所以把它merge到总数组里的时候，**意味着左subarray里当前任何还没有被merge到总数组里的数，都存在num=2这么一个“右小”数，即当前左subarray里的这些数相对应的count值都要+1！**
+    * 当前
 
 ### Complexity
 * Time: O(n logn)
