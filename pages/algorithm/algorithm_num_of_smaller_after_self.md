@@ -94,6 +94,8 @@ class Solution {
         return result;
     }
     
+    // 这个函数本身其实对于 indexes 和 counts 这两个数组没有任何改变，
+    // 它只是为了把这两个数组的引用传给下一个函数 mergeAndCount 而已
     private void countSmallerByMergeSort(int[] nums, int left, int right,
                                         int[] indexes, int[] counts) {
         if (left >= right) {
