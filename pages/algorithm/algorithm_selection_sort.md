@@ -23,13 +23,13 @@ toc: false
 public class SelectionSort {
 
     public int[] selectionSort(int[] nums) {
-        if (nums == null || nums.length <= 1) {
+        if (nums == null || nums.length == 0) {
             return nums;
         }
         
         int len = nums.length;
-        for (int i = 0; i < len - 1; i++) {
-            int indexOfMinInThisLoop = i;
+        for (int i = 0; i < len - 1; i++) { // 不能终止于 i < len - 2，必须是 len - 1
+            int indexOfMinInThisLoop = i; // 这一步是关键。同时注意这一步的摆放位置
             for (int j = i + 1; j < len; j++) {
                 if (nums[j] < nums[indexOfMinInThisLoop]) {
                     indexOfMinInThisLoop = j;
@@ -37,7 +37,6 @@ public class SelectionSort {
             }
             swap(nums, i, indexOfMinInThisLoop);
         }
-        
         return nums;
     }
     
