@@ -1,10 +1,10 @@
 ---
-title: "Tower of Hanoi"
+title: "Number of Smaller Numbers after Self in an Array"
 tags: [algorithm, recursion]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_tower_of_hanoi.html
+permalink: algorithm_num_of_smaller_after_self.html
 folder: algorithm
 toc: false
 ---
