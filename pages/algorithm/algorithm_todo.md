@@ -13,8 +13,6 @@ toc: false
 ### Completed
 Until page 19, quick sort
 
-1. Array and Sorting Algorithms
-* Merge Sort
 
 ### TODO
 
