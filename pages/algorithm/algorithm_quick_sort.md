@@ -57,9 +57,7 @@ public class Solution {
             }
             
             if (left <= right) {
-                int temp = nums[left];
-                nums[left] = nums[right];
-                nums[right] = temp;
+                swap(nums, left, right);
                 
                 // 注意 ！！！ 在这里也要 left++ 以及 right-- ！！！
                 left++;
@@ -73,6 +71,12 @@ public class Solution {
         // 这里没有必要判断左右index的大小关系，下一个recursion里的头部会做。当然如果一定要在这里做，也ok
         quickSort(nums, start, right);
         quickSort(nums, left, end);
+    }
+    
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
     }
 }
 ```
