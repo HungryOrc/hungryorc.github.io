@@ -26,7 +26,7 @@ toc: false
 ```java
 public class Solution {
 
-    public void sortIntArray(int[] nums) {
+    public void quickSort(int[] nums) {
         if (array == null || array.length <= 1) {
             return array;
         }
@@ -42,16 +42,16 @@ public class Solution {
         int left = start, right = end;
         int pivot = nums[start + (end - start) / 2];
 
-        // 注意 ！！！ every time you compare left & right, it should be left <= right, not left < right
-        // 在整个程序中的所有地方，只要是比较left和right，都要遵循这个原则 ！！！
+        // 注意！every time you compare left & right, it should be left <= right, not left < right
+        // 在整个程序中的所有地方，只要是比较left和right，都要遵循这个原则！
         while (left <= right) {
             
-            // 注意 ！！！ nums[left] < pivot, not nums[left] <= pivot
+            // 注意！ nums[left] < pivot, not nums[left] <= pivot，否则会 stack overflow！无限循环！
             while (left <= right && nums[left] < pivot) {
                 left++;
             }
             
-            // 注意 ！！！ nums[right] > pivot, not nums[right] >= pivot
+            // 注意！nums[right] > pivot, not nums[right] >= pivot
             while (left <= right && nums[right] > pivot) {
                 right--;
             }
@@ -59,14 +59,14 @@ public class Solution {
             if (left <= right) {
                 swap(nums, left, right);
                 
-                // 注意 ！！！ 在这里也要 left++ 以及 right-- ！！！
+                // 注意！在这里也要 left++ 以及 right--
                 left++;
                 right--;
             }
         }
-        // 特别注意 ！！！
+        // 特别注意！
         // 这个 while 循环结束以后，left 和 right 的关系是：
-        // right + 1 = left ！！！ 即 right 在 left 的左边一位 ！！！
+        // right + 1 = left 即 right 在 left 的左边一位！
         
         // 这里没有必要判断左右index的大小关系，下一个recursion里的头部会做。当然如果一定要在这里做，也ok
         quickSort(nums, start, right);
