@@ -110,7 +110,7 @@ public class QuickSort {
 ```
 
 #### 九章模板
-```
+```java
 public class Solution {
 
     public void sortIntArray(int[] nums) {
