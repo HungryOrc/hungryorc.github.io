@@ -1,6 +1,6 @@
 ---
 title: "Knight Probability in Chessboard"
-tags: [algorithm, DP]
+tags: [algorithm, dynamic_programming]
 keywords:
 summary:
 sidebar: mydoc_sidebar
