@@ -27,8 +27,8 @@ toc: false
 public class Solution {
 
     public void quickSort(int[] nums) {
-        if (array == null || array.length <= 1) {
-            return array;
+        if (nums == null || nums.length <= 1) {
+            return nums;
         }
         
         quickSort(nums, 0, nums.length - 1);
