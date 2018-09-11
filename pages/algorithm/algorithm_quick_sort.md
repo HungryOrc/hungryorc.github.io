@@ -27,6 +27,10 @@ toc: false
 public class Solution {
 
     public void sortIntArray(int[] nums) {
+        if (array == null || array.length <= 1) {
+            return array;
+        }
+        
         quickSort(nums, 0, nums.length - 1);
     }
     
