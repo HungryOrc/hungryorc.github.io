@@ -11,7 +11,7 @@ toc: false
 
 ## 大课讲义
 ### Completed
-Until page 19, quick sort
+Until page 22 开头
 
 
 ### TODO
