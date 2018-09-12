@@ -47,6 +47,7 @@ public class Solution {
         while (left <= right) {
             
             // 注意！ nums[left] < pivot, not nums[left] <= pivot，否则会 stack overflow！无限循环！
+            // 举例：比如
             while (left <= right && nums[left] < pivot) {
                 left++;
             }
