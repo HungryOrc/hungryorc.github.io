@@ -46,8 +46,8 @@ Ref: https://leetcode.com/problems/knight-probability-in-chessboard/discuss/1081
 但我们在求每个点走1步的时候，必须另开一个新矩阵来做走一步的情况，不能动前面那个矩阵里的那些1，等一步的情况做完了，再把老的DP矩阵(都是1)用新矩阵来代替。
 
 ### Complexity
-* Time: `O(n*m)`，n是grid的行数，m是grid的列数
-* Space: `O(n*m)`，最长的call stack的长度是把grid里的所有点都串在一个DFS路径里，那么这次DFS就有 n*m 层，每层空间消耗 O(1)
+* Time: `O(K * N * N)`
+* Space: `O(N * N)`，DP 矩阵
 
 ### Java
 ```java
