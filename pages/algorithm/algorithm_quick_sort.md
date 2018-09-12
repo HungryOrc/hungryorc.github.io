@@ -47,7 +47,10 @@ public class Solution {
         while (left <= right) {
             
             // 注意！ nums[left] < pivot, not nums[left] <= pivot，否则会 stack overflow！无限循环！
-            // 举例：比如
+            // 举例：比如排序 {2,1} 这个数组，如果 nums[left]<= pivot 都让 left++，那么
+            // 第一轮下来，left就到了3，即到了right以及end的右边一位。然后right就不能动了。这对于left其实没啥，
+            // 但是对于 quickSort(nums, start, right) 这个分支，就会有问题，因为right这次没动，以后其实
+            // 每次都无法动，其实已经陷入了死循环，所以程序在处理这个分支的时候必然会 stack overflow
             while (left <= right && nums[left] < pivot) {
                 left++;
             }
