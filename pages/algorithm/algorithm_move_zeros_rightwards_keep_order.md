@@ -66,6 +66,41 @@ public class Solution {
 }
 ```
 
+## Solution 2
+看破以后的做法：直接把不是0的都挪到左边去。然后后面都写0就行。
+
+### Complexity
+* Time: O(n)
+* Space: O(1)
+
+### Java
+```java
+public class Solution {
+  
+  public int[] moveZeroes(int[] nums) {
+    if (nums == null || nums.length <= 1) {
+      return nums;
+    }
+    
+    int len = nums.length;
+    int firstZero = 0;
+    
+    for (int i = 0; i < len; i++) {
+      if (nums[i] != 0) {
+        nums[firstZero] = nums[i];
+        firstZero ++;
+      }
+    }
+    
+    for (int i = firstZero; i < len; i++) {
+      nums[i] = 0;
+    }
+    
+    return nums;
+  }
+}
+```
+
 ## Reference
 
 {% include links.html %}
