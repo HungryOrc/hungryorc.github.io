@@ -2,6 +2,7 @@
 
 * URL of these notes: https://hungryorc.github.io/
 * This website implemented [Jekyll Documentation Theme](http://idratherbewriting.com/documentation-theme-jekyll/), thanks to the author of this theme.
+  * The Github repo of this original theme is: https://github.com/tomjoht/documentation-theme-jekyll
 * Notice
   * Any change saved on this git repo will be reflected on the URL listed above after a few seconds.
 
