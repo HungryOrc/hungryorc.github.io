@@ -1,5 +1,5 @@
 ---
-title: "Partition Array: Strictly Smaller or Larger"
+title: "Partition Array: Strictly Smaller / Larger"
 tags: [algorithm]
 keywords:
 summary:
@@ -29,11 +29,13 @@ Assumption: The array is not null or empty. pivotIndex is within the boundary of
 * Space: O(1)
 
 ### Java
+我自己的code
 ```java
 public class Solution {
 
     public int[] partition(int[] nums, int pivotIndex) {
-        if(nums == null || nums.length <= 1){
+        if(nums == null || nums.length <= 1 ||
+                pivotIndex < 0 || pivotIndex >= nums.length){
             return nums;
         }
         
@@ -106,6 +108,58 @@ public class Solution {
 }
 ```
 
+## Solution 1
+2B 解法。从左到右扫一遍，直接把大于的元素弄出来放另外一个list里。时间方面其实也是 O(n)。缺点是空间 O(n)。
+
+### Complexity
+* Time: O(n)
+* Space: O(n)
+
+### Java
+```java
+public class Solution {
+
+    public int[] partition(int[] nums, int pivotIndex) {
+        if(nums == null || nums.length <= 1 ||
+                pivotIndex < 0 || pivotIndex >= nums.length){
+            return nums;
+        }
+        
+        int len = nums.length;
+        int pivot = nums[pivotIndex];
+        List<Integer> largerNums = new ArrayList<>();
+      
+        int numOfEquals = 0;
+        int curIndex = 0; // 它的左边都是严格小于pivot的数
+        for (int i = 0; i < len; i++) {
+            if (nums[i] < pivot) {
+                nums[curIndex] = nums[i];
+                curIndex ++;
+            } else if (nums[i] == pivot) {
+                numOfEquals ++;
+            } else { // nums[i] > pivot
+                largerNums.add(nums[i]);
+            }
+        }
+      
+        if (numOfEquals > 0) {
+            for (int i = 0; i < numOfEquals; i++) {
+                nums[curIndex] = pivot;
+                curIndex ++;
+            }
+        }
+      
+        if (largerNums.size() > 0) {
+            for (int i = 0; i < largerNums.size(); i++) {
+                nums[curIndex] = largerNums.get(i);
+                curIndex ++;
+            }
+        }
+      
+        return nums;
+    }
+}
+```
 
 ## Reference
 * [Partition [LaiCode]](https://app.laicode.io/app/problem/549)
