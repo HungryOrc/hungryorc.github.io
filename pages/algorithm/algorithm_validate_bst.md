@@ -95,7 +95,7 @@ public Solution {
             if (curNode.right != null) {
                 nodeStack.push(curNode.right);
             }
-            nodeStack.push(curNode);
+            nodeStack.push(curNode); // 对于curNode，刚才pop出来，现在又push回去了！
             if (curNode.left != null) {
                 nodeStack.push(curNode.left);
             }
