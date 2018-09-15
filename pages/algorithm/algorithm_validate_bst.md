@@ -47,33 +47,71 @@ public class Solution {
     }  
     
     private boolean isBST(TreeNode node, int min, int max) {
-        // 只要是 recursion，都千万记住 base case 千万别忘了 ！！！
-        // 要是忘了就是 一发入魂 级别的 instant death ！！！
         if (node == null) {
             return true;
         }
-        if (node.val <= min || node.val >= max) { // 最严格的BST里不允许出现重复的值
+        if (node.val <= min || node.val >= max) { // 据说最严格的BST里不允许出现重复的值
             return false;
         }
       
         return (isBST(node.left, min, node.val) && isBST(node.right, node.val, max));
-        // 特别注意 ！！！这么做比先得到 leftIsBST 和 rightIsBST，再把两个 boolean && 在一起  好  很  多 ！！！
-        // 这是因为，return(left && right)的写法，如果左半边==false，则右半边就不用做了 ！！！
-        // 而分别先把left和right搞出来的写法，是一点懒都没法偷的！全部都得先算出来再说！
+        // 特别注意：这么做比先得到 leftIsBST 和 rightIsBST，再把两个 boolean && 在一起 要 好 很 多！
+        // 因为 return(left && right)的写法，如果左半边==false，则右半边就不用做了
     }
 }
 ```
 
 ## Solution 2: Iteration
 一个不含重复元素的BST，被in-order遍历的话，会形成一个单调上升的序列。
-如此，我们就可用stack做一个中序遍历，把结果放到一个 array list 里，再验证是不是每个元素都比前一个大
+如此，我们就可用stack做一个中序遍历，把结果放到一个 ArrayList 里，再验证是不是每个元素都比前一个大
 
 ### Complexity
 * Time: O(n)
-* Space: O(1)
+* Space: O(n)
 
 ### Java
 ```java
+public Solution {
+    public boolean isValidBST(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        
+        Stack<TreeNode> nodeStack = new Stack<>();
+        nodeStack.push(root);
+        ArrayList<Integer> allNodesValInOrder = new ArrayList<>();
+        
+        while (!nodeStack.isEmpty()) {
+            TreeNode curNode = nodeStack.pop();
+            
+            // 当前node是leaf；或当前node的左右children都被放入stack了，
+            // 则意味着当前node之前已被处理过了。那么当前node就可以被放入list了
+            if (curNode.left == null && curNode.right == null) {
+                allNodesValInOrder.add(curNode.val);
+                continue;
+            }
+            
+            // in-order
+            if (curNode.right != null) {
+                nodeStack.push(curNode.right);
+            }
+            nodeStack.push(curNode);
+            if (curNode.left != null) {
+                nodeStack.push(curNode.left);
+            }
+            
+            curNode.left = null;
+            curNode.right = null;
+        }
+        
+        for (int i = 1; i < allNodesValInOrder.size(); i++) {
+            if (allNodesValInOrder.get(i) <= allNodesValInOrder.get(i - 1)) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
 ```
 
 ## Reference
