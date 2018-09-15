@@ -114,21 +114,21 @@ public Solution {
 }
 ```
 
-## Solution 2: Recursion + Custom Result Class
+## Solution 3: Recursion + Custom Result Class。看看就好，别用了
 Ref: http://www.jiuzhang.com/solutions/validate-binary-search-tree/
 
 ### Complexity
 * Time: O(n)
-* Space: O(n)
+* Space: O(tree height)
 
 ### Java
 ```java
 class ResultType {
-    boolean is_bst;
+    boolean isBst;
     int maxValue, minValue;
 
-    ResultType(boolean is_bst, int maxValue, int minValue) {
-        this.is_bst = is_bst;
+    ResultType(boolean isBst, int maxValue, int minValue) {
+        this.isBst = isBst;
         this.maxValue = maxValue;
         this.minValue = minValue;
     }
@@ -137,24 +137,31 @@ class ResultType {
 public class Solution {
 
     public boolean isValidBST(TreeNode root) {
-        ResultType r = validateHelper(root);
-        return r.is_bst;
+        ResultType rt = validateHelper(root);
+        return rt.isBst;
     }
+    
+    // make this helper function, so it can return a ResultType
     private ResultType validateHelper(TreeNode root) {
         if (root == null) {
+            // for max, set Integer.MIN_VALUE; for min, set Integer.MAX_VALUE,
+            // the reason is as the last statement in this function:
+            //         return new ResultType(true,
+            //                  Math.max(root.val, right.maxValue),
+            //                  Math.min(root.val, left.minValue));
             return new ResultType(true, Integer.MIN_VALUE, Integer.MAX_VALUE);
         }
 
         ResultType left = validateHelper(root.left);
         ResultType right = validateHelper(root.right);
 
-        if (!left.is_bst || !right.is_bst) {
-            // if is_bst is false then minValue and maxValue are useless
+        if (!left.isBst || !right.isBst) {
+            // if isBst is false then minValue and maxValue are useless
             return new ResultType(false, 0, 0);
         }
 
         if (root.left != null && left.maxValue >= root.val || 
-              root.right != null && right.minValue <= root.val) {
+            root.right != null && right.minValue <= root.val) {
             return new ResultType(false, 0, 0);
         }
 
