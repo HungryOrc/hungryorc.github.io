@@ -1,8 +1,8 @@
 ---
-title: "Binary Tree Tag"
-tagName: binary_tree
+title: "Binary Search Tree Tag"
+tagName: binary_search_tree
 search: exclude
-permalink: tag_binary_tree.html
+permalink: tag_binary_search_tree.html
 sidebar: mydoc_sidebar
 folder: tags
 ---
