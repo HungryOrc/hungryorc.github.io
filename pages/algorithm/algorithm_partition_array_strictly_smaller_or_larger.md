@@ -108,7 +108,7 @@ public class Solution {
 }
 ```
 
-## Solution 1
+## Solution 2
 2B 解法。从左到右扫一遍，直接把大于的元素弄出来放另外一个list里。时间方面其实也是 O(n)。缺点是空间 O(n)。
 
 ### Complexity
