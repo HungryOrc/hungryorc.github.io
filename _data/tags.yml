@@ -20,7 +20,7 @@ allowed-tags:
   - sorting
   - subarray
   - binary_search
-  - binary_tree
+  - binary_search_tree
   - binary_tree_traversal
   - dynamic_programming
   # Other Tags
