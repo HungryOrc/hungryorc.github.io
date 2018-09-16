@@ -171,7 +171,7 @@ public class Solution {
     }
 }
 ```
-
 ## Reference
+* [Validate Binary Search Tree [LeetCode]](https://leetcode.com/problems/validate-binary-search-tree/description/)
 
 {% include links.html %}
