@@ -67,6 +67,21 @@ public Solution {
         Collections.reverse(result);
         return result;
     }
+    
+    private int query(int start, int end, SegmentTreeNode root) {
+        if (root == null || start > end) {
+            return 0;
+        }
+        if (start <= root.start && end >= root.end) {
+            return root.count;
+        }
+        
+        int mid = root.start + (root.end - root.start) / 2;
+        // 注意！这里默认的SegmentTreeNode的Range的两段的划分方式是：
+        // `[start, mid]` 和 `[mid+1, end]`
+        
+        if (start >)
+    }
 }
 ```
 
