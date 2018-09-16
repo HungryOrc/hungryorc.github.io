@@ -42,6 +42,9 @@ public class TreeNode {
 ```java
 public class Solution {
 
+    // 如果这一题里的tree node val 可以等于 Integer 的 MIN 或者 MAX，
+    // 则这个函数里面就得改为 `return isBST(root, Long.MIN_VALUE, Long.MAX_VALUE)`,
+    // 然后后面的helper function的signature也得改为 `isBST(..., long min, long max)`
     public boolean isValidBST(TreeNode root) {
         return isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }  
@@ -50,7 +53,7 @@ public class Solution {
         if (node == null) {
             return true;
         }
-        if (node.val <= min || node.val >= max) { // 据说最严格的BST里不允许出现重复的值
+        if (node.val <= min || node.val >= max) { // 最严格的BST里不允许出现重复的值！所以这里在等于的时候也要判false！
             return false;
         }
       
