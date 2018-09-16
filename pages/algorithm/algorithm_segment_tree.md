@@ -80,7 +80,42 @@ public Solution {
         // 注意！这里默认的SegmentTreeNode的Range的两段的划分方式是：
         // `[start, mid]` 和 `[mid+1, end]`
         
-        if (start >)
+        if (start >= mid + 1) { // 需要query的range在有半段
+            return query(start, end, root.right);
+        } else if (end <= mid) { // 需要query的range在左半段
+            return query(start, end, root.left);
+        } else { // 需要query的range横跨左右两半
+            return query(start, mid, root.left) + query(mid + 1, end, root.right);
+        }
+    }
+    
+    private void update(int val, SegmentTreeNode root) {
+        if (val > root.end || val < root.start) {
+            return;
+        }
+
+        root.count ++;
+        
+        // root.start == root.end 就表示root本身是一个leaf node
+        // 注意！这个statement必须在 root.count ++ 之后！即leaf本身的count也要+1，然后才算完
+        if (root.start == root.end) {
+            return;
+        }
+        
+        int mid = root.start + (root.end - root.start) / 2;
+        if (val <= mid) {
+            if (root.left == null) {
+                root.left = new SegmentTreeNode(root.start, mid);
+            }
+            
+            update(val, root.left);
+        } else {
+            if (root.right == null) {
+                root.right = new SegmentTreeNode(mid + 1, root.end);
+            }
+            
+            update(val, root.right);
+        }
     }
 }
 ```
