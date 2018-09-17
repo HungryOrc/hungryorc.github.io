@@ -19,16 +19,14 @@ toc: false
 
 至于 Augment Tree (增强树)，它和 Segment Tree 都是“高级”版的树状结构。不过 Agument Tree 对于 range 类的问题没什么长处，它的增强主要在于对单个 tree node 的增强。
 
-### Complexity
-* Query，查看SegmentTreeNode的某个属性，不会对
-  * Time: O(n*logn)
-  * Space: O(n)
-
-
 ## Implementation 1: 每个TreeNode上存的是当前Range里的TreeNodes的个数count
 这里用 SegmentTreeNode 来解决 Get Number of Smaller Elements after Self in an Array 这样的题目。
 
 需要关注的是`int query(int start, int end, SegmentTreeNode root)`和`private void update(int val, SegmentTreeNode root)`这两个函数。它们是各类Segment Tree都必备的2个函数，与Segment Tree用来解决什么问题无关。
+
+### Complexity
+* Time: O(n logn)，因为对于每个元素，都要进行一次query，以及一次update。而一次query和一次update都是从树顶走到树叶，都是 logn 的时间
+* Space: O(n)，因为要建这个树，这个树的leaves是O(n)的量级，leaves上的所有nodes加在一起的个数也是O(n)的量级，所以一共也是 O(n)的量级
 
 ### Java
 ```java
@@ -118,6 +116,122 @@ public Solution {
         }
     }
 }
+```
+
+## Implementation 2: 每个TreeNode上存的是当前Range里的所有values的sum
+这里用 SegmentTreeNode 来解决这样的题目：一个数组，要取任何一个闭区间上的sum(即query)，而且各个元素都可以被修改(即update)。
+
+### Complexity
+* Time: O(n logn)，因为对于每个元素，都要进行一次query，以及一次update。而一次query和一次update都是从树顶走到树叶，都是 logn 的时间
+* Space: O(n)，因为要建这个树，这个树的leaves是O(n)的量级，leaves上的所有nodes加在一起的个数也是O(n)的量级，所以一共也是 O(n)的量级
+
+### Java
+```java
+class SegmentTreeNode {
+    int start, end; // range
+    int sum; // sum of all the values in the range
+    SegmentTreeNode left, right;
+    
+    public SegmentTreeNode(int start, int end, int sum) {
+        this...
+    }
+}
+
+public class NumArray {
+    int[] nums;
+    SegmentTreeNode root;
+    
+    public NumArray(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return;
+        }
+        
+        this.nums = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            this.nums[i] = nums[i];
+        }
+        
+        this.root = buildTree(this.nums, 0, nums.length - 1);
+    }
+    
+    // i is index, val is the new value
+    public void update(int i, int val) {
+        int diff = val - nums[i];
+        nums[i] = val;
+        updateHelper(root, i, diff);
+    }
+    
+    // 需要这个Helper的原因是 public API 的参数列表里不会含有SegmentTreeNode，因为
+    // 用SegmentTree只是解决这个问题的多种方式之一，public API不可能规定要出现 SegmentTreeNode
+    private void updateHelper(SegmentTreeNode root, int index, int diff) {
+        if (root == null || index < root.start || index > root.end) {
+            return;
+        }
+        
+        root.sum += diff;
+        
+        // if root is a leaf node
+        if (root.start == root.end) {
+            return;
+        }
+        
+        int mid = root.start + (root.end - root.start) / 2;
+        if (index <= mid) { // index 在左半段
+            updateHelper(root.left, index, diff);
+        } else { // index 在右半段
+            updateHelper(root.right, index, diff);
+        }
+    }
+    
+    // 这就是所谓的 query 函数
+    public int sumRange(int start, int end) {
+        if (this.root == null || start > end || 
+            start > this.root.end || end < this.root.start) {
+            return 0;
+        }
+        return sumRangeHelper(this.root, start, end);
+    }
+
+    private int sumRangeHelper(SegmentTreeNode root, int start, int end) {
+        if (root == null || start > root.end || end < start.start) {
+            return 0;
+        }
+        
+        if (start <= root.start && end >= root.end) {
+            return root.sum;
+        }
+        
+        int mid = root.start + (root.end - root.start) / 2;
+        if (end <= mid) { // 全在左半段
+            return sumRangeHelper(root.left, start, end);
+        } else if (start >= mid + 1) { // 全在右半段
+            return sumRangeHelper(root.right, start, end);
+        } else {
+            return sumRangeHelper(root.left, start, mid) + sumRangeHelper(root.right, mid + 1, end);
+        }
+    }
+    
+    private SegmentTreeNode buildTree(int[] nums, int start, int end) {
+        if (start > end) {
+            return null;
+        }
+        // if a leaf node
+        if (start == end) {
+            return new SegmentTreeNode(start, end, nums[start]);
+        }
+        
+        int mid = start + (end - start) / 2;
+        SegmentTreeNode leftNode = buildTree(nums, start, mid);
+        SegmentTreeNode rightNode = buildTree(nums, mid + 1, end);
+        
+        SegmentTreeNode curNode = new SegmentTreeNode(start, end, leftNode.sum + rightNode.sum);
+        curNode.left = leftNode;
+        curNode.right = rightNode;
+        
+        return curNode;
+    }
+} 
+
 ```
 
 {% include links.html %}
