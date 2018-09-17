@@ -54,9 +54,9 @@ public Solution {
         for (int i = nums.length - 1; i >= 0; i--) {
             // smaller than self means the number can be at most self - 1, 
             // and at least equals min of the array
-            int numOfSmallerAfterSelf = query(min, nums[i] - 1, root); // 最后要反转顺序
+            int numOfSmallerAfterSelf = query(min, nums[i] - 1, root);
             
-            result.add(numOfSmallerAfterSelf);
+            result.add(numOfSmallerAfterSelf); // 最后要反转顺序
             
             // 把当前nums[i]的“存在性”放到segment tree里去
             update(nums[i], root);
