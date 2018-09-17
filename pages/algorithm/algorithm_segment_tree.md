@@ -158,12 +158,16 @@ class SegmentTreeNode {
 }
 
 public Solution {
+
+    SegmentTreeNode root;
     
     public List<Integer> countSmaller(int[] nums) {
         List<Integer> result = new ArrayList<>();
         
         int min = ... // min value in array nums
         int max = ... // max value in array nums   
+        
+        this.root = new SegmentTreeNode(min, max);
         
         // from right to left of nums
         for (int i = nums.length - 1; i >= 0; i--) {
