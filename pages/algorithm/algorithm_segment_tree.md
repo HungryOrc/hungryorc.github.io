@@ -217,6 +217,7 @@ public Solution {
         
         int mid = root.start + (root.end - root.start) / 2;
         if (val <= mid) {
+            // 发现没有的时候才“造node”！而不是一开始就把整个树都建全！
             if (root.left == null) {
                 root.left = new SegmentTreeNode(root.start, mid);
             }
