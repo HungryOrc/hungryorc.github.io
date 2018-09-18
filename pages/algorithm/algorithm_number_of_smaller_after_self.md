@@ -162,7 +162,7 @@ class Solution {
 ```
 
 ## Solution 2: Segment Tree
-Ref: https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/76674/3-Ways-(Segment-Tree-Binary-Indexed-Tree-Merge-Sort)-clean-Java-code
+Ref: Laicode
 
 ### Complexity
 * Time: O(n logn)
@@ -170,74 +170,97 @@ Ref: https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/7
 
 ### Java
 ```java
-public class Solution {
-    class SegTreeNode {
-        int min, max; // range [min, max]
-        int count;
-        SegTreeNode left, right;
-        
-        public int mid() {
-            return ((max + 1 - min) / 2 + min);
-        }
-        
-        public SegTreeNode(int min, int max) {
-            this.min = min;
-            this.max = max;
-            count = 0;
-        }
+class SegmentTreeNode {
+    int start, end; // range
+    int count; // count of numbers in this range
+    SegmentTreeNode left, right;
+    
+    public SegmentTreeNode(int start, int end) {
+        this.start = start;
+        this.end = end;
+        // this.count will be set to zero automatically
     }
+}
+
+public Solution {
+
+    SegmentTreeNode root;
     
     public List<Integer> countSmaller(int[] nums) {
-        List<Integer> list = new LinkedList<Integer>();
+        List<Integer> result = new ArrayList<>();
         
         int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
-        for (int i : nums) {
-            min = min > i ? i : min;
-            max = max < i ? i : max;
+        for (int num : nums) {
+            min = num < min ? num : min;
+            max = num > max ? num : max;
         }
         
-        SegTreeNode root = new SegTreeNode(min, max);
+        this.root = new SegmentTreeNode(min, max);
         
+        // from right to left of nums
         for (int i = nums.length - 1; i >= 0; i--) {
-            list.add(0, find(nums[i] - 1, root)); // minus 1, in case there will be a equal one
-            add(nums[i], root);
+            // smaller than self means the number can be at most self - 1, 
+            // and at least equals min of the array
+            int numOfSmallerAfterSelf = query(min, nums[i] - 1, root);
+            
+            result.add(numOfSmallerAfterSelf); // 最后要反转顺序
+            
+            // 把当前nums[i]的“存在性”放到segment tree里去
+            update(nums[i], root);
         }
         
-        return list;
+        Collections.reverse(result);
+        return result;
     }
     
-    private int find(int x, SegTreeNode root) {
-        if (root == null) return 0;
-        
-        if (x >= root.max) {
+    private int query(int start, int end, SegmentTreeNode root) {
+        if (root == null || start > end) {
+            return 0;
+        }
+        if (start <= root.start && end >= root.end) {
             return root.count;
-        } else {
-            int mid = root.mid(); 
-            if (x < mid) {
-                return find(x, root.left);
-            } else {
-                return find(x, root.left) + find(x, root.right);
-            }
+        }
+        
+        int mid = root.start + (root.end - root.start) / 2;
+        // 注意！这里默认的SegmentTreeNode的Range的两段的划分方式是：
+        // `[start, mid]` 和 `[mid+1, end]`
+        
+        if (start >= mid + 1) { // 需要query的range在有半段
+            return query(start, end, root.right);
+        } else if (end <= mid) { // 需要query的range在左半段
+            return query(start, end, root.left);
+        } else { // 需要query的range横跨左右两半
+            return query(start, mid, root.left) + query(mid + 1, end, root.right);
         }
     }
     
-    private void add(int x, SegTreeNode root) {
-        if (x < root.min || x > root.max) return;
-       
-        root.count++;
-        if (root.max == root.min) return;
+    private void update(int val, SegmentTreeNode root) {
+        if (val > root.end || val < root.start) {
+            return;
+        }
+
+        root.count ++;
         
-        int mid = root.mid();
-        if (x < mid) {
+        // root.start == root.end 就表示root本身是一个leaf node
+        // 注意！这个statement必须在 root.count ++ 之后！即leaf本身的count也要+1，然后才算完
+        if (root.start == root.end) {
+            return;
+        }
+        
+        int mid = root.start + (root.end - root.start) / 2;
+        if (val <= mid) {
+            // 发现没有的时候才“造node”！而不是一开始就把整个树都建全！
             if (root.left == null) {
-                root.left = new SegTreeNode(root.min, mid - 1);
+                root.left = new SegmentTreeNode(root.start, mid);
             }
-            add(x, root.left);
+            
+            update(val, root.left);
         } else {
             if (root.right == null) {
-                root.right = new SegTreeNode(mid, root.max);
+                root.right = new SegmentTreeNode(mid + 1, root.end);
             }
-            add(x, root.right);
+            
+            update(val, root.right);
         }
     }
 }
