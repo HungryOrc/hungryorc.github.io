@@ -164,16 +164,11 @@ class Solution {
 ## Solution 2: Segment Tree
 Ref: https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/76674/3-Ways-(Segment-Tree-Binary-Indexed-Tree-Merge-Sort)-clean-Java-code
 
-？？？Segment Tree 是怎么回事，我还不懂
-
-？？？这个解法是怎么回事，我也还不懂
-
 ### Complexity
 * Time: O(n logn)
 * Space: O(n)
 
 ### Java
-？？？这段 code 是抄的，还不理解
 ```java
 public class Solution {
     class SegTreeNode {
