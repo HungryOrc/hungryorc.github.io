@@ -166,8 +166,11 @@ public Solution {
     public List<Integer> countSmaller(int[] nums) {
         List<Integer> result = new ArrayList<>();
         
-        int min = ... // min value in array nums
-        int max = ... // max value in array nums   
+        int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+        for (int num : nums) {
+            min = num < min ? num : min;
+            max = num > max ? num : max;
+        }
         
         this.root = new SegmentTreeNode(min, max);
         
