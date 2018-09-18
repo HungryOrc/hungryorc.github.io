@@ -34,7 +34,9 @@ class SegmentTreeNode {
     SegmentTreeNode left, right;
     
     public SegmentTreeNode(int start, int end, int sum) {
-        this...
+        this.start = start;
+        this.end = end;
+        this.sum = sum;
     }
 }
 
