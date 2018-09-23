@@ -22,79 +22,114 @@ toc: false
 ## Solution
 我的解法。还需要老师评判是否正确。用DP来做。
 
-首先把A和B的所有可能的substrings包括各个char，都分别放在两个HashSet<String>里。那么容易想到，如果A里的任何char是B里所没有的，
- 则无论怎么切割和组合B，都不可能得到A，这时就可以直接返回-1了。
+首先把A和B的所有可能的substrings包括各个char，都分别放在两个HashSet<String>里。
+那么容易想到，如果A里的任何char是B里所没有的，则无论怎么切割和组合B，都不可能得到A，这时就可以直接返回-1了。
  
- 然后，
- 
+然后，对于A里的任何一个substring（叫它ss），它最少能被几个B（的被切割后的产物）所组成，等于ss的左substring最少需要几个B，
+加上ss的右substring最少需要几个B。ss的左右substring的切分方式需要遍历所有可能。即从ss的左边第一个char的右边分隔开，
+直到从ss的右边最后一个char的左边分隔开。
+
+那么就能想到我们需要一个 int[][] dp = new int[n][n]，n = A.length()。它的第一个维度是ss在A里的start index，第二个维度是ss在A里的end index。
+那么对于A里的所有的单个char来说，dp[i][i]应该都是等于1的。除非这个char在B里不存在，那么这时直接返回-1，也不用再管这个dp了。
+
+对于fill up 这个二维dp数组，我们就像上一段所述那样，
+* 从A的所有长度为1的substring即每个char开始填起，start index要从0到n-1。
+* 然后对于A里所有长度为2的substring，填写它们在dp里的相应值。
+  * 如果A里这个长度为2的substring在B里也是存在的，那么dp的这一个位置就直接填1
+  * 如果不存在，那么：
+    ```java
+    for (int divider = start + 1; divider <= end; divider++) {
+        dp[start][end] = Math.min(dp[start][end], dp[start][divider - 1] + dp[divider][end]);
+    }
+    ```
+* 对于A里所有长度为3、长度为4... 的substrings，依次办理
+最终返回 dp[0][n-1]。
+
 ### Complexity
-* Time: O(logn)
-* Space: O(1)
+这个算法的时间消耗我认为是 O(n^3) + O(m^2)，n是要被拼凑的String A 的长度，m是用来减去字母然后拼凑前者的String B 的长度。
+
+空间消耗我认为是 O(n^2) + O(m^2)，主要是两个Set和一个二维数组的空间消耗。这题没有recursion所以没有多层call stack的空间消耗。
+* Time: O(n^3) + O(m^2)
+* Space: O(n^2) + O(m^2)
 
 ### Java
 我的code
 ```java
 class Solution {
-
-    public int findPeak(int[] A) {
-        if (A == null || A.length < 3) {
-            return Integer.MIN_VALUE;
-        }
     
-        // 题意说了，左右边界处不会是peak
-        int left = 1, right = A.length-2; 
+    public int minComponents(String a, String b) {
+        if (a == null || b == null || b.length() == 0) {
+            return -1;
+        }
+        if (a.length() == 0) {
+            return 0;
+        }
         
-        while(start + 1 < end) {
-            int mid = left + (right - left) / 2;
-            
-            // 题意说了，相邻元素之间不存在相等的情况
-            if(A[mid] < A[mid - 1]) {
-                right = mid - 1;
-            } else { // A[mid] > A[mid - 1]
-                left = mid;
+        int n = a.length();
+        int m = b.length();
+        
+        // 1st dimension: start index
+        // 2nd dimension: end index
+        int[][] dp = new int[n][n];
+        
+        // Time: O(n^2)
+        HashSet<String> aSet = populateSet(a);
+        // Time: O(m^2)
+        HashSet<String> bSet = populateSet(b);
+        
+        char[] aChars = a.toCharArray();
+        // if any char in a is not in b, then we will definitely fail
+        for (int i = 0; i < n; i++) {
+            String c = Character.toString(aChars[i]);
+            if (!bSet.contains(c)) {
+                return -1;
+            }
+            dp[i][i] = 1;
+        }
+        
+        // Time: O(n^3)
+        for (int subStrLen = 2; subStrLen <= n; subStrLen++) {
+            for (int start = 0; start + subStrLen - 1 < n; start++) {
+                int end = start + subStrLen - 1;
+                
+                if (bSet.contains(a.substring(start, end + 1))) {
+                    dp[start][end] = 1;
+                    continue;
+                }
+                
+                dp[start][end] = Integer.MAX_VALUE;
+                for (int divider = start + 1; divider <= end; divider++) {
+                    dp[start][end] = Math.min(dp[start][end], dp[start][divider - 1] + dp[divider][end]);
+                }
             }
         }
         
-        return (A[left] < A[right]) ? right : left;
-    }
-}
-```
-
-## Solution 2
-思路和前面的Solution是一样的。只是用 recursion 的方式来做。
-
-Binary Search 用 resursion 做是有点别扭，权当练习。
-
-recursion做法竟然比 iteration做法快，beat LeetCode 99%，我感觉如果不用 call stack 应该会更快，为什么会反过来 ？？？
-
-### Complexity
-* Time: O(logn)
-* Space: O(logn)，这是因为call stack 共有 logn 层，每层里面都是 O(1) 的空间消耗
-
-### Java
-```java
-class Solution {
-
-    public int findPeak(int[] nums) {
-        if (nums == null || nums.length < 3) {
-            return Integer.MIN_VALUE;
-        }
-        
-        // 从第二个元素开始，到倒数第二个元素结束搜索。因为题目说了第一个和最后一个不是
-        return findAnyPeak(nums, 1, nums.length - 2);
+        return dp[0][n - 1];
     }
     
-    private int findAnyPeak(int[] nums, int left, int right) {
-        while (left + 1 < right) {
-            int mid = left + (right - left) / 2;
-            if (nums[mid] < nums[mid - 1]) {
-                right = mid - 1;
-            } else {
-                left = mid;
+    // Time: O(n^2)
+    private HashSet<String> populateSet(String str) {
+        HashSet<String> result = new HashSet<>();
+        for (int i = 0; i < str.length(); i++) {
+            for (int j = i + 1; j <= str.length(); j++) {
+                // start index is inclusive, end index is exclusive
+                String subStr = str.substring(i, j);
+                result.add(subStr);
             }
         }
+        return result;
+    }
+    
+    // -------------------------------------------------------------
+    // main
+    
+    public static void main(String[] args) {
+        Solution solu = new Solution();
         
-        return (nums[left] < nums[right]) ? right : left;
+        String a = "KAC";
+        String b = "JACK";
+        
+        System.out.println(solu.minComponents(a, b)); // 
     }
 }
 ```
