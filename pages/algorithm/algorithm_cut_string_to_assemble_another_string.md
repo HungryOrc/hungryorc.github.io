@@ -119,18 +119,6 @@ class Solution {
         }
         return result;
     }
-    
-    // -------------------------------------------------------------
-    // main
-    
-    public static void main(String[] args) {
-        Solution solu = new Solution();
-        
-        String a = "KAC";
-        String b = "JACK";
-        
-        System.out.println(solu.minComponents(a, b)); // 
-    }
 }
 ```
 
