@@ -17,23 +17,22 @@ toc: false
 
 ### Example
 * Input: A = "KAC", B = "JACK"
-  * Output: 2。因为B即"JACK"可以用2个来组成A。第一个"JACK"被切为""
+  * Output: 2。因为B即"JACK"可以用2个来组成A。第一个"JACK"被切为"K"，第二个"JACK"被切为"AC"，那么这两个被切后的substrings就可以组成 "KAC"。所以返回 2
 
 ## Solution
-我的解法。还需要
+我的解法。还需要老师评判是否正确。用DP来做。
 
-`A[0] < A[1] && A[A.length - 2] > A[A.length - 1]` 这个条件是非常关键的。它不仅显示了数组的第一个和最后一个元素都不可能是 local peak，
-而且更重要的是揭示了如下规律：
-* 如果某个元素a比它左边相邻的元素小，那么a与数组的开头之间（不包括a本身），一定存在至少一个peak
-* 如果某个元素a比它左边相邻的元素大，那么a与数组的结尾之间（包括a本身），一定存在至少一个peak
-
-用 iteration 的方式来做。
-
+首先把A和B的所有可能的substrings包括各个char，都分别放在两个HashSet<String>里。那么容易想到，如果A里的任何char是B里所没有的，
+ 则无论怎么切割和组合B，都不可能得到A，这时就可以直接返回-1了。
+ 
+ 然后，
+ 
 ### Complexity
 * Time: O(logn)
 * Space: O(1)
 
 ### Java
+我的code
 ```java
 class Solution {
 
