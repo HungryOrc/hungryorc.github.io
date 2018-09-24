@@ -56,7 +56,7 @@ This path may or may not pass through the root.
   * n1的右子树里（不通过n1）的最长path
   * 通过n1，也通过n1的左子树以及右子树的最长path，这个必然等于 **左子树的height + 1 + 右子树的height**
 * 注意！不允许两次走一条边！所以不能说从n1的左子树上来经过n1再下来回到n1的左子树
-* 把求最长path和求height弄成两个函数。这样是最符合直觉的。但很慢。因为向下递归了两轮，大量的浪费
+* 把求最长path和求height弄成两个函数。这样是最符合直觉的。但很慢。因为向下递归了两轮，算max path len一轮，算height一轮，大量的浪费
   
 ### Complexity
 * Time: O(n)
