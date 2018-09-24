@@ -47,7 +47,6 @@ boolean knows(int a, int b);
 ### Java
 ```java
 public class Solution extends Relation {
-    boolean found = false;
     
     public int findCelebrity(int n) {
         if (n <= 0) {
