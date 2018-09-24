@@ -48,7 +48,6 @@ This path may or may not pass through the root.
   ```
   * Output: 4, which is the length of the path [5,4,2,5,3].  
   
-  
 ## Solution 1，最符合直觉的方法，但速度很慢
 
 思路要点：
@@ -87,6 +86,49 @@ class Solution {
         }
         
         return 1 + Math.max(height(node.left), height(node.right));
+    }
+}
+```
+
+## Solution 2，把更新maxPathLen和getHeight弄成一个函数了！非常巧妙
+这个Solution看起来会像是前一个Solution的改良，但其实并不是！
+
+这个Solution基于一个脱胎换骨的新逻辑：**一个tree里的max path len，等于这个tree里所有nodes分别作为root，每个root的左height加上右height的合，哪一个合最大，即是整个tree的max path len**！
+  
+### Complexity
+* Time: O(n)
+* Space: O(height of tree)，call stack的层数等于树高，每层call stack用O(1)的空间
+
+### Java
+```java
+class Solution {
+    int maxPathLen = 0;
+
+    public int diameterOfBinaryTree(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+    
+        updateMaxPathAndReturnHeight(root);
+        
+        return maxPathLen;
+    }
+    
+    private int updateMaxPathAndReturnHeight(TreeNode node) {
+        if (node == null) {
+            return 0;
+        }
+        
+        int heightL = updateMaxPathAndReturnHeight(node.left);
+        int heightR = updateMaxPathAndReturnHeight(node.right);
+        
+        // update max path len
+        // 注意因为拥有5个nodes的path的len只能算4，所以下面的 heightL + heightR 就
+        // 没有再 +1
+        maxPathLen = Math.max(maxPathLen, heightL + heightR);
+        
+        // return height of cur node
+        return 1 + Math.max(heightL, heightR);
     }
 }
 ```
