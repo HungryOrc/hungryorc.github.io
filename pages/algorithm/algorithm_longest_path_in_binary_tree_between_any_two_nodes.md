@@ -93,7 +93,7 @@ class Solution {
 ## Solution 2，把更新maxPathLen和getHeight弄成一个函数了！非常巧妙
 这个Solution看起来会像是前一个Solution的改良，但其实并不是！
 
-这个Solution基于一个脱胎换骨的新逻辑：**一个tree里的max path len，等于这个tree里所有nodes分别作为root，每个root的左height加上右height的合，哪一个合最大，即是整个tree的max path len**！
+这个Solution基于一个脱胎换骨的新逻辑：**一个tree里的max path len，等于这个tree里所有nodes分别作为root，每个root的左height加上右height的合，哪一个合最大，即是整个tree的max path len**！所以这里要求的是每一条备选的path都必须经过当前小树的root！这看似是一个过分的要求，但其实是正确的！
   
 ### Complexity
 * Time: O(n)
