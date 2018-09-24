@@ -32,7 +32,12 @@ boolean knows(int a, int b);
 注意，如果存在cele，则最多存在一个cele。可以用反证法证明：如果存在2个cele，双方必须都不认识对方，双方也必须都认识对方，则矛盾。
 
 这题可以用walk through所有人两次的方法来解决。第一次，找出疑似cele的人。第二次，核实此人到底是不是cele。具体来说：
-* 第一次，从左往右走一遍，考察相邻的两个人，如果靠前的一个认识靠后的一个，则靠前的一个一定不是cele，靠后那个**可能**是cele。
+* 第一次遍历，从左往右走一遍，考察相邻的两个人，
+  * 如果靠前的人认识靠后的人，则靠前的人一定不是cele，靠后的人**可能**是cele，那么就把cele的candidate设为靠后那个人
+  * 如果靠前的人不认识靠后得人，则靠后的人一定不是cele，靠前得人**可能**是cele，那么就把cele的candidate设为靠前那个人
+  * 最后这么得出的人，未必是cele。因为上面的流程没有反向核实，即如果前后两个人都认识对方，或者都不认识对方，则选出来的candidate就不是cele。
+    但是如果真有一个cele，则一定是最后得到的这个人，其他人都不可能是cele。
+* 第二次遍历，就简单了，就是把所有人和cele candidate交合一下，看是否满足ta认识cele但cele不认识ta。
 
 ### Complexity
 * Time: O(n)
@@ -70,6 +75,6 @@ public class Solution extends Relation {
 ```
 
 ## Reference
-* [文章标题 [LeetCode]](网址放在这里)
+* [Find the Celebrity [LeetCode]](https://leetcode.com/problems/find-the-celebrity/description/)
 
 {% include links.html %}
