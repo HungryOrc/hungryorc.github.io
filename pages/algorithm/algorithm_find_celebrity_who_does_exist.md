@@ -50,8 +50,8 @@ public class Solution extends Relation {
         for (int i = 1; i < n; i++) {
             if (knows(candidate, i)) {
                 candidate = i;
-            }
-        } // else keep the current candidate
+            } // else keep the current candidate
+        }
 
         return candidate;
     }
