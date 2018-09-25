@@ -71,11 +71,9 @@ class Solution {
         // 1st dimension: start index
         // 2nd dimension: end index
         int[][] dp = new int[n][n];
-        
-        // Time: O(n^2)
-        HashSet<String> aSet = populateSet(a);
+
         // Time: O(m^2)
-        HashSet<String> bSet = populateSet(b);
+        Set<String> bSet = populateSet(b);
         
         char[] aChars = a.toCharArray();
         // if any char in a is not in b, then we will definitely fail
@@ -97,7 +95,7 @@ class Solution {
                     continue;
                 }
                 
-                dp[start][end] = Integer.MAX_VALUE;
+                dp[start][end] = subStrLen;
                 for (int divider = start + 1; divider <= end; divider++) {
                     dp[start][end] = Math.min(dp[start][end], dp[start][divider - 1] + dp[divider][end]);
                 }
@@ -109,7 +107,7 @@ class Solution {
     
     // Time: O(n^2)
     private HashSet<String> populateSet(String str) {
-        HashSet<String> result = new HashSet<>();
+        Set<String> result = new HashSet<>();
         for (int i = 0; i < str.length(); i++) {
             for (int j = i + 1; j <= str.length(); j++) {
                 // start index is inclusive, end index is exclusive
