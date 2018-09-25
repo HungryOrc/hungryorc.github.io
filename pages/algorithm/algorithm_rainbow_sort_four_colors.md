@@ -28,7 +28,7 @@ Given an array of balls, where the color of the balls can only be Red, Green, Bl
 
 特别注意！！把第四个隔板向左移的时候，不仅要同时向左移第三个隔板，而且还要swap两次！第一次是把隔板二指向的数与隔板三指向的数swap，然后是把隔板三和隔板四所指向的数swap。
 
-另外 while loop的判断条件：第二个隔板<=第三个隔板。这是为了保证第三个隔板不能向左越界。
+while loop的判断条件是第二个隔板<=第三个隔板。这样同时保证了隔板二不超右边，也保证了隔板三不超左边。
 
 ### Complexity
 * Time: O(n)
