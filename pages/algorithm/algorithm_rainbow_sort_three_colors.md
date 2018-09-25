@@ -25,7 +25,7 @@ Given an array of balls, where the color of the balls can only be Red, Green or 
 
 第二个隔板，其实是扮演了“*当前所考察的位置*”！
 
-注意！while loop的判断条件里，除了第二个隔板不能向右越界，还必须包括第二个隔板<=第三个隔板！这是为了保证第三个隔板不能向左越界。
+while loop的判断条件是第二个隔板<=第三个隔板。这样同时保证了隔板二不超右边，也保证了隔板三不超左边。
 * 比如输入数组是{1}的话，前两个隔板不会动，第三个隔板会-1，即由0变成-1，然后还不退出while loop的话，下一个loop里就向左越界了。
 
 ### Complexity
@@ -46,7 +46,7 @@ public class Solution {
     int bl = len - 1; // bl右边不含bl 都是1
     
     // green index 其实也扮演了 cur index 的角色
-    while (gr < len && gr <= bl) {
+    while (gr <= bl) {
       if (array[gr] == -1) {
         swap(array, rd, gr);
         rd++;
