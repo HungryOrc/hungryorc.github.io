@@ -80,6 +80,51 @@ public class Solution {
 }
 ```
 
+## Solution 2
+从左到右走两遍。第一遍把每种颜色的个数记下。第二遍依次涂色。
+这个看起来过于直接，有点傻，其实速度比上一个看似高明的方法还要快，达到了 O(n+k)。
+小缺点就是要一点额外空间 O(k)。
+
+### Complexity
+* Time: O(n+k)
+* Space: O(k)
+
+### Java
+```java
+public class Solution {
+    
+    public int[] rainbowSortIII(int[] array, int k) {
+      if (array == null || array.length == 0) {
+        return array;
+      }
+      if (k <= 0) {
+        return array;
+      }
+      
+      int len = array.length;
+      int[] counts = new int[k + 1]; // 0 - k, not using 0
+      
+      // Time: O(n)
+      for (int i = 0; i < len; i++) {
+        int color = array[i];
+        counts[color]++;
+      }
+      
+      // Time: O(k + n)
+      int start = 0, end = 0;
+      for (int color = 1; color <= k; color++) {
+        end = start + counts[color] - 1;
+        for (int j = start; j <= end; j++) {
+          array[j] = color;
+        }
+        start = end + 1;
+      }
+      
+      return array;
+    }
+}
+```
+
 ## Reference
 * [Rainbow Sort III [LaiCode]](https://app.laicode.io/app/problem/400)
 
