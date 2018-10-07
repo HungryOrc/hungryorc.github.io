@@ -59,4 +59,9 @@ N-Queens - medium
   * 这题为什么非要写 ////?//// 里的这一段？为什么要特殊处理 mid == 0 的情况？
     * https://github.com/HungryOrc/hungryorc.github.io/blob/master/pages/algorithm/algorithm_find_global_peak_in_A-shape_array_with_duplicates.md
 
+
+* Union Find 的终极全面讲义：很清楚也很简明
+  * 2018.10.6 的周日小班讲义
+
+
 {% include links.html %}
