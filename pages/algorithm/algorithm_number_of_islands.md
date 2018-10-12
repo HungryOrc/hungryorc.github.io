@@ -34,7 +34,7 @@ Given a 2d grid map of '1's (land) and '0's (water), count the number of islands
 
 ### Complexity
 * Time: O(m*n)
-* Space: O(n)
+* Space: O(m + n)，我认为最坏情况是bfs的queue装满了整个grid的最外一圈，这对么 ？？？
 
 ### Java
 ```java
@@ -89,6 +89,69 @@ public class Solution {
     return (x >= 0 && x < m) && (y >= 0 && y < n);
   }
 }
+```
+
+## Solution 2: DFS，自己写一下！下面是九章的答案！必须自己写一次！
+
+### Complexity
+* Time: O(m*n)
+* Space: O(m*n)，最坏的情况是一次dfs就把整个grid里的元素都搞进去了
+
+### Java
+```java
+public class Solution {
+    private int m, n;
+    
+    public int numIslands(boolean[][] grid) {
+        m = grid.length;
+        if (m == 0) return 0;
+        n = grid[0].length;
+        if (n == 0) return 0;
+        
+        int result = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == false) { 
+                    continue;
+                } else { // grid[i][j] == true
+                    result ++;
+                    dfs(grid, i, j);
+                }
+            }
+        }
+        return result;
+    }
+    
+    public void dfs(boolean[][] grid, int i, int j) {
+        if (i < 0 || i >= m || j < 0 || j >= n) 
+            return;
+        
+        if (grid[i][j] == true) {
+            grid[i][j] = false;
+            dfs(grid, i - 1, j);
+            dfs(grid, i + 1, j);
+            dfs(grid, i, j - 1);
+            dfs(grid, i, j + 1);
+        }
+    }
+}
+```
+
+## Solution 3: Union Find，自己写一下！必须自己写一次！
+
+### Complexity
+* Time: O(m*n)
+* Space: O(m*n)
+
+### Java
+```java
+
+
+
+
+
+
+
 ```
 
 ## Reference
