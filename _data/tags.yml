@@ -23,6 +23,7 @@ allowed-tags:
   - binary_search_tree
   - binary_tree_traversal
   - dynamic_programming
+  - union_find
   # Other Tags
   - web
   - mobile
