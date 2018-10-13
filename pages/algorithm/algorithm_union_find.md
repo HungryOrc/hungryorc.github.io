@@ -9,6 +9,9 @@ folder: algorithm
 toc: false
 ---
 
+path compression的做法，能做到合并两个group都能find const time，union const time 么？？？？！！！
+
+
 ## Overview
 A set of objects, represented by integers 0 to n-1, without loss of generality. You can:
 * Connect any two of them to be in the same group, using `void union(int a, int b)`
