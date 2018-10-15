@@ -9,10 +9,6 @@ folder: algorithm
 toc: false
 ---
 
-
-path compression的做法，能做到合并两个group都能find const time，union const time 么？？？？！！！
-
-
 ## Overview
 A set of objects, represented by integers 0 to n-1, without loss of generality. You can:
 * Connect any two of them to be in the same group, using `void union(int a, int b)`
@@ -227,7 +223,10 @@ class WeightedTreeUnionFind {
 基于前述的 Tree Union Find 的改进。也是要降低树的高度，但是方式更猛：不断地把各个object直接接在当前group的root object的下面。
 
 但要特别注意：这种给root做儿子的操作不是无时无刻在进行的！只是在每次对一个object a 做getRoot即getGroupID操作的时候，才把a和a的祖宗十八代的parent都设为这个root。
-* 所以比如在做union(a, b)的时候，先分别对a和b做这种认root做父的操作，那么a和b所在的group都变成了高度为2的tree。然后把这两个高度为2的tree连在一起，即把较小的tree的root变成较大的tree的root的direct child。那么它们就组成了一个高度为3的tree。这些高度3的objects不会马上变成高度2，而只能在下次它们被自己的或别人的getGroupID操作所影响的时候，它们才会被直接接到root的下面去
+* 所以比如在做union(a, b)的时候，
+  * 先分别对a和b做这种认root做父的操作，那么a和b所在的group都变成了高度为2的tree。
+  * 然后把这两个高度为2的tree连在一起，即把较小的tree的root变成较大的tree的root的direct child。那么它们就组成了一个高度为3的tree。
+  * 这些高度3的objects不会马上变成高度2，而只能在下次它们被自己的或别人的getGroupID操作所影响的时候，它们才会被直接接到root的下面去
 
 ### Java
 ```java
