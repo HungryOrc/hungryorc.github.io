@@ -219,7 +219,7 @@ class WeightedTreeUnionFind {
 * Space: O(n), the size of the int array
 
 
-## Implementation Stage 4: Path Compression Tree Union Find
+## Implementation Stage 4: Path Compression Weighted Tree Union Find
 基于前述的 Tree Union Find 的改进。也是要降低树的高度，但是方式更猛：不断地把各个object直接接在当前group的root object的下面。
 
 但要特别注意：这种给root做儿子的操作不是无时无刻在进行的！只是在每次对一个object a 做getRoot即getGroupID操作的时候，才把a和a的祖宗十八代的parent都设为这个root。
@@ -230,11 +230,11 @@ class WeightedTreeUnionFind {
 
 ### Java
 ```java
-class WeightedTreeUnionFind {
+class PathCompressionWeightedTreeUnionFind {
     private int[] parentIDs;
     private int[] groupSizes;
 
-    public WeightedTreeUnionFind(int n) {
+    public PathCompressionWeightedTreeUnionFind(int n) { // <=== this function unchanged
         this.parentIDs = new int[n];
         this.groupSizes = new int[n];
         
@@ -251,6 +251,7 @@ class WeightedTreeUnionFind {
         }
         int groupID = curIndex; // namely the index of root object
         
+        // <=== this is the new stuff!!
         // update the parent id of object a and a's every ancestor to be
         // the group id, namely the id of the root object
         curIndex = a;
@@ -259,6 +260,7 @@ class WeightedTreeUnionFind {
             parentIDs[curIndex] = groupID;
             curIndex = parentID;
         }
+        // 特别注意！上面这个操作并不影响兄弟和叔伯！所以他们在此时并不能沾光变矮！
         
         return groupID;
     }
