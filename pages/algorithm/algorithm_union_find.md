@@ -127,16 +127,16 @@ class TreeUnionFind {
     
     // "find" means to check if two objects belong to the same group
     private boolean find(int a, int b) {
-        int groupIDA = getGroupID[a]; // time: O(n)
-        int groupIDB = getGroupID[b]; // time: O(n)
+        int groupIDA = getGroupID(a); // time: O(n)
+        int groupIDB = getGroupID(b); // time: O(n)
         
         return groupIDA == groupIDB;
     }
     
     // merge a and b into the same group
     private void union(int a, int b) {
-        int groupIDA = getGroupID[a]; // time: O(n)
-        int groupIDB = getGroupID[b]; // time: O(n)
+        int groupIDA = getGroupID(a); // time: O(n)
+        int groupIDB = getGroupID(b); // time: O(n)
         
         groupIDs[groupIDA] = groupIDB; // time: O(1)
     }
@@ -185,15 +185,15 @@ class WeightedTreeUnionFind {
     }
 
     private boolean find(int a, int b) {
-        int groupIDA = getGroupID[a]; // time: O(n)
-        int groupIDB = getGroupID[b]; // time: O(n)
+        int groupIDA = getGroupID(a); // time: O(n)
+        int groupIDB = getGroupID(b); // time: O(n)
         
         return groupIDA == groupIDB;
     }
 
     private void union(int a, int b) { // <=== this function changed!
-        int groupIDA = getGroupID[a]; // time: O(n)
-        int groupIDB = getGroupID[b]; // time: O(n)
+        int groupIDA = getGroupID(a); // time: O(n)
+        int groupIDB = getGroupID(b); // time: O(n)
         
         if (groupSizes[groupIDA] >= groupSizes[groupIDB]) {
             parentIDs[groupIDB] = groupIDA;
@@ -266,15 +266,15 @@ class PathCompressionWeightedTreeUnionFind {
     }
 
     private boolean find(int a, int b) { // <=== this function unchanged
-        int groupIDA = getGroupID[a]; // time: O(1)
-        int groupIDB = getGroupID[b]; // time: O(1)
+        int groupIDA = getGroupID(a); // time: O(1)
+        int groupIDB = getGroupID(b); // time: O(1)
         
         return groupIDA == groupIDB;
     }
 
     private void union(int a, int b) { // <=== this function unchanged
-        int groupIDA = getGroupID[a]; // time: O(1)
-        int groupIDB = getGroupID[b]; // time: O(1)
+        int groupIDA = getGroupID(a); // time: O(1)
+        int groupIDB = getGroupID(b); // time: O(1)
         
         if (groupSizes[groupIDA] >= groupSizes[groupIDB]) {
             parentIDs[groupIDB] = groupIDA;
