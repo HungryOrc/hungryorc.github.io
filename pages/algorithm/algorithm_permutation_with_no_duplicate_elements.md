@@ -52,10 +52,46 @@ Given a collection of **distinct** integers, return all possible permutations.
 
 ### Java
 ```java
-
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        
+        if (nums == null || nums.length == 0) {
+            return result;
+        }
+        
+        dfsSwap(nums, 0, result);
+        
+        return result;
+    }
+    
+    private void dfsSwap(int[] nums, int curIndex, List<List<Integer>> result) {
+        if (curIndex == nums.length) {
+            List<Integer> curPermutation = new ArrayList<>();
+            // 写入新的 list 耗时 O(n)
+            for (int num : nums) {
+                curPermutation.add(num);
+            }
+            result.add(curPermutation);
+            return;
+        }
+        
+        for (int i = curIndex; i < nums.length; i++) {
+            swap(nums, curIndex, i);
+            dfsSwap(nums, curIndex + 1, result);
+            swap(nums, curIndex, i); // 复原
+        }
+    }
+    
+    private void swap(int[] nums, int i, int j) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
+}
 ```
 
 ## Reference
-* [文章标题 [LeetCode]](网址放在这里)
+* [Permutations [LeetCode]](https://leetcode.com/problems/permutations/description/)
 
 {% include links.html %}
