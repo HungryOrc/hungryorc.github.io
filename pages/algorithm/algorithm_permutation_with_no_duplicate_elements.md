@@ -27,7 +27,7 @@ Given a collection of **distinct** integers, return all possible permutations.
   [3,2,1]
   ```
 
-## Solution 1: DFS + Swap，速度前 1% ！
+## Solution 1: DFS + Swap，速度前 1%
 从左到右逐个处理数组里的每一个位置
 * 最左边的一个位置有n种可能，用for loop 和 swap来实现
 * 左边第二个位置就只有n-1种可能了，当前处于最左边的那一位就不能参与选妃了。也用for loop和swap来实现
@@ -46,7 +46,7 @@ Given a collection of **distinct** integers, return all possible permutations.
       ```
     * 再往下还有一层，但前两层定了以后，第三层就已经定了
     * 定前两层的时间消耗，可以看出，是 O(6)，与答案的个数是一个量级的！
-  * 所以一共有n!种答案，然后n!种答案一共也只需要n!的时间来得到。这也就是 **swap 方法 炒饭脱俗地迅捷 的原因 yeah**
+  * 所以一共有n!种答案，然后n!种答案一共也只需要n!的时间来得到。这也就是 **swap 方法 特别快的原因**
   * 不过在数学上说，n*n! 和 n! 其实是一个量级的，所以这一题的答案也可写为 O(n!)
 * Space: O(n)
   * Since we need n call stacks, and each call stack requires constant space
@@ -92,8 +92,10 @@ class Solution {
 }
 ```
 
-## Solution 2: DFS Recursion，速度也是前 1% ！并没有比前面swap的慢
+## Solution 2: DFS Recursion，速度也是前 1%，但理论上应该会比swap方法慢一点
 Ref: http://www.jiuzhang.com/solutions/permutations/
+
+这个方法理论上会比swap方法慢一点的原因在于，swap方法在左边几位固定了之后，只骚扰右边的几位。而这个方法在前几位固定了以后，还是会一遍又一遍地骚扰整个数组里的所有元素，只是因为记录了boolean[] visited 数组，所以不会搞重复。
 
 ### Complexity
 * Time: O(n * n!)
@@ -138,6 +140,131 @@ class Solution {
             }
         }                       
     }
+}
+```
+
+## Solution 3: Non-Recursion 的方法，速度也是前 1%
+Ref: https://discuss.leetcode.com/topic/6377/my-ac-simple-iterative-java-python-solution
+
+以下为引用：
+
+To permute n numbers, we can add the n-th number into the resulting List<List<Integer>> composed by the 
+1st, 2nd, 3rd ... till the (n-1)th numbers, in every possible position.
+
+For example, if the input num[] is {1,2,3}. 
+* Add 1 into the initial List<List<Integer>> (let's call it "answer").
+* 2 can be added in front or after 1. So we have to copy the List<Integer> in answer (it's just {1}), then add 2 in position 0 of {1}; then copy the original {1} again, and add 2 in position 1. 
+* Now we have an answer of {{2,1},{1,2}}. There are 2 lists in the current answer.
+* Now we have to add 3. First copy {2,1} and {1,2}, add 3 in position 0; 
+* then copy {2,1} and {1,2}, and add 3 into position 1; 
+* then do the same thing for position 3.
+* Finally we have 2*3=6 lists in answer, which is what we want.
+
+### Complexity
+* Time: O(n * n!)
+* Space: O(n)
+
+### Java
+```java
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+      
+        List<List<Integer>> results = new ArrayList<>();
+        if (nums == null) {
+            return results;
+        } else if (nums.length == 0) {
+            results.add(new ArrayList<Integer>());
+            return results;
+        }
+        
+        int len = nums.length;
+        // 把数组里的第一个数放进去，作为后面所有操作的基础
+        ArrayList<Integer> firstList = new ArrayList<>();
+        firstList.add(nums[0]);
+        results.add(firstList);
+        
+        // 依次把第 2 个到第 n 个数放进去
+        for (int i = 1; i < len; i++) {
+            int curValue = nums[i];
+            List<List<Integer>> tmpResults = new ArrayList<>();
+            
+            // for each list in the current temp result
+            for (List<Integer> curList : results) {
+                int curListLen = curList.size();
+                
+                // for each possible position that we can insert the current value into
+                for (int j = 0; j <= curListLen; j++) {
+                    List<Integer> tmpList = new ArrayList<>(curList); // 每一次都要new一个！
+                    tmpList.add(j, curValue);
+                    tmpResults.add(tmpList);
+                }
+            }
+            results = tmpResults;
+        }
+      
+        // 完毕。返回最后的总结果
+        return results;
+    }
+}
+```
+
+## Solution 4: Non-Recursion 的方法，九章版本
+Ref: Ref: http://www.jiuzhang.com/solutions/permutations/
+
+### Complexity
+* Time: O(n * n!)
+* Space: O(n)
+
+### Java
+```java
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+      
+        List<List<Integer>> permutations = new ArrayList<>();
+        if (nums == null) {
+            return permutations;
+        } else if (nums.length == 0) {
+            permutations.add(new ArrayList<Integer>());
+            return permutations;
+        }
+        
+        int n = nums.length;
+        ArrayList<Integer> stack = new ArrayList<>();
+        
+        stack.add(-1);
+        while (stack.size() != 0) {
+            Integer last = stack.get(stack.size() - 1);
+            stack.remove(stack.size() - 1);
+            
+            // increase the last number
+            int next = -1;
+            for (int i = last + 1; i < n; i++) {
+                if (!stack.contains(i)) {
+                    next = i;
+                    break;
+                }
+            }
+            if (next == -1) {
+                continue;
+            }
+            
+            // generate the next permutation
+            stack.add(next);
+            for (int i = 0; i < n; i++) {
+                if (!stack.contains(i)) {
+                    stack.add(i);
+                }
+            }
+            
+            // copy to permutations set
+            ArrayList<Integer> permutation = new ArrayList<>();
+            for (int i = 0; i < n; i++) {
+                permutation.add(nums[stack.get(i)]);
+            }
+            permutations.add(permutation);
+        }
+        return permutations;
+    } 
 }
 ```
 
