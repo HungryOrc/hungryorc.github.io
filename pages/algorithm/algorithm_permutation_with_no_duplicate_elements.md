@@ -35,6 +35,7 @@ Given a collection of **distinct** integers, return all possible permutations.
 
 ### Complexity
 * Time: O(n * n!)
+  * 一共有n!种答案。每个答案耗时O(n)
   * 每个答案所需的 n 的时间是消耗在：每个答案得到以后，要用n的时间来造new List来固化这个答案
   * 得到每个答案的时间，其实只需要O(1)，因为我们用的是 swap 方法。具体解释：
     * 比如说要找 1, 2, 3 这三个数一共能组成多少个排列（答案是6种），那么swap方法的解题过程其实是：
@@ -87,6 +88,55 @@ class Solution {
         int tmp = nums[i];
         nums[i] = nums[j];
         nums[j] = tmp;
+    }
+}
+```
+
+## Solution 2: DFS Recursion，速度也是前 1% ！并没有比前面swap的慢
+Ref: http://www.jiuzhang.com/solutions/permutations/
+
+### Complexity
+* Time: O(n * n!)
+  * 同理上面的swap方法。一共有n!种答案，每个答案耗时O(n)
+* Space: O(n)
+  * Since we need n call stacks, and each call stack requires constant space
+
+### Java
+```java
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (nums == null || nums.length == 0) {
+            return result;
+        }
+        
+        boolean[] visited = new boolean[nums.length]; // 默认都是false
+        dfs(nums, new ArrayList<Integer>(), visited, result);
+        return result;
+    }
+  
+    private void dfs(int[] nums, List<Integer> curList, 
+                     boolean[] visited, List<List<Integer>> result) {
+      
+        if (curList.size() == nums.length) {
+            // 一定要复制！
+            // 因为 curList 在其他分支里还会被反复利用！不是到这里就使命终结了
+            result.add(new ArrayList<Integer>(curList));
+            return;
+        }
+              
+        // 关键在此。每一次都是试图把整个数组里的每一个数都轮流放进去！
+        for (int i = 0; i < nums.length; i++) {
+            if (visited[i] == false) {
+                curList.add(nums[i]);
+                visited[i] = true;
+              
+                dfs(nums, curList, visited, result);
+              
+                curList.remove(curList.size() - 1); // 复原
+                visited[i] = false; // 复原
+            }
+        }                       
     }
 }
 ```
