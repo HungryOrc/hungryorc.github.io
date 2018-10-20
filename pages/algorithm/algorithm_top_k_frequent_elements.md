@@ -18,7 +18,7 @@ Given a non-empty array of integers, return the k most frequent elements.
 * Input: nums = [1,1,1,2,2,3], k = 2
   * Output: [1,2]
 
-## Solution 1: Min Heap
+## Solution 1: HashMap + MinHeap
 用 hashmap 来装各个string的出现次数，然后关键在于用 Min Heap 来处理最高频的 k 个 Map Entry
 
 ### Complexity
@@ -28,7 +28,6 @@ Given a non-empty array of integers, return the k most frequent elements.
 ### Java
 ```java
 class Solution {
-    
     public List<Integer> topKFrequent(int[] nums, int k) {
         HashMap<Integer, Integer> counts = new HashMap<>();
         for (int n : nums) {
@@ -59,6 +58,46 @@ class Solution {
         List<Integer> result = new LinkedList<>();
         while (!minHeap.isEmpty()) {
           result.add(minHeap.poll().getKey()); // 注意这里要get key！不要getValue
+        }
+        return result;
+    }
+}
+```
+
+## Solution 2: HashMap + TreeMap 高大上哈哈
+Use freqncy as the key so we can get all freqencies in order
+
+### Complexity
+* Time: O(n logn)
+* Space: O(n)
+
+### Java
+```java
+class Solution {
+    public List<Integer> topKFrequent(int[] nums, int k) {
+        // <number, frequency>
+        Map<Integer, Integer> counts = new HashMap<>();
+        for(int n: nums){
+            counts.put(n, counts.getOrDefault(n, 0) + 1);
+        }
+
+        // <frequency , list of numbers that appeared at this frequency>
+        TreeMap<Integer, List<Integer>> freqMap = new TreeMap<>();
+        for(int num : counts.keySet()){
+            int freq = counts.get(num);
+        
+            List<Integer> numsAtThisFreq = freqMap.get(freq);
+            if(numsAtThisFreq == null){
+                numsAtThisFreq = new LinkedList<Integer>();
+                freqMap.put(freq, numsAtThisFreq);
+            }
+            numsAtThisFreq.add(num);
+        }
+
+        List<Integer> result = new LinkedList<>();
+        while(result.size() < k){
+            Map.Entry<Integer, List<Integer>> entry = freqMap.pollLastEntry();
+            result.addAll(entry.getValue());
         }
         return result;
     }
