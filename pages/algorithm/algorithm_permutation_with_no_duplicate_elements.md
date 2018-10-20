@@ -148,8 +148,8 @@ Ref: https://discuss.leetcode.com/topic/6377/my-ac-simple-iterative-java-python-
 
 以下为引用：
 
-To permute n numbers, we can add the n-th number into the resulting List<List<Integer>> composed by the 
-1st, 2nd, 3rd ... till the (n-1)th numbers, in every possible position.
+To permute n numbers, we can add the n-th number into the resulting `List<List<Integer>>` composed by the 
+1st, 2nd, 3rd... till the (n-1)th numbers, in every possible position.
 
 For example, if the input array is `{1,2,3}`. 
 * Add 1 into the initial List<List<Integer>> (let's call it "answer").
