@@ -93,7 +93,7 @@ class Solution {
 ```
 
 ## Solution 2: DFS Recursion，速度也是前 1%，但理论上应该会比swap方法慢一点
-Ref http://www.jiuzhang.com/solutions/permutations/
+Ref in jiuzhang is [here](http://www.jiuzhang.com/solutions/permutations/)
 
 这个方法理论上会比swap方法慢一点的原因在于，swap方法在左边几位固定了之后，只骚扰右边的几位。而这个方法在前几位固定了以后，还是会一遍又一遍地骚扰整个数组里的所有元素，只是因为记录了boolean[] visited 数组，所以不会搞重复。
 
@@ -144,7 +144,7 @@ class Solution {
 ```
 
 ## Solution 3: Non-Recursion 的方法，速度也是前 1%
-Ref https://discuss.leetcode.com/topic/6377/my-ac-simple-iterative-java-python-solution
+Ref in leetcode is [here](https://discuss.leetcode.com/topic/6377/my-ac-simple-iterative-java-python-solution)
 
 以下为引用：
 
