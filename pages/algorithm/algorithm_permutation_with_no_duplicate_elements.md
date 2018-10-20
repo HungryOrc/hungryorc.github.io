@@ -17,7 +17,7 @@ Given a collection of **distinct** integers, return all possible permutations.
 
 ### Example
 * Input: `[1,2,3]`
-  * Output: as follows
+  * Output:
   ```
   [1,2,3]
   [1,3,2]
@@ -139,6 +139,60 @@ class Solution {
                 visited[i] = false; // 复原
             }
         }                       
+    }
+}
+```
+
+
+## Solution 3: Non-Recursion 的方法，速度也是前 1%
+Ref https://discuss.leetcode.com/topic/6377/my-ac-simple-iterative-java-python-solution
+
+
+
+### Complexity
+* Time: O(n * n!)
+* Space: O(n)
+
+### Java
+```java
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+      
+        List<List<Integer>> results = new ArrayList<>();
+        if (nums == null) {
+            return results;
+        } else if (nums.length == 0) {
+            results.add(new ArrayList<Integer>());
+            return results;
+        }
+        
+        int len = nums.length;
+        // 把数组里的第一个数放进去，作为后面所有操作的基础
+        ArrayList<Integer> firstList = new ArrayList<>();
+        firstList.add(nums[0]);
+        results.add(firstList);
+        
+        // 依次把第 2 个到第 n 个数放进去
+        for (int i = 1; i < len; i++) {
+            int curValue = nums[i];
+            List<List<Integer>> tmpResults = new ArrayList<>();
+            
+            // for each list in the current temp result
+            for (List<Integer> curList : results) {
+                int curListLen = curList.size();
+                
+                // for each possible position that we can insert the current value into
+                for (int j = 0; j <= curListLen; j++) {
+                    List<Integer> tmpList = new ArrayList<>(curList); // 每一次都要new一个！
+                    tmpList.add(j, curValue);
+                    tmpResults.add(tmpList);
+                }
+            }
+            results = tmpResults;
+        }
+      
+        // 完毕。返回最后的总结果
+        return results;
     }
 }
 ```
