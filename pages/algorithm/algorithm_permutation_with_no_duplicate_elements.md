@@ -147,8 +147,6 @@ class Solution {
 ## Solution 3: Non-Recursion 的方法，速度也是前 1%
 Ref https://discuss.leetcode.com/topic/6377/my-ac-simple-iterative-java-python-solution
 
-
-
 ### Complexity
 * Time: O(n * n!)
 * Space: O(n)
