@@ -45,19 +45,18 @@ Moving N dishes from A to C = Moving N-1 dishes from A to B, with the help of C 
 This solution is a bit different to the requirement of the question above, but the overall methodology is the same.
 
 ```java
-public class Hanoi {
-	
-    public void hanoiMove(int dishNum, char from, char to, char inter) {
+class Hanoi {	
+    public void hanoiMove(int dishNum, char from, char to, char intermediate) {
 	if (dishNum == 1) {
-	    System.out.println("1: " + from + " -> " + to);
+	    System.out.println("Dish 1: " + from + " -> " + to);
 	    return;
 	}
 		
-	hanoiMove(dishNum - 1, from, inter, to);
+	hanoiMove(dishNum - 1, from, intermediate, to);
 		
-	System.out.println(dishNum + ": " + from + " -> " + to);
+	System.out.println("Dish " + dishNum + ": " + from + " -> " + to);
 		
-	hanoiMove(dishNum - 1, inter, to, from);
+	hanoiMove(dishNum - 1, intermediate, to, from);
     }
 	
     public static void main(String[] args) {
