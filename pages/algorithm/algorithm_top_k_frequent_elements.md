@@ -64,7 +64,7 @@ class Solution {
 }
 ```
 
-## Solution 2: HashMap + TreeMap 高大上哈哈
+## Solution 2: HashMap + TreeMap 高大上！但速度和MinHeap差不多
 Use freqncy as the key so we can get all freqencies in order
 
 ### Complexity
@@ -98,6 +98,53 @@ class Solution {
         while(result.size() < k){
             Map.Entry<Integer, List<Integer>> entry = freqMap.pollLastEntry();
             result.addAll(entry.getValue());
+        }
+        return result;
+    }
+}
+```
+
+## Solution 3: 我的 Bucket Sort 型土办法，但似乎比前两个还快一点点！
+做一个长度为n+1的数组。如果一个数x出现的次数为m，就在这个数组的第m个index上存下x
+但还有可能另一个数y也出现了m次，也需要记在index = m的位置，所以这个数组，其中的每个元素都得是一个ArrayList
+记录完以后，从这个数组的尾部开始往前捋。捋满了k个数，或者捋到了数组的头部以后，即得到答案
+    
+### Complexity
+* Time: O(n)   《===== 对么？？？
+* Space: O(n)
+
+### Java
+```java
+class Solution {
+    public List<Integer> topKFrequent(int[] nums, int k) {
+        HashMap<Integer,Integer> numCountsMap = new HashMap<>();
+        for (int n : nums) {
+            numCountsMap.put(n, numCountsMap.getOrDefault(n, 0) + 1);
+        }
+        
+        int n = nums.length;
+        ArrayList<Integer>[] indexIsCount = new ArrayList[n+1];
+        for (int i = 0; i < n+1; i++) {
+            ArrayList<Integer> temp = new ArrayList<>();
+            indexIsCount[i] = temp;
+        }
+        
+        for (Map.Entry<Integer,Integer> curEntry : numCountsMap.entrySet()) {
+            int curNum = curEntry.getKey();
+            int curCount = curEntry.getValue();
+            
+            indexIsCount[curCount].add(curNum);
+        }
+        
+        ArrayList<Integer> result = new ArrayList<>();
+        int stillNeedToPick = k;
+        for (int i = n; i >= 0 && stillNeedToPick > 0; i--) {
+            if (indexIsCount[i].size() > 0) {
+                for (int j = 0; j < indexIsCount[i].size() && stillNeedToPick > 0; j++) {
+                    result.add(indexIsCount[i].get(j));
+                    stillNeedToPick --;
+                }
+            }
         }
         return result;
     }
