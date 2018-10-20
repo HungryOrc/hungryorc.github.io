@@ -36,7 +36,7 @@ Given a collection of **distinct** integers, return all possible permutations.
 ### Complexity
 * Time: O(n * n!)
   * 每个答案所需的 n 的时间是消耗在：每个答案得到以后，要用n的时间来造new List来固化这个答案
-  * 得到每个答案的时间，其实只需要O(1)，因为通过 swap 方法，具体解释如下：
+  * 得到每个答案的时间，其实只需要O(1)，因为我们用的是 swap 方法。具体解释：
     * 比如说要找 1, 2, 3 这三个数一共能组成多少个排列（答案是6种），那么swap方法的解题过程其实是：
       ```
          1         2         3
