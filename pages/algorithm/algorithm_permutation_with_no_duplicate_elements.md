@@ -16,7 +16,7 @@ Given a collection of **distinct** integers, return all possible permutations.
 * 元素之间的相对顺序 matters
 
 ### Example
-* Input: [1,2,3]
+* Input: `[1,2,3]`
   * Output:
   ```
   [1,2,3],
