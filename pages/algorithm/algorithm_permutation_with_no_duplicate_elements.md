@@ -93,7 +93,7 @@ class Solution {
 ```
 
 ## Solution 2: DFS Recursion，速度也是前 1%，但理论上应该会比swap方法慢一点
-Ref in jiuzhang is [here](http://www.jiuzhang.com/solutions/permutations/)
+Ref http://www.jiuzhang.com/solutions/permutations/
 
 这个方法理论上会比swap方法慢一点的原因在于，swap方法在左边几位固定了之后，只骚扰右边的几位。而这个方法在前几位固定了以后，还是会一遍又一遍地骚扰整个数组里的所有元素，只是因为记录了boolean[] visited 数组，所以不会搞重复。
 
@@ -139,71 +139,6 @@ class Solution {
                 visited[i] = false; // 复原
             }
         }                       
-    }
-}
-```
-
-## Solution 3: Non-Recursion 的方法，速度也是前 1%
-Ref in leetcode is [here](https://discuss.leetcode.com/topic/6377/my-ac-simple-iterative-java-python-solution)
-
-以下为引用：
-
-To permute n numbers, we can add the n-th number into the resulting `List<List<Integer>>` composed by the 
-1st, 2nd, 3rd... till the (n-1)th numbers, in every possible position.
-
-For example, if the input array is `{1,2,3}`. 
-* Add 1 into the initial List<List<Integer>> (let's call it "answer").
-* 2 can be added in front or after 1. So we have to copy the List<Integer> in answer (it's just `{1}`), then add 2 in position 0 of `{1}`; then copy the original `{1}` again, and add 2 in position 1. 
-* Now we have an answer of `{{2,1},{1,2}}`. There are 2 lists in the current answer.
-* Now we have to add 3. First copy `{2,1}` and `{1,2}`, add 3 in position 0; 
-* then copy `{2,1}` and `{1,2}`, and add 3 into position 1; 
-* then do the same thing for position 3.
-* Finally we have 2 * 3 = 6 lists in answer, which is what we want.
-
-### Complexity
-* Time: O(n * n!)
-* Space: O(n)
-
-### Java
-```java
-class Solution {
-    public List<List<Integer>> permute(int[] nums) {
-      
-        List<List<Integer>> results = new ArrayList<>();
-        if (nums == null) {
-            return results;
-        } else if (nums.length == 0) {
-            results.add(new ArrayList<Integer>());
-            return results;
-        }
-        
-        int len = nums.length;
-        // 把数组里的第一个数放进去，作为后面所有操作的基础
-        ArrayList<Integer> firstList = new ArrayList<>();
-        firstList.add(nums[0]);
-        results.add(firstList);
-        
-        // 依次把第 2 个到第 n 个数放进去
-        for (int i = 1; i < len; i++) {
-            int curValue = nums[i];
-            List<List<Integer>> tmpResults = new ArrayList<>();
-            
-            // for each list in the current temp result
-            for (List<Integer> curList : results) {
-                int curListLen = curList.size();
-                
-                // for each possible position that we can insert the current value into
-                for (int j = 0; j <= curListLen; j++) {
-                    List<Integer> tmpList = new ArrayList<>(curList); // 每一次都要new一个！
-                    tmpList.add(j, curValue);
-                    tmpResults.add(tmpList);
-                }
-            }
-            results = tmpResults;
-        }
-      
-        // 完毕。返回最后的总结果
-        return results;
     }
 }
 ```
