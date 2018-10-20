@@ -208,66 +208,6 @@ class Solution {
 }
 ```
 
-## Solution 4: Non-Recursion 的方法，九章版本
-Ref: Ref: http://www.jiuzhang.com/solutions/permutations/
-
-### Complexity
-* Time: O(n * n!)
-* Space: O(n)
-
-### Java
-```java
-class Solution {
-    public List<List<Integer>> permute(int[] nums) {
-      
-        List<List<Integer>> permutations = new ArrayList<>();
-        if (nums == null) {
-            return permutations;
-        } else if (nums.length == 0) {
-            permutations.add(new ArrayList<Integer>());
-            return permutations;
-        }
-        
-        int n = nums.length;
-        ArrayList<Integer> stack = new ArrayList<>();
-        
-        stack.add(-1);
-        while (stack.size() != 0) {
-            Integer last = stack.get(stack.size() - 1);
-            stack.remove(stack.size() - 1);
-            
-            // increase the last number
-            int next = -1;
-            for (int i = last + 1; i < n; i++) {
-                if (!stack.contains(i)) {
-                    next = i;
-                    break;
-                }
-            }
-            if (next == -1) {
-                continue;
-            }
-            
-            // generate the next permutation
-            stack.add(next);
-            for (int i = 0; i < n; i++) {
-                if (!stack.contains(i)) {
-                    stack.add(i);
-                }
-            }
-            
-            // copy to permutations set
-            ArrayList<Integer> permutation = new ArrayList<>();
-            for (int i = 0; i < n; i++) {
-                permutation.add(nums[stack.get(i)]);
-            }
-            permutations.add(permutation);
-        }
-        return permutations;
-    } 
-}
-```
-
 ## Reference
 * [Permutations [LeetCode]](https://leetcode.com/problems/permutations/description/)
 
