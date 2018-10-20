@@ -47,7 +47,7 @@ Given a collection of **distinct** integers, return all possible permutations.
     * 再往下还有一层，但前两层定了以后，第三层就已经定了
     * 定前两层的时间消耗，可以看出，是 O(6)，与答案的个数是一个量级的！
   * 所以一共有n!种答案，然后n!种答案一共也只需要n!的时间来得到。这也就是 **swap 方法 特别快的原因**
-  * 不过在数学上说，n*n! 和 n! 其实是一个量级的，所以这一题的答案也可写为 O(n!)
+  * 不过在数学上说，`n*n!` 和 `n!` 其实是一个量级的，所以这一题的答案也可写为 O(n!)
 * Space: O(n)
   * Since we need n call stacks, and each call stack requires constant space
 
@@ -93,7 +93,7 @@ class Solution {
 ```
 
 ## Solution 2: DFS Recursion，速度也是前 1%，但理论上应该会比swap方法慢一点
-Ref: http://www.jiuzhang.com/solutions/permutations/
+Ref http://www.jiuzhang.com/solutions/permutations/
 
 这个方法理论上会比swap方法慢一点的原因在于，swap方法在左边几位固定了之后，只骚扰右边的几位。而这个方法在前几位固定了以后，还是会一遍又一遍地骚扰整个数组里的所有元素，只是因为记录了boolean[] visited 数组，所以不会搞重复。
 
@@ -144,7 +144,7 @@ class Solution {
 ```
 
 ## Solution 3: Non-Recursion 的方法，速度也是前 1%
-Ref: https://discuss.leetcode.com/topic/6377/my-ac-simple-iterative-java-python-solution
+Ref https://discuss.leetcode.com/topic/6377/my-ac-simple-iterative-java-python-solution
 
 以下为引用：
 
