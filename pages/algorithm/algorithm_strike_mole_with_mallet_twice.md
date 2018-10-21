@@ -11,6 +11,7 @@ toc: false
 
 ## Description
 给一个int数组，比如 [0,1,0,1,1,1,0,1]，其中1代表一个鼹鼠mole，0代表没有鼹鼠。设锤子mallet的宽度是m。只让砸两锤，问最多能砸中几个鼹鼠。
+* 默认int数组长度大于mallet的宽度
 
 如果只让砸一锤，那么就是一个sliding window max sum的问题，很简单。砸两锤，要求实现最优的O(n)解法的话，就需要用DP。
 
@@ -27,11 +28,42 @@ toc: false
 
 ### Complexity
 * Time: O(n)
-* Space: O(1)
+* Space: O(n)
 
 ### Java
 ```java
+class Solution {
+    public int strikeMolesTwice(int[] moles, int malletWidth) {
+        if (moles == null || moles.length == 0) {
+            return 0;
+        }
+        
+        // 默认int数组长度大于mallet的宽度
+        int len = moles.length;
+        int[] counts = new int[len];
+        int[] maxBeforeAndAtIndex = new int[len];
+        int[] maxAfterIndex = new int[len];
+        
+        // write the int array "counts"
+        for (int i = 0; i < malletWidth; i++) {
+            counts[0] += moles[i];
+        }
+        for (int i = malletWidth; i < len; i++) {
+            counts[i] += moles[i];
+            counts[i] -= moles[i - malletWidth];
+        }
+        
+        maxBeforeAndAfterindex = getLeftMax(counts);
+        maxAfterIndex = getRightMax(counts);
+        
+        int maxHits = 0;
+        for (int i = 0; i < n; i++) {
+            maxHit = Math.max(maxHit, maxBeforeAndAfterindex[i] + maxAfterIndex[i]);
+        }
+        return maxHits;
+    }
 
+}
 ```
 
 ## Reference
