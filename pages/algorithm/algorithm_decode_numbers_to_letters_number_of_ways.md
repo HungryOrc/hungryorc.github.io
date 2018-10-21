@@ -22,7 +22,7 @@ toc: false
 * Input: 2119
   * Output: 可以转化为 B,A,A,I（2,1,1,9），U,A,I（21,1,9），U,S（21,19），B,K,I（2,11,9），B,A,S（2,1,19），一共5种方法
 
-## Solution 1: DP
+## Solution 1: DP，速度前 1%
 int[] dp = new int[charArray.length]，dp[i] 的意思是 要表示 从index=0到index=i的所有的chars，一共有多少种表示方法。
 * 初始：dp[0] = 1
 * 递推：dp[i] = dp[i - 1] + dp[i - 2]
@@ -34,8 +34,59 @@ int[] dp = new int[charArray.length]，dp[i] 的意思是 要表示 从index=0�
 * Space: O(n), dp 数组
 
 ### Java
+代码看起来不很短，其实逻辑很简明
 ```java
-
+class Solution {
+    public int numDecodings(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+        
+        char[] cArray = s.toCharArray();
+        int len = cArray.length;
+        int[] dp = new int[len];
+        
+        // we do have len >= 1
+        if (isValidOneDigit(cArray[0])) {
+            dp[0] = 1;
+        } else {
+            return 0;
+        }
+        
+        if (len >= 2) {
+            if (isValidOneDigit(cArray[1])) {
+                dp[1] ++;
+            }
+            if (isValidTwoDigits(cArray[0], cArray[1])) {
+                dp[1] ++;
+            }            
+        }
+        
+        // if len >= 3
+        for (int i = 2; i < len; i++) {
+            if (isValidOneDigit(cArray[i])) {
+                dp[i] += dp[i - 1];
+            }
+            if (isValidTwoDigits(cArray[i - 1], cArray[i])) {
+                dp[i] += dp[i - 2];
+            }
+        }
+        
+        return dp[len - 1];
+    }
+    
+    private boolean isValidOneDigit(char c) {
+        return (c - '0' >= 1) && (c - '0' <= 9);
+    }
+    
+    private boolean isValidTwoDigits(char c1, char c2) {        
+        int num = 0;
+        num += (c1 - '0') * 10;
+        num += c2 - '0';
+        
+        return num >= 10 && num <= 26;
+    }
+}
 ```
 
 ## Solution 2: Recursion，很慢！几乎是倒数 1%，不要用这个方法
