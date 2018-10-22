@@ -10,7 +10,8 @@ toc: false
 ---
 
 ## Description
-哦也
+给一个 Map<char, Set<char>>，打个比方map里有个entry是 <'a', ['b', 'c']> 的话，意味着如果 "ab" 挨在一起，或者 “ac” 挨在一起，
+那么它们是可以消掉的。比如 “abe” 会消成 “e”，“eacf” 会消成 “ef”。“aabc”可以先消成“ac”，再完全消掉
 
 ### Example
 * Input:
@@ -18,6 +19,8 @@ toc: false
 
 ## Solution
 用二维DP做。boolean dp[i][j]意味着从index i 到 index j 的sub string，左右都inclusive，能否被消除。可见只有i到j是偶数长度的时候才有意义，奇数长度的dp[i][j]都不用去管
+
+
 
 ### Complexity
 * Time: O(n^3)    <=== 对么？
