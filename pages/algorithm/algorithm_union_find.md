@@ -31,19 +31,19 @@ class ArrayUnionFind {
         }
     }
     
-    private int getGroupId(int a) {
+    public int getGroupId(int a) {
         return groupIDs(a);
     }
     
     // "find" means to check if two objects belong to the same group
-    private boolean find(int a, int b) {
+    public boolean find(int a, int b) {
         return groupIDs[a] == groupIDs[b];
     }
     
     // merge a and b into the same group,
     // ALSO merging the objects that are already in the same group as a or b!!
     // this function costs O(n) time
-    private void union(int a, int b) {
+    public void union(int a, int b) {
         int groupIDA = groupIDs[a];
         int groupIDB = groupIDs[b];
         for (int i = 0; i < groupIDs.length; i++) {
@@ -117,7 +117,7 @@ class TreeUnionFind {
     }
     
     // namely get the index of the root object
-    private int getGroupID(int a) {
+    public int getGroupID(int a) {
         int curIndex = a;
         while (curIndex != parentIDs[curIndex]) {
             curIndex = parentIDs[curIndex];
@@ -126,7 +126,7 @@ class TreeUnionFind {
     }
     
     // "find" means to check if two objects belong to the same group
-    private boolean find(int a, int b) {
+    public boolean find(int a, int b) {
         int groupIDA = getGroupID(a); // time: O(n)
         int groupIDB = getGroupID(b); // time: O(n)
         
@@ -134,7 +134,7 @@ class TreeUnionFind {
     }
     
     // merge a and b into the same group
-    private void union(int a, int b) {
+    public void union(int a, int b) {
         int groupIDA = getGroupID(a); // time: O(n)
         int groupIDB = getGroupID(b); // time: O(n)
         
@@ -176,7 +176,7 @@ class WeightedTreeUnionFind {
         }
     }
     
-    private int getGroupID(int a) {
+    public int getGroupID(int a) {
         int curIndex = a;
         while (curIndex != parentIDs[curIndex]) {
             curIndex = parentIDs[curIndex];
@@ -184,14 +184,14 @@ class WeightedTreeUnionFind {
         return curIndex;
     }
 
-    private boolean find(int a, int b) {
+    public boolean find(int a, int b) {
         int groupIDA = getGroupID(a); // time: O(n)
         int groupIDB = getGroupID(b); // time: O(n)
         
         return groupIDA == groupIDB;
     }
 
-    private void union(int a, int b) { // <=== this function changed!
+    public void union(int a, int b) { // <=== this function changed!
         int groupIDA = getGroupID(a); // time: O(n)
         int groupIDB = getGroupID(b); // time: O(n)
         
@@ -244,7 +244,7 @@ class PathCompressionWeightedTreeUnionFind {
         }
     }
     
-    private int getGroupID(int a) {
+    public int getGroupID(int a) {
         int curIndex = a;
         while (curIndex != parentIDs[curIndex]) {
             curIndex = parentIDs[curIndex];
@@ -265,14 +265,14 @@ class PathCompressionWeightedTreeUnionFind {
         return groupID;
     }
 
-    private boolean find(int a, int b) { // <=== this function unchanged
+    public boolean find(int a, int b) { // <=== this function unchanged
         int groupIDA = getGroupID(a); // time: O(1)
         int groupIDB = getGroupID(b); // time: O(1)
         
         return groupIDA == groupIDB;
     }
 
-    private void union(int a, int b) { // <=== this function unchanged
+    public void union(int a, int b) { // <=== this function unchanged
         int groupIDA = getGroupID(a); // time: O(1)
         int groupIDB = getGroupID(b); // time: O(1)
         
@@ -293,9 +293,6 @@ class PathCompressionWeightedTreeUnionFind {
   * Find: O(1), armortized! Not every time everywhere O(1)!
   * 证明非常困难，记住结论即可
 * Space: O(n), the size of the int array
-
-
-
 
 
 {% include links.html %}
