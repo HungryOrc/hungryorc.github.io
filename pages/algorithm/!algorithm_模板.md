@@ -1,5 +1,5 @@
 ---
-title: "标题在这里"
+title: "模板标题"
 tags: [algorithm, 还有别的tag么]
 keywords:
 summary:
