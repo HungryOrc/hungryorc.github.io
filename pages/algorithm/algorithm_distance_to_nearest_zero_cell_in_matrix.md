@@ -1,10 +1,10 @@
 ---
-title: "Distance to Nearest Zero Cell"
+title: "Distance to Nearest Zero Cell in a Matrix"
 tags: [algorithm, dynamic_programming]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_distance_to_nearest_zero_cell.html
+permalink: algorithm_distance_to_nearest_zero_cell_in_matrix.html
 folder: algorithm
 toc: false
 ---
