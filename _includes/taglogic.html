@@ -20,7 +20,6 @@
         {% if tag == thisTag %}
 
         <tr><td><a href="{{ post.url | remove: "/" }}">{{post.title}}</a></td>
-            <td><span class="label label-primary">Post</span></td>
         </tr>
         {% endif %}
         {% endfor %}
