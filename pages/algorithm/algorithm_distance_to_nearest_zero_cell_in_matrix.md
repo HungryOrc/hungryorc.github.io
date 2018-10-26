@@ -52,16 +52,16 @@ class Solution {
         }
         
         int n = matrix.length;
-		int m = matrix[0].length;
-		int[][] result = new int[n][m];
+	int m = matrix[0].length;
+	int[][] result = new int[n][m];
 
-		// 初始填空
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < m; j++) {
-				if (matrix[i][j] == 0) {
-					result[i][j] = 0;
+	// 初始填空
+	for (int i = 0; i < n; i++) {
+	    for (int j = 0; j < m; j++) {
+	        if (matrix[i][j] == 0) {
+		    result[i][j] = 0;
                 } else {
-	                result[i][j] = Integer.MAX_VALUE;
+	            result[i][j] = Integer.MAX_VALUE;
                 }
             }
         }
@@ -95,7 +95,6 @@ class Solution {
                 }
             }
         }
-        
         return result;
     }
 }
