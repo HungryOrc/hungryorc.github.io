@@ -52,35 +52,49 @@ Ref: https://leetcode.com/problems/split-array-into-fibonacci-sequence/discuss/1
 ```java
 class Solution {
     public List<Integer> splitIntoFibonacci(String S) {
-        List<Integer> ans = new ArrayList<>();
-        helper(S, ans, 0);
-        return ans;
+        // ignore sanity checks
+        List<Integer> result = new ArrayList<>();
+        helper(S, result, 0);
+        return result;
     }
 
-    public boolean helper(String s, List<Integer> ans, int idx) {
-        if (idx == s.length() && ans.size() >= 3) {
+    public boolean helper(String str, List<Integer> result, int idx) {
+        if (idx == str.length() && result.size() >= 3) {
             return true;
         }
-        for (int i=idx; i<s.length(); i++) {
-            if (s.charAt(idx) == '0' && i > idx) {
+        
+        for (int i = idx; i < str.length(); i++) {
+            // 开头为0且长度大于1的数，不要
+            if (str.charAt(idx) == '0' && i > idx) {
                 break;
             }
-            long num = Long.parseLong(s.substring(idx, i+1));
+            
+            long num = Long.parseLong(str.substring(idx, i + 1));
+            
             if (num > Integer.MAX_VALUE) {
                 break;
             }
-            int size = ans.size();
-            // early termination
-            if (size >= 2 && num > ans.get(size-1)+ans.get(size-2)) {
+            
+            int size = result.size();
+
+            // 如果当前尝试的序列里已经有2个或更多的数字，而且现在接龙搞不下去了，
+            // 则放弃这个序列
+            if (size >= 2 && num > result.get(size - 1) + result.get(size - 2)) {
                 break;
             }
-            if (size <= 1 || num == ans.get(size-1)+ans.get(size-2)) {
-                ans.add((int)num);
-                // branch pruning. if one branch has found fib seq, return true to upper call
-                if (helper(s, ans, i+1)) {
+            
+            // 如果当前尝试的序列里还不到2个数字，或者序列里到目前为止接龙还ok，
+            // 那么就继续干
+            if (size < 2 || num == result.get(size - 1) + result.get(size - 2)) {
+                result.add((int)num);
+                
+                // 如果任何一个分支ok了，就把true往上一层传递！作用是结束上面的每一层！
+                // 后面的复原也不用做了
+                if (helper(str, result, i + 1)) {
                     return true;
                 }
-                ans.remove(ans.size()-1);
+                
+                result.remove(result.size() - 1); // 复原
             }
         }
         return false;
