@@ -50,6 +50,7 @@ Return any Fibonacci-like sequence split from S, or return [] if it cannot be do
 * Space: O(n^2)
 
 ### Java
+除去2个helper functions之后，主函数逻辑其实也不很长
 ```java
 class Solution {
     public List<Integer> splitIntoFibonacci(String S) {
@@ -158,6 +159,51 @@ class Solution {
         }
         return (int)(Math.log10(num) + 1);
     }
+}
+```
+
+## Solution 2: Backtracking
+Ref: https://leetcode.com/problems/split-array-into-fibonacci-sequence/discuss/133936/short-and-fast-backtracking-solution
+
+### Complexity
+* Time: O(n^3)
+* Space: O(n^2)
+
+### Java
+```java
+public List<Integer> splitIntoFibonacci(String S) {
+    List<Integer> ans = new ArrayList<>();
+    helper(S, ans, 0);
+    return ans;
+}
+
+public boolean helper(String s, List<Integer> ans, int idx) {
+    if (idx == s.length() && ans.size() >= 3) {
+        return true;
+    }
+    for (int i=idx; i<s.length(); i++) {
+        if (s.charAt(idx) == '0' && i > idx) {
+            break;
+        }
+        long num = Long.parseLong(s.substring(idx, i+1));
+        if (num > Integer.MAX_VALUE) {
+            break;
+        }
+        int size = ans.size();
+        // early termination
+        if (size >= 2 && num > ans.get(size-1)+ans.get(size-2)) {
+            break;
+        }
+        if (size <= 1 || num == ans.get(size-1)+ans.get(size-2)) {
+            ans.add((int)num);
+            // branch pruning. if one branch has found fib seq, return true to upper call
+            if (helper(s, ans, i+1)) {
+                return true;
+            }
+            ans.remove(ans.size()-1);
+        }
+    }
+    return false;
 }
 ```
 
