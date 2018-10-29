@@ -38,10 +38,58 @@ Return any Fibonacci-like sequence split from S, or return [] if it cannot be do
   * Output: [11, 0, 11, 11]，或者 [110, 1, 111]
   * 注意，中间有0是有可能ok的，leading zero 而且不止一位的话是不行的
 
-## Solution 1: DP
-* 这题一看就可以用DP思路做
-* 第二想到的是：这种斐波那契型的数列，一旦前两个定了，则后面的就都唯一确定了，无法更改无法阻挡。
-那么中间任何一处续不上去，就意味着此路不通。所以这题的DP不需要中间后面各种分段，只要从前往后一撸串就行
+## Solution 1: Backtracking，速度较快，前10%
+Ref: https://leetcode.com/problems/split-array-into-fibonacci-sequence/discuss/133936/short-and-fast-backtracking-solution
+
+这种斐波那契型的数列，一旦前两个定了，则后面的就都唯一确定了，无法更改无法阻挡。
+那么中间任何一处续不上去，就意味着此路不通。
+
+### Complexity
+* Time: O(n^3)
+* Space: O(n^2)
+
+### Java
+```java
+class Solution {
+    public List<Integer> splitIntoFibonacci(String S) {
+        List<Integer> ans = new ArrayList<>();
+        helper(S, ans, 0);
+        return ans;
+    }
+
+    public boolean helper(String s, List<Integer> ans, int idx) {
+        if (idx == s.length() && ans.size() >= 3) {
+            return true;
+        }
+        for (int i=idx; i<s.length(); i++) {
+            if (s.charAt(idx) == '0' && i > idx) {
+                break;
+            }
+            long num = Long.parseLong(s.substring(idx, i+1));
+            if (num > Integer.MAX_VALUE) {
+                break;
+            }
+            int size = ans.size();
+            // early termination
+            if (size >= 2 && num > ans.get(size-1)+ans.get(size-2)) {
+                break;
+            }
+            if (size <= 1 || num == ans.get(size-1)+ans.get(size-2)) {
+                ans.add((int)num);
+                // branch pruning. if one branch has found fib seq, return true to upper call
+                if (helper(s, ans, i+1)) {
+                    return true;
+                }
+                ans.remove(ans.size()-1);
+            }
+        }
+        return false;
+    }
+}
+```
+
+## Solution 2: 我的DP解法，这一题DP反而不如backtracking快
+* 这题有点DP的范儿，也确实可以用DP类型的思路来做，但具体落实到做法其实不算是真正的DP
 * 为了快速得到任何起始位置任何终止位置的数的值，可以做一个辅助的二维数组，先把所有数都算好存在这里
   * 算这个数组的时候也有技巧，为了不用O(n)的时间长度，可以也用DP的思路来算各个分段的值：一个长度为m的分段的值等于前m-1位的值乘以10加上第m位的值
 
@@ -159,51 +207,6 @@ class Solution {
         }
         return (int)(Math.log10(num) + 1);
     }
-}
-```
-
-## Solution 2: Backtracking
-Ref: https://leetcode.com/problems/split-array-into-fibonacci-sequence/discuss/133936/short-and-fast-backtracking-solution
-
-### Complexity
-* Time: O(n^3)
-* Space: O(n^2)
-
-### Java
-```java
-public List<Integer> splitIntoFibonacci(String S) {
-    List<Integer> ans = new ArrayList<>();
-    helper(S, ans, 0);
-    return ans;
-}
-
-public boolean helper(String s, List<Integer> ans, int idx) {
-    if (idx == s.length() && ans.size() >= 3) {
-        return true;
-    }
-    for (int i=idx; i<s.length(); i++) {
-        if (s.charAt(idx) == '0' && i > idx) {
-            break;
-        }
-        long num = Long.parseLong(s.substring(idx, i+1));
-        if (num > Integer.MAX_VALUE) {
-            break;
-        }
-        int size = ans.size();
-        // early termination
-        if (size >= 2 && num > ans.get(size-1)+ans.get(size-2)) {
-            break;
-        }
-        if (size <= 1 || num == ans.get(size-1)+ans.get(size-2)) {
-            ans.add((int)num);
-            // branch pruning. if one branch has found fib seq, return true to upper call
-            if (helper(s, ans, i+1)) {
-                return true;
-            }
-            ans.remove(ans.size()-1);
-        }
-    }
-    return false;
 }
 ```
 
