@@ -23,11 +23,56 @@ Implement pow(x, n), which calculates x raised to the power n (x^n).
   * Output: 0.25000
 
 ## Solution
-哦也
+借这道题，把所有pow类的题归纳一遍。这里n是正整数，如果n可能是负整数也无所谓，最后一步搞成倒数就行了。
+
+### Method 1
+```java
+public double pow(double a, int n) {
+    if (n == 0) {
+        return 1;
+    }
+    return pow(a, n - 1) * a;
+}
+```
+* Time: O(n)
+* Space: O(n)，因为有n层call stack，每层是O(1)的空间消耗
+
+### Method 2
+```java
+public double pow(double a, int n) {
+    if (n == 0) {
+        return 1;
+    }
+    if (n == 1) {
+        return a;
+    }
+    return pow(a, n / 2) * pow(a, n - n / 2); 
+}
+```
+* Time: O(n)，因为 1 + 2 + 4 + 8 + ... 2^(log_2(n)) = 1 + 2 + 4 + ... + n/2 = n
+* Space: O(logn)，因为有logn层call stack，每层是O(1)的空间消耗
+
+### Method 3
+```java
+public double pow(double a, int n) {
+    if (n == 0) {
+        return 1;
+    }
+    double half = pow(a, n / 2);
+    if (n % 2 == 0) {
+        return half * half;
+    } else {
+        return half * half * a;
+    }
+}
+```
+* Time: O(logn)，因为有记忆化
+* Space: O(logn)
 
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+这一题我们实际做的时候，用最后一种最好的方法，所以复杂度如下：
+* Time: O(logn)
+* Space: O(logn)
 
 ### Java
 ```java
