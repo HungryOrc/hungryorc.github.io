@@ -13,8 +13,8 @@ toc: false
 哦也
 
 ### Example
-* Input:
-  * Output:
+* Input: 
+  * Output: 
 
 ## Solution
 哦也
