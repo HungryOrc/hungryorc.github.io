@@ -16,12 +16,6 @@ among the elements that are larger than the target.
 
 You may assume NO duplicates in the array.
 
-Example
-[ → 2
-[1,3,5,6], 2 → 1
-[1,3,5,6], 7 → 4
-[1,3,5,6], 0 → 0
-
 ### Example
 * Input: 1,3,5,6], 5
   * Output: 2
