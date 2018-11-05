@@ -46,33 +46,33 @@ public class Solution {
         // 在整个程序中的所有地方，只要是比较left和right，都要遵循这个原则！
         while (left <= right) {
             
-            // 注意 nums[left] < pivot, 不要搞 nums[left] <= pivot，否则会无限循环！这里不是越快越好！
+            // 注意 nums[left] < pivot, 不要用 nums[left] <= pivot，否则会无限循环！这里不是越快越好！
             // 举例：比如排序 {2,1} 这个数组，如果 nums[left]<= pivot 都让 left++，那么
-            // 第一轮下来，left就到了3，即到了right以及end的右边一位。然后right就不能动了。这对于left其实没啥，
-            // 但是对于 quickSort(nums, start, right) 这个分支，就会有问题，因为right这次没动，以后其实
-            // 每次都无法动，其实已经陷入了死循环，所以程序在处理这个分支的时候必然会 stack overflow
+            // 第一轮下来，left就到了3，即left=end+1 同时left=right+1，这样while loop就要结束，
+            // 那么对于后面的2个分支，quickSort(nums, left, end)分支就永远不会开始，因为left>end，
+            // 但是 quickSort(nums, start, right) 这个分支就永远不会结束！因为这个分治里的
+            // start总是会等于left，然后它总是会像上面说的一样一下子变成right+1，就进入了死循环。
+            // 就是说right永远没有机会往左动，那么这个分支也就永远没有机会缩小。
             while (left <= right && nums[left] < pivot) {
                 left++;
             }
             
-            // 注意！nums[right] > pivot, not nums[right] >= pivot
+            // 注意 nums[right] > pivot, 不要用 nums[right] >= pivot
             while (left <= right && nums[right] > pivot) {
                 right--;
             }
             
             if (left <= right) {
                 swap(nums, left, right);
-                
-                // 注意！在这里也要 left++ 以及 right--
+                // 别忘了在这里也要 left++ 以及 right--
                 left++;
                 right--;
             }
         }
-        // 特别注意！
-        // 这个 while 循环结束以后，left 和 right 的关系是：
-        // right + 1 = left 即 right 在 left 的左边一位！
+        // 特别注意，while 循环结束以后，left 和 right 的关系是 right + 1 = left 
+        // 即 right 在 left 的左边一位
         
-        // 这里没有必要判断左右index的大小关系，下一个recursion里的头部会做。当然如果一定要在这里做，也ok
+        // 这里没有必要判断左右index的大小关系，下一个recursion里的头部会做
         quickSort(nums, start, right);
         quickSort(nums, left, end);
     }
@@ -85,7 +85,7 @@ public class Solution {
 }
 ```
 
-#### 经典模板
+#### 经典模板，比上面的写法要繁琐，只是B格高一点
 ```java
 public class QuickSort {
     
