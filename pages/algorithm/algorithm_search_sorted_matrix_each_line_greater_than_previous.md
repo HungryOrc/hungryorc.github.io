@@ -19,13 +19,13 @@ Write an efficient algorithm that searches for a value in an m x n matrix. This 
   * Output: true
 
 ## Solution 1: 先找行，再在那一行里找target
+两轮 binary search。用的是九章式的binary search，即 `while (start + 1 < end)`.
 
 ### Complexity
 * Time: O(logn + logm) = O(log(n * m))
 * Space: O(1)
 
 ### Java
-用的是
 ```java
 class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
@@ -75,6 +75,6 @@ class Solution {
 ```
 
 ## Reference
-* [文章标题 [LeetCode]](网址放在这里)
+* [Search a 2D Matrix [LeetCode]](https://leetcode.com/problems/search-a-2d-matrix/description/)
 
 {% include links.html %}
