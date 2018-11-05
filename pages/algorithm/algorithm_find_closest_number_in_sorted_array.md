@@ -31,8 +31,31 @@ Return -1 if there is no element in the array.
 
 ### Java
 ```java
-
-
+public class Solution {
+    public int findClosestNum(int[] nums, int target) {
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
+        
+        int start = 0, end = nums.length - 1;
+        // 九章双子，哦也
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (nums[mid] > target) {
+                end = mid;
+            } else if (nums[mid] < target) {
+                start = mid;
+            } else {
+                return mid; // 如果正好等于target，那就不可能比这个更接近了
+            }
+        }
+        
+        if (Math.abs(nums[start] - target) >= Math.abs(nums[end] - target)) {
+            return end;
+        }
+        return start;
+    }
+}
 ```
 
 ## Reference
