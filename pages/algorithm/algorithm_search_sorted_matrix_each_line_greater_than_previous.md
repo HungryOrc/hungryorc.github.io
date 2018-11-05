@@ -18,7 +18,54 @@ Write an efficient algorithm that searches for a value in an m x n matrix. This 
 * Input: matrix = [[1,   3,  5,  7], [10, 11, 16, 20], [23, 30, 34, 50]], target = 3
   * Output: true
 
-## Solution 1: 先找行，再在那一行里找target
+## Solution 1: 把矩阵里的所有元素看成一个一维数组。此方法速度前5%
+即把整个矩阵的所有行“拉直”成一行。需要做一个helper function，给序号，返回其所在的行列位置
+
+### Complexity
+* Time: O(log(n * m))，因为矩阵里一共有 n * m 个元素，相当于在这么多元素的一个一维数组里做 binary search
+* Space: O(1)
+
+### Java
+```java
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return false;
+        }
+        
+        int n = matrix.length, m = matrix[0].length;
+        int start = 0, end = n * m - 1;
+        
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            int[] coords = getCoords(mid, m);
+            int x = coords[0], y = coords[1];
+            
+            if (matrix[x][y] > target) {
+                end = mid;
+            } else if (matrix[x][y] < target) {
+                start = mid;
+            } else {
+                return true;
+            }
+        }
+        
+        int[] sCoords = getCoords(start, m);
+        int[] eCoords = getCoords(end, m);
+        return (matrix[sCoords[0]][sCoords[1]] == target) || 
+               (matrix[eCoords[0]][eCoords[1]] == target);
+    }
+    
+    private int[] getCoords(int number, int width) {
+        int[] coords = new int[2];
+        coords[0] = number / width;
+        coords[1] = number % width;
+        return coords;
+    }
+}
+```
+
+## Solution 2: 先找行，再在那一行里找target。这个方法较慢一些
 两轮 binary search。用的是九章式的binary search，即 `while (start + 1 < end)`.
 
 ### Complexity
