@@ -46,7 +46,7 @@ public class Solution {
         // 在整个程序中的所有地方，只要是比较left和right，都要遵循这个原则！
         while (left <= right) {
             
-            // 注意！ nums[left] < pivot, not nums[left] <= pivot，否则会 stack overflow！无限循环！
+            // 注意 nums[left] < pivot, 不要搞 nums[left] <= pivot，否则会无限循环！这里不是越快越好！
             // 举例：比如排序 {2,1} 这个数组，如果 nums[left]<= pivot 都让 left++，那么
             // 第一轮下来，left就到了3，即到了right以及end的右边一位。然后right就不能动了。这对于left其实没啥，
             // 但是对于 quickSort(nums, start, right) 这个分支，就会有问题，因为right这次没动，以后其实
