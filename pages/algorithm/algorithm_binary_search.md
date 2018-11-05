@@ -18,36 +18,10 @@ toc: false
 ## Implementation
 
 ### Java
-#### 经典版
-```java
-public int binarySearch(int[] A, int target) {
-    if (A == null || A.length == 0) {
-        return -1;
-    }
-
-    int left = 0, right = A.length - 1;
-    // 注意，这里用 left <= right，不要用 left < right
-    while (left <= right) {
-        int mid = left + (right - left) / 2;
-        if (A[mid] > target) {
-            right = mid - 1;
-        } else if (A[mid] < target) {
-            left = mid + 1;
-        } else { // A[mid] == target
-            return mid; // 找到了target，就直接return
-        }
-    }
-
-    // 到了这里意味着没有找到target
-    // 此时 start + 1 = end
-    return -1;
-}
-```
 
 #### 九章版
+Ref: http://www.jiuzhang.com/solutions/binary-search/
 ```java
-// 九章版本
-// Ref: http://www.jiuzhang.com/solutions/binary-search/
 public int findPosition(int[] nums, int target) {
     if (nums == null || nums.length == 0) {
         return -1;
@@ -72,6 +46,32 @@ public int findPosition(int[] nums, int target) {
     } else if (nums[end] == target) {
         return end;
     }
+    return -1;
+}
+```
+
+#### 经典版
+```java
+public int binarySearch(int[] A, int target) {
+    if (A == null || A.length == 0) {
+        return -1;
+    }
+
+    int left = 0, right = A.length - 1;
+    // 注意，这里用 left <= right，不要用 left < right
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (A[mid] > target) {
+            right = mid - 1;
+        } else if (A[mid] < target) {
+            left = mid + 1;
+        } else { // A[mid] == target
+            return mid; // 找到了target，就直接return
+        }
+    }
+
+    // 到了这里意味着没有找到target
+    // 此时 start + 1 = end
     return -1;
 }
 ```
