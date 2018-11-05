@@ -39,6 +39,7 @@ public int binarySearch(int[] A, int target) {
     }
 
     // 到了这里意味着没有找到target
+    // 此时 start + 1 = end
     return -1;
 }
 ```
@@ -65,7 +66,7 @@ public int findPosition(int[] nums, int target) {
         }
     }
     
-    // 事到如今 start+1=end。二者都可能是target，只能都比较下
+    // 此时 start + 1 = end。二者都可能是target，只能都比较下
     if (nums[start] == target) {
         return start;
     } else if (nums[end] == target) {
