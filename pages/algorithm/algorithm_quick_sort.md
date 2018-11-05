@@ -22,7 +22,7 @@ toc: false
 ## Implementation
 
 ### Java
-#### 九章模板
+#### 九章版
 ```java
 public class Solution {
 
@@ -85,7 +85,7 @@ public class Solution {
 }
 ```
 
-#### 经典模板，比上面的写法要繁琐，只是B格高一点
+#### 经典版，比上面的写法要繁琐，只是B格高一点
 ```java
 public class QuickSort {
     
