@@ -24,6 +24,8 @@ Given a sorted array, two integers k and x, find the k closest elements to x in 
 ## Solution
 先找到最接近的那个数，然后以它为中心向两边扩展
 
+注意！扩展的过程中并不用一个一个把元素加进结果里去，记录好左右端点的坐标，最后一次性加完就好
+
 ### Complexity
 * Time: O(log(n) + k)
 * Space: O(1)
@@ -62,38 +64,27 @@ class Solution {
         }
         
         // Step 2: 在最接近的数附近再找 k-1 个次接近的数
-        Deque<Integer> result = new LinkedList<>();
-        result.add(nums[iClosest]);
         int numsFound = 1;
         int left = iClosest - 1, right = iClosest + 1;
-        
-        while (numsFound < k && left >= 0 && right < n) {
-            int lNum = nums[left], rNum = nums[right];
-            if (Math.abs(lNum - x) > Math.abs(rNum - x)) {
-                result.addLast(rNum);
-                right++;
-            } else if (Math.abs(lNum - x) < Math.abs(rNum - x)) {
-                result.addFirst(lNum);
-                left--;    
-            } else { // 二者与closest的举例相等，则先放小的那个，自然就是左边那个
-                result.addFirst(lNum);
-                left--;
-            }
-            numsFound++;
-        }
-        
         while (numsFound < k) {
-            if (left >= 0) {
-                result.addFirst(nums[left]);
+            // 下面这个if条件有两种“或”情况，都需要注意
+            // 或的右边用 <= 而非 <，是因为二者与x的距离相等的话，要选小的那个，即左边那个
+            if (right >= n || (left >= 0 && (x - nums[left]) <= (nums[right] - x))) {
                 left--;
-            } else if (right < n) {
-                result.addLast(nums[right]);
+            } else{
                 right++;
             }
             numsFound++;
         }
         
-        return new ArrayList(result);
+        System.out.println(left);
+        
+        List<Integer> result = new LinkedList<>();
+        // 注意 i 的取值范围！left已经过左，必须+1；right已经过右，必须-1
+        for (int i = left + 1; i < right; i++) {
+            result.add(nums[i]);
+        }
+        return result;
     }
 }
 ```
