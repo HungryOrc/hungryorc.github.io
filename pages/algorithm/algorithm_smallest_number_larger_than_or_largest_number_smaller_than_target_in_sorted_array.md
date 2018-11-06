@@ -66,22 +66,22 @@ class Solution {
         int left = 0, right = n - 1;
         while (left + 1 < right) {
             int mid = left + (right - left) / 2;
-            // 因为要找最小的大于target的数，所以
-            // mid等于target的时候，要把left设为mid，这是关键
-            if (nums[mid] > target) {
+            // 因为要找最大的小于target的数，所以
+            // mid等于target的时候，要把right设为mid，这是关键
+            if (nums[mid] >= target) {
                 right = mid;
-            } else { // nums[mid] <= target
+            } else { // nums[mid] < target
                 left = mid;
             }
         }
         
-        // 要找小的那个，所以先判断left
-        if (nums[left] > target) {
-            return nums[left];
-        } else if (nums[right] > target) {
+        // 要找大的那个，所以先判断right
+        if (nums[right] < target) {
             return nums[right];
-        } else { // 别忘了数组里所有数都小于等于target的情况！
-            return Integer.MAX_VALUE;
+        } else if (nums[left] < target) {
+            return nums[left];
+        } else { // 别忘了数组里所有数都大于等于target的情况！
+            return Integer.MIN_VALUE;
         }
     }
 }
