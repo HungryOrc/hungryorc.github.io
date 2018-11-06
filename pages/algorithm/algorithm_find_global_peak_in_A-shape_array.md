@@ -1,10 +1,10 @@
 ---
-title: "Find a Global Peak in an A-Shape Array"
+title: "Find a Global Peak in a Mountain Array"
 tags: [algorithm, binary_search]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_find_global_peak_in_A-shape_array.html
+permalink: algorithm_find_global_peak_in_mountain_array.html
 folder: algorithm
 toc: false
 ---
