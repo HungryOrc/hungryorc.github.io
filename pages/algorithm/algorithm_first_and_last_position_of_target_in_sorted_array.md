@@ -4,7 +4,7 @@ tags: [algorithm, binary_search]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_first_and_last_position_of_target_in_array.html
+permalink: algorithm_first_and_last_position_of_target_in_sorted_array.html
 folder: algorithm
 toc: false
 ---
