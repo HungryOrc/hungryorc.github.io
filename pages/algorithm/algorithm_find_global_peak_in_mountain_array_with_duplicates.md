@@ -1,10 +1,10 @@
 ---
-title: "Find a Global Peak in an A-Shape Array with Duplicate Elements"
+title: "Find a Global Peak in a Mountain Array with Duplicate Elements"
 tags: [algorithm, binary_search]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_find_global_peak_in_A-shape_array_with_duplicates.html
+permalink: algorithm_find_global_peak_in_mountain_array_with_duplicates.html
 folder: algorithm
 toc: false
 ---
@@ -48,7 +48,6 @@ toc: false
 ### Java
 ```java
 class Solution {
-
     public int findGlobalPeakInDuplicableArray(int[] nums) {
         if (nums == null || nums.length < 3) {
             return Integer.MIN_VALUE;
