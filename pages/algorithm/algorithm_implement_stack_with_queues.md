@@ -25,13 +25,13 @@ Notice:
 
 ### Example
 ```
-MyQueue queue = new MyQueue();
+MyStack stack = new MyStack();
 
-queue.push(1);
-queue.push(2);  
-queue.peek();  // returns 1
-queue.pop();   // returns 1
-queue.empty(); // returns false
+stack.push(1);
+stack.push(2);  
+stack.top();   // returns 2
+stack.pop();   // returns 2
+stack.empty(); // returns false
 ```
 
 ## Solution
