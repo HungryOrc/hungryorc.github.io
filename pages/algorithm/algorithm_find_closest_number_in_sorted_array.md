@@ -1,5 +1,5 @@
 ---
-title: "Find the Closest Number in a Sorted Array"
+title: "Find the Closest Number (to a Target Value) in a Sorted Array"
 tags: [algorithm, binary_search]
 keywords:
 summary:
