@@ -30,7 +30,7 @@ minStack.getMin();   --> Returns -2.
 
 ## Solution 1: 用2个Stack，一个记数，一个记当前min以及此min的有效范围
 这个方法不容易想到。2个Stack如下:
-* Stack1 里
+* Stack1 里装的就是各个数，没啥稀奇。要找min需要借助 Stack2
 * Element in Stack2 = `<minValue,  从Stack1的size为多少开始,Stack1的min就是这个minValue了>`
 ```
    Stack1  ||   3        1       2       -6       -8      -8     10   ...
@@ -39,7 +39,9 @@ minStack.getMin();   --> Returns -2.
 
 
 ### Complexity
-* Time: O(n)
+* Time:
+  * Push: O(1)
+  * Pop and Peek: O(1)
 * Space: O(n)
 
 ### Java
