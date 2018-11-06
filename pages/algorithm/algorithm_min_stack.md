@@ -124,35 +124,36 @@ public class MinStack {
 ```java
 public class MinStack {
     int minValue;
-    Stack<Integer> intStack;
+    Deque<Integer> stack;
     
     public MinStack() {
         this.minValue = Integer.MAX_VALUE;
-        this.intStack = new Stack<>();
+        this.stack = new ArrayDeque<>();
     }
 
     public void push(int number) {
         // 先push进来本number到来之前这个Stack里的min值，再push本number
-        this.intStack.push(this.minValue); 
-        this.intStack.push(number);
+        stack.push(this.minValue); 
+        stack.push(number);
         
         // 最后再更新min值
-        this.minValue = Math.min(minValue, number);
+        minValue = Math.min(minValue, number);
     }
 
     public int pop() {
-        int poppedValue = this.intStack.pop();
-        int prevMin = this.intStack.pop();
-        this.minValue = prevMin;
+        int poppedValue = stack.pop();
+        int prevMin = stack.pop();
+        
+        minValue = prevMin;
         return poppedValue;
     }
 
     public int top() { // peek
-        return intStack.peek();
+        return stack.peek();
     }
     
     public int getMin() {
-        return this.minValue;
+        return minValue;
     }
 }
 ```
