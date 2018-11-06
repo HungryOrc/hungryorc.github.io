@@ -77,7 +77,9 @@ class Solution {
                 
                 // 如果遇到平台的情况，就回过头去！把从mid向外的两端 重新细耕一遍！
                 int peakOfTwoSides = Math.max(
-                    findPeak(nums, left, mid - 2), findPeak(mid + 1, right));
+                    findPeak(nums, left, mid - 2), 
+                    findPeak(mid + 1, right));
+                
                 return Math.max(localPeak, peakOfTwoSides);
             }
         }
