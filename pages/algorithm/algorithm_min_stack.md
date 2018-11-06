@@ -45,6 +45,7 @@ minStack.getMin();   --> Returns -2.
 * Space: O(n)
 
 ### Java
+代码看起来长，其实逻辑简明
 ```java
 // helper class
 class MinAndSize {
@@ -104,6 +105,54 @@ public class MinStack {
         }
 
         return minAndSizes.peek().min;         
+    }
+}
+```
+
+## Solution 2: 在每个数下面，垫一个之前的min值
+关键在于：每一个push要push两个东西！先push进来本number到来之前这个Stack里的min值，再push本number
+
+这个方法在LeetCode的测评速度比前一个快一些
+        
+### Complexity
+* Time:
+  * Push: O(1)
+  * Pop and Peek: O(1)
+* Space: O(n)
+
+### Java
+```java
+public class MinStack {
+    int minValue;
+    Stack<Integer> intStack;
+    
+    public MinStack() {
+        this.minValue = Integer.MAX_VALUE;
+        this.intStack = new Stack<>();
+    }
+
+    public void push(int number) {
+        // 先push进来本number到来之前这个Stack里的min值，再push本number
+        this.intStack.push(this.minValue); 
+        this.intStack.push(number);
+        
+        // 最后再更新min值
+        this.minValue = Math.min(minValue, number);
+    }
+
+    public int pop() {
+        int poppedValue = this.intStack.pop();
+        int prevMin = this.intStack.pop();
+        this.minValue = prevMin;
+        return poppedValue;
+    }
+
+    public int top() { // peek
+        return intStack.peek();
+    }
+    
+    public int getMin() {
+        return this.minValue;
     }
 }
 ```
