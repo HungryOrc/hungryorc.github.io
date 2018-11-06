@@ -48,6 +48,7 @@ toc: false
 * Space: O(n)
 
 ### Java
+代码虽然长，其实很简明，要注意的只有一个helper function
 ```java
 public class DequeueByStacks {
     private Deque<Integer> headStack;
