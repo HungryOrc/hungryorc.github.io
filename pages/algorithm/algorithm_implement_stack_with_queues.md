@@ -38,6 +38,7 @@ stack.empty(); // returns false
 诀窍有两个：
 1. Queue可以poll出来元素以后再立刻offer给自己
 2. 我们在每次push的时候，先push那个新元素进去，再把push之前queue里的所有元素倒置一次（新元素不动），那么就形成了 FILO 的格局！
+
 过程举例：
 * 放入1，形成 `(Head) 1 (Tail)`，这里的head和tail都是queue的head和tail，就是说offer是在tail，poll是在head
 * 放入2，形成 `(Head) 1 2 (Tail)`
