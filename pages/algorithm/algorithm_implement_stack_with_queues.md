@@ -12,15 +12,15 @@ toc: false
 ## Description
 这一题是开放性的，没有要求用几个Queue。直觉上应该至少用2个Queue才行，但其实用一个就可以了！而且速度是最快的！见代码
 
-Implement the following operations of a queue using stacks.
-* push(x) -- Push element x to the back of queue.
-* pop() -- Removes the element from in front of queue.
-* peek() -- Get the front element.
-* empty() -- Return whether the queue is empty.
+Implement the following operations of a stack using queues.
+* push(x) -- Push element x onto stack.
+* pop() -- Removes the element on top of the stack.
+* top() -- Get the top element.
+* empty() -- Return whether the stack is empty.
 
 Notice:
-* You must use **only standard operations of a stack** -- which means only `push to top`, `peek/pop from top`, `size`, and `is empty` operations are valid.
-* Depending on your language, stack may not be supported natively. You may simulate a stack by using a list or deque (double-ended queue), as long as you use only standard operations of a stack.
+* You must use **only standard operations of a queue** -- which means only `push to top`, `peek/pop from top`, `size`, and `is empty` operations are valid.
+* Depending on your language, stack may not be supported natively. You may simulate a queue by using a list or deque (double-ended queue), as long as you use only standard operations of a queue.
 * You may assume that all operations are valid (for example, no pop or peek operations will be called on an empty queue).
 
 ### Example
@@ -38,57 +38,49 @@ queue.empty(); // returns false
 诀窍有两个：
 1. Queue可以poll出来元素以后再立刻offer给自己
 2. 我们在每次push的时候，先push那个新元素进去，再把push之前queue里的所有元素倒置一次（新元素不动），那么就形成了 FILO 的格局！
-
+这样的做法，每次push的时间消耗都是 O(n)，这恐怕无法再优化了。但只用一个queue来做的话，能在leetcode解答里速度排前 5%
 
 ### Complexity
 * Time: 
-  * Push: O(1)
-  * Pop: worst case O(n), armortize O(1)
+  * Push: O(n)
+  * Pop: O(1)
 * Space: O(n)
 
 ### Java
 ```java
-class MyQueue {
-    Deque<Integer> pushStack;
-    Deque<Integer> popStack;
-
-    public MyQueue() {
-        pushStack = new ArrayDeque<>();
-        popStack = new ArrayDeque<>();
+class MyStack {
+    Queue<Integer> queue;
+    
+    public MyStack() {
+        queue = new LinkedList<>();
     }
 
     public void push(int x) {
-        pushStack.push(x);
-    }
-    
-    // 注意这个helper function
-    private void dumpAll(Deque<Integer> fromStack, Deque<Integer> toStack) {
-        while (!fromStack.isEmpty()) {
-            toStack.push(fromStack.pop());
+        queue.offer(x);
+        
+        // 关键1！只倒置queue里的 n-1 个数！不倒置最新放进来的那个数！
+        int size = queue.size();
+        for (int i = 1; i <= size - 1; i++) {
+            queue.offer(queue.poll());
         }
     }
 
     public int pop() {
-        if (popStack.isEmpty()) {
-            dumpAll(pushStack, popStack);
-        }
-        return popStack.pop();
+        return queue.poll();
     }
 
-    public int peek() {
-        if (popStack.isEmpty()) {
-            dumpAll(pushStack, popStack);
-        }
-        return popStack.peek();
+    // peek
+    public int top() {
+        return queue.peek();
     }
 
     public boolean empty() {
-        return popStack.isEmpty() && pushStack.isEmpty();
+        return queue.isEmpty();
     }
 }
 ```
 
 ## Reference
-* [Implement Queue using Stacks [LeetCode]](https://leetcode.com/problems/implement-queue-using-stacks/description/)
+* [Implement Stack using Queues [LeetCode]](https://leetcode.com/problems/implement-stack-using-queues/description/)
 
 {% include links.html %}
