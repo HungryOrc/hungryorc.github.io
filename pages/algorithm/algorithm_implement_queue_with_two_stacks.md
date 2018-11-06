@@ -33,7 +33,7 @@ queue.empty(); // returns false
 ```
 
 ## Solution
-略
+用 stack1 存push进来的东西，用 stack2 存将要（按queue的规则）pop出去的东西. 两个stack之间没有重复存的东西
 
 ### Complexity
 * Time: 
