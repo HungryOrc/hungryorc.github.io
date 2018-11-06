@@ -33,33 +33,33 @@ toc: false
 * Space: O(1)
 
 ### Java
+这个做法是速度前 1%
 ```java
 class Solution {
-
-    public int findGlobalPeak(int[] nums) {
+    public int peakIndexInMountainArray(int[] nums) {
         if (nums == null || nums.length < 3) {
             return Integer.MIN_VALUE;
         }
     
         // 题意说了，数组最少长度为3，左右边界处不会是peak
-        int left = 1, right = A.length-2; 
+        int left = 1, right = nums.length-2; 
         
-        while(start + 1 < end) {
+        while(left + 1 < right) {
             int mid = left + (right - left) / 2;
-            
             // 所有元素互不相等
-            if(A[mid] < A[mid - 1]) {
-                right = mid - 1;
-            } else { // A[mid] > A[mid - 1]
+            if(nums[mid] < nums[mid - 1]) {
+                right = mid;
+            } else { // nums[mid] > nums[mid - 1]
                 left = mid;
             }
         }
         
-        return (A[left] < A[right]) ? right : left;
+        return (nums[left] < nums[right]) ? right : left;
     }
 }
 ```
 
 ## Reference
+* [Peak Index in a Mountain Array [LeetCode]](https://leetcode.com/problems/peak-index-in-a-mountain-array/description/)
 
 {% include links.html %}
