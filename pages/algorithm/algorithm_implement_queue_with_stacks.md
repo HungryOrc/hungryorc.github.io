@@ -1,15 +1,17 @@
 ---
-title: "Implement Queue with 2 Stacks"
+title: "Implement Queue with Stacks"
 tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_implement_queue_with_two_stacks.html
+permalink: algorithm_implement_queue_with_stacks.html
 folder: algorithm
 toc: false
 ---
 
 ## Description
+这题是开放性的，没有要求用几个stacks
+
 Implement the following operations of a queue using stacks.
 * push(x) -- Push element x to the back of queue.
 * pop() -- Removes the element from in front of queue.
@@ -32,8 +34,8 @@ queue.pop();   // returns 1
 queue.empty(); // returns false
 ```
 
-## Solution
-用 stack1 存push进来的东西，用 stack2 存将要（按queue的规则）pop出去的东西. 两个stack之间没有重复存的东西
+## Solution with 2 Stacks
+用2个Stacks。Stack1 存push进来的东西，Stack2 存将要（按queue的规则）pop出去的东西. 两个stack之间没有重复存的东西
 
 ### Complexity
 * Time: 
