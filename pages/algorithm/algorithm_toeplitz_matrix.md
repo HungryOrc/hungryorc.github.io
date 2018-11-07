@@ -12,7 +12,7 @@ toc: false
 ## Description
 A matrix is Toeplitz if every diagonal from top-left to bottom-right has the same element.
 
-Now given an M*N matrix, return True if and only if the matrix is Toeplitz.
+Now given an `M*N` matrix, return True if and only if the matrix is Toeplitz.
 * matrix will be a 2D array of integers.
 * matrix will have a number of rows and columns in range [1, 20].
 * matrix[i][j] will be integers in range [0, 99].
@@ -34,7 +34,15 @@ Now given an M*N matrix, return True if and only if the matrix is Toeplitz.
 
 
 ## Solution
-哦也
+* matrix里左上角的那个cell所对应的对角线，未必穿过matrix的右下角
+* matrix里的对角线一共有 n + m - 1 条。
+* 从左上角开始的对角线上的每个cell，它的row index - col index 总是等于0. 
+  * 它左边（即沿着matrix的第一列往下走）的 n - 1 个对角线，这些对角线上的cell的 row index - col index 依次等于 1, 2, 3...
+  * 它右边（即沿着matrix的第一行往右走）的 m - 1 个对角线，这些对角线上的cell的 row index - col index 依次等于 -1, -2, -3...
+  
+### 解答 Follow Up Questions
+* 问题1和2：无论给的是一行，还是几行，还是半行，还是不完整的任何一个几行乘以几列的片段，只要我们知道它里面各个元素所属的diagonal的序号（知道这个行/片段 的左上角的cell的diagonal就行），就能判断是否 toeplitz
+* 问题3：如果行列数太大（即对角线的个数太大），一个机器搞不过来，那么就用几台机器一起搞。比如三台机器。为了保证load balance，以及方便迅速查找每个对角线是由哪个机器负责，我们可以把对角线的序号 % 3，用余数来指派当前的diagnonal用哪个机器来处理
 
 ### Complexity
 * Time: O(n*m)
