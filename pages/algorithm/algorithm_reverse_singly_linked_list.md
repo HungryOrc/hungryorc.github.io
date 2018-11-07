@@ -94,20 +94,22 @@ class Solution {
 ```java
 class Solution {
     public ListNode reverseList(ListNode head) {
-        if (head == null || head.next == null)
+        if (head == null || head.next == null) {
             return head;
+        }
         
-        // 第一步：不管当前node，它以后的nodes会发生什么
+        // 第一步：看当前node之后的nodes会发生什么
         ListNode nextNode = head.next;
         ListNode newHead = reverseList(nextNode);   
      
-        // 第二步：经过处理后的后部，与当前的前部，应该发生哪些关系？一个也不要漏！
+        // 第二步：经过处理后的后部，与当前的前部的关系
         nextNode.next = head;
         
-        /* 特别注意下面这句 ！！！
-          如果是第一个head node，这么做就完事儿了。它也就该next -> null 
-          但是对于原head以后的任何nodes，把它们的next设为null怎么行呢？！！窍门在于：
-          reverseList这个函数在上面是不断嵌套自己的，
+        /* 特别注意下面这句！
+          对于整个list的初始的head node，把它的next设为null是很自然的， 
+          但是对于原head以后的任何nodes，为什么也要把它们的next设为null？
+          窍门在于：
+          reverseList这个函数在上面的代码里是不断嵌套自己的，
           在里面的一层，把某个node的next设为null以后；在紧邻着的外面的一层，就会再把它的next设为它之前的prev 
          
           从另外一个角度理解这个问题：对于head来说，sub problem是：
