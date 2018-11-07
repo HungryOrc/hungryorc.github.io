@@ -128,9 +128,12 @@ class Solution {
 }
 ```
 
-## Solution 2: DP
-尝试过
-## Solution 2: DP
+## Solution 2: DP，估计无法用DP解决这个问题
+尝试过用DP做，不成功。在LeetCode上有最后几个test case无法通过，无论怎么改code。
+
+我认为是因为如果有的路径弯弯绕特别多，那么用DP做的话，无论是左上右下，几个方向来回扫多少次，都可能无法到达。比如一个100圈的螺旋，最里面那个点是可以
+连接到大洋的，但DP必须足够多次数才能扫到这个点。那么弯弯绕的次数永远可以比DP来回扫的次数多，那么用DP就永远有无法解决的case。
+
 
 ## Reference
 * [Pacific Atlantic Water Flow [LeetCode]](https://leetcode.com/problems/pacific-atlantic-water-flow/description/)
