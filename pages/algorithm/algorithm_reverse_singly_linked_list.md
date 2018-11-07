@@ -20,6 +20,8 @@ Reverse a singly linked list.
       ListNode(int x) { val = x; }
   }
   ```
+  
+这一题虽然不难，但是下面的三个方法，含金量都很高！代表了三种流派。必须全都彻底掌握。
 
 ### Example
 * Input: `1->2->3->4->5->NULL`
