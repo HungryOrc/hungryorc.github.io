@@ -32,10 +32,15 @@ Return the least amount of money needed to form a paid group satisfying the abov
   * Explanation: We pay 4 to 0-th worker, 13.33333 to 2-th and 3-th workers seperately. 
 
 ## Solution
-哦也
+首先要明确题意。这一题的意思是很诡异的。首先要招满k个人，无论好赖。第二要给他们一样的工资标准，看齐这k个人里rate最高的那个人。第三这k个人的总quality要最低，就是说要找工作质量最差的k个人，因为rate定了以后，总工资等于rate乘以这k个人的总quality，我们要求最后给的总工资越少越好。
+
+这题的解法有点DP的思想。既然工资是对比某个人的rate来定的，那么每个人都有可能被立为rate的标杆。那么我们每次就假定一个人作为rate标杆。那么所有比他rate低的人都有可能成为他的team里的另外k-1个人，rate比他高的人就不可以进team（当然，如果rate比他低的人不到k-1个，那么就不能用这个人做rate标杆）。那么就要在所有rate比他低的人里面尽快找出quality最低的k-1个人。这里就要用到一个max heap，用类似top k element的思路来做。具体看下面的代码。
+
+在做上面这些之前，就需要算出每个人的 rate = wage / quality，然后用rate从小到大排序所有workers，把他们放到一个数组里。
+
 
 ### Complexity
-* Time: O(n*logn)，排序workers数组是n*logn，后续用heap处理是n*logk
+* Time: O(n * logn)，排序workers数组是 nlogn，后续用heap处理是 nlogk
 * Space: O(n)，array of workers
 
 ### Java
