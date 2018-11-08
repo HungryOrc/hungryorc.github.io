@@ -1,7 +1,7 @@
 ---
 title: "Shortest Path in a Matrix with Wall Breaking"
 tags: [algorithm]
-keywords:
+keywords: wall, obstacle
 summary:
 sidebar: mydoc_sidebar
 permalink: algorithm_shortest_path_in_matrix_with_wall_breaking.html
