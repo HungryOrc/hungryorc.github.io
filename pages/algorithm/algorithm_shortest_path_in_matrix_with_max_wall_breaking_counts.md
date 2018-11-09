@@ -80,7 +80,7 @@ public class Solution {
                     int newX = curX + dir[0];
                     int newY = curY + dir[1];
                     
-                    if (!isValid(newX, newY, n)) {
+                    if (!isValid(newX, newY, len)) {
                         continue;
                     }
                     
