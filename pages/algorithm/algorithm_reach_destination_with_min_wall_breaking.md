@@ -10,13 +10,54 @@ toc: false
 ---
 
 ## Description
-一个正方形迷宫，边长n，里面1的cell是墙，0的cell是路。每次可以走上下左右四个方向。给定起始点s和终止点t。可以破墙，最多k次。问从s到t的最短路径是多长。一个被破的墙的cell也算距离1，
-一个原本就是路点的cell也算距离1。
+一个n行m列的迷宫，里面1的cell是墙，0的cell是路。每次可以走上下左右四个方向。起始点是左上角，终点是右下角。
+允许破墙无数次，所以最后一定能到达终点。
+问最少破墙几次能到终点。
 
 ### Example
-略
+* Input:
+  ```
+  {1, 1, 1, 1, 0},
+  {0, 1, 0, 1, 1},
+  {0, 1, 0, 1, 1}
+  ```
+  * Output: 4, means we can reach the destination with minimum 4 wall breakings
+  * 每破一次墙能到达的各个 0 cell 和 1 cell 如下：
+    ```
+    '0' Cells after break wall 0 times:
+    '1' Cells after break wall 1 times:
+        x: 0, y: 0
+    '0' Cells after break wall 1 times:
+        x: 1, y: 0
+        x: 2, y: 0
+    '1' Cells after break wall 2 times:
+        x: 0, y: 1
+        x: 1, y: 1
+        x: 2, y: 1
+    '0' Cells after break wall 2 times:
+        x: 1, y: 2
+        x: 2, y: 2
+    '1' Cells after break wall 3 times:
+        x: 0, y: 2
+        x: 1, y: 3
+        x: 2, y: 3
+    '0' Cells after break wall 3 times:
+    '1' Cells after break wall 4 times:
+        x: 0, y: 3
+        x: 1, y: 4
+        x: 2, y: 4
+    ```
 
 ## Solution
+注意！因为只关心破墙次数！所以每一次破墙之前走了多少步0 cell都没影响！
+    
+从0往外找0和1的时候，遇到的0都装到q0里，即要无限地找0；遇到的1都装到q1里不动，即只找一“层”1，这样得到的1就是下一层的所有1
+从1往外找0和1的时候，遇到的0都装到q0里不动，即只找一“层”0，这些0是作为下次拓展的种子；
+遇到的1都放到q1里但不要动，即只找一“层”1，这就要求一开始有几个1要记录下来，这几个1拓展完了就不再拓展新来的1了，
+然后这些新来的1还不是下一层的所有的1，还得用这一层的0再拓展出一些1，才能补全下一层的所有1
+    
+    
+    
 用图论来做这题。所谓的“图”里的每个“点”是这么一个状态：(x, y, b)，意思是破墙b次后到达矩阵里坐标 (x, y) 处。
 * 从起始点向外逐层扩散，BFS
 * 没遇到墙的地方，和普通的迷宫走路题一样
@@ -32,84 +73,117 @@ toc: false
 * Space: O(|V|)，因为BFS的queue里最多装|V|量级的状态点    <==== 对么？？
 
 ### Java
-下面这个代码看起来不断，其实逻辑很简明   《==== 下面这个实现对么 ？？？
+   《==== 下面这个实现对么 ？？？
 ```java
-public class Solution {
-    private final static int[][] DIRS = {
-            {0, 1}, {0, -1}, {-1, 0}, {1, 0}
+public class Solution {    
+    private static final int[][] DIRS = {
+        {0, 1}, {0, -1}, {1, 0}, {-1, 0}
     };
     
-    // sx, sy is the coordinates of the starting point
-    // tx, ty is the coordinates of the terminal point
-    // k is the max number of wall breakings allowed
-    public int matrixBreakWalls(int[][] matrix, int sx, int sy, int tx, int ty, int k) {
-        // ignore sanity checks
+    public int minObstaclesToRemove(int[][] matrix) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return 0;
+        }
         
-        int len = matrix.length; // matrix is an n*n square
+        Queue<int[]> q0 = new LinkedList<>();
+        Queue<int[]> q1 = new LinkedList<>();
         
-        // 每个“状态点”用一个长度为3的int数组来表示
-        // 第一个元素表示当前x，第二个元素表示当前y，第三个元素表示当前已经破了几次墙
-        int[] initState = {sx, sy, 0};
+        // 用一个长度为1的数组来传承当前累计破了几次墙，也就等于当前的所谓“layer”值
+        int[] breakWallCount = new int[1];
+                
+        // [0, 0]处可能是0或1；[n-1, m-1]处也可能是0或1
+        if (matrix[0][0] == 0) {
+            q0.offer(new int[] {0, 0});
+        } else { // == 1
+            q1.offer(new int[] {0, 0});
+        }
         
-        // 我们要记录每个“状态是否已经达到过”，对于BFS，已经达到过的状态就不再以它为中心展开了
-        // 这里特别注意！对于同一个坐标点(x, y)，破墙1次到达它，和破墙3次到达它，和不破墙到达它，
-        // 是不同的状态！
-        boolean[][][] visited = new boolean[len][len][k + 1]; // k+1 here, not k
+        // 已经访问过的cell都标-1，无论它原来是1还是0
+        matrix[0][0] = -1;
         
-        Queue<int[]> states = new LinkedList<>();
-        states.offer(initState);
-        visited[sx][sy][0] = true;
-        int level = 0;
+        while (true) {
+            if (bfsStartFromZeros(matrix, q0, q1, breakWallCount)) {
+                return breakWallCount[0];
+            }
+            if (bfsStartFromOnes(matrix, q1, q0, breakWallCount)) {
+                return breakWallCount[0];
+            }
+        }
+    }
+    
+    private boolean bfsStartFromZeros(int[][] matrix, 
+            Queue<int[]> q0, Queue<int[]> q1, int[] breakWallCount) {
+        int n = matrix.length, m = matrix[0].length;
+        // System.out.println("'0' Cells after break wall " + breakWallCount[0] + " times:");
         
-        while (!states.isEmpty()) {
-            int curLevelSize = states.size();
-            level ++;
+        while (!q0.isEmpty()) {
+            int[] curCell = q0.poll();
+            int curX = curCell[0], curY = curCell[1];
+            // System.out.println("    x: " + curX + ", y: " + curY);
             
-            for (int i = 0; i < curLevelSize; i++) {    
-                int[] curState = states.poll();
-                int curX = curState[0];
-                int curY = curState[1];
-                int curBk = curState[2];
+            // 到达了整个矩阵的右下角
+            if (curX == n - 1 && curY == m - 1) {
+                return true;
+            }
+            
+            for (int[] dir : DIRS) {
+                int nextX = curX + dir[0], nextY = curY + dir[1];
                 
-                // 符合要求到达终点
-                if (curX == tx && curY == ty && curBk <= k) {
-                    return level;
-                }
-                
-                for (int[] dir : DIRS) {
-                    int newX = curX + dir[0];
-                    int newY = curY + dir[1];
-                    
-                    if (!isValid(newX, newY, len)) {
+                if (isValid(nextX, nextY, n, m)) {
+                    if (matrix[nextX][nextY] == -1) {
                         continue;
+                    } else if (matrix[nextX][nextY] == 0) {
+                        q0.offer(new int[] {nextX, nextY});
+                    } else { // == 1
+                        q1.offer(new int[] {nextX, nextY});
                     }
-                    
-                    if (matrix[newX][newY] == 0) { // 下一步是路
-                        if (visited[newX][newY][curBk] == false) {
-                            visited[newX][newY][curBk] = true;
-                            states.offer(new int[]{newX, newY, curBk});
-                        }
-                    } else { // 下一步是墙
-                        // 那么要走进这个cell就必须破墙
-                        // 那么第一要看，目前破墙次数用光没，
-                        // 第二要看，在目前的基础上再破一次墙进这块墙里，这个状态我们访问过没
-                        if (curBk + 1 <= k) {
-                            if (visited[newX][newY][curBk + 1] == false) {
-                                visited[newX][newY][curBk + 1] = true;
-                                states.offer(new int[] {newX, newY, curBk + 1});
-                            }
-                        }
-                    }
+                    matrix[nextX][nextY] = -1;
                 }
             }
         }
-        
-        // 有可能我们最后耗尽了k也达不到终点，那么就返回正无穷（步数）
-        return Integer.MAX_VALUE;
+        return false; // 终点不在这一层
     }
     
-    private boolean isValid(int x, int y, int n) {
-        return x >= 0 && x < n && y >= 0 && y < n;
+    private boolean bfsStartFromOnes(int[][] matrix, 
+            Queue<int[]> q1, Queue<int[]> q0, int[] breakWallCount) {
+        breakWallCount[0] += 1; // 处理1s意味着此时需要(再)破墙一次，即此时到了下一“层”
+        // System.out.println("'1' Cells after break wall " + breakWallCount[0] + " times:");
+       
+        int n = matrix.length, m = matrix[0].length;
+        
+        int initialQ1Size = q1.size();
+        int count = initialQ1Size;
+        while (count > 0) {
+            count--;
+            int[] curCell = q1.poll();
+            int curX = curCell[0], curY = curCell[1];
+            // System.out.println("    x: " + curX + ", y: " + curY);
+            
+            // 到达了整个矩阵的右下角
+            if (curX == n - 1 && curY == m - 1) {
+                return true;
+            }
+            
+            for (int[] dir : DIRS) {
+                int nextX = curX + dir[0], nextY = curY + dir[1];
+                
+                if (isValid(nextX, nextY, n, m)) {
+                    if (matrix[nextX][nextY] == -1) {
+                        continue;
+                    } else if (matrix[nextX][nextY] == 0) {
+                        q0.offer(new int[] {nextX, nextY});
+                    } else { // == 1
+                        q1.offer(new int[] {nextX, nextY});
+                    }
+                    matrix[nextX][nextY] = -1;
+                }
+            }
+        }
+        return false; // 终点不在这一层
+    }
+    
+    private boolean isValid(int x, int y, int n, int m) {
+        return x >= 0 && x < n && y >= 0 && y < m;
     }
     
     // ------------------------------------------------------
@@ -117,24 +191,17 @@ public class Solution {
     public static void main(String[] args) {
 
         int[][] matrix = {
-            {0, 1, 0, 0, 0},
-            {0, 1, 0, 1, 0},
-            {0, 1, 0, 1, 0},
-            {0, 1, 0, 1, 0},
-            {0, 0, 0, 1, 0},
+            {1, 1, 1, 1, 0},
+            {0, 1, 0, 1, 1},
+            {0, 1, 0, 1, 1}
         };
         
         Solution solu = new Solution();
-
-        // return 9, means 9 steps to reach the destination,
-        // with maximum 1 breaking walls
-        System.out.println(solu.matrixBreakWalls(matrix, 0, 0, 4, 4, 1));
-        // return 9 also
-        System.out.println(solu.matrixBreakWalls(matrix, 0, 0, 4, 4, 2));
-        // return 17, the last 0 in the parameter means we don't allow any wall breaking
-        System.out.println(solu.matrixBreakWalls(matrix, 0, 0, 4, 4, 0));
+        
+        // result is 4, means break wall 4 times
+        System.out.println(solu.minObstaclesToRemove(matrix));
     }
-}   
+}
 ```
 
 ## Reference
