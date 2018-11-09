@@ -49,14 +49,14 @@ public class Solution {
         
         // 每个“状态点”用一个长度为3的int数组来表示
         // 第一个元素表示当前x，第二个元素表示当前y，第三个元素表示当前已经破了几次墙
-        Integer[] initState = {sx, sy, 0};
+        int[] initState = {sx, sy, 0};
         
         // 我们要记录每个“状态是否已经达到过”，对于BFS，已经达到过的状态就不再以它为中心展开了
         // 这里特别注意！对于同一个坐标点(x, y)，破墙1次到达它，和破墙3次到达它，和不破墙到达它，
         // 是不同的状态！
         boolean[][][] visited = new boolean[len][len][k]; 
         
-        Queue<Integer[]> states = new LinkedList<>();
+        Queue<int[]> states = new LinkedList<>();
         states.offer(initState);
         visited[sx][sy][0] = true;
         int level = 0;
@@ -66,7 +66,7 @@ public class Solution {
             level ++;
             
             for (int i = 0; i < curLevelSize; i++) {    
-                Integer[] curState = states.poll();
+                int[] curState = states.poll();
                 int curX = curState[0];
                 int curY = curState[1];
                 int curBk = curState[2];
@@ -76,14 +76,18 @@ public class Solution {
                     return level;
                 }
                 
-                for (int j = 0; j < 4; j++) {
-                    int newX = curX + DIRS[i][0];
-                    int newY = curY + DIRS[i][1];
+                for (int[] dir : DIRS) {
+                    int newX = curX + dir[0];
+                    int newY = curY + dir[1];
+                    
+                    if (!isValid(newX, newY, n)) {
+                        continue;
+                    }
                     
                     if (matrix[newX][newY] == 0) { // 下一步是路
                         if (visited[newX][newY][curBk] == false) {
                             visited[newX][newY][curBk] = true;
-                            states.offer(new Integer[]{newX, newY, curBk});
+                            states.offer(new int[]{newX, newY, curBk});
                         }
                     } else { // 下一步是墙
                         // 那么要走进这个cell就必须破墙
@@ -92,7 +96,7 @@ public class Solution {
                         if (curBk + 1 < k) {
                             if (visited[newX][newY][curBk + 1] == false) {
                                 visited[newX][newY][curBk + 1] = true;
-                                states.offer(new Integer[] {newX, newY, curBk + 1});
+                                states.offer(new int[] {newX, newY, curBk + 1});
                             }
                         }
                     }
@@ -102,6 +106,10 @@ public class Solution {
         
         // 有可能我们最后耗尽了k也达不到终点，那么就返回正无穷（步数）
         return Integer.MAX_VALUE;
+    }
+    
+    private boolean isValid(int x, int y, int n) {
+        return x >= 0 && x < n && y >= 0 && y < n;
     }
 }
 ```
