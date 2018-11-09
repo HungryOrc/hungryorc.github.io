@@ -24,45 +24,52 @@ toc: false
   * Output: 4, means we can reach the destination with minimum 4 wall breakings
   * 每破一次墙能到达的各个 0 cell 和 1 cell 如下：
     ```
-    '0' Cells after break wall 0 times:
-    '1' Cells after break wall 1 times:
+    '0' Cells reachable after break wall 0 times:
+    '1' Cells reachable after break wall 1 times:
         x: 0, y: 0
-    '0' Cells after break wall 1 times:
+    '0' Cells reachable after break wall 1 times:
         x: 1, y: 0
         x: 2, y: 0
-    '1' Cells after break wall 2 times:
+    '1' Cells reachable after break wall 2 times:
         x: 0, y: 1
         x: 1, y: 1
         x: 2, y: 1
-    '0' Cells after break wall 2 times:
+    '0' Cells reachable after break wall 2 times:
         x: 1, y: 2
         x: 2, y: 2
-    '1' Cells after break wall 3 times:
+    '1' Cells reachable after break wall 3 times:
         x: 0, y: 2
         x: 1, y: 3
         x: 2, y: 3
-    '0' Cells after break wall 3 times:
-    '1' Cells after break wall 4 times:
+    '0' Cells reachable after break wall 3 times:
+    '1' Cells reachable after break wall 4 times:
         x: 0, y: 3
         x: 1, y: 4
         x: 2, y: 4
     ```
 
 ## Solution
-注意！因为只关心破墙次数！所以每一次破墙之前走了多少步0 cell都没影响！
-    
+注意，因为只关心破墙次数，所以每一次破墙之前走了多少步 0 cell 都没影响！
+所以这不是一个典型的最短路径问题，而是一个**“最少破墙”**问题。
+我们需要用一种新的**“分层”**的思路来解决这类问题。如下图：
+```
+0始 0零 1一 1二 1二 0一 0一 0一
+0零 0零 1一 0一 0一 0一 0一 0一
+0零 0零 1一 1二 1二 1二 1二 1二
+0零 0零 1一 1二 0二 0二 0二 0二
+0零 0零 1一 1二 0二 0二 0二 0终
+
+```
+
 从0往外找0和1的时候，遇到的0都装到q0里，即要无限地找0；遇到的1都装到q1里不动，即只找一“层”1，这样得到的1就是下一层的所有1
 从1往外找0和1的时候，遇到的0都装到q0里不动，即只找一“层”0，这些0是作为下次拓展的种子；
 遇到的1都放到q1里但不要动，即只找一“层”1，这就要求一开始有几个1要记录下来，这几个1拓展完了就不再拓展新来的1了，
 然后这些新来的1还不是下一层的所有的1，还得用这一层的0再拓展出一些1，才能补全下一层的所有1
     
-    
-    
-用图论来做这题。所谓的“图”里的每个“点”是这么一个状态：(x, y, b)，意思是破墙b次后到达矩阵里坐标 (x, y) 处。
-* 从起始点向外逐层扩散，BFS
-* 没遇到墙的地方，和普通的迷宫走路题一样
-* 遇到墙的地方，可以破，也可以不破。不破的话这个支路就终止了。破的话这个支路继续发展，当然如果k次破墙法术用尽了，那就不能再破了
-* 终止条件：首次走到终点坐标，而且破墙次数 <= k。即达到状态 (xt, yt, bt)，其中 bt <= k
+
+
+
+
 
 那么对于这个图，它的点和边的个数分别为：
 * |V| = O(k * n^2)，k 是破墙次数，因为对于矩阵里的每个坐标点，都最多可能经过k次破墙达到它，那么对于整个图来说，所有的状态种类就一共有 k * n^2 种
