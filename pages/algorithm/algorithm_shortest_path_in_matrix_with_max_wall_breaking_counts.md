@@ -54,7 +54,7 @@ public class Solution {
         // 我们要记录每个“状态是否已经达到过”，对于BFS，已经达到过的状态就不再以它为中心展开了
         // 这里特别注意！对于同一个坐标点(x, y)，破墙1次到达它，和破墙3次到达它，和不破墙到达它，
         // 是不同的状态！
-        boolean[][][] visited = new boolean[len][len][k]; 
+        boolean[][][] visited = new boolean[len][len][k + 1]; // k+1 here, not k
         
         Queue<int[]> states = new LinkedList<>();
         states.offer(initState);
@@ -93,7 +93,7 @@ public class Solution {
                         // 那么要走进这个cell就必须破墙
                         // 那么第一要看，目前破墙次数用光没，
                         // 第二要看，在目前的基础上再破一次墙进这块墙里，这个状态我们访问过没
-                        if (curBk + 1 < k) {
+                        if (curBk + 1 <= k) {
                             if (visited[newX][newY][curBk + 1] == false) {
                                 visited[newX][newY][curBk + 1] = true;
                                 states.offer(new int[] {newX, newY, curBk + 1});
@@ -111,7 +111,30 @@ public class Solution {
     private boolean isValid(int x, int y, int n) {
         return x >= 0 && x < n && y >= 0 && y < n;
     }
-}
+    
+    // ------------------------------------------------------
+    // main
+    public static void main(String[] args) {
+
+        int[][] matrix = {
+            {0, 1, 0, 0, 0},
+            {0, 1, 0, 1, 0},
+            {0, 1, 0, 1, 0},
+            {0, 1, 0, 1, 0},
+            {0, 0, 0, 1, 0},
+        };
+        
+        Solution solu = new Solution();
+
+        // return 9, means 9 steps to reach the destination,
+        // with maximum 1 breaking walls
+        System.out.println(solu.matrixBreakWalls(matrix, 0, 0, 4, 4, 1));
+        // return 9 also
+        System.out.println(solu.matrixBreakWalls(matrix, 0, 0, 4, 4, 2));
+        // return 17, the last 0 in the parameter means we don't allow any wall breaking
+        System.out.println(solu.matrixBreakWalls(matrix, 0, 0, 4, 4, 0));
+    }
+}   
 ```
 
 ## Reference
