@@ -109,7 +109,7 @@ public class Solution {
         matrix[0][0] = -1;
         
         while (true) {
-            if (bfsStartFromZeros(matrix, q0, q1, breakWallCount)) {
+            if (bfsStartFromZeros(matrix, q0, q1)) { // 从0开始的BFS不会增加 breakWallCount
                 return breakWallCount[0];
             }
             if (bfsStartFromOnes(matrix, q1, q0, breakWallCount)) {
@@ -119,14 +119,12 @@ public class Solution {
     }
     
     private boolean bfsStartFromZeros(int[][] matrix, 
-            Queue<int[]> q0, Queue<int[]> q1, int[] breakWallCount) {
+            Queue<int[]> q0, Queue<int[]> q1) {
         int n = matrix.length, m = matrix[0].length;
-        // System.out.println("'0' Cells after break wall " + breakWallCount[0] + " times:");
         
         while (!q0.isEmpty()) {
             int[] curCell = q0.poll();
             int curX = curCell[0], curY = curCell[1];
-            // System.out.println("    x: " + curX + ", y: " + curY);
             
             // 到达了整个矩阵的右下角
             if (curX == n - 1 && curY == m - 1) {
@@ -154,7 +152,6 @@ public class Solution {
     private boolean bfsStartFromOnes(int[][] matrix, 
             Queue<int[]> q1, Queue<int[]> q0, int[] breakWallCount) {
         breakWallCount[0] += 1; // 处理1s意味着此时需要(再)破墙一次，即此时到了下一“层”
-        // System.out.println("'1' Cells after break wall " + breakWallCount[0] + " times:");
        
         int n = matrix.length, m = matrix[0].length;
         
@@ -164,7 +161,6 @@ public class Solution {
             count--;
             int[] curCell = q1.poll();
             int curX = curCell[0], curY = curCell[1];
-            // System.out.println("    x: " + curX + ", y: " + curY);
             
             // 到达了整个矩阵的右下角
             if (curX == n - 1 && curY == m - 1) {
