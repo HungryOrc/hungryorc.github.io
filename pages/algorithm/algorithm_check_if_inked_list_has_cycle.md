@@ -13,8 +13,7 @@ toc: false
 Given a linked list, determine if it has a cycle in it.
 
 **Solve it without using extra space!**
-
-```
+```java
 public class ListNode {
     int val;
     ListNode next;
