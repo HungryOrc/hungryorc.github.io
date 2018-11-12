@@ -25,7 +25,7 @@ The given array is not null and has length of at least 2.
 
 ### Complexity
 * Time: O(n^2)    《====== 对么 ？？？？
-* Space: O(n)，size of set
+* Space: O(n)，size of the Map
 
 ### Java
 ```java
