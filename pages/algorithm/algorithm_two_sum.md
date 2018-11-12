@@ -125,13 +125,13 @@ public class Solution {
                         break;
                     }
                 }
-         } else if (givenNumbersCopy[indexLeft] + givenNumbersCopy[indexRight] < targetSum) {
-			             indexLeft++;
-            }	else
-			             indexRight--;
+            } else if (givenNumbersCopy[indexLeft] + givenNumbersCopy[indexRight] < targetSum) {
+                indexLeft++;
+            } else
+                indexRight--;
             }
         }
-		      return output;
+        return output;
     }
 }
 ```
