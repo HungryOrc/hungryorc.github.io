@@ -47,6 +47,16 @@ Notice:
 
 ### Java
 ```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+
 class Solution {
     public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
         List<Integer> result = new ArrayList<>();
@@ -59,14 +69,14 @@ class Solution {
         }
         
         Map<TreeNode, List<TreeNode>> neighbors = new HashMap<>();
-        Set<TreeNode> visited = new HashSet<>();
+        Set<Integer> visited = new HashSet<>();
         
         neighbors.put(root, new LinkedList<TreeNode>());
         fillMap(root, neighbors);
         
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(target);
-        visited.add(target);
+        visited.add(target.val);
         
         int level = 0;
         while (level < k) {
@@ -77,9 +87,9 @@ class Solution {
                 TreeNode curNode = queue.poll();
                 
                 for (TreeNode nei : neighbors.get(curNode)) {
-                    if (!visited.contains(nei)) {
+                    if (!visited.contains(nei.val)) {
                         queue.offer(nei);
-                        visited.add(nei);
+                        visited.add(nei.val);
                     }
                 }
             }
