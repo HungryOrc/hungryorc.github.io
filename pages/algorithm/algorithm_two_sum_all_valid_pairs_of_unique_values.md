@@ -12,9 +12,8 @@ toc: false
 ## Description
 Find all pairs of elements in a given array that sum to the pair the given target number. 
 Return all the **distinct pairs of values**.
-* The given array is not null and has length of at least 2
-* The order of the values in the pair does not matter
 
+The given array is not null and has length of at least 2. The order of the values in the pair does not matter
 
 * 数组里可能有重复的元素，返回的是一对一对的不同的values，而非indices，所以要去重
 * 但是由于同一个元素（即同一个index）可以反复使用，所以比如和等于6的话，一个3用两次是可以的！
