@@ -40,9 +40,9 @@ public class Solution {
             int cur = nums[i];
             
             // 到目前为止，已经发现过的，和当前数cur能配对的数的indexes，都拿出来放入答案
-            List<Integer> indexesOFMatchedNum = indexes.get(target - cur);
-            if (indexesOfMatechedNum != null) {
-                for (int index : indexesOfMatechedNum) {
+            List<Integer> indexesOfMatchedNum = indexes.get(target - cur);
+            if (indexesOfMatchedNum != null) {
+                for (int index : indexesOfMatchedNum) {
                     List<Integer> pair = new ArrayList<>();
                     pair.add(i);
                     pair.add(index);
@@ -53,7 +53,7 @@ public class Solution {
             // 把当前的数cur的index放到cur的value对应的map的list里去，因为可能有重复元素
             List<Integer> sameValueIndexes = indexes.getOrDefault(cur, new ArrayList<Integer>());
             sameValueIndexes.add(i);
-            indexes.put(cur, sameValueIndexes);    <===== 这一步是不是可以不用 ？？？？
+            indexes.put(cur, sameValueIndexes); // 这一步不能少！因为新建list的话是还没有放回map里的！
         }
         
         return result;
