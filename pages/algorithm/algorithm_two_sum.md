@@ -89,44 +89,43 @@ indexLeft, indexRight 分别指向数组第一个元素和最后一个元素，�
 ### Java
 ```java
 public class Solution {
-	   public int[] twoSum(int[] givenNumbers, int targetSum) {
-		      int[] output = new int[2];
+    public int[] twoSum(int[] givenNumbers, int targetSum) {
+        int[] output = new int[2];
 
-		      int indexLeft = 0;
-		      int indexRight = givenNumbers.length - 1;
-		      int numberLeft = 0;
-		      int numberRight = 0;
+        int indexLeft = 0;
+        int indexRight = givenNumbers.length - 1;
+        int numberLeft = 0;
+        int numberRight = 0;
 
-		      // copy the given array
-		      int[] givenNumbersCopy = new int[givenNumbers.length];
-		      for (int i = 0; i < givenNumbers.length; i++) {
-			         givenNumbers_Copy[i] = givenNumbers[i];
+        // copy the given array
+        int[] givenNumbersCopy = new int[givenNumbers.length];
+        for (int i = 0; i < givenNumbers.length; i++) {
+            givenNumbers_Copy[i] = givenNumbers[i];
         }
 
-		      // "Dual-Pivot" Quick Sort
-		      // Sort the copy of the given array, from smaller to bigger
-		      Arrays.sort(givenNumbersCopy);
+        // "Dual-Pivot" Quick Sort
+        // Sort the copy of the given array, from smaller to bigger
+        Arrays.sort(givenNumbersCopy);
 
-		      while (indexLeft < indexRight) {
-		          if (givenNumbersCopy[indexLeft] + givenNumbersCopy[indexRight] == targetSum) {
-			             numberLeft = givenNumbersCopy[indexLeft];
-			             numberRight = givenNumbersCopy[indexRight];
+        while (indexLeft < indexRight) {
+            if (givenNumbersCopy[indexLeft] + givenNumbersCopy[indexRight] == targetSum) {
+                numberLeft = givenNumbersCopy[indexLeft];
+                numberRight = givenNumbersCopy[indexRight];
 
-			             // find the indexes of these 2 numbers in the original given array
-			             for (int i = 0; i < givenNumbers.length; i ++)	{
-				                if (givenNumbers[i] == numberLeft)	{
-					                   output[0] = i;
-					                   break;
-			                 }
-			             }
-             			for (int i = givenNumbers.length - 1; i >= 0; i --)	{
-				                if (givenNumbers[i] == numberRight)	{
-					                   output[1] = i;
-					                   break;
-				                }
-			             }
-			             break;
-      		    } else if (givenNumbersCopy[indexLeft] + givenNumbersCopy[indexRight] < targetSum) {
+                // find the indexes of these 2 numbers in the original given array
+                for (int i = 0; i < givenNumbers.length; i ++) {
+                    if (givenNumbers[i] == numberLeft)	{
+                        output[0] = i;
+                        break;
+                    }
+                }
+                for (int i = givenNumbers.length - 1; i >= 0; i --) {
+                    if (givenNumbers[i] == numberRight)	{
+                        output[1] = i;
+                        break;
+                    }
+                }
+         } else if (givenNumbersCopy[indexLeft] + givenNumbersCopy[indexRight] < targetSum) {
 			             indexLeft++;
             }	else
 			             indexRight--;
