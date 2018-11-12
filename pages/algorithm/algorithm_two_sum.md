@@ -94,8 +94,6 @@ public class Solution {
 
         int indexLeft = 0;
         int indexRight = givenNumbers.length - 1;
-        int numberLeft = 0;
-        int numberRight = 0;
 
         // copy the given array
         int[] givenNumbersCopy = new int[givenNumbers.length];
@@ -109,18 +107,15 @@ public class Solution {
 
         while (indexLeft < indexRight) {
             if (givenNumbersCopy[indexLeft] + givenNumbersCopy[indexRight] == targetSum) {
-                numberLeft = givenNumbersCopy[indexLeft];
-                numberRight = givenNumbersCopy[indexRight];
-
                 // find the indexes of these 2 numbers in the original given array
                 for (int i = 0; i < givenNumbers.length; i ++) {
-                    if (givenNumbers[i] == numberLeft)	{
+                    if (givenNumbers[i] == givenNumbersCopy[indexLeft])	{
                         output[0] = i;
                         break;
                     }
                 }
                 for (int i = givenNumbers.length - 1; i >= 0; i --) {
-                    if (givenNumbers[i] == numberRight)	{
+                    if (givenNumbers[i] == givenNumbersCopy[indexRight])	{
                         output[1] = i;
                         break;
                     }
