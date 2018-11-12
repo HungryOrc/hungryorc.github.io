@@ -53,7 +53,7 @@ public class Solution {
             // 把当前的数cur的index放到cur的value对应的map的list里去，因为可能有重复元素
             List<Integer> sameValueIndexes = indexes.getOrDefault(cur, new ArrayList<Integer>());
             sameValueIndexes.add(i);
-            indexes.put(cur, sameValueIndexes);            
+            indexes.put(cur, sameValueIndexes);    <===== 这一步是不是可以不用 ？？？？
         }
         
         return result;
