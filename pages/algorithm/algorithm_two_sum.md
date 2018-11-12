@@ -17,18 +17,10 @@ You may assume that each input would **have exactly one solution**, and you may 
 * 数组里可能有重复的元素，返回的是一对 indices，因为按照题意，有且只有一对符合要求的数
 * 同一个元素（即同一个index）最多只能使用一次
 
-### Example
-* Input: nums = [2, 7, 11, 15], target = 9
-  * Output: [0, 1]
-  * Because nums[0] + nums[1] = 2 + 7 = 9
-
-## Solution
-用hashset做。前 1% 的速度
-
 ### Follow Up
 注意！这题要进行优化的话，要先问清楚，是时间上要优化，还是空间上要优化
 
-如果采用先排序再处理的方法，那么使用哪种排序算法，就和优化的目的有关了。不是一定采用速度快的 quick sort 或者 merge sort
+如果采用先排序再处理的方法（下面写的第二个方法），那么使用哪种排序算法，就和优化的目的有关了。不是一定采用速度快的 quick sort 或者 merge sort
 
 因为从时间消耗来说：
 * quick sort是最优 nlogn
@@ -39,6 +31,14 @@ You may assume that each input would **have exactly one solution**, and you may 
 * merge sort是 n，因为它要搞新的数组出来放中间结果
 * quick sort是O(height of tree)，比如O(logn)，因为它要call stacks，call stack的层数等于tree的高度，每一层消耗constant 的空间
 * selection sort只要双层循环，没有recursion，空间消耗是O(1)，从空间的角度说，selection sort 反而是最省的
+
+### Example
+* Input: nums = [2, 7, 11, 15], target = 9
+  * Output: [0, 1]
+  * Because nums[0] + nums[1] = 2 + 7 = 9
+
+## Solution 1，用 HashMap 做
+前 1% 的速度
 
 ### Complexity
 * Time: O(n)
@@ -71,6 +71,68 @@ class Solution {
         
         // 我们不会到这里
         return null;
+    }
+}
+```
+
+## Solution 2，先排序数组，然后两边向中间逼近
+indexLeft, indexRight 分别指向数组第一个元素和最后一个元素，判断两个元素的和 targetSum 的大小关系
+* 如果 A[indexLeft] + A[indexRight] == targetSum，那么找到两个下标返回即可
+* 如果 A[indexLeft] + A[indexRight] < targetSum，说明两个数的和还不够大，把 indexLeft 右移
+* 否则两个数和太大，把 indexRight 左移
+* 直到两个 index 重合
+
+### Complexity
+* Time: O(n * logn)，其中排序用 O(n * logn)，两边向中间逼近用 O(n)
+* Space: O(n)，size of map
+
+### Java
+```java
+public class Solution {
+	   public int[] twoSum(int[] givenNumbers, int targetSum) {
+		      int[] output = new int[2];
+
+		      int indexLeft = 0;
+		      int indexRight = givenNumbers.length - 1;
+		      int numberLeft = 0;
+		      int numberRight = 0;
+
+		      // copy the given array
+		      int[] givenNumbersCopy = new int[givenNumbers.length];
+		      for (int i = 0; i < givenNumbers.length; i++) {
+			         givenNumbers_Copy[i] = givenNumbers[i];
+        }
+
+		      // "Dual-Pivot" Quick Sort
+		      // Sort the copy of the given array, from smaller to bigger
+		      Arrays.sort(givenNumbersCopy);
+
+		      while (indexLeft < indexRight) {
+		          if (givenNumbersCopy[indexLeft] + givenNumbersCopy[indexRight] == targetSum) {
+			             numberLeft = givenNumbersCopy[indexLeft];
+			             numberRight = givenNumbersCopy[indexRight];
+
+			             // find the indexes of these 2 numbers in the original given array
+			             for (int i = 0; i < givenNumbers.length; i ++)	{
+				                if (givenNumbers[i] == numberLeft)	{
+					                   output[0] = i;
+					                   break;
+			                 }
+			             }
+             			for (int i = givenNumbers.length - 1; i >= 0; i --)	{
+				                if (givenNumbers[i] == numberRight)	{
+					                   output[1] = i;
+					                   break;
+				                }
+			             }
+			             break;
+      		    } else if (givenNumbersCopy[indexLeft] + givenNumbersCopy[indexRight] < targetSum) {
+			             indexLeft++;
+            }	else
+			             indexRight--;
+            }
+        }
+		      return output;
     }
 }
 ```
