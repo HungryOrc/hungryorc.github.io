@@ -13,7 +13,8 @@ toc: false
 Find all pairs of elements in a given array that sum to the given target number. Return all the pairs of indices.
 The given array is not null and has length of at least 2.
 
-注意，数组里可能有重复的元素，返回的是一对一对的indexes，所以重复元素但是index不同也算是不同的对象！
+* 数组里可能有重复的元素，返回的是一对一对的indexes，所以重复元素但是index不同也算是不同的对象！
+* 同一个元素（即同一个index）最多只能使用一次
 
 ### Example
 * Input: A = {1, 3, 2, 4}, target = 5
