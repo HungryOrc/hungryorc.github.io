@@ -32,7 +32,7 @@ What if you cannot modify the input lists? In other words, reversing the lists i
   * Output: 7 -> 8 -> 0 -> 7, since 7243 + 564 = 7807
 
 ## Solution
-略
+用2个stacks来装lists里的数，这样就把各个数位反过来了，个位最先被处理。速度在leetcode上是前1%。这种方法没有把lists反转过来，符合follow up question的要求
 
 ### Complexity
 * Time: O(n)
