@@ -12,6 +12,15 @@ toc: false
 ## Description
 Given a singly-linked list, where each node contains an integer value, sort it in ascending order. 
 The merge sort algorithm should be used to solve this problem.
+```java
+class ListNode {
+    public int value;
+    public ListNode next;
+    public ListNode(int value) {
+        this.value = value;
+    }
+}
+```
 
 ### Example
 * Input: 4 -> 2 -> 6 -> -3 -> 5
