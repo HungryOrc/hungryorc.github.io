@@ -30,7 +30,7 @@ You may not modify the values in the list's nodes, only nodes itself may be chan
   * Output: 1->5->2->4->3
 
 ## Solution
-第一步，找mid node。第二步，reverse后半段。第三步，两个list merge到一起。
+第一步，找mid node。第二步，reverse后半段。第三步，两个list merge到一起。这个方法的速度是 前 1%
 
 关键：别忘了**把前半段的最后一个node的next设为null！** 不然会出现诡异错误！
 
@@ -46,51 +46,68 @@ class Solution {
             return;
         }
         
-        ListNode slow = head, fast = head;
-        // 声明这个prevSlow是为了把前半段list的末尾设为null！
-        ListNode prevSlow = null;
+        // Step 1，找到left end 和right head
+        ListNode leftEnd = getLeftEnd(head);
+        ListNode rightHead = leftEnd.next;
+        leftEnd.next = null; // 切记别忘了这个！
         
-        // Step 1，找到 middle node
-        while (fast != null && fast.next != null) {
+        // Step 2，reverse right half list
+        ListNode newRightHead = reverseList(rightHead);
+        
+        // Step 3, merge 2 lists, 每次每边出一个node，不管大小
+        mergeLists(head, newRightHead);
+    }
+    
+    // 如果要 get right head 或者说 get middle node，
+    // 那么就把slow和fast都初始化为 head；
+    // 但如果是要 get left end，
+    // 就把slow初始化为head，fast初始化为head.next
+    private ListNode getLeftEnd(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        
+        ListNode slow = head, fast = head.next;
+        while (fast.next != null && fast.next.next != null) {
             fast = fast.next.next;
-            prevSlow = slow;
             slow = slow.next;
         }
-        prevSlow.next = null; // 是为了把前半段list的末尾设为null
-        ListNode mid = slow;
-        
-        // Step 2，reverse后半段list
-        ListNode cur = mid;
-        ListNode prev = null;
-        while (cur != null) {
-            ListNode nextNode = cur.next;
-            cur.next = prev;
-            
-            prev = cur;
-            cur = nextNode;
+        return slow;
+    }
+    
+    private ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
         }
-        ListNode newHeadOf2ndHalf = prev; // also = cur
         
-        // Step 3，把2个list合并到一起，每次每边出一个node，不论大小
-        ListNode n1 = head, n2 = newHeadOf2ndHalf;
-        prev = new ListNode(Integer.MIN_VALUE);
+        ListNode nextNode = head.next;
+        ListNode newHead = reverseList(nextNode);
         
-        while (n1 != null && n2 != null) {
-            ListNode nextN1 = n1.next;
-            ListNode nextN2 = n2.next;
-
-            prev.next = n1;
-            n1.next = n2;
+        nextNode.next = head;
+        head.next = null;
+        
+        return newHead;
+    }
+    
+    private void mergeLists(ListNode head1, ListNode head2) {
+        ListNode dummyHead = new ListNode(Integer.MIN_VALUE);
+        
+        while (head1 != null && head2 != null) {
+            ListNode next1 = head1.next;
+            ListNode next2 = head2.next;
             
-            prev = n2;
-            n1 = nextN1;
-            n2 = nextN2;
+            dummyHead.next = head1;
+            head1.next = head2;
+            
+            dummyHead = head2; // 切记别忘了这个！
+            head1 = next1;
+            head2 = next2;
         }
-
-        if (n1 == null && n2 != null) {
-            n2.next = n1;
-        } else if (n1 != null && n2 == null) {
-            n1.next = n2;
+        
+        if (head1 == null) {
+            dummyHead.next = head2;
+        } else { // head2 == null
+            dummyHead.next = head1;
         }
     }
 }
