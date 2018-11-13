@@ -28,6 +28,10 @@ You should preserve the original relative order of the nodes in each of the two 
 ## Solution
 搞两个list，一个串起来那些小的，一个串起来那些大的。最后两个连起来。速度前 1%
 
+设两个dummy head，会方便很多
+
+注意！最后别忘了把后半段list的最后一个node的next设为null！
+
 ### Complexity
 * Time: O(n)
 * Space: O(1)，没什么额外空间
