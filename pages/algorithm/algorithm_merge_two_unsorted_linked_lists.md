@@ -4,7 +4,7 @@ tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_two_unsorted_linked_lists.html
+permalink: algorithm_merge_two_unsorted_linked_lists.html
 folder: algorithm
 toc: false
 ---
