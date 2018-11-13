@@ -52,6 +52,44 @@ class Solution {
 }
 ```
 
+## Solution 2: Iteration
+
+### Complexity
+* Time: O(n)
+* Space: O(1)
+
+### Java
+```java
+class Solution {
+    public ListNode mergeTwoLists(ListNode h1, ListNode h2) {
+        ListNode dummyHead = new ListNode(Integer.MIN_VALUE);        
+        ListNode finalHead = dummyHead;
+
+        while (h1 != null && h2 != null) {
+            if (h1.val <= h2.val) {
+                dummyHead.next = h1;
+                
+                dummyHead = h1; // 别忘了这个！
+                h1 = h1.next;
+            } else {
+                dummyHead.next = h2;
+                
+                dummyHead = h2; // 别忘了这个！
+                h2 = h2.next;
+            }
+        }
+        
+        if (h1 == null) {
+            dummyHead.next = h2;
+        } else { // h2 == null
+            dummyHead.next = h1;
+        }
+        
+        return finalHead.next;
+    }
+}
+```
+
 ## Reference
 * [Merge Two Sorted Lists [LeetCode]](https://leetcode.com/problems/merge-two-sorted-lists/description/)
 
