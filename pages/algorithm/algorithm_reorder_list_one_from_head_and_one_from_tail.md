@@ -32,10 +32,6 @@ You may not modify the values in the list's nodes, only nodes itself may be chan
 ## Solution
 第一步，找mid node。第二步，reverse后半段。第三步，两个list merge到一起。
 
-这个方法的速度是前 1%，前提是像下面的代码这样全用iteration来做，
-且在同一个函数里做完所有事。
-如果用recursion或者用几个helper function来做（虽然那样的style更好），在leetcode上的速度测评会慢一些。
-
 关键：别忘了**把前半段的最后一个node的next设为null！** 不然会出现诡异错误！
 
 ### Complexity
