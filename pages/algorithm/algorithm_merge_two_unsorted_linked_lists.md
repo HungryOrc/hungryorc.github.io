@@ -11,6 +11,13 @@ toc: false
 
 ## Description
 直接把2个linked list 合并到一起，每次每边出一个node，不管大小
+```java
+ public class ListNode {
+     int val;
+     ListNode next;
+     ListNode(int x) { val = x; }
+ }
+```
 
 这一题很简单，网上并没有，列在这里只是为了备查。因为它可能会是别的更复杂的题目里的一个helper function
 
