@@ -45,8 +45,8 @@ public class Solution {
         int carry = 0;
         
         // 关键的妙处：这个while里面的3个条件！
-        // 把各种特殊情况，包括l1到头，l2到头，l1和l2都到头但是还再进了一位，
-        // 都考虑到了！
+        // 把各种特殊情况都考虑到了！
+        // 包括s1到头，s2到头，s1和s2都到头但是还再进了一位（比如最后是 5 + 9 = 14）
         while (l1 != null || l2 != null || carry == 1) {
             ListNode cur = new ListNode(0); // result里更小的位
             
