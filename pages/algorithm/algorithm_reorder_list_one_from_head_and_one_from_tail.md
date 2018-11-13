@@ -30,11 +30,13 @@ You may not modify the values in the list's nodes, only nodes itself may be chan
   * Output: 1->5->2->4->3
 
 ## Solution
-第一步，找mid node。第二步，reverse后半段。第三步，两个list merge到一起。这个方法的速度是前 1%，前提是像下面的代码这样全用iteration来做，
+第一步，找mid node。第二步，reverse后半段。第三步，两个list merge到一起。
+
+这个方法的速度是前 1%，前提是像下面的代码这样全用iteration来做，
 且在同一个函数里做完所有事。
 如果用recursion或者用几个helper function来做（虽然那样的style更好），在leetcode上的速度测评会慢一些。
 
-关键：别忘了把前半段的最后一个node的next设为null！不然会出现诡异错误！
+关键：别忘了**把前半段的最后一个node的next设为null！** 不然会出现诡异错误！
 
 ### Complexity
 * Time: O(n)
@@ -52,28 +54,28 @@ class Solution {
         // 声明这个prevSlow是为了把前半段list的末尾设为null！
         ListNode prevSlow = null;
         
-        // step 1
+        // Step 1，找到 middle node
         while (fast != null && fast.next != null) {
             fast = fast.next.next;
             prevSlow = slow;
             slow = slow.next;
         }
-        prevSlow.next = null;
+        prevSlow.next = null; // 是为了把前半段list的末尾设为null
         ListNode mid = slow;
         
-        // step 2
+        // Step 2，reverse后半段list
         ListNode cur = mid;
         ListNode prev = null;
         while (cur != null) {
-            ListNode next = cur.next;
+            ListNode nextNode = cur.next;
             cur.next = prev;
             
             prev = cur;
-            cur = next;
+            cur = nextNode;
         }
-        ListNode newHeadOf2ndHalf = prev;
+        ListNode newHeadOf2ndHalf = prev; // also = cur
         
-        // step 3
+        // Step 3，把2个list合并到一起，每次每边出一个node，不论大小
         ListNode n1 = head, n2 = newHeadOf2ndHalf;
         prev = new ListNode(Integer.MIN_VALUE);
         
