@@ -96,20 +96,24 @@ class Solution {
 ### Java
 ```java
 class Solution {
-    public ArrayList<Integer> inorderTraversal(TreeNode root) {
-        ArrayList<Integer> result = new ArrayList<>();
-        inorder(root, result);
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        
+        postorder(root, result);
         return result;
     }
-   
-    private void inorder(TreeNode root, ArrayList<Integer> result) {
-        if (root == null) {
+    
+    private void postorder(TreeNode node, List<Integer> result) {
+        if (node == null) {
             return;
         }
-       
-        inorder(root.left, result);
-        result.add(root.val);
-        inorder(root.right, result);
+        
+        postorder(node.left, result);
+        postorder(node.right, result);
+        result.add(node.val);
     }
 }
 ```
