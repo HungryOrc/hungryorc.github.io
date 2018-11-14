@@ -116,8 +116,8 @@ class Solution {
 Ref: http://www.jiuzhang.com/solutions/balanced-binary-tree/
 
 ### Complexity
-* Time: ?
-* Space: ?
+* Time: 应该和方法1是一样的，O(n)  <=== 对么 ？？？
+* Space: 应该和方法1是一样的，O(height of tree) <=== 对么 ？？？
 
 ### Java
 ```java
@@ -134,16 +134,19 @@ public class Solution {
     public boolean isBalanced(TreeNode root) {
         return checkBalanceAndDepth(root).isBalanced;
     }
+    
     private BalanceAndDepth checkBalanceAndDepth(TreeNode curNode) {
         if (curNode == null) {
             return new BalanceAndDepth(true, 0);
         }
         
         BalanceAndDepth leftSubtreeStatus = checkBalanceAndDepth(curNode.left);
-        BalanceAndDepth rightSubtreeStatus = checkBalanceAndDepth(curNode.right);
+        if (!leftSubtreeStatus.isBalanced) {
+            return new BalanceAndDepth(false, -1); // the actual depth does not matter now
+        }
         
-        // if either subtree is not balanced
-        if (!leftSubtreeStatus.isBalanced || !rightSubtreeStatus.isBalanced) {
+        BalanceAndDepth rightSubtreeStatus = checkBalanceAndDepth(curNode.right);
+        if (!rightSubtreeStatus.isBalanced) {
             return new BalanceAndDepth(false, -1); // the actual depth does not matter now
         }
         
