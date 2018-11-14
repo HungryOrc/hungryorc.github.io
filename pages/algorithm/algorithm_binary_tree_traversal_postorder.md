@@ -37,7 +37,7 @@ Recursion的做法很简单，能用iteration来做才是nb哈哈
   * Output: [3, 2, 1]
 
 
-## Solution 1: Iteration with a Stack，我的独创方法！
+## Solution 1: Iteration with a Stack，我的独创方法！应follow up question的要求
 
 ### Complexity
 * Time: O(n)
@@ -46,42 +46,41 @@ Recursion的做法很简单，能用iteration来做才是nb哈哈
 ### Java
 ```java
 class Solution {
-    public ArrayList<Integer> inorderTraversal(TreeNode root) {
-        ArrayList<Integer> result = new ArrayList<>();
-        Deque<TreeNode> stack = new ArrayDeque<>();
-        
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
         if (root == null) {
             return result;
         }
         
+        Deque<TreeNode> stack = new ArrayDeque<>();
         stack.push(root);
+        
         while (!stack.isEmpty()) {
             TreeNode cur = stack.pop();
-           
+            
             // 要么，这个node是leaf
             // 要么，这个node的左右子都已被纳入stack了
-            if (cur.left == null && cur.right == null) {
+            if (cur.left== null && cur.right == null) {
                 result.add(cur.val);
                 continue;
-            } 
+            }
             
-            // 先把右边的放进stack，即最后处理右子树
+            // 先把中间的也就是自己放进stack
+            stack.push(cur);
+            // 再把右边的放进stack，即处理右子树
             if (cur.right != null) {
                 stack.push(cur.right);
             }
-
-            // 把中间的也就是自己放进stack
-            stack.push(cur);
-
             // 最后把左边的放进stack，即下一步就要先处理左子树
             if (cur.left != null) {
                 stack.push(cur.left);
             }
-
+            
             // 本node的历史使命完成了。左右都剪掉，以利于将来被处理
             cur.left = null;
             cur.right = null;
         }
+        
         return result;
     }
 }
