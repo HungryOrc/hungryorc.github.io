@@ -113,7 +113,7 @@ class Solution {
 ```
 
 ## Solution 3: 九章的方法，搞一个return type class
-// Ref: http://www.jiuzhang.com/solutions/balanced-binary-tree/
+Ref: http://www.jiuzhang.com/solutions/balanced-binary-tree/
 
 ### Complexity
 * Time: ?
@@ -121,16 +121,16 @@ class Solution {
 
 ### Java
 ```java
-public class Solution {
-    class BalanceAndDepth {
-        public boolean isBalanced;
-        public int maxDepth;
-        public BalanceAndDepth (boolean isBalanced, int maxDepth) {
-            this.isBalanced = isBalanced;
-            this.maxDepth = maxDepth;
-        }
+class BalanceAndDepth {
+    public boolean isBalanced;
+    public int maxDepth;
+    public BalanceAndDepth (boolean isBalanced, int maxDepth) {
+        this.isBalanced = isBalanced;
+        this.maxDepth = maxDepth;
     }
+}
     
+public class Solution {    
     public boolean isBalanced(TreeNode root) {
         return checkBalanceAndDepth(root).isBalanced;
     }
