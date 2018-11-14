@@ -83,8 +83,9 @@ class Solution {
 ```java
 class Solution {
     public boolean isBalanced(TreeNode root) {
-        if (root == null)
+        if (root == null) {
             return true;
+        }
         
         int leftH = getHeight(root.left);
         int rightH = getHeight(root.right);
