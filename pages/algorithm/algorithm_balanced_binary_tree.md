@@ -112,8 +112,51 @@ class Solution {
 }
 ```
 
+## Solution 3: 九章的方法，搞一个return type class
+// Ref: http://www.jiuzhang.com/solutions/balanced-binary-tree/
 
+### Complexity
+* Time: ?
+* Space: ?
 
+### Java
+```java
+public class Solution {
+    class BalanceAndDepth {
+        public boolean isBalanced;
+        public int maxDepth;
+        public BalanceAndDepth (boolean isBalanced, int maxDepth) {
+            this.isBalanced = isBalanced;
+            this.maxDepth = maxDepth;
+        }
+    }
+    
+    public boolean isBalanced(TreeNode root) {
+        return checkBalanceAndDepth(root).isBalanced;
+    }
+    private BalanceAndDepth checkBalanceAndDepth(TreeNode curNode) {
+        if (curNode == null) {
+            return new BalanceAndDepth(true, 0);
+        }
+        
+        BalanceAndDepth leftSubtreeStatus = checkBalanceAndDepth(curNode.left);
+        BalanceAndDepth rightSubtreeStatus = checkBalanceAndDepth(curNode.right);
+        
+        // if either subtree is not balanced
+        if (!leftSubtreeStatus.isBalanced || !rightSubtreeStatus.isBalanced) {
+            return new BalanceAndDepth(false, -1); // the actual depth does not matter now
+        }
+        
+        // if the current node itself is not balanced
+        if (Math.abs(leftSubtreeStatus.maxDepth - rightSubtreeStatus.maxDepth) > 1) {
+            return new BalanceAndDepth(false, -1); // the actual depth does not matter now
+        }
+        
+        return new BalanceAndDepth(true, 
+            Math.max(leftSubtreeStatus.maxDepth, rightSubtreeStatus.maxDepth) + 1);
+    }
+}
+```
 
 ## Reference
 * [Balanced Binary Tree [LeetCode]](https://leetcode.com/problems/balanced-binary-tree/description/)
