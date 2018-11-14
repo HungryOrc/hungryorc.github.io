@@ -70,6 +70,40 @@ class Solution {
 }
 ```
 
+## Solution 2: Recursion，用一个function求height，另一个查balanced。慢
+见下面的代码，这个方法最符合直觉，但速度慢。因为：
+
+对于root来说，run一次isBalanced，首先要run一次left
+
+### Complexity
+* Time: O(n)，n是tree node的个数 <==== 对么 ？？？
+* Space: O(height of tree)，即call stack的层数
+
+### Java
+```java
+class Solution {
+    public boolean isBalanced(TreeNode root) {
+        if (root == null)
+            return true;
+        
+        int leftH = getHeight(root.left);
+        int rightH = getHeight(root.right);
+        
+        return Math.abs(leftH - rightH) <= 1 && isBalanced(root.left) && isBalanced(root.right);
+    }
+ 
+    private int getHeight(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        
+        return Math.max(getHeight(root.left), getHeight(root.right)) + 1;
+    }   
+}
+```
+
+
+
 
 ## Reference
 * [Balanced Binary Tree [LeetCode]](https://leetcode.com/problems/balanced-binary-tree/description/)
