@@ -50,11 +50,18 @@ class Solution {
         }
         
         int leftResult = getHeightOrNegative(node.left);
-        int rightResult = getHeightOrNegative(node.right);
+        // 提前返回 -1，减支提速
+        if (leftResult == -1) {
+            return -1;
+        }
         
-        // 提前返回 -1，减支，能大幅提速
-        if ((leftResult == -1) || (rightResult == -1) || 
-            Math.abs(leftResult - rightResult) > 1) {
+        int rightResult = getHeightOrNegative(node.right);
+        // 提前返回 -1，减支提速
+        if (rightResult == -1) {
+            return -1;
+        }
+        
+        if (Math.abs(leftResult - rightResult) > 1) {
             return -1;
         }
         
