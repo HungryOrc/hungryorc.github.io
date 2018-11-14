@@ -73,10 +73,19 @@ class Solution {
 ## Solution 2: Recursion，用一个function求height，另一个查balanced。慢
 见下面的代码，这个方法最符合直觉，但速度慢。因为：
 
-对于root来说，run一次isBalanced，首先要run一次left
+对于root来说，run一次isBalanced的话：
+* 首先要求一次leftH和rightH，这两个加在一起就是n的时间。因为getHeight跑一次就是相应的(子)树里的nodes的个数
+* 然后还要对root.left和root.right分别跑一次isBalanced：
+  * 对root.left跑一次isBalanced，这里面就包括求left的leftH和left的rightH，这样就是n/2的时间
+  * 同理，对root.right跑一次isBalanced，也要n/2的时间
+  * 那么这两个isBalanced函数里的leftH和rightH的部分就一共要用n的时间
+  * 这两个isBalanced函数还要继续对 left.left, left.right, right.left, right.right 跑isBalaned...
+* 可以想到，对于整棵树里的每一“层”，isBalanced函数里求leftH和rightH的部分都一共需要n的时间，isBalanced函数的余下部分所需的时间就下沉到下一层
+所需的时间
+* 所以总的来说，一共需要 n * (height of tree) 的时间
 
 ### Complexity
-* Time: O(n)，n是tree node的个数 <==== 对么 ？？？
+* Time: O(n * height of tree)，理想的情况下是 O(nlogn)
 * Space: O(height of tree)，即call stack的层数
 
 ### Java
