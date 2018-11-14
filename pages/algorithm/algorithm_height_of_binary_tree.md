@@ -24,7 +24,7 @@ public class TreeNode {
 ### Example
 略
 
-## Solution 1: Recursion，这个方法较好，用Iteration的话较累赘
+## Solution 1: Recursion，代码较简洁
 
 ### Complexity
 * Time: O(n)，n是tree node的个数
