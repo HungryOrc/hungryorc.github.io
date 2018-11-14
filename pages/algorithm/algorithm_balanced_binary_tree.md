@@ -33,8 +33,8 @@ public class TreeNode {
 * 如果不是balanced，则本函数返回 -1
     
 ### Complexity
-* Time: O(n)，n是tree node的个数
-* Space: O(height of tree)，因为call stack的层数等于height of tree。worst O(n)，best O(logn)
+* Time: O(n)，n是tree node的个数 <==== 对么 ？？？
+* Space: O(height of tree)，即call stack的层数 <=== 对么 ？？？
 
 ### Java
 ```java
