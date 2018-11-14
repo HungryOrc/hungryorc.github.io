@@ -24,7 +24,7 @@ public class ListNode {
 * Input: 1->2->6->3->4->5->6, val = 6
   * Output: 1->2->3->4->5
 
-## Solution 1, Iteration
+## Solution 1，Iteration
 
 ### Complexity
 * Time: O(n)
@@ -54,7 +54,7 @@ class Solution {
 }
 ```
 
-## Solution 1, Recursion，很巧妙，我是没想到
+## Solution 2，Recursion，很巧妙，我是没想到
 Ref: https://discuss.leetcode.com/topic/12725/ac-java-solution
 
 ### Complexity
