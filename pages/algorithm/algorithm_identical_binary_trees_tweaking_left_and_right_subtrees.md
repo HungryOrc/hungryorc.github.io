@@ -37,7 +37,8 @@ public class TreeNode {
 ## Solution 1: Recursion
 
 ### Complexity
-* Time: O(4^height of tree)
+* Time: O(4^height of tree)，注意这个**4**！因为每个`isTweakedIdentical`都会引发4个分支的`isTweakedIdentical`，所以是4！
+  * 如果height of tree是logn（n为treenode的个数），则 Time = O(4^logn) = O(n^2)
 * Space: O(height of tree), call stack的层数
 
 ### Java
@@ -61,9 +62,10 @@ public class Solution {
 }
 ```
 
-
+## Solution 2: Iteration，试了好久，没能写出来
+这个题目不知道是否能用iteration写，因为它的难度不在于有4个分支，而是这4个分支还要不断切换，比如说这一层是扭转左右的，下一层可能又不扭转，再下一层可能又要扭转......
 
 ## Reference
-* [Binary Tree Inorder Traversal [LeetCode]](https://leetcode.com/problems/binary-tree-inorder-traversal/description/)
+* [Tweaked Identical Binary Trees [LaiCode]](https://app.laicode.io/app/problem/50)
 
 {% include links.html %}
