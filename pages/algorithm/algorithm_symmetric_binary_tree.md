@@ -86,7 +86,7 @@ class Solution {
         ql.offer(root.left);
         qr.offer(root.right);
         
-        while(!ql.isEmpty() || !qr.isEmpty()) {
+        while(!ql.isEmpty() && !qr.isEmpty()) {
             TreeNode l = ql.poll();
             TreeNode r = qr.poll();
             
