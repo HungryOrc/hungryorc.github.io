@@ -72,6 +72,7 @@ class Solution {
 * Space: O(1)
 
 ### Java
+下面的做法是用了2个queue。如果要用2个stack也是很类似的代码
 ```java
 class Solution {
     public boolean isSymmetric(TreeNode root) {
