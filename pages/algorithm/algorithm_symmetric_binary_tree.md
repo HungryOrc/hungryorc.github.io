@@ -64,8 +64,8 @@ class Solution {
 用两个queue或者stack分别装整个大树的左半部分和右半部分。用两个queue或用两个stack的做法是同理的。
 
 关键在于，两边放入node的次序要正好相反：
-* 左边push左左时，右栈push右右；左栈push左右时，右栈push右左
-
+* 左边放入 左左时，右边放入 右右
+* 左边放入 左右时，右边放入 右左
 
 ### Complexity
 * Time: O(n)，n是tree node的个数
