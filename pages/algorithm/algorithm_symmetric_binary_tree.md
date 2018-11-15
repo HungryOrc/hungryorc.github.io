@@ -60,16 +60,62 @@ class Solution {
 }
 ```
 
-## Solution 2: Iteration
+## Solution 2: Iteration，用两个queue或两个stack，前 1% 速度
+用两个queue或者stack分别装整个大树的左半部分和右半部分。用两个queue或用两个stack的做法是同理的。
+
+关键在于，两边放入node的次序要正好相反：
+* 左边push左左时，右栈push右右；左栈push左右时，右栈push右左
 
 
 ### Complexity
-* Time: O(
-* Space: O(
+* Time: O(n)，n是tree node的个数
+* Space: O(1)
 
 ### Java
 ```java
-
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        
+        Queue<TreeNode> ql = new LinkedList<>();
+        Queue<TreeNode> qr = new LinkedList<>();
+        
+        ql.offer(root.left);
+        qr.offer(root.right);
+        
+        while(!ql.isEmpty() || !qr.isEmpty()) {
+            TreeNode l = ql.poll();
+            TreeNode r = qr.poll();
+            
+            if (l == null && r == null) {
+                continue;
+            } else if (l == null && r != null) {
+                return false;
+            } else if (l != null && r == null) {
+                return false;
+            }
+            
+            if (l.val != r.val) {
+                return false;
+            }
+            
+            // 关键在下面几句话
+            // input one pair
+            ql.offer(l.left);
+            qr.offer(r.right);
+            // input the other pair
+            ql.offer(l.right);
+            qr.offer(r.left);
+        }
+        
+        if (!ql.isEmpty() || !qr.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+}
 ```
 
 ## Reference
