@@ -86,7 +86,7 @@ public class Solution {
             
             if (curp == null && curq == null) {
                 continue;
-            } else if (curp == null  || curq == null) {
+            } else if (curp == null || curq == null) {
                 return false;
             }
             
@@ -104,6 +104,53 @@ public class Solution {
         if (qp.isEmpty() && qq.isEmpty()) {
             return true;
         } 
+        return false;
+    }
+}
+```
+
+## Solution 3: Iteration with 2 Stacks，我自己的方法
+
+### Complexity
+* Time: O(n)，n是tree node的个数
+* Space: O(height of tree), 因为stack里装的东西相当于 DFS
+
+### Java
+```java
+public class Solution {
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        // define 2 stacks for p and q respectively
+        Deque<TreeNode> sp = new ArrayDeque<>();
+        Deque<TreeNode> sq = new ArrayDeque<>();
+        
+        sp.push(p);
+        sq.push(q);
+        
+        while (!sp.isEmpty() && !sq.isEmpty()) {
+            TreeNode curp = sp.pop();
+            TreeNode curq = sq.pop();
+            
+            if (curp == null && curq == null) {
+                continue;
+            } else if (curp == null || curq == null) {
+                return false;
+            }
+            
+            if (curp.val != curq.val) {
+                return false;
+            }
+            
+            System.out.println(curp.left);
+            sp.push(curp.left);
+            sp.push(curp.right);
+            
+            sq.push(curq.left);
+            sq.push(curq.right);
+        }
+        
+        if (sp.isEmpty() && sq.isEmpty()) {
+            return true;
+        }
         return false;
     }
 }
