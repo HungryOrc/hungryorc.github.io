@@ -99,7 +99,7 @@ class Solution {
 
 所以我们可以用一个 **预处理的int array** 来记录 `j - 1` 时候的 `dp[b][j - 1] - prices[b]` 的最大值，即：
 ````java
-preprocess[j - 1] = max(dp[b][j - 1] - prices[b])
+preprocess[j - 1] = max(dp[b][j - 1] - prices[b])   // 0 <= b <= i - 1 
 ````
 这样就可以免去每次跑这个loop。就可以把时间复杂度从 kn^2 降低到 kn。注意看下面代码里的标注。
 
