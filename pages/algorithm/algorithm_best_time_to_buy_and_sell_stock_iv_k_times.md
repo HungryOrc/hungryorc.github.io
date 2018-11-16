@@ -95,7 +95,7 @@ class Solution {
 ```
 
 # Solution 2: DP 改进时间 kn^2 -> kn
-基于上面的方法，改进时间复杂度。着眼点是 `for (int b = 0; b <= i - 1; b++)`这个循环，它的时间复杂度是n。我们用一个 **预处理的int array** 来记录这个for loop的结果，这样就可以免去每次跑这个loop。就可以把时间复杂度从 kn^2 降低到 kn。注意看下面代码里的标注。
+基于上面的方法，改进时间复杂度。着眼点是 `for (int b = 0; b <= i - 1; b++)`这个循环，它的时间复杂度是n。它里面的的 `dp[b][j - 1] + (prices[i] - prices[b])` 之内，注意到 `prices[i]` 是不断变的，而 `dp[b][j - 1] - prices[b]` 在dp[][]的第二维从 `j - 1` 变成 `j` 以后就不再变了！我们用一个 **预处理的int array** 来记录 `j - 1` 时候的 `dp[b][j - 1] - prices[b]` 的最大值，即 `preprocess[j - 1] = max(dp[b][j - 1] - prices[b])`，这样就可以免去每次跑这个loop。就可以把时间复杂度从 kn^2 降低到 kn。注意看下面代码里的标注。
 
 * 其实这个预处理的dp数组，还可以进一步压缩为一个int变量！因为在这个数组里，每次都只用到j-1这个index，没有用到任何其他index！
 
@@ -135,7 +135,7 @@ class Solution {
         
             // 下面这条语句是相当于 i = 0 的情况
             preprocess[j - 1] = dp[0][j - 1] - prices[0]; // 改动之处！
-            // 因为 dp[0][x] 永远等于 0，所以上面等式的有半部分总是等于 - prices[0]
+            // 因为 dp[0][x] 永远等于 0，所以上面等式的右半部分总是等于 - prices[0]
             
             for (int i = 1; i < n; i++) {                
                 dp[i][j] = Math.max(dp[i - 1][j], prices[i] + preprocess[j - 1]);
