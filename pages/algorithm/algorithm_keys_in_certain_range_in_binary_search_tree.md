@@ -48,18 +48,18 @@ public class Solution {
   public List<Integer> getRange(TreeNode root, int min, int max) {
     List<Integer> result = new ArrayList<Integer>();
     
-    getRange(root, min, max, result);
+    rangedInorderTraversal(root, min, max, result);
     return result;
   }
   
   // overload
-  private void getRange(TreeNode node, int min, int max, List<Integer> result) {
+  private void rangedInorderTraversal(TreeNode node, int min, int max, List<Integer> result) {
     if (node == null) {
       return;
     }
     
     if (node.key > min) {
-      getRange(node.left, min, max, result);
+      rangedInorderTraversal(node.left, min, max, result);
     }
 
     if (node.key >= min && node.key <= max) {
@@ -67,7 +67,7 @@ public class Solution {
     }
 
     if (node.key < max) {
-      getRange(node.right, min, max, result);
+      rangedInorderTraversal(node.right, min, max, result);
     }
   }
 }
