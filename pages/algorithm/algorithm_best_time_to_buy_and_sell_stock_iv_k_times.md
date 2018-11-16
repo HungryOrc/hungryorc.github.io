@@ -132,8 +132,11 @@ class Solution {
         int[] preprocess = new int[k + 1]; // 改动之处！加入 helper dp数组
 
         for (int j = 1; j <= k; j++) {
+        
+            // 下面这条语句是相当于 i = 0 的情况
             preprocess[j - 1] = dp[0][j - 1] - prices[0]; // 改动之处！
-                
+            // 因为 dp[0][x] 永远等于 0，所以上面等式的有半部分总是等于 - prices[0]
+            
             for (int i = 1; i < n; i++) {                
                 dp[i][j] = Math.max(dp[i - 1][j], prices[i] + preprocess[j - 1]);
                 
