@@ -31,7 +31,7 @@ You may not engage in multiple transactions at the same time (ie, you must sell 
 
 ### Complexity
 * Time: O(n)
-* Space: O(n)，dp数组。可以优化到 O(1)，见下面写的第二段solution。
+* Space: O(n)，dp数组。这个数组无法再缩减了，因为最后要把所有的 `profit = Math.max(left[i] + right[i], profit)` 这么loop一遍
 
 ### Java
 ```java
@@ -40,12 +40,13 @@ class Solution {
         if (prices == null || prices.length <= 1) {
             return 0;
         }
-
+        
+        // 在 i 以及 i的左边，进行一次交易，所能得到的最大利润
         int[] left = new int[prices.length];
+        // 在 i 以及 i的右边，进行一次交易，所能得到的最大利润
         int[] right = new int[prices.length];
 
-        // DP from left to right;
-        // 在 i 以及 i的左边，进行一次交易，所能得到的最大利润
+        // DP from left to right
         left[0] = 0;
         int min = prices[0];
         for (int i = 1; i < prices.length; i++) {
@@ -53,8 +54,7 @@ class Solution {
             left[i] = Math.max(left[i - 1], prices[i] - min);
         }
 
-        // DP from right to left;
-        // 在 i 以及 i的右边，进行一次交易，所能得到的最大利润
+        // DP from right to left
         right[prices.length - 1] = 0;
         int max = prices[prices.length - 1];
         for (int i = prices.length - 2; i >= 0; i--) {
