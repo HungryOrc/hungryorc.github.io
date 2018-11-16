@@ -94,6 +94,58 @@ class Solution {
 }
 ```
 
+# Solution 2: DP 改进时间 kn^2 -> kn
+基于上面的方法，改进时间复杂度。着眼点是 `for (int b = 0; b <= i - 1; b++)`这个循环，它的时间复杂度是n。我们用一个 **预处理的int array** 来记录这个for loop的结果，这样就可以免去每次跑这个loop。就可以把时间复杂度从 kn^2 降低到 kn。注意看下面代码里的标注。
+
+* 其实这个预处理的dp数组，还可以进一步压缩为一个int变量！因为在这个数组里，每次都只用到j-1这个index，没有用到任何其他index！
+
+* 我感觉空间复杂度应该还可以继续压缩！
+
+### Complexity
+* Time: O(k * n)
+* Space: O(k * n)，dp数组
+
+### Java
+```java
+class Solution {
+    public int maxProfit(int k, int[] prices) {
+        if (prices == null || prices.length <= 1) {
+            return 0;
+        }
+        if (k <= 0) {
+            return 0;
+        }
+        
+        int n = prices.length;
+
+        if (k >= n / 2) {
+            int maxProfit = 0;
+            for (int i = 1; i < n; i++) { 
+                if (prices[i] > prices[i - 1]) {
+                    maxProfit += prices[i] - prices[i - 1];
+                }
+            }
+            return maxProfit;
+        }
+        
+        int[][] dp = new int[n][k + 1];
+        int[] preprocess = new int[k + 1]; // 改动之处！加入 helper dp数组
+
+        for (int j = 1; j <= k; j++) {
+            preprocess[j - 1] = dp[0][j - 1] - prices[0]; // 改动之处！
+                
+            for (int i = 1; i < n; i++) {                
+                dp[i][j] = Math.max(dp[i - 1][j], prices[i] + preprocess[j - 1]);
+                
+                preprocess[j - 1] = Math.max(preprocess[j - 1], dp[i][j - 1] - prices[i]); // 改动之处！
+            }
+        }
+
+        return dp[n - 1][k];
+    }
+}
+```
+
 ## Reference
 * [Best Time to Buy and Sell Stock IV [LeetCode]](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/description/)
 
