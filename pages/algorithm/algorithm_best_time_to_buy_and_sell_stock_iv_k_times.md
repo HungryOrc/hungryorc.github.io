@@ -49,8 +49,8 @@ You may not engage in multiple transactions at the same time (ie, you must sell 
 * result为 `dp[n - 1][k]`
 
 ### Complexity
-* Time: O(n)
-* Space: O(k * n^2)，dp数组
+* Time: O(k * n^2)
+* Space: O(k * n)，dp数组
 
 ### Java
 ```java
