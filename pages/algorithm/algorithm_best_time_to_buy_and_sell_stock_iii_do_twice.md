@@ -1,5 +1,5 @@
 ---
-title: "Best Time to Buy and Sell Stock: Buy and Sell Twice"
+title: "Best Time to Buy and Sell Stock: Two Transactions"
 tags: [algorithm, dynamic_programming]
 keywords:
 summary:
