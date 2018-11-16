@@ -64,6 +64,117 @@ class Solution {
 }
 ```
 
+## Solution 2: Iteration
+一个不含重复元素的BST，被in-order遍历的话，会形成一个单调上升的序列。
+如此，我们就可用stack做一个中序遍历，把结果放到一个 ArrayList 里，再验证是不是每个元素都比前一个大
+
+### Complexity
+* Time: O(n)
+* Space: O(n)
+
+### Java
+```java
+public Solution {
+    public boolean isValidBST(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        
+        Stack<TreeNode> nodeStack = new Stack<>();
+        nodeStack.push(root);
+        ArrayList<Integer> allNodesValInOrder = new ArrayList<>();
+        
+        while (!nodeStack.isEmpty()) {
+            TreeNode curNode = nodeStack.pop();
+            
+            // 当前node是leaf；或当前node的左右children都被放入stack了，
+            // 则意味着当前node之前已被处理过了。那么当前node就可以被放入list了
+            if (curNode.left == null && curNode.right == null) {
+                allNodesValInOrder.add(curNode.val);
+                continue;
+            }
+            
+            // in-order
+            if (curNode.right != null) {
+                nodeStack.push(curNode.right);
+            }
+            nodeStack.push(curNode); // 对于curNode，刚才pop出来，现在又push回去了！
+            if (curNode.left != null) {
+                nodeStack.push(curNode.left);
+            }
+            
+            curNode.left = null;
+            curNode.right = null;
+        }
+        
+        for (int i = 1; i < allNodesValInOrder.size(); i++) {
+            if (allNodesValInOrder.get(i) <= allNodesValInOrder.get(i - 1)) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+```
+
+## Solution 3: Recursion + Custom Result Class。看看就好，别用了
+Ref: http://www.jiuzhang.com/solutions/validate-binary-search-tree/
+
+### Complexity
+* Time: O(n)
+* Space: O(tree height)
+
+### Java
+```java
+class ResultType {
+    boolean isBst;
+    int maxValue, minValue;
+
+    ResultType(boolean isBst, int maxValue, int minValue) {
+        this.isBst = isBst;
+        this.maxValue = maxValue;
+        this.minValue = minValue;
+    }
+}
+
+public class Solution {
+
+    public boolean isValidBST(TreeNode root) {
+        ResultType rt = validateHelper(root);
+        return rt.isBst;
+    }
+    
+    // make this helper function, so it can return a ResultType
+    private ResultType validateHelper(TreeNode root) {
+        if (root == null) {
+            // for max, set Integer.MIN_VALUE; for min, set Integer.MAX_VALUE,
+            // the reason is as the last statement in this function:
+            //         return new ResultType(true,
+            //                  Math.max(root.val, right.maxValue),
+            //                  Math.min(root.val, left.minValue));
+            return new ResultType(true, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        }
+
+        ResultType left = validateHelper(root.left);
+        ResultType right = validateHelper(root.right);
+
+        if (!left.isBst || !right.isBst) {
+            // if isBst is false then minValue and maxValue are useless
+            return new ResultType(false, 0, 0);
+        }
+
+        if (root.left != null && left.maxValue >= root.val || 
+            root.right != null && right.minValue <= root.val) {
+            return new ResultType(false, 0, 0);
+        }
+
+        return new ResultType(true,
+                              Math.max(root.val, right.maxValue),
+                              Math.min(root.val, left.minValue));
+    }
+}
+```
+
 ## Reference
 * [Validate Binary Search Tree [LeetCode]](https://leetcode.com/problems/validate-binary-search-tree/description/)
 
