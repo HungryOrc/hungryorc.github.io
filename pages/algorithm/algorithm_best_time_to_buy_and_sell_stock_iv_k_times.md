@@ -28,11 +28,29 @@ You may not engage in multiple transactions at the same time (ie, you must sell 
   * In this case, no transaction is done
 
 ## Solution 1: DP
+### k >= n/2 的情况
+我们可以单独特殊处理一下，以加快速度。当然也可以不特殊处理，不影响正确性。
+* 如果 k >= n/2，那么意味着交易次数的限制不再有用，每天都可以交易，等同于k等于无限大
+  * 如果买入当日不能卖出，那么上面的结论很容易理解
+  * 如果买入当日可以卖出，那么上面的结论依然有效！因为一天的价格不变，买了又卖，相当于利润0，与不做交易是一样的，所以并没有消耗交易次数，那么事实上也就不受到k的限制
+  * 如果卖了当天再买，这个是任何交易所都允许的，但同理，卖了当天再买也相当于当天没有交易，持仓过了一天，所以不占用总交易次数
+* 那么我们就按照无限次交易的做法来做，那么就是只要 prices[i + 1] > prices[i]，我们就（虚拟）交易一次，即在i日买，在i+1日卖。
+  * 这样逐日买卖的最大可能交易次数是O(n)，即O(n)次买和O(n)次卖，会超过k的限制，就算k>=n/2。但是按照上面说的，连续几日的当日买入卖出，其实相当于这几天都没有交易，都是持仓过去一整天不动
 
+### k < n/2 的情况
+就要老老实实用 二维DP 了
+* `int[][] dp = new int[n][k + 1]`，`dp[i][j]`意味着 “截止到i日并包括i日，做小于等于j次的transaction（一买一卖算一个transaction），最多能得到多少利润”
+* recursion rule: `dp[i][j] = max(dp[i - 1][j], dp[b][j - 1] + prices[i] - prices[b])`
+  * `dp[i - 1][j]`是第i天没有交易，确切地说是第i天没有卖出的情况
+  * `dp[b][j - 1] + prices[i] - prices[b]`是指第i天进行了一次卖出的情况。其中`b`是指i日之前的买入日，所以`0 <= b <= i - 1`
+* 边界条件
+  * dp[i][0] = 0，即0次transaction，当然利润是0. 既然结果是0，就不用去写代码了
+  * dp[0][j] = 0，即第1天无论交易多少次，利润都是0，因为当日价格不变。既然结果是0，就不用去写代码了
+* result为 `dp[n - 1][k]`
 
 ### Complexity
 * Time: O(n)
-* Space: O(n)，dp数组。这个数组无法再缩减了，因为最后要把所有的 `profit = Math.max(left[i] + right[i], profit)` 这么loop一遍
+* Space: O(k * n^2)，dp数组
 
 ### Java
 ```java
@@ -60,10 +78,9 @@ class Solution {
         
         int[][] dp = new int[n][k + 1];
         
-        //for (int i = 1; i < n; i++) {
-            //for (int j = 1; j <= k; j++) {
-        for (int j = 1; j <= k; j++) {
-            for (int i = 1; i < n; i++) {
+        // 这里先loop日期，或者先loop交易次数，都是ok的
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j <= k; j++) {
                 dp[i][j] = dp[i - 1][j];
                 for (int b = 0; b <= i - 1; b++) { // "b" means "buy date"
                     if (prices[i] > prices[b]) {
