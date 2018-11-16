@@ -4,7 +4,7 @@ tags: [algorithm, dynamic_programming]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_best_time_to_buy_and_sell_stock_iii_do_twice.html
+permalink: algorithm_best_time_to_buy_and_sell_stock_iii_twice.html
 folder: algorithm
 toc: false
 ---
@@ -12,6 +12,7 @@ toc: false
 ## Description
 Say you have an array for which the ith element is the price of a given stock on day i.
 Design an algorithm to find the maximum profit. You may complete **at most two transactions**.
+一个`transaction`的意思是一次买加上一次卖。
 
 You may not engage in multiple transactions at the same time (ie, you must sell the stock before you buy again).
 
