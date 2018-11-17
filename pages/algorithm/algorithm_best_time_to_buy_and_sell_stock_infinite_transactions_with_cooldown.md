@@ -34,7 +34,7 @@ You may complete **as many transactions as you like** (ie, buy one and sell one 
   * Output: 0
   * In this case, no transaction is done
 
-## Solution: DP，我的方法，一次过
+## Solution: DP，我的方法，一次过，速度 前1%
 这题一看就应该用DP做。难点在于如何处理 “今天卖明天不能买”
 
 大部分buy and sell stocks的题目，都是故意把一个buy和一个sell合成一个整体作为一个transaction来考虑，这样会更简单，分开不好做。
