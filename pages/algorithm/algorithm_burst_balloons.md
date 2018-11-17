@@ -47,15 +47,47 @@ n - 1 的气球，就用这个规则计分
   dp[i][j] = max(dp[i][k - 1] + dp[k + 1][j] + nums[k - 1] * nums[i - 2] * nums[j])
   ```
   * 其中 nums[i - 2] 代表了 气球 i - 1 左边的那个气球，nums[j] 代表了 气球 j - 1 右边的那个气球
+  * 这个递推公式的理由是：这一段上的其他气球已经都被打爆了，现在只剩下一个气球，那么最后打爆它的时候，它的分数只能和这个区间段外面相邻的2个气球的分数相乘了
 * 结果：dp[1][n]，代表了打爆 index = 0 到 index = n - 1 的所有气球的 最高可能得分
 
 ### Complexity
-* Time: O(n^2)
+* Time: O(n^3)
 * Space: O(n^2), dp矩阵
 
 ### Java
 ```java
-
+class Solution {
+    public int maxCoins(int[] nums) {
+        int n = nums.length;
+        
+        // 气球有n个，用index 1 到 n 装这n个气球，
+        // 用index 0 装第一个气球的左边，用index n+1 装第n个气球的右边
+        int[] newNums = new int[n + 2];
+        newNums[0] = 1;
+        newNums[n + 1] = 1;
+        for (int i = 1; i <= n; i++) {
+            newNums[i] = nums[i - 1];
+        }
+        
+        int[][] dp = new int[n + 2][n + 2];
+        
+        for (int len = 1; len <= n; len++) {
+            
+            // 从第i个气球到第j个气球，注意所有气球的index都必须是
+            // 从 1 到 n 之间
+            for (int i = 1; i + len - 1 <= n; i++) {
+                int j = i + len - 1;
+                
+                for (int k = i; k <= j; k++) {
+                    dp[i][j] = Math.max(dp[i][j],
+                        dp[i][k - 1] + dp[k + 1][j] + 
+                        newNums[k] * newNums[i - 1] * newNums[j + 1]);
+                }
+            }
+        }
+        return dp[1][n];
+    }
+}
 ```
 
 ## Reference
