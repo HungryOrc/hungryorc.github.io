@@ -67,7 +67,7 @@ class Solution {
         int n = nums.length;
         int maxSum = 0;
         for (int i = 0; i < n; i++) {
-            nums[i] = Math.abs(nums[i]);
+            nums[i] = Math.abs(nums[i]); // 为了之后的方便
             maxSum += nums[i];
         }
         
@@ -87,7 +87,7 @@ class Solution {
         dp[0][-1 * nums[0] + maxSum] += 1;
         
         for (int i = 1; i < n; i++) {
-            int cur = Math.abs(nums[i]);
+            int cur = nums[i];
             
             for (int sum = -1 * maxSum; sum <= maxSum; sum++) {
                 if (sum - cur >= -1 * maxSum) {
