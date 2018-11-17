@@ -17,7 +17,7 @@ Find out how many ways to assign symbols to make sum of integers equal to target
 
 * The length of the given array is positive and will not exceed 20.
 * The sum of elements in the given array will not exceed 1000. 
-  * 这个数1000就是在暗示，不能用DFS！时间消耗太大！应该用 DP
+  * 这个数1000就是在暗示，尽量别用DFS，时间消耗太大。应该用 DP
 * Your output answer is guaranteed to be fitted in a 32-bit integer.
 
 ### Clarification Questions
@@ -39,11 +39,11 @@ Find out how many ways to assign symbols to make sum of integers equal to target
     +1+1+1+1-1 = 3
     ```
 
-## Solution： DP
+## Solution 1：DP
 这题一看就是DP的感觉。但是难点在于，induction rule不好写，
 因为`dp[i][target]`和`dp[i - 1][target]`没有直接关系，
 `dp[i][target]`是和`dp[i - 1][target - nums[i]]`以及`dp[i - 1][target + nums[i]]`有直接关系。
-而各个数逐个加减的过程中，可能得出的不同的中间结果是 O(2^n)的量级，太大了。不仅用DP做不容易，用DFS做更是时间消耗太巨大。
+而各个数逐个加减的过程中，可能得出的不同的中间结果是 O(2^n)的量级，太大了。不仅用DP做不容易，用DFS做更是时间消耗巨大。
 
 正在此危难之时，题目给了个hint，说所有数字加在一起不会超过1000，我们可以认为如果把所有数都取abs，再加起来，也不会很大。
 这样就可以用DP来做了！如下
@@ -99,6 +99,41 @@ class Solution {
             }
         }
         return dp[n - 1][target + maxSum];
+    }
+}
+```
+
+## Solution 2：DFS，速度要慢很多，竟然也通过了leetcode
+可以看一下写法
+
+### Complexity
+* Time: O(n^2)
+* Space: O(n), DFS的call stack有n层
+
+### Java
+```java
+class Solution {
+    public int findTargetSumWays(int[] nums, int target) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        
+        int[] count = new int[1]; // value is 0
+        dfs(nums, 0, 0, target, count);
+        return count[0];
+    }
+    
+    private void dfs(int[] nums, int index, int curSum, 
+                     int target, int[] count) {
+        if (index == nums.length) {
+            if (curSum == target) {
+                count[0]++;
+            }
+            return;
+        }
+        
+        dfs(nums, index + 1, curSum + nums[index], target, count);
+        dfs(nums, index + 1, curSum - nums[index], target, count);
     }
 }
 ```
