@@ -20,6 +20,13 @@ Find out how many ways to assign symbols to make sum of integers equal to target
   * 这个数1000就是在暗示，不能用DFS！时间消耗太大！应该用 DP
 * Your output answer is guaranteed to be fitted in a 32-bit integer.
 
+### Clarification Questions
+这一题应该向面试官问这些问题：
+* 是不是必须给所有数assign正负号？能否对某些数什么都不做？
+* 一开始那些数有没有负数？有的话它们能否标负号？
+* 这些数全部加在一起是多少？为了看能否设dp矩阵做准备！
+  * 不要一开始自己觉得加起来的和可能太大，就自己否定了！说不定玄机就在这里面
+* target有没有可能大于所有数的绝对值加在一起的和？
 
 ### Example
 * Input: [1, 1, 1, 1, 1], target is 3.
