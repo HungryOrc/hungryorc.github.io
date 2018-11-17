@@ -39,11 +39,19 @@ n - 1 的气球，就用这个规则计分
   * 这最后一枪不论打在哪里，它都会把整段分出左右两个分段，那么在分段上也是同样的方法论。如果最后一枪打在i或j，代码处理起来也是一样的。见下面代码
 
 步骤：
-* 
+* State: dp[i][j] 意思是从 index 为 i - 1 到 j - 1 的气球，把它们都打爆，能得到的最多的总得分是多少
+* Init: dp[i][i] = nums[i - 1]，注意dp里的 i 对应到气球是 i - 1。dp[i][i] 一般来说最终都会大于 nums[i - 1]，因为还要乘以左右的数，但用 nums[i - 1] 作为它的初始值，以后会更大，也ok
+* Induction rule: 如果对于 index 为 i - 1 到 j - 1 的所有气球，最后一个被打爆的是 index 为 k - 1 的那个气球，那么有：
+  ```java
+  // i <= k <= j
+  dp[i][j] = max(dp[i][k - 1] + dp[k + 1][j] + nums[k - 1] * nums[i - 2] * nums[j])
+  ```
+  * 其中 nums[i - 2] 代表了 气球 i - 1 左边的那个气球，nums[j] 代表了 气球 j - 1 右边的那个气球
+* 结果：dp[1][n]，代表了打爆 index = 0 到 index = n - 1 的所有气球的 最高可能得分
 
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(n^2)
+* Space: O(n^2), dp矩阵
 
 ### Java
 ```java
