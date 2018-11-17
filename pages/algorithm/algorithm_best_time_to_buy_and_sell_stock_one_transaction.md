@@ -22,7 +22,7 @@ Design an algorithm to find the maximum profit. You may complete **at most one t
   * Output: 0
   * In this case, no transaction is done
 
-## Solution: 一次过
+## Solution: 一次过，速度 前1%
 从左往右一个一个看这些数。留下当前所经过的最低的数optimalBuyPrice，记录它后面的所有数和它的差里最大的maxProfit。
 
 如果出现比现在记录的最低数更低的数，则更新这个最低数。但不消除maxProfit，而是留着，继续与新的optimalBuyPrice之后的各个profits比大小
@@ -35,16 +35,15 @@ Design an algorithm to find the maximum profit. You may complete **at most one t
 ```java
 class Solution {
     public int maxProfit(int[] prices) {
-        
-        int optimalBuyPrice = Integer.MAX_VALUE; // 注意这个最大的数的表示方法！！
+        int lowest = Integer.MAX_VALUE;
         int maxProfit = 0;
         
-        for (int i = 0; i < prices.length; i++)
-        {
-            if (prices[i] < optimalBuyPrice)
+        for (int i = 0; i < prices.length; i++) {
+            if (prices[i] < lowest) {
                 optimalBuyPrice = prices[i];
-            else if (prices[i] - optimalBuyPrice > maxProfit)
-                maxProfit = prices[i] - optimalBuyPrice;
+            } else if (prices[i] - lowest > maxProfit) {
+                maxProfit = prices[i] - lowest;
+            }
         }
         return maxProfit;
     }
