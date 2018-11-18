@@ -10,14 +10,51 @@ toc: false
 ---
 
 ## Description
-哦也
+Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
+
+Design an algorithm to serialize and deserialize an N-ary tree. An N-ary tree is a rooted tree in which each node has no more than N children. There is no restriction on how your serialization/deserialization algorithm should work. You just need to ensure that an N-ary tree can be serialized to a string and this string can be deserialized to the original tree structure.
+
+For example, you may serialize the following `3-ary` tree:
+```
+         1
+      /  |  \
+     3   2   4
+    / \
+   5   6
+```
+as `[1[3[5 6] 2 4]]`, or what ever other kinds of format, you do not necessarily need to follow this format, so please be creative and come up with different approaches yourself.
+
+Notice:
+* `N` is in the range of `[1, 1000]`
+* Do not use class member/global/static variables to store states. Your serialize and deserialize algorithms should be stateless.
+
+The class of the Nodes in the N-ary Trees is:
+```
+class Node {
+    public int val;
+    public List<Node> children;
+
+    public Node() {}
+
+    public Node(int _val,List<Node> _children) {
+        val = _val;
+        children = _children;
+    }
+}
+```
+
+Your `Codec` object will be instantiated and called as such:
+```java
+Codec codec = new Codec();
+codec.deserialize(codec.serialize(root));
+```
 
 ### Example
 * Input: 
   * Output: 
 
 ## Solution 2，我自己的方法，速度慢，把树弄成这种样子 [1[3[5 6] 2 4]]
-对于原题中举例的那个树，serialize成这样：`[1[3[5 6] 2 4]]`，对于每个node，它的所有children放在一对`[...]`里面，`[`紧贴着parent node的val，`[...]`里面的相邻child之间用一个空格 ` ` 分开。
+对于原题中举例的那个树，serialize成这样：`[1[3[5 6] 2 4]]`，对于每个node，它的所有children放在一对`[...]`里面，`[`紧贴着parent node的val，`[...]`里面的相邻child之间用一个空格 ' ' 分开。
 
 ### Complexity
 * Time: O(n * tree height) <=== 对么？？？
