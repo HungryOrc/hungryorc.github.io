@@ -58,12 +58,64 @@ Ref: https://leetcode.com/problems/serialize-and-deserialize-n-ary-tree/discuss/
 对于原题中举例的那个树，serialize成这样：`1,3,3,2,5,0,6,0,2,0,4,0`。Recursion using Queue.
 
 ### Complexity
-* Time: O(???
-* Space: O(???
+* Time: O(n) <=== 对么 ？？？
+* Space: O(height of tree), 即call stack 的层数 <=== 对么 ？？？
 
 ### Java
 ```java
+class Codec {
+    private static final String SPLITTER = ",";
+    
+    // Encodes a tree to a single string.
+    public String serialize(Node root) {
+        if (root == null) {
+            return "";
+        }
+        
+        List<String> list = new ArrayList<>();
+        dfsSer(root, list);
+        
+        return String.join(SPLITTER, list);
+    }
+    
+    private void dfsSer(Node root, List<String> list) {
+        list.add(String.valueOf(root.val));
+        list.add(String.valueOf(root.children.size()));
+        
+        for (Node child : root.children) {
+            dfsSer(child, list);
+        }
+    }
 
+    // Decodes your encoded data to tree.
+    public Node deserialize(String data) {
+        if (data.isEmpty()) {
+            return null;
+        }
+        
+        Queue<String> queue = new LinkedList<>();
+        String[] strings = data.split(",");
+        for (String s : strings) {
+            queue.offer(s);
+        }
+        
+        return dfsDeser(queue);
+    }
+    
+    private Node dfsDeser(Queue<String> queue) {
+        int val = Integer.parseInt(queue.poll());
+        int size = Integer.parseInt(queue.poll());
+        
+        Node root = new Node(val, new ArrayList<Node>());
+        
+        // 整个方法的灵魂在这一个 for loop！
+        for (int i = 0; i < size; i++) {
+            root.children.add(dfsDeser(queue));
+        }
+        
+        return root;
+    }
+}
 ```
 
 ## Solution 2，我自己的方法，速度慢，把树弄成 [1[3[5 6] 2 4]]
