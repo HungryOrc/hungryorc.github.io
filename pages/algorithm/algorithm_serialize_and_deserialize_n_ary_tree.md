@@ -29,7 +29,7 @@ Notice:
 * Do not use class member/global/static variables to store states. Your serialize and deserialize algorithms should be stateless.
 
 The class of the Nodes in the N-ary Trees is:
-```
+```java
 class Node {
     public int val;
     public List<Node> children;
@@ -50,10 +50,23 @@ codec.deserialize(codec.serialize(root));
 ```
 
 ### Example
-* Input: 
-  * Output: 
+略
 
-## Solution 2，我自己的方法，速度慢，把树弄成这种样子 [1[3[5 6] 2 4]]
+## Solution 1，LeetCode的方法，速度快，把树弄成 1,3,3,2,5,0,6,0,2,0,4,0
+Ref: https://leetcode.com/problems/serialize-and-deserialize-n-ary-tree/discuss/151421/Java-preorder-recursive-solution-using-queue
+
+对于原题中举例的那个树，serialize成这样：`1,3,3,2,5,0,6,0,2,0,4,0`。Recursion using Queue.
+
+### Complexity
+* Time: O(???
+* Space: O(???
+
+### Java
+```java
+
+```
+
+## Solution 2，我自己的方法，速度慢，把树弄成 [1[3[5 6] 2 4]]
 对于原题中举例的那个树，serialize成这样：`[1[3[5 6] 2 4]]`，对于每个node，它的所有children放在一对`[...]`里面，`[`紧贴着parent node的val，`[...]`里面的相邻child之间用一个空格 ' ' 分开。
 
 ### Complexity
