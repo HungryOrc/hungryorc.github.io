@@ -89,7 +89,7 @@ class Codec {
 
     // Decodes your encoded data to tree.
     public Node deserialize(String data) {
-        if (data.isEmpty()) {
+        if (data.equals("")) { // 不要用 data == ""
             return null;
         }
         
