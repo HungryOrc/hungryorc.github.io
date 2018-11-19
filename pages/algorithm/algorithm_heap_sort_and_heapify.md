@@ -31,7 +31,6 @@ Ref: https://www.geeksforgeeks.org/heap-sort/
 ### Java
 ```java
 public class Solution {
-    
     public void heapSort(int nums[]) {
         int n = nums.length;
         
@@ -41,7 +40,8 @@ public class Solution {
         }
         
         // one by one, extract the max number from the max heap
-        for (int lastIndex = n - 1; lastIndex >= 0; lastIndex--) {
+        // heap里还剩一个元素的时候就不用搞了，所以lastIndex止于>=1处就行，不过写0也不会错
+        for (int lastIndex = n - 1; lastIndex >= 1; lastIndex--) {
             // move current top (max) element to the end
             swap(nums, 0, lastIndex);
             
