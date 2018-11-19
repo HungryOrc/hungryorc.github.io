@@ -1,5 +1,5 @@
 ---
-title: "Best Time to Buy and Sell Stock: One Transaction"
+title: "Best Time to Buy and Sell Stock: at Most One Transaction"
 tags: [algorithm]
 keywords:
 summary:
