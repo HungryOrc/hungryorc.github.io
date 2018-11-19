@@ -52,7 +52,7 @@ codec.deserialize(codec.serialize(root));
 ### Example
 略
 
-## Solution 1，LeetCode的方法，速度快，DFS Recursion，记录各个node的val和children size
+## Solution 1，LeetCode的方法，速度前10%，DFS Recursion，记录各个node的val和children size
 Ref: https://leetcode.com/problems/serialize-and-deserialize-n-ary-tree/discuss/151421/Java-preorder-recursive-solution-using-queue
 
 对于原题中举例的那个树，serialize成这样：`1,3,3,2,5,0,6,0,2,0,4,0`
@@ -75,18 +75,20 @@ class Codec {
             return "";
         }
         
-        List<String> list = new ArrayList<>();
-        dfsSer(root, list);
+        StringBuilder sb = new StringBuilder();
+        dfsSer(root, sb);
         
-        return String.join(SPLITTER, list);
+        return sb.toString();
     }
     
-    private void dfsSer(Node root, List<String> list) {
-        list.add(String.valueOf(root.val));
-        list.add(String.valueOf(root.children.size()));
+    private void dfsSer(Node root, StringBuilder sb) {
+        sb.append(root.val);
+        sb.append(SPLITTER);
+        sb.append(root.children.size());
+        sb.append(SPLITTER);
         
         for (Node child : root.children) {
-            dfsSer(child, list);
+            dfsSer(child, sb);
         }
     }
 
@@ -121,7 +123,7 @@ class Codec {
 }
 ```
 
-## Solution 2，我自己的方法，速度还行，BFS Iteration，记录各个node的val和children size
+## Solution 2，我自己的方法，速度较快，BFS Iteration，记录各个node的val和children size
 这个方法是我根据上面的leetcode的DFS方法想出来的BFS方法。因为用到多个Queue，速度会比前一个方法慢一些。
 
 对于原题中举例的那个树，serialize成这样：`1,3,3,2,2,0,4,0,5,0,6,0`
@@ -153,7 +155,7 @@ class Codec {
     }
     
     private void bfsSer(StringBuilder sb, Queue<Node> queue) {
-        while(!queue.isEmpty()) {
+        while(!queue.isEmpty()) { // 不要用 data == ""
             Node cur = queue.poll();
             
             sb.append(cur.val);
