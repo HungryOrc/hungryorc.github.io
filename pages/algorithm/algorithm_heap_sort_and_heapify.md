@@ -61,11 +61,13 @@ public class Solution {
         int rightChild = start * 2 + 2;
         
         // if left child is larger than root
+        // 如果leftChild的index等于end，那do nothing!
         if (leftChild < end && nums[leftChild] > nums[largest]) {
             largest = leftChild;
         }
         
         // if right child is larger than root
+        // 如果rightChild的index等于end，那do nothing!
         if (rightChild < end && nums[rightChild] > nums[largest]) {
             largest = rightChild;
         }
