@@ -4,7 +4,7 @@ tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_best_time_to_buy_and_sell_stock_infinite_transactions_with_fee.html
+permalink: algorithm_buy_sell_stock_infinite_transactions_with_fee.html
 folder: algorithm
 toc: false
 ---
