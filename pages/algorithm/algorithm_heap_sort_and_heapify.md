@@ -32,7 +32,7 @@ Ref: https://www.geeksforgeeks.org/heap-sort/
 ```java
 public class Solution {
     public void heapSort(int nums[]) {
-        if (nums == null || numsj.length <= 1) {
+        if (nums == null || nums.length <= 1) {
             return;
         }
         
