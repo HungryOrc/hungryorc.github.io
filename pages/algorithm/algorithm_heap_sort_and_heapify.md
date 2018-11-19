@@ -64,19 +64,18 @@ public class Solution {
         int leftChild = start * 2 + 1;
         int rightChild = start * 2 + 2;
         
-        // if left child is larger than root
+        // 下面两个if语句，是为了在start，leftChild，rightChild这三个index里，
+        // 找到num值最大的一个。
         // 如果leftChild的index等于end，那do nothing! 因为end处已经放了前一轮的max
         if (leftChild < end && nums[leftChild] > nums[largest]) {
             largest = leftChild;
         }
-        
-        // if right child is larger than root
         // 如果rightChild的index等于end，那do nothing! 因为end处已经放了前一轮的max
         if (rightChild < end && nums[rightChild] > nums[largest]) {
             largest = rightChild;
         }
         
-        // if now largest is not root
+        // if now largest is not root, swap largest and root
         if (largest != start) {
             swap(nums, start, largest);
             
