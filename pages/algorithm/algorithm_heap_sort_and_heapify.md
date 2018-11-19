@@ -23,6 +23,7 @@ Heap Sort的步骤：
 ### Complexity
 * Time: O(nlogn)，每次 heapify 的时间是 O(logn)
 * Space: O(logn)，因为call stack的层数是height of tree，而heap的层数一定是logn <=== 对么 ？？？
+  * heap sort 如何做到 O(1) 的空间？？？ laicode上要求 O(1) !!!!!!
 
 ## Implementation
 Ref: https://www.geeksforgeeks.org/heap-sort/
@@ -87,6 +88,7 @@ public class Solution {
 ```
 
 ## Reference
+* [Heap Sort [LaiCode]](https://app.laicode.io/app/problem/328)
 * [Heap Sort Tutorial [GeeksforGeeks]](https://www.geeksforgeeks.org/heap-sort/)
 * [Heap Sort Video [GeeksforGeeks]](https://www.youtube.com/watch?v=MtQL_ll5KhQ)
 
