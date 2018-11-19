@@ -4,7 +4,7 @@ tags: [algorithm, dynamic_programming]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_best_time_to_buy_and_sell_stock_iii_two_transactions.html
+permalink: algorithm_buy_sell_stock_two_transactions.html
 folder: algorithm
 toc: false
 ---
