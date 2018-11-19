@@ -74,7 +74,7 @@ public class Solution {
                 holdPrev = hold;
                 emptyPrev = empty;
             
-                hold = Math.max(holdPrev, emptyPrevPrev - prices[i]);
+                hold = Math.max(holdPrev, emptyPrev - prices[i]);
                 empty = Math.max(emptyPrev, holdPrev + prices[i] - fee);
             }
         }
@@ -83,18 +83,49 @@ public class Solution {
 }
 ```
 
-
-
-* States (2 kinds)
+## Solution 1.1: 题目变种，buy和sell各有不同的fee。仍可用上面的DP思路
+* States (2 kinds)，与上面的相同
   * 在第i日结束时持仓, the max possible profit at the end of day i is: `hold[i]`
   * 在第i日结束时空仓, the max possible profit at the end of day i is: `empty[i]`
-* Induction Rules
-  * `hold[i] = Math.max(hold[i - 1], empty[i - 1] - prices[i] - buyFee)`
+* Induction Rules，有轻微区别，在下面标注了
+  * `hold[i] = Math.max(hold[i - 1], empty[i - 1] - prices[i] - buyFee)`，区别在这里，要减去 buyFee
   * `empty[i] = Math.max(empty[i - 1], hold[i - 1] + prices[i] - sellFee)`
-* Result: `empty[prices.length - 1]`，因为无论最后一天的价格如何，盈亏如何，卖掉也比不卖好
+* Result: `empty[prices.length - 1]`，与上面的相同
 
+### Complexity
+* Time: O(n)
+* Space: O(1)
 
+### Java
+```java
+public class Solution {
+    public int maxProfit(int[] prices, int fee) {
+        if (prices == null || prices.length <= 1) {
+            return 0;
+        }
+        
+        int n = prices.length;
+        int hold = 0, empty = 0;
+        int holdPrev = 0, emptyPrev = 0;
 
+        if (n >= 1) {
+            hold = prices[0] * -1 - buyFee; // 区别在这里，减去buyFee
+            empty = 0;
+        }
+
+        if (n >= 2) {
+            for (int i = 1; i < n; i++) {
+                holdPrev = hold;
+                emptyPrev = empty;
+            
+                hold = Math.max(holdPrev, emptyPrev - prices[i] - buyFee); // 区别在这里，减去buyFee
+                empty = Math.max(emptyPrev, holdPrev + prices[i] - sellFee);
+            }
+        }
+        return empty;
+    }
+}
+```
 
 ## Solution 2: 我自己的方法，不是DP，一次过，速度前10%
 具体逻辑和日常交易原则关系很大。详见下面代码。逻辑并不复杂。实际代码也挺短。真想明白了就简单
