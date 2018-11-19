@@ -35,7 +35,68 @@ Return the maximum profit you can make.
   * Output: 0
   * In this case, no transaction is done
 
-## Solution: 我自己的方法，不是DP，一次过，速度前10%
+## Solution 1: DP
+和买卖股票有cooldown那题一样的思路，用2个dp array
+
+* States (2 kinds)
+  * 在第i日结束时持仓, the max possible profit at the end of day i is: `hold[i]`
+  * 在第i日结束时空仓, the max possible profit at the end of day i is: `empty[i]`
+* Induction Rules
+  * `hold[i] = Math.max(hold[i - 1], empty[i - 1] - prices[i])`
+  * `empty[i] = Math.max(empty[i - 1], hold[i - 1] + prices[i] - fee)`
+* Result: `empty[prices.length - 1]`，因为无论最后一天的价格如何，盈亏如何，卖掉也比不卖好
+
+### Complexity
+* Time: O(n)
+* Space: O(1)，由于 **状态 i 仅仅与状态 i-1 有关**，所以不必用一个长度n的数组来存状态
+
+### Java
+```java
+public class Solution {
+    public int maxProfit(int[] prices, int fee) {
+        if (prices == null || prices.length <= 1) {
+            return 0;
+        }
+        
+        int n = prices.length;
+        int hold = 0, empty = 0;
+        int holdPrev = 0, emptyPrev = 0;
+        
+        // 第一天的情况
+        if (n >= 1) {
+            hold = prices[0] * -1; // 按第一天的价格买入
+            empty = 0; // 第一天什么也没做
+        }
+        
+        // 从第二天开始，一直到世界的尽头
+        if (n >= 2) {
+            for (int i = 1; i < n; i++) {
+                holdPrev = hold;
+                emptyPrev = empty;
+            
+                hold = Math.max(holdPrev, emptyPrevPrev - prices[i]);
+                empty = Math.max(emptyPrev, holdPrev + prices[i] - fee);
+            }
+        }
+        return empty;
+    }
+}
+```
+
+
+
+* States (2 kinds)
+  * 在第i日结束时持仓, the max possible profit at the end of day i is: `hold[i]`
+  * 在第i日结束时空仓, the max possible profit at the end of day i is: `empty[i]`
+* Induction Rules
+  * `hold[i] = Math.max(hold[i - 1], empty[i - 1] - prices[i] - buyFee)`
+  * `empty[i] = Math.max(empty[i - 1], hold[i - 1] + prices[i] - sellFee)`
+* Result: `empty[prices.length - 1]`，因为无论最后一天的价格如何，盈亏如何，卖掉也比不卖好
+
+
+
+
+## Solution 2: 我自己的方法，不是DP，一次过，速度前10%
 具体逻辑和日常交易原则关系很大。详见下面代码。逻辑并不复杂。实际代码也挺短。真想明白了就简单
 
 ### Complexity
