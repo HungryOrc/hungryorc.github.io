@@ -22,7 +22,10 @@ Heap Sort的步骤：
 * 再把新的max元素swap到heap末端，再重复上面的步骤
 
 ### Complexity
-* Time: O(nlogn)，每次 heapify 的时间是 O(logn)
+* Time: O(nlogn)
+  * 每次 heapify 的时间是 O(logn)
+  * 把乱序数组build成一个max heap需要 O(n)
+  * 对于 `int lastIndex = n - 1; lastIndex >= 1; lastIndex--`，每个lastIndex做一次heapify，共做O(n)次，时间消耗 O(nlogn)
 * Space: O(logn)，因为call stack的层数是height of tree，而heap的层数一定是logn <=== 对么 ？？？
   * heap sort 如何做到 O(1) 的空间？？？ laicode上要求 O(1) !!!!!!
 
