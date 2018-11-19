@@ -13,9 +13,10 @@ toc: false
 A very good video for Heap Sort: [Heap Sort [GeeksforGeeks]](https://www.youtube.com/watch?v=MtQL_ll5KhQ)
 
 Heap Sort的步骤：
-* 要sort的array本身已经是一个array，即它已经满足heap必须是complete tree的性质（即tree nodes都要优先铺满左边）。现在这个没有sort的array可以说是一个乱序的heap，我们要把这个array从小到大sort的话，要借助max heap（要从大到小排序的话，用min heap比较方便）：
-* 首先要把这个乱序heap变成一个max heap。具体来说，就是对数组里 index = n / 2 - 1（即heap里从下往上的倒数第二层）一直到 index = 0 的各个元素 进行max heapify。每次max heapify 的时间复杂度是 O(logn)。（要建立min heap，就搞min heapify。要建立max heap，就搞max heapify）
+* 要sort的array本身已经是一个array，即它已经满足heap必须是complete tree的性质（即tree nodes都要优先铺满左边）。现在这个没有sort的array可以说是一个乱序的heap，我们要把这个array从小到大sort的话，要借助max heap（从大到小排序的话，用min heap）：
+* 首先要把这个乱序heap变成一个max heap。具体来说，就是对数组里 index = n / 2 - 1（即heap里从下往上的倒数第二层）一直到 index = 0 的各个元素 进行max heapify（要建立min heap，就搞min heapify。要建立max heap，就搞max heapify）
   * **Heapify procedure can be applied to a node only if its children nodes are already heapified! That's why heapify must be performed in the bottom up order.**
+  * 每次max heapify 的时间复杂度是 O(logn)。**但是build整个heap的时间是O(n)！不是O(nlogn)！** nlogn是对的，因为build一个heap就是做n次heapify，但**nlogn不够tight**。证明build heap只需要O(n)要用到一些数学，见此文：[Time Complexity of Building a Heap [GeeksforGeeks]](https://www.geeksforgeeks.org/time-complexity-of-building-a-heap/)
 * 搞完这些之后，max heap已经建好了。heap顶部元素即目前数组的第一个元素就是整个数组的最大元素了。
 * 把max heap顶部的元素swap到数组的尾部（index = n - 1），即heap的最下一层最靠右的元素。然后对新swap到顶部的元素进行max heapify，在0到n-2的index范围内。
 * 再把新的max元素swap到heap末端，再重复上面的步骤
@@ -39,6 +40,7 @@ public class Solution {
         int n = nums.length;
         
         // build a max heap out of the given unsorted array
+        // 每一次heapify的时间是logn，但是整个build heap的时间不是nlogn！而是n！证明见上文
         for (int i = n / 2 - 1; i >= 0; i--) {
             maxHeapify(nums, i, n);
         }
@@ -96,5 +98,6 @@ public class Solution {
 * [Heap Sort [LaiCode]](https://app.laicode.io/app/problem/328)
 * [Heap Sort Tutorial [GeeksforGeeks]](https://www.geeksforgeeks.org/heap-sort/)
 * [Heap Sort Video [GeeksforGeeks]](https://www.youtube.com/watch?v=MtQL_ll5KhQ)
+* [Time Complexity of Building a Heap [GeeksforGeeks]](https://www.geeksforgeeks.org/time-complexity-of-building-a-heap/)
 
 {% include links.html %}
