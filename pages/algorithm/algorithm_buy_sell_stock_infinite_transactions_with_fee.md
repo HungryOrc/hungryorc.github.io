@@ -35,7 +35,7 @@ Return the maximum profit you can make.
   * Output: 0
   * In this case, no transaction is done
 
-## Solution 1: DP
+## Solution 1: DP，速度 前1%
 和买卖股票有cooldown那题一样的思路，用2个dp array
 
 * States (2 kinds)
