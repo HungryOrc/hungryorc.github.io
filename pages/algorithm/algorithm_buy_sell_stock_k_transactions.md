@@ -1,5 +1,5 @@
 ---
-title: "Best Time to Buy and Sell Stock: K Transactions"
+title: "Best Time to Buy and Sell Stock: at Most K Transactions"
 tags: [algorithm, dynamic_programming]
 keywords:
 summary:
