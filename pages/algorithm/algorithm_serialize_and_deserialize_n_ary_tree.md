@@ -52,14 +52,17 @@ codec.deserialize(codec.serialize(root));
 ### Example
 略
 
-## Solution 1，LeetCode的方法，速度快，把树弄成 1,3,3,2,5,0,6,0,2,0,4,0
+## Solution 1，LeetCode的方法，速度快，DFS Recursion，记录各个node的val和children size
 Ref: https://leetcode.com/problems/serialize-and-deserialize-n-ary-tree/discuss/151421/Java-preorder-recursive-solution-using-queue
 
-对于原题中举例的那个树，serialize成这样：`1,3,3,2,5,0,6,0,2,0,4,0`。Recursion using Queue.
+对于原题中举例的那个树，serialize成这样：`1,3,3,2,5,0,6,0,2,0,4,0`
+* 第一个1是root的val，1后面的3是root的children的size
+* 之后的3是root的第一个child的val，然后的2是这个child的children的size
+* 再之后的5是root的第一个child的第一个child的val，然后的0是这个grand child的children的size。可见这是一种DFS。之后以此类推
 
 ### Complexity
 * Time: O(n) <=== 对么 ？？？
-* Space: O(height of tree), 即call stack 的层数 <=== 对么 ？？？
+* Space: O(height of tree), 即call stack 的层数，但是string array的size又是n的量级，该取哪个？ <=== 对么 ？？？
 
 ### Java
 ```java
@@ -118,7 +121,100 @@ class Codec {
 }
 ```
 
-## Solution 2，我自己的方法，速度慢，把树弄成 [1[3[5 6] 2 4]]
+## Solution 2，我自己的方法，速度还行，BFS Iteration，记录各个node的val和children size
+这个方法是我根据上面的leetcode的DFS方法想出来的BFS方法。因为用到多个Queue，速度会比前一个方法慢一些。
+
+对于原题中举例的那个树，serialize成这样：`1,3,3,2,2,0,4,0,5,0,6,0`
+* 第一个1是root的val，1后面的3是root的children的size
+* 之后的3是root的第一个child的val，然后的2是这个child的children的size。再往后的2是root的第二个child的val，然后的0是这个child的children的size。然后是root的第三个child......
+* root的3个children完了以后，再之后的5是root的第一个child的第一个child的val，然后的0是这个grand child的children的size。可见这是一种BFS，一种逐层的遍历。之后以此类推
+
+### Complexity
+* Time: O(n) <=== 对么 ？？？
+* Space: O(n), string array，以及 几个queue 的size，这个方法没有recursion的call stack  <=== 对么 ？？？
+
+### Java
+```java
+class Codec {
+    private static final String SPLITTER = ",";
+    
+    // Encodes a tree to a single string.
+    public String serialize(Node root) {
+        if (root == null) {
+            return "";
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(root);
+        bfsSer(sb, queue);
+
+        return sb.toString();
+    }
+    
+    private void bfsSer(StringBuilder sb, Queue<Node> queue) {
+        while(!queue.isEmpty()) {
+            Node cur = queue.poll();
+            
+            sb.append(cur.val);
+            sb.append(SPLITTER);
+            sb.append(cur.children.size());
+            sb.append(SPLITTER);
+            
+            for (Node child : cur.children) {
+                queue.offer(child);
+            }
+        }
+    }
+
+    // Decodes your encoded data to tree.
+    public Node deserialize(String data) {
+        if (data.equals("")) {
+            return null;
+        }
+        
+        String[] strings = data.split(",");
+        
+        // 准备3个Queue，用来处理nodes
+        Queue<String> dataQueue = new LinkedList<>();
+        for (String s : strings) {
+            dataQueue.offer(s);
+        }
+        int val = Integer.parseInt(dataQueue.poll());
+        int size = Integer.parseInt(dataQueue.poll());
+        
+        Queue<Node> nodeQueue = new LinkedList<>();
+        Node root = new Node(val, new ArrayList<Node>());
+        nodeQueue.offer(root);
+        
+        Queue<Integer> sizeQueue = new LinkedList<>();
+        sizeQueue.offer(size);
+        
+        bfsDeser(dataQueue, nodeQueue, sizeQueue);
+        
+        return root;
+    }
+    
+    private void bfsDeser(Queue<String> dataQueue, Queue<Node> nodeQueue, Queue<Integer> sizeQueue) {
+        while (!nodeQueue.isEmpty()) {
+            Node cur = nodeQueue.poll();
+            int childrenSize = sizeQueue.poll();
+
+            for (int i = 0; i < childrenSize; i++) {
+                int val = Integer.parseInt(dataQueue.poll());
+                Node child = new Node(val, new ArrayList<Node>());
+                cur.children.add(child);
+                nodeQueue.offer(child);
+                
+                int childrenChildrenSize = Integer.parseInt(dataQueue.poll());
+                sizeQueue.offer(childrenChildrenSize);
+            }
+        }
+    }
+}
+```
+
+## Solution 3，我自己的方法，速度慢，把树弄成 [1[3[5 6] 2 4]]
 对于原题中举例的那个树，serialize成这样：`[1[3[5 6] 2 4]]`，对于每个node，它的所有children放在一对`[...]`里面，`[`紧贴着parent node的val，`[...]`里面的相邻child之间用一个空格 ' ' 分开。
 
 ### Complexity
