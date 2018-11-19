@@ -11,11 +11,10 @@ toc: false
 
 ## Description
 Your are given an array of integers `prices`, for which the i-th element is the price of a given stock on day i; 
-and a non-negative integer fee representing a transaction `fee`. 
+and **a non-negative integer** `fee` representing a transaction fee. 
+You need to pay the transaction fee once for each transaction. 一个`transaction`的意思是一次买加上一次卖.
 
-You may complete **infinite transactions**.
-一个`transaction`的意思是一次买加上一次卖。
-But you need to pay the transaction fee for each transaction. You may not buy more than 1 share of a stock at a time (ie. you must sell the stock share before you buy again.)
+You may complete **infinite transactions**. You may not buy more than 1 share of a stock at a time (ie. you must sell the stock share before you buy again.)
 
 Return the maximum profit you can make.
 * 0 < prices.length <= 50000
