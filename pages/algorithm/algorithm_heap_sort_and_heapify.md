@@ -29,7 +29,61 @@ Ref: https://www.geeksforgeeks.org/heap-sort/
 
 ### Java
 ```java
+public class Solution {
+    
+    public void heapSort(int nums[]) {
+        int n = nums.length;
+        
+        // build a max heap out of the given unsorted array
+        for (int i = n / 2 - 1; i >= 0; i--) {
+            maxHeapify(nums, i, n);
+        }
+        
+        // one by one, extract the max number from the max heap
+        for (int lastIndex = n - 1; lastIndex >= 0; lastIndex--) {
+            // move current top (max) element to the end
+            swap(nums, 0, lastIndex);
+            
+            // call max heapify on the reduced heap
+            maxHeapify(nums, 0, lastIndex);
+        }
+    }
+    
+    // Max Heapify
+    // 在数组nums里（即heap里），对这一段subarray做 max heapify：
+    // 起始index为start，它即是当前subtree的root，
+    // 终止index为end，它也表征了当前subtree的size
+    private void maxHeapify(int[] nums, int start, int end) {
+        // initialize the index of the largest to be root index
+        int largest = start;
+        int leftChild = start * 2 + 1;
+        int rightChild = start * 2 + 2;
+        
+        // if left child is larger than root
+        if (leftChild < end && nums[leftChild] > nums[largest]) {
+            largest = leftChild;
+        }
+        
+        // if right child is larger than root
+        if (rightChild < end && nums[rightChild] > nums[largest]) {
+            largest = rightChild;
+        }
+        
+        // if now largest is not root
+        if (largest != start) {
+            swap(nums, start, largest);
+            
+            // recursively max heapify the AFFECTED subtree
+            maxHeapify(nums, largest, end);
+        }
+    }
 
+    private void swap(int[] nums, int i, int j) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
+}
 ```
 
 ## Reference
