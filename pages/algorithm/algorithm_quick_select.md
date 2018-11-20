@@ -75,6 +75,8 @@ private void swap(int[] nums, int i1, int i2) {
 ## Implementation 2，只把较小的k个数放到数组的左边，并不把第k小的数放到 index=k-1 的位置上，这样做并不算 Quick Select
 
 ```java
+// 这个函数 只把较小的k个数放到数组的左边，最后并不知道第k小的数在哪里，
+// 并不会把 第k小的数 放到 index = k - 1 的位置上！
 public void fakeQuickSelect(int[] nums, int start, int end, int k) {
     int dividingIndex = partition(nums, start, end);
 
@@ -87,8 +89,8 @@ public void fakeQuickSelect(int[] nums, int start, int end, int k) {
     }
 }
 
-// 这个partition函数 只把较小的k个数放到数组的左边，最后并不知道第k小的数在哪里，
-// 并不会把第k小的数放到 index = k-1 的位置上
+// 这个partition函数 只把较小的某些个（不知道多少个）数放到数组的左边，
+// 并不会把具有pivot值的数放到“分界点”的位置上
 private int partition(int[] nums, int start, int end) {
     int left = start;
     int right = end;
@@ -98,12 +100,12 @@ private int partition(int[] nums, int start, int end) {
         int mid = left + (right - left) / 2;
         int pivot = nums[mid];
         
-        if (array[left] < pivot) {
+        if (nums[left] < pivot) {
             left ++;
-        } else if (array[right] > pivot) {
+        } else if (nums[right] > pivot) {
             right --;
         } else {
-            swap(array, left++, right--);
+            swap(nums, left++, right--);
         }
     }
 
