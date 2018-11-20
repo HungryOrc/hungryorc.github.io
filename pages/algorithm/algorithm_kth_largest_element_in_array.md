@@ -93,7 +93,7 @@ public class Solution {
 }
 ```
 
-## Solution 2: Max Heap for all elements，比较符合直觉，但速度慢，不写了
+## Solution 2: 用Max Heap装所有元素，比较符合直觉，但速度慢，不写了
 步骤：
 * Do max heapify on all the elements in the array, to form them into a max heap --> O(n) Time
 * Call pop() on the max heap for k times, the return value of the k-th pop is the k-th largest number --> O(klogn) Time
@@ -103,13 +103,17 @@ public class Solution {
 * Space: O(n), size of the max heap <=== 对么 ？？？
 
 
-## Solution 3: Min Heap for k elements，速度比quick select慢一些
+## Solution 3: 用Min Heap装最大的k个元素，速度比quick select慢一些
 步骤：
-* Do max heapify on all the elements in the array, to form them into a max heap --> O(n) Time
-* Call pop() on the max heap for k times, the return value of the k-th pop is the k-th largest number --> O(klogn) Time
+* Do min heapify on the first k elements in the array, to form them into a min heap --> O(k) Time
+* Iterate the rest n-k elements, for each of them, compare with the smallest one of the k elements in the min heap:
+  * If new element <= top, do nothing
+  * If new element > top, pop the top element, and add the new element into the min heap
+  * At last, the top element of this min heap will be the k-th largest element in the array, since this min heap is by then containing the k largest elements in the array
+  * Time of this step: O((n - k) * logk)
 
 ### Complexity
-* Time: O(n + klogn)
+* Time: O(k + (n - k) * logk)
 * Space: O(k), size of the max heap <=== 对么 ？？？
 
 ### Java
