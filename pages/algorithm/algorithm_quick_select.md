@@ -15,6 +15,8 @@ It is related to the "Quick Sort" sorting algorithm.
 
 注意
 * Quick Select 完成以后，它左边的数都一定小于等于它，它右边的数都一定大于等于它。但是！**它左边的数并未被排序，它右边的数也并未被排序！**
+* Quick Select 里的 partition 函数里，pivot的选取方式对于平均运行速度的影响很大！不是无所谓的。**随机选取pivot的平均速度最好**，也就是下面代码里的实现方式
+  * 根据实测，leetcode里找kth largest number那一题，如果用随机pivot，则速度前5%。如果用数组里最右边的数做pivot，则速度后20%
 * Quick Select 可以返回第k小的数的index或者value。如果要返回第k大，也是同理，**“第 k 大” 就是 “第 length-k+1 小”**
 * 如果把较小的k个元素放到数组的左边，较大的 length-k 个元素放到数组的右边，**但是第k小的元素并不在分界点上，即并不在 index = k-1 的位置上，则这样做不算是 Quick Select**，因为并不知道第k小的数到底在哪里，是哪个，只知道左边的k个较小
 
