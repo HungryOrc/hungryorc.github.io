@@ -93,6 +93,31 @@ public class Solution {
 }
 ```
 
+## Solution 2: Max Heap for all elements，比较符合直觉，但速度慢，不写了
+步骤：
+* Do max heapify on all the elements in the array, to form them into a max heap --> O(n) Time
+* Call pop() on the max heap for k times, the return value of the k-th pop is the k-th largest number --> O(klogn) Time
+
+### Complexity
+* Time: O(n + klogn)
+* Space: O(n), size of the max heap <=== 对么 ？？？
+
+
+## Solution 3: Min Heap for k elements，速度比quick select慢一些
+步骤：
+* Do max heapify on all the elements in the array, to form them into a max heap --> O(n) Time
+* Call pop() on the max heap for k times, the return value of the k-th pop is the k-th largest number --> O(klogn) Time
+
+### Complexity
+* Time: O(n + klogn)
+* Space: O(k), size of the max heap <=== 对么 ？？？
+
+### Java
+```java
+
+
+```
+
 ## Reference
 * [Kth Largest Element in an Array [LeetCode]](https://leetcode.com/problems/kth-largest-element-in-an-array/description/)
 
