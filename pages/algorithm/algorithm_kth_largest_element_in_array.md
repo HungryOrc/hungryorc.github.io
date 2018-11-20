@@ -21,7 +21,7 @@ Note that **it is the kth largest element in the sorted order, not the kth disti
 * Input: [-3,0,3,1,2,1,1,4,5,15,6] and k = 4
   * Output: 1
 
-## Solution 1: Quick Select，速度 前1%
+## Solution 1: Quick Select，速度 前5%
 算法笔记里专门有一篇讲 Quick Select，可以找那个看看。
 
 ### Complexity
