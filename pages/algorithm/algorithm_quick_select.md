@@ -17,7 +17,6 @@ It is related to the "Quick Sort" sorting algorithm.
 * Quick Select 完成以后，它左边的数都一定小于等于它，它右边的数都一定大于等于它。但是！**它左边的数并未被排序，它右边的数也并未被排序！**
 * Quick Select 可以返回第k小的数的index或者value。如果要返回第k大，也是同理，**“第 k 大” 就是 “第 length-k+1 小”**
 * 如果把较小的k个元素放到数组的左边，较大的 length-k 个元素放到数组的右边，**但是第k小的元素并不在分界点上，即并不在 index = k-1 的位置上，则这样做不算是 Quick Select**，因为并不知道第k小的数到底在哪里，是哪个，只知道左边的k个较小
-  * 见下面的代码，有一种partition的处理是只管分割两端，并不保证具有分界值的元素最终处于分界点上
 
 ### Complexity
 * Time: 
@@ -26,8 +25,7 @@ It is related to the "Quick Sort" sorting algorithm.
   * Worst: O(n^2)，当每次pivot都选到min或max
 * Space: O(1) <=== 对么 ？？？
   
-## Implementation 1，经典版
-
+## Implementation
 ```java
 // quick select 这个算法的定义就是 “找第 k 小的数”，k 也就是下面的最后一个参数
 public int quickSelect(int[] nums, int start, int end, int k) {
@@ -62,55 +60,6 @@ private int partition(int[] nums, int start, int end) {
 
     // 最后left要么是紧贴着right并且在right的右边一位，要么是left和right重合
     swap(nums, left, end);
-    return left;
-}
-
-private void swap(int[] nums, int i1, int i2) {
-    int tmp = nums[i1];
-    nums[i1] = nums[i2];
-    nums[i2] = tmp;
-}
-```
-
-## Implementation 2，只把较小的k个数放到数组的左边，并不把第k小的数放到 index=k-1 的位置上，这样做并不算 Quick Select
-
-```java
-// 这个函数 只把较小的k个数放到数组的左边，最后并不知道第k小的数在哪里，
-// 并不会把 第k小的数 放到 index = k - 1 的位置上！
-public void fakeQuickSelect(int[] nums, int start, int end, int k) {
-    int dividingIndex = partition(nums, start, end);
-
-    if (dividingIndex < k - 1) { // 第 k 小的数的 index 是 k - 1
-        fakeQuickSelect(nums, dividingIndex + 1, end, k);
-    } else if (dividingIndex > k - 1) {
-        fakeQuickSelect(nums, start, dividingIndex - 1, k);
-    } else { // dividingIndex == k - 1
-        return;
-    }
-}
-
-// 这个partition函数 只把较小的某些个（不知道多少个）数放到数组的左边，
-// 并不会把具有pivot值的数放到“分界点”的位置上
-private int partition(int[] nums, int start, int end) {
-    int left = start;
-    int right = end;
-    // 与上一种做法的区别：并不把最后一个元素留下来作为pivot
-
-    while (left <= right) {
-        int mid = left + (right - left) / 2;
-        int pivot = nums[mid];
-        
-        if (nums[left] < pivot) {
-            left ++;
-        } else if (nums[right] > pivot) {
-            right --;
-        } else {
-            swap(nums, left++, right--);
-        }
-    }
-
-    // 与上一种做法的区别：最后一步并不swap left 和 end
-    // swap(nums, left, end);
     return left;
 }
 
