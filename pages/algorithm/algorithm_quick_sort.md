@@ -22,9 +22,9 @@ toc: false
 ## Implementation
 
 ### Java
-#### 九章版：注意！九章对于 quick sort 也没有用 left+1<=right !
+#### 简明版。注意！在另外一个九章的版本里，对quick sort九章也没使用 left+1<=right !
 这种写法的特点：
-* 每次跑一遍 `private void quickSort(int[] nums, int start, int end)` 以后，left index 在 right index 的右边：
+* 每次跑一遍 `private void quickSort(int[] array, int start, int end)` 以后，left index 在 right index 的右边：
   ```
   ... *  *  *  *  right  left *  *  *  *  ...
   ```
@@ -33,61 +33,45 @@ toc: false
   
 ```java
 public class Solution {
-    public void quickSort(int[] nums) {
-        if (nums == null || nums.length <= 1) {
-            return;
+    public int[] quickSort(int[] array) {
+        if (array == null || array.length <= 1) {
+            return array;
         }
         
-        quickSort(nums, 0, nums.length - 1);
+        quickSort(array, 0, array.length - 1);
+        return array;
     }
     
-    private void quickSort(int[] nums, int start, int end) {
+    private void quickSort(int[] array, int start, int end) {
         if (start >= end) {
             return;
         }
         
         int left = start, right = end;
-        int pivot = nums[start + (end - start) / 2];
+        int pivot = array[start + (end - start) / 2];
 
-        // 注意！every time you compare left & right, it should be left <= right, not left < right
-        // 在整个程序中的所有地方，只要是比较left和right，都要遵循这个原则！
         while (left <= right) {
-            
-            // 注意 nums[left] < pivot, 不要用 nums[left] <= pivot，否则会无限循环！这里不是越快越好！
-            // 举例：比如排序 {2,1} 这个数组，如果 nums[left]<= pivot 都让 left++，那么
-            // 第一轮下来，left就到了3，即left=end+1 同时left=right+1，这样while loop就要结束，
-            // 那么对于后面的2个分支，quickSort(nums, left, end)分支就永远不会开始，因为left>end，
-            // 但是 quickSort(nums, start, right) 这个分支就永远不会结束！因为这个分治里的
-            // start总是会等于left，然后它总是会像上面说的一样一下子变成right+1，就进入了死循环。
-            // 就是说right永远没有机会往左动，那么这个分支也就永远没有机会缩小。
-            while (left <= right && nums[left] < pivot) {
-                left++;
-            }
-            
-            // 注意 nums[right] > pivot, 不要用 nums[right] >= pivot
-            while (left <= right && nums[right] > pivot) {
-                right--;
-            }
-            
-            if (left <= right) {
-                swap(nums, left, right);
-                // 别忘了在这里也要 left++ 以及 right--
-                left++;
-                right--;
+            if (array[left] < pivot) {
+                left ++;
+            } else if (array[right] > pivot) {
+                right --;
+            } else {
+                swap(array, left++, right--);
             }
         }
         // 特别注意，while 循环结束以后，left 和 right 的关系是 right + 1 = left 
         // 即 right 在 left 的左边一位
         
-        // 这里没有必要判断左右index的大小关系，下一个recursion里的头部会做
-        quickSort(nums, start, right);
-        quickSort(nums, left, end);
+        
+        // 这里没有判断左右index的大小关系，下一个recursion里的头部会做
+        quickSort(array, start, right);
+        quickSort(array, left, end);
     }
     
-    private void swap(int[] nums, int i, int j) {
-        int temp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = temp;
+    private void swap(int[] array, int i, int j) {
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
 }
 ```
