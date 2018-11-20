@@ -19,10 +19,10 @@ toc: false
   * 因为一共有logn层 call stack，每一个 call stack 都耗费constant空间，它们都没有创造额外的 helper arrays（像 merge sort 那样）之类的空间占用者，每一层的 call stack 只定义了常数个variables
   * worst case 空间复杂度是 O(n)，仍然等于 call stack 的层数，此时会有n层call stack
   
-## Implementation
+## Implementation 1，简明版
 
-### Java
-#### 简明版。注意！在另外一个九章的版本里，对quick sort九章也没使用 left+1<=right !
+### 特别注意！在另外一个九章的版本里，对quick sort，九章也没使用 left+1<=right !
+
 这种写法的特点：
 * 每次跑一遍 `private void quickSort(int[] array, int start, int end)` 以后，left index 在 right index 的右边：
   ```
@@ -76,7 +76,8 @@ public class Solution {
 }
 ```
 
-#### 经典版，比上面的写法繁琐，最重要的是每次partition能把分界值放到分界点上！靠最后那一下swap！
+## Implementation 2，经典版，比上面的写法繁琐，最重要的是每次partition能把分界值放到分界点上！靠最后那一下swap！
+
 这种写法的特点：
 * 每次跑一遍 `private int partition(int[] array, int start, int end)` 以后：
   * 这个函数返回的int值正好就是分界点的坐标！而且分界点此时的值能保证就是分界值！分界值的意思是说，它左边的所有数都保证大于等于它！它右边的所有数都保证小于等于它！这是这个写法比上一个写法强力的地方。做到这一点，是靠最后的那个 `swap(array, left, end)` 来保证的！
