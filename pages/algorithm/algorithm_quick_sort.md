@@ -145,7 +145,7 @@ public class QuickSort {
                 swap(array, left++, right--);
             }
         }
-        // 这个while loop结束时，一定是：rightIndex 在 leftIndex 的左边一位 ！！！
+        // 这个while loop结束时，一定是：rightIndex 在 leftIndex 的左边一位 ！<=== 是么 ？？？ 有没有可能他们两中间间隔一位 ？？？因为在left==right的时候还可能进行left++且right--的操作！！！
         
         // 特别注意下面的处理方式 ！！！
         // ------------------------------------------------------------------------------------------------
