@@ -29,57 +29,94 @@ It is related to the "Quick Sort" sorting algorithm.
 ## Implementation 1，经典版
 
 ```java
-public class Solution {
-    // quick select 这个算法的定义就是 “找第 k 小的数”，k 也就是下面的最后一个参数
-    private int quickSelect(int[] nums, int start, int end, int k) {
-        int chosenIndex = partition(nums, start, end);
-        
-        if (chosenIndex < k - 1) { // 第 k 小的数的 index 是 k - 1
-            return quickSelect(nums, chosenIndex + 1, end, k);
-        } else if (chosenIndex > k - 1) {
-            return quickSelect(nums, start, chosenIndex - 1, k);
-        } else { // chosenIndex == k - 1
-            return nums[chosenIndex];
+// quick select 这个算法的定义就是 “找第 k 小的数”，k 也就是下面的最后一个参数
+public int quickSelect(int[] nums, int start, int end, int k) {
+    int chosenIndex = partition(nums, start, end);
+
+    if (chosenIndex < k - 1) { // 第 k 小的数的 index 是 k - 1
+        return quickSelect(nums, chosenIndex + 1, end, k);
+    } else if (chosenIndex > k - 1) {
+        return quickSelect(nums, start, chosenIndex - 1, k);
+    } else { // chosenIndex == k - 1
+        return nums[chosenIndex];
+    }
+}
+
+// 和一般的 quick sort 的 partition函数 一样
+// 这个函数一方面会把小于pivot的数都放到左半边，另一方面会把pivot的index返回来
+// 在下面的 partition 的实现里，pivot的选取是选数组里的最右边的数。可以用别的选法，比如随机
+private int partition(int[] nums, int start, int end) {
+    int left = start;
+    int right = end - 1; // 别忘了 -1，因为 pivot取为最后一个数了，所以right只能取为倒数第二个
+    int pivot  = nums[end];
+
+    while (left <= right) {
+        if (array[left] < pivot) {
+            left ++;
+        } else if (array[right] > pivot) {
+            right --;
+        } else {
+            swap(array, left++, right--);
         }
     }
-    
-    // 和一般的 quick sort 的 partition函数 一样
-    // 这个函数一方面会把小于pivot的数都放到左半边，另一方面会把pivot的index返回来
-    // 在下面的 partition 的实现里，pivot的选取是选数组里的最右边的数。可以用别的选法，比如随机
-    private int partition(int[] nums, int start, int end) {
-        int left = start;
-        int right = end - 1; // 别忘了 -1，因为 pivot取为最后一个数了，所以right只能取为倒数第二个
-        int pivot  = nums[end];
-        
-        while (left <= right) {
-            if (array[left] < pivot) {
-                left ++;
-            } else if (array[right] > pivot) {
-                right --;
-            } else {
-                swap(array, left++, right--);
-            }
-        }
-        
-        // 最后left要么是紧贴着right并且在right的右边一位，要么是left和right重合
-        swap(nums, left, end);
-        return left;
-    }
-    
-    private void swap(int[] nums, int i1, int i2) {
-        int tmp = nums[i1];
-        nums[i1] = nums[i2];
-        nums[i2] = tmp;
-    }
+
+    // 最后left要么是紧贴着right并且在right的右边一位，要么是left和right重合
+    swap(nums, left, end);
+    return left;
+}
+
+private void swap(int[] nums, int i1, int i2) {
+    int tmp = nums[i1];
+    nums[i1] = nums[i2];
+    nums[i2] = tmp;
 }
 ```
 
-## Implementation 2，
+## Implementation 2，只把较小的k个数放到数组的左边，并不把第k小的数放到 index=k-1 的位置上，这样做并不算 Quick Select
 
 ```java
+public void fakeQuickSelect(int[] nums, int start, int end, int k) {
+    int dividingIndex = partition(nums, start, end);
 
+    if (dividingIndex < k - 1) { // 第 k 小的数的 index 是 k - 1
+        fakeQuickSelect(nums, dividingIndex + 1, end, k);
+    } else if (dividingIndex > k - 1) {
+        fakeQuickSelect(nums, start, dividingIndex - 1, k);
+    } else { // dividingIndex == k - 1
+        return;
+    }
+}
 
+// 这个partition函数 只把较小的k个数放到数组的左边，最后并不知道第k小的数在哪里，
+// 并不会把第k小的数放到 index = k-1 的位置上
+private int partition(int[] nums, int start, int end) {
+    int left = start;
+    int right = end;
+    // 与上一种做法的区别：并不把最后一个元素留下来作为pivot
 
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        int pivot = nums[mid];
+        
+        if (array[left] < pivot) {
+            left ++;
+        } else if (array[right] > pivot) {
+            right --;
+        } else {
+            swap(array, left++, right--);
+        }
+    }
+
+    // 与上一种做法的区别：最后一步并不swap left 和 end
+    // swap(nums, left, end);
+    return left;
+}
+
+private void swap(int[] nums, int i1, int i2) {
+    int tmp = nums[i1];
+    nums[i1] = nums[i2];
+    nums[i2] = tmp;
+}
 ```
 
 ## Reference
