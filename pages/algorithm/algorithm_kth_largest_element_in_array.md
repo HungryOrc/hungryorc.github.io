@@ -21,7 +21,7 @@ Note that **it is the kth largest element in the sorted order, not the kth disti
 * Input: [-3,0,3,1,2,1,1,4,5,15,6] and k = 4
   * Output: 1
 
-## Solution 2: Quick Select，速度较慢，后20%
+## Solution 1: Quick Select，速度 前1%
 算法笔记里专门有一篇讲 Quick Select，可以找那个看看。
 
 ### Complexity
@@ -54,13 +54,21 @@ public class Solution {
         }
     }
     
-    // 和一般的 quick sort 的 partition函数 一样
-    // 这个函数一方面会把小于pivot的数都放到左半边，另一方面会把pivot的index返回来
-    // 在下面的 partition 的实现里，pivot的选取是选数组里的最右边的数。可以用别的选法，比如随机
+    // 和一般的 quick sort 的 partition函数 一样。
+    // 这个函数一方面会把小于pivot的数都放到左半边，另一方面会把pivot的index返回来。
+    // 下面的实现里，pivot的选取是随机的，这样选的平均速度比其他选法（比如选最后一个元素）高很多！
     private int partition(int[] nums, int start, int end) {
+        if (end <= start) {
+            return start;
+        }
+        
+        // 搞一个random的index，把pivot设为这个数，然后把pivot挪到数组的尾部
+        int random = new Random().nextInt(end - start) + start;
+        int pivot  = nums[random];
+        swap(nums, end, random);
+        
         int left = start;
-        int right = end - 1; // 别忘了 -1，因为 pivot取为最后一个数了，所以right只能取为倒数第二个
-        int pivot  = nums[end];
+        int right = end - 1; // 因为已把pivot放到尾部了，所以right只能取为倒数第二个
         
         while (left <= right) {
             if (nums[left] < pivot) {
