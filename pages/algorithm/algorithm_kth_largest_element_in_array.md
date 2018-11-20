@@ -103,7 +103,7 @@ public class Solution {
 * Space: O(n), size of the max heap <=== 对么 ？？？
 
 
-## Solution 3: 用Min Heap装最大的k个元素，速度比quick select慢一些
+## Solution 3: 用Min Heap装最大的k个元素，速度比quick select慢一些，前20%多
 步骤：
 * Do min heapify on the first k elements in the array, to form them into a min heap --> O(k) Time
 * Iterate the rest n-k elements, for each of them, compare with the smallest one of the k elements in the min heap:
@@ -118,8 +118,31 @@ public class Solution {
 
 ### Java
 ```java
-
-
+public class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        if (nums == null || nums.length == 0) {
+            return Integer.MIN_VALUE;
+        }
+        
+        // Java的PQ默认是 min heap，
+        // 要造 max heap 的话：new PriorityQueue<>(10, Collections.reverseOrder())
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        int n = nums.length;
+        
+        for (int i = 0; i < k; i++) {
+            minHeap.offer(nums[i]);
+        }
+        
+        for (int i = k; i < n; i++) {
+            if (nums[i] > minHeap.peek()) {
+                minHeap.poll();
+                minHeap.offer(nums[i]);
+            }
+        }
+        
+        return minHeap.peek();
+    }
+}
 ```
 
 ## Reference
