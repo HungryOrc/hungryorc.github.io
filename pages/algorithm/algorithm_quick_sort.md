@@ -87,7 +87,7 @@ public class Solution {
   * 两种quick sort的写法，最后sort的结果是一样的。所以如果不是特别需要这一点，也不用非要用这种写法。
   
 ```java
-public class QuickSort {
+public class Solution {
     public int[] quickSort(int[] array) {
         if (array == null || array.length <= 1) {
             return array;
@@ -163,7 +163,7 @@ public class QuickSort {
     
     // random in the range of [left, right], inclusive in both ends
     // Math.random() 得出的是：[0, 1)
-    private findPivotIndex(int left, int right) {
+    private int findPivotIndex(int left, int right) {
         return left + (int)(Math.random() * (right - left + 1));
     }
 
