@@ -185,5 +185,7 @@ public class QuickSort {
 }
 ```
 
+## Reference
+* [Quick Sort [LaiCode]](https://app.laicode.io/app/problem/10)
 
 {% include links.html %}
