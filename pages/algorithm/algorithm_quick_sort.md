@@ -76,7 +76,9 @@ public class Solution {
 }
 ```
 
-## Implementation 2，经典版，比上面的写法繁琐，最重要的是每次partition能把分界值放到分界点上！靠最后那一下swap！
+## Implementation 2，经典版
+
+### 比上面的写法繁琐，最重要的是每次partition能把分界值放到分界点上！靠最后那一下swap！
 
 这种写法的特点：
 * 每次跑一遍 `private int partition(int[] array, int start, int end)` 以后：
