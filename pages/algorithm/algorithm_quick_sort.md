@@ -22,7 +22,7 @@ toc: false
 ## Implementation
 
 ### Java
-#### 九章版
+#### 九章版：注意！九章对于 quick sort 也没有用 left+1<=right !
 ```java
 public class Solution {
 
