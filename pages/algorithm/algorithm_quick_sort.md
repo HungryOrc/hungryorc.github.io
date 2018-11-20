@@ -61,6 +61,7 @@ public class Solution {
         }
         // 特别注意，while 循环结束以后，left 和 right 的关系是 right + 1 = left 
         // 即 right 在 left 的左边一位
+        <=== 是么 ？？？ 有没有可能他们两中间间隔一位 ？？？因为在left==right的时候还可能进行left++且right--的操作！！！
         
         
         // 这里没有判断左右index的大小关系，下一个recursion里的头部会做
@@ -132,7 +133,9 @@ public class QuickSort {
                 swap(array, left++, right--);
             }
         }
-        // 这个while loop结束时，一定是：rightIndex 在 leftIndex 的左边一位 ！<=== 是么 ？？？ 有没有可能他们两中间间隔一位 ？？？因为在left==right的时候还可能进行left++且right--的操作！！！
+        // 这个while loop结束时，一定是：rightIndex 在 leftIndex 的左边一位 ！
+        
+        <=== 是么 ？？？ 有没有可能他们两中间间隔一位 ？？？因为在left==right的时候还可能进行left++且right--的操作！！！
         
         // 特别注意下面的处理方式 ！！！
         // ------------------------------------------------------------------------------------------------
