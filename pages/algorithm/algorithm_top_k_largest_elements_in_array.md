@@ -22,7 +22,7 @@ Note that **it is the top k largest elements according to the sorted order, not 
 * Input: [3,10,1000,-99,4,100] and k = 3
   * Output: [1000, 100, 10]
 
-## Solution 1: Quick Select，速度 前5% ？？？？？
+## Solution 1: Quick Select，速度很快
 算法笔记里专门有一篇讲 Quick Select，可以找那个看看。
 
 ### Complexity
@@ -104,7 +104,7 @@ public class Solution {
 * Space: O(n), size of the max heap <=== 对么 ？？？
 
 
-## Solution 3: 用Min Heap装最大的k个元素，速度比quick select慢一些，前20%多 ？？？？？
+## Solution 3: 用Min Heap装最大的k个元素，速度比quick select慢一些
 步骤：
 * Do min heapify on the first k elements in the array, to form them into a min heap --> O(k) Time
 * Iterate the rest n-k elements, for each of them, compare with the smallest one of the k elements in the min heap:
