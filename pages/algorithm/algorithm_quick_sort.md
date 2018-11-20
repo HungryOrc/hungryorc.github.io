@@ -95,7 +95,8 @@ public class Solution {
 #### 经典版，比上面的写法繁琐，最重要的是每次partition能把分界值放到分界点上！靠最后那一下swap！
 这种写法的特点：
 * 每次跑一遍 `private int partition(int[] array, int start, int end)` 以后：
-  * 这个函数返回的int值正好就是分界点的坐标！而且分界点此时的值能保证就是分界值！分界值的意思是说，它左边的所有数都保证大于等于它！它右边的所有数都保证小于等于它！这是这个写法比上一个写法强力的地方。最后sort的结果是一样的。所以如果不是特别需要这一点，也不用非要用这种写法。
+  * 这个函数返回的int值正好就是分界点的坐标！而且分界点此时的值能保证就是分界值！分界值的意思是说，它左边的所有数都保证大于等于它！它右边的所有数都保证小于等于它！这是这个写法比上一个写法强力的地方。做到这一点，是靠最后的那个 `swap(array, left, end)` 来保证的！
+  * 两种quick sort的写法，最后sort的结果是一样的。所以如果不是特别需要这一点，也不用非要用这种写法。
   
 ```java
 public class QuickSort {
@@ -153,6 +154,7 @@ public class QuickSort {
         // 如果一开始pivot被移动到最左边，那么现在pivot要和rightIndex换，
         // 因为此时rightIndex指向的数一定 <= pivot ！！！
         swap(array, left, end);
+        
         // 这么移动之后，pivot 一定就位于我们接下来要return 的index的位置上，
         // 即这个位置的数一定 == pivot，而非含糊地 >= pivot 或 <= pivot ！！！
         // 注意了 ！！！
