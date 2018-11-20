@@ -21,7 +21,7 @@ It is related to the "Quick Sort" sorting algorithm.
 ### Complexity
 * Time: 
   * Best: O(n)
-  * Average: O(n) <=== 怎么证明 ？？？
+  * Average: O(n)，因为quick select可以理解为 **“每次扔掉一半”**，所以总的时间消耗是 O(n) + O(n/2) + O(n/4) + O(n/8) + ... + 1 = O(n)
   * Worst: O(n^2)，当每次pivot都选到min或max
 * Space: O(1) <=== 对么 ？？？
   
