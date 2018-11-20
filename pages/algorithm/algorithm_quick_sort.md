@@ -23,9 +23,16 @@ toc: false
 
 ### Java
 #### 九章版：注意！九章对于 quick sort 也没有用 left+1<=right !
+这种写法的特点：
+* 每次跑一遍 `private void quickSort(int[] nums, int start, int end)` 以后，left index 在 right index 的右边：
+  ```
+  ... *  *  *  *  right  left *  *  *  *  ...
+  ```
+  * 但是此时并不能保证left左边的数都小于等于它！也不能保证right右边的数都大于等于它！
+  * 只能保证 **right左边的数包括right，小于等于 left右边的数包括left**。就是说，只是两个区间之间的大小关系！而此时left和right位置上的2个数的值未必是划分大小的分界值！
+  
 ```java
 public class Solution {
-
     public void quickSort(int[] nums) {
         if (nums == null || nums.length <= 1) {
             return;
@@ -85,10 +92,13 @@ public class Solution {
 }
 ```
 
-#### 经典版，比上面的写法要繁琐，只是B格高一点
+#### 经典版，比上面的写法繁琐，最重要的是每次partition能把分界值放到分界点上！靠最后那一下swap！
+这种写法的特点：
+* 每次跑一遍 `private int partition(int[] array, int start, int end)` 以后：
+  * 这个函数返回的int值正好就是分界点的坐标！而且分界点此时的值能保证就是分界值！分界值的意思是说，它左边的所有数都保证大于等于它！它右边的所有数都保证小于等于它！这是这个写法比上一个写法强力的地方。最后sort的结果是一样的。所以如果不是特别需要这一点，也不用非要用这种写法。
+  
 ```java
 public class QuickSort {
-    
     public int[] quickSort(int[] array) {
         if (array == null || array.length <= 1) {
             return array;
