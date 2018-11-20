@@ -25,8 +25,8 @@ Note that **it is the kth largest element in the sorted order, not the kth disti
 算法笔记里专门有一篇讲 Quick Select，可以找那个看看。
 
 ### Complexity
-* Time: 最优以及平均 O(n)，最差 O(n^2)
-* Space: O()
+* Time: 也就是用 Quick Select 方法找 第k小或第k大的数 的时间消耗。最优以及平均 O(n)，最差 O(n^2)
+* Space: O(1) <=== 对么 ？？？
 
 ### Java
 ```java
