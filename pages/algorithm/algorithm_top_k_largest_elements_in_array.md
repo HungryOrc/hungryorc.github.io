@@ -57,7 +57,8 @@ public class Solution {
     
     // 和一般的 quick sort 的 partition函数 一样。
     // 这个函数一方面会把小于pivot的数都放到左半边，
-    // 另一方面，更重要的是，第k小的那个数最终会被会放在 index = k-1 的位置上！
+    // 另一方面，更重要的是，pivot值本身最终会被会放在 左右半边分界 的位置上！
+    // 最后，他会返回这个pivot的index
     private int partition(int[] nums, int start, int end) {
         if (end <= start) {
             return start;
