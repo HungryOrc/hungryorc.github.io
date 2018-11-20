@@ -56,13 +56,14 @@ public class Solution {
     }
     
     // 和一般的 quick sort 的 partition函数 一样。
-    // 这个函数一方面会把小于pivot的数都放到左半边，另一方面会把pivot的index返回来。
-    // 下面的实现里，pivot的选取是随机的，这样选的平均速度比其他选法（比如选最后一个元素）高很多！
+    // 这个函数一方面会把小于pivot的数都放到左半边，
+    // 另一方面，更重要的是，第k小的那个数最终会被会放在 index = k-1 的位置上！
     private int partition(int[] nums, int start, int end) {
         if (end <= start) {
             return start;
         }
         
+        // pivot的选取是随机的，这样选的平均速度比其他选法（比如选最后一个元素）高很多！
         // 搞一个random的index，把pivot设为这个数，然后把pivot挪到数组的尾部
         int random = new Random().nextInt(end - start) + start;
         int pivot  = nums[random];
