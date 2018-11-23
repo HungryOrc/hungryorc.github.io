@@ -33,7 +33,7 @@ How many schemes can be chosen?  Since the answer may be very large, return it m
   * Output: 7
   * To make a profit of at least 5, the gang could commit any crimes, as long as they commit one. There are 7 possible schemes: (0), (1), (2), (0,1), (0,2), (1,2), and (0,1,2).
 
-## Solution: DP
+## Solution 1: DP
 这题比较明显是要用DP做，难度是 hard。具体处理有一些需要注意的地方。题意中有2个限制，一个是总人数有上限，一个是总利润有下限，自然想起背包问题，
 总重量有上限，总价值有下限那样的题目。
 * `int[][] dp = new int[G + 1][allProfitSum + 1]`, 其中 `dp[i][j]` 意思是 正好用了i个人，利润正好是j，一共有多少种方法
@@ -55,8 +55,8 @@ How many schemes can be chosen?  Since the answer may be very large, return it m
 * 结果：对于dp矩阵里，所有 总profit大于等于P 的列 求和
 
 ### Complexity
-* Time: O(n * G * P), n是group数组的长度，也等于profit数组的长度
-* Space: O(G * P)
+* Time: O(n * G * allProfitsSum), n是group数组的长度，也等于profit数组的长度
+* Space: O(G * allProfitsSum)
 
 ### Java
 ```java
@@ -69,22 +69,22 @@ class Solution {
         // 这个参数完全是因为题目的要求，和本解法的逻辑无关，要不是数太大，完全可不要此参数
         int magicMod = (int)Math.pow(10, 9) + 7;
         
-        int allPrfSum = 0;
+        int allProfitsSum = 0;
         for (int p : profit) { // 认为profit数组里的所有数都是 >= 0 的
-            allPrfSum += p;
+            allProfitsSum += p;
         }
 
-        int[][] dp = new int[G + 1][allPrfSum + 1];
+        int[][] dp = new int[G + 1][allProfitsSum + 1];
         dp[0][0] = 1; // 这个初始状态不好想，但很重要   
         
         for (int i = 0; i < n; i++) {
-            int mem = group[i];
-            int prf = profit[i];
+            int curMember = group[i];
+            int curProfit = profit[i];
 
             // 这个做法的灵魂之处！从右下往左上填dp数组！
-            for (int m = G; m >= mem; m--) {
-                for (int p = allPrfSum; p >= prf; p--) {
-                    dp[m][p] = (dp[m][p] + dp[m - mem][p - prf]) % magicMod;
+            for (int m = G; m >= curMember; m--) {
+                for (int p = allProfitsSum; p >= curProfit; p--) {
+                    dp[m][p] = (dp[m][p] + dp[m - curMember][p - curProfit]) % magicMod;
                     // 注意 a = (a + b) % c 和 a += b % c 得到的 a 是不同的
                 }
             }
@@ -92,9 +92,49 @@ class Solution {
         
         int result = 0;
         for (int i = 1; i <= G; i++) {
-            for (int j = P; j <= allPrfSum; j++) {
+            for (int j = P; j <= allProfitsSum; j++) {
                 result = (result + dp[i][j]) % magicMod;
             }
+        }
+        return result;
+    }
+}
+```
+
+## Solution 2: 上面方法的小幅改进，超过P的利润，都缩并到P上。速度前15%
+详见代码。这样做可以削减时间和空间消耗
+
+### Complexity
+* Time: O(n * G * P), n是group数组的长度，也等于profit数组的长度
+* Space: O(G * P)
+
+### Java
+```java
+class Solution {
+    public int profitableSchemes(int G, int P, int[] group, int[] profit) {
+        // ignore the corner cases
+        
+        int n = group.length;
+        int magicMod = (int)Math.pow(10, 9) + 7;
+
+        int[][] dp = new int[G + 1][P + 1];
+        dp[0][0] = 1;
+        
+        for (int i = 0; i < n; i++) {
+            int curMember = group[i];
+            int curProfit = profit[i];
+
+            for (int m = G; m >= curMember; m--) {
+                for (int p = P + curProfit; p >= curProfit; p--) {
+                    dp[m][Math.min(p, P)] = 
+                        (dp[m][Math.min(p, P)] + dp[m - curMember][p - curProfit]) % magicMod;
+                }
+            }
+        }
+        
+        int result = 0;
+        for (int i = 1; i <= G; i++) {
+            result = (result + dp[i][P]) % magicMod;
         }
         return result;
     }
