@@ -55,8 +55,8 @@ How many schemes can be chosen?  Since the answer may be very large, return it m
 * 结果：对于dp矩阵里，所有 总profit大于等于P 的列 求和
 
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(n * G * P), n是group数组的长度，也等于profit数组的长度
+* Space: O(G * P)
 
 ### Java
 ```java
