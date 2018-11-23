@@ -37,15 +37,11 @@ How many schemes can be chosen?  Since the answer may be very large, return it m
 这题比较明显是要用DP做，难度是 hard。具体处理有一些需要注意的地方。题意中有2个限制，一个是总人数有上限，一个是总利润有下限，自然想起背包问题，
 总重量有上限，总价值有下限那样的题目。
 * `int[][] dp = new int[G + 1][allProfitSum + 1]`, 其中 `dp[i][j]` 意思是 正好用了i个人，利润正好是j，一共有多少种方法
-* 递推关系
-  ```
-  dp[memberNumberSum][profitSum] += dp[memberNumberSum - curMemberNumber][profitSum - curProfit]
-  ```
+* 递推关系：dp[memberNumberSum][profitSum] += dp[memberNumberSum - curMemberNumber][profitSum - curProfit]
 * 初始状态：dp[0][0] = 1，即没人也没利润，有一种方式，自然就是不派人也不做事。这个看起来很无厘头，也不好想。但是非常重要！这相当于一生万物的那个一，
 没有它，后面的一切都是零，都无从发动
 * 特别注意，初始状态不要包括 `dp[每个groupMemberNumber][相应的每个profit] = 1`！
-  * 这个也不好想，反直觉。习惯来说应该是初始把这一串都列上的。但按照我们这题要做的方法，`dp[memberNumberSum][profitSum] += dp[memberNumberSum - curMemberNumber][profitSum - curProfit]`，
-就不能把数组 `group` 和 `profit` 里的一对一对的数列在初始条件里。如果那样做，上面的递推式子就会重复！
+  * 这个也不好想，反直觉。习惯来说应该是初始把这一串都列上的。但按照我们的递推，就不能把数组 `group` 和 `profit` 里的一对一对的数列在初始条件里。如果那样做，上面的递推式子就会重复！
   * 比如 4人2利润 是一个任务，3人5利润 是另一个任务。那么 7人7利润 应该是有一种方法。但是如果把 4人2利润 和 3人5利润 都列在初始条件里都设为1（种方法），那么 7人7利润 最后就会被加成2种方法。但其实只有一种，即前面两个任务都做才能达成7,7
 
 
