@@ -22,7 +22,7 @@ Note that **it is the top k largest elements according to the sorted order, not 
 * Input: [3,10,1000,-99,4,100] and k = 3
   * Output: [1000, 100, 10]
 
-## Solution 1: Quick Select，速度很快
+## Solution 1: Quick Sort，速度很快。这题不能用Quick Select！因为Quick Select只管两分边并不排序，而题目要求result要从大到小
 算法笔记里专门有一篇讲 Quick Select，可以找那个看看。
 
 ### Complexity
@@ -32,60 +32,43 @@ Note that **it is the top k largest elements according to the sorted order, not 
 ### Java
 ```java
 public class Solution {
-    public int findKthLargest(int[] nums, int k) {
-        if (nums == null || nums.length == 0) {
-            return Integer.MIN_VALUE;
-        }
-        
-        // 找第k个最大，就是找第length-k+1个最小
-        // quick select原本是用来找第k个最小，所以在这里转化一下
-        return quickSelect(nums, 0, nums.length - 1, nums.length - k + 1);
+    public int[] topk(int[] nums, int k) {
+        // Write your code here
+        quickSort(nums, 0, nums.length - 1, k);
+
+        int[] topk = new int[k];
+        for (int i = 0; i < k; ++i)
+            topk[i] = nums[i];
+
+        return topk;
     }
     
-    // quick select 这个算法的定义就是 “找第 k 小的数”，k 也就是下面的最后一个参数
-    private int quickSelect(int[] nums, int start, int end, int k) {
-        int chosenIndex = partition(nums, start, end);
-        
-        if (chosenIndex < k - 1) { // 第 k 小的数的 index 是 k - 1
-            return quickSelect(nums, chosenIndex + 1, end, k);
-        } else if (chosenIndex > k - 1) {
-            return quickSelect(nums, start, chosenIndex - 1, k);
-        } else { // chosenIndex == k - 1
-            return nums[chosenIndex];
-        }
-    }
-    
-    // 和一般的 quick sort 的 partition函数 一样。
-    // 这个函数一方面会把小于pivot的数都放到左半边，
-    // 另一方面，更重要的是，pivot值本身最终会被会放在 左右半边分界 的位置上！
-    // 最后，他会返回这个pivot的index
-    private int partition(int[] nums, int start, int end) {
-        if (end <= start) {
-            return start;
+    private void quickSort(int[] nums, int start, int end, int k) {
+        if (start >= k)
+            return;
+
+        if (start >= end) {
+            return;
         }
         
-        // pivot的选取是随机的，这样选的平均速度比其他选法（比如选最后一个元素）高很多！
-        // 搞一个random的index，把pivot设为这个数，然后把pivot挪到数组的尾部
-        int random = new Random().nextInt(end - start) + start;
-        int pivot  = nums[random];
-        swap(nums, end, random);
-        
-        int left = start;
-        int right = end - 1; // 因为已把pivot放到尾部了，所以right只能取为倒数第二个
-        
+        int left = start, right = end;
+        Random rand =new Random(end - start + 1);
+        int index = rand.nextInt(end - start + 1) + start;
+        int pivot = nums[index];
+
+        // left的数大于pivot时left++，这样排出来是从大到小
         while (left <= right) {
-            if (nums[left] < pivot) {
+            if (nums[left] > pivot) {
                 left ++;
-            } else if (nums[right] > pivot) {
+            } else if (nums[right] < pivot) {
                 right --;
             } else {
                 swap(nums, left++, right--);
             }
         }
         
-        // 最后left要么是紧贴着right并且在right的右边一位，要么是left和right重合
-        swap(nums, left, end);
-        return left;
+        quickSort(nums, start, right, k);
+        quickSort(nums, left, end, k);
     }
     
     private void swap(int[] nums, int i1, int i2) {
