@@ -89,7 +89,7 @@ public class Solution {
   * 算法笔记里专门有一篇讲 Quick Select，可以找那个看看。
 
 ### Complexity
-* Time: O(klogk) <=== 部分排序的时间，对么？？？
+* Time: O(nlogk) <=== 部分排序的时间，对么？？？
 * Space: O(1) <=== 对么 ？？？
 
 ### Java
