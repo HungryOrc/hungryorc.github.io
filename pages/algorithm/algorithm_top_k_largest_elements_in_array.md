@@ -23,6 +23,8 @@ Note that **it is the top k largest elements according to the sorted order, not 
   * Output: [1000, 100, 10]
 
 ## Solution 1: 用Max Heap装所有元素，比较符合直觉，但速度慢，不写了
+这个方法比排序整个数组还是要快一点
+
 步骤：
 * Do max heapify on all the elements in the array, to form them into a max heap --> O(n) Time
 * Call pop() on the max heap for k times, at the same time place them in a new array of size k, with the larger ones placed at the head of the new array --> O(klogn) Time
@@ -97,17 +99,20 @@ public class Solution {
         quickSort(nums, 0, nums.length - 1, k);
 
         int[] topk = new int[k];
-        for (int i = 0; i < k; ++i)
+        for (int i = 0; i < k; ++i) {
             topk[i] = nums[i];
+        }
 
         return topk;
     }
     
     private void quickSort(int[] nums, int start, int end, int k) {
-        if (start >= k)
-            return;
-
         if (start >= end) {
+            return;
+        }
+        
+        // 这一题的灵魂就在这个if语句！
+        if (start >= k) {
             return;
         }
         
