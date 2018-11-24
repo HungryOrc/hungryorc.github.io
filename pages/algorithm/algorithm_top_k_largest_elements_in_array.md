@@ -32,7 +32,7 @@ Note that **it is the top k largest elements according to the sorted order, not 
 * Space: O(n), size of the max heap <=== 对么 ？？？
 
 
-## Solution 2: 用Min Heap装最大的k个元素。到时候就用这个方法
+## Solution 2: 用Min Heap装最大的k个元素。比前面的方法快。但不如后面的“部分quick sort”方法快
 步骤：
 * Do min heapify on the first k elements in the array, to form them into a min heap --> O(k) Time
 * Iterate the rest n-k elements, for each of them, compare with the smallest one of the k elements in the min heap:
@@ -81,13 +81,13 @@ public class Solution {
 }
 ```
 
-## Solution 3: 笨办法，Quick Sort 排序整个数组，再输出最大的k个，这样做是 over kill
+## Solution 3: 很特别的方法！用Quick Sort，但只排序部分数组！一旦要排序的 start index >= k，就停下不排了！
 
-### 这题不能用Quick Select来做！因为Quick Select只管两分边，但并不排序任何一边，而这题特别要求输出的结果要从大到小
-算法笔记里专门有一篇讲 Quick Select，可以找那个看看。
+* **这题不能用Quick Select来做！因为Quick Select只管两分边，但并不排序任何一边，而这题特别要求输出的结果要从大到小**
+  * 算法笔记里专门有一篇讲 Quick Select，可以找那个看看。
 
 ### Complexity
-* Time: O(nlogn)，用quick sort排序的时间
+* Time: O(klogk) <=== 部分排序的时间，对么？？？
 * Space: O(1) <=== 对么 ？？？
 
 ### Java
