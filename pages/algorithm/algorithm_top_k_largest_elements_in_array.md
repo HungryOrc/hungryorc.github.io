@@ -22,64 +22,7 @@ Note that **it is the top k largest elements according to the sorted order, not 
 * Input: [3,10,1000,-99,4,100] and k = 3
   * Output: [1000, 100, 10]
 
-## Solution 1: Quick Sort，速度很快。这题不能用Quick Select！因为Quick Select只管两分边并不排序，而题目要求result要从大到小
-算法笔记里专门有一篇讲 Quick Select，可以找那个看看。
-
-### Complexity
-* Time: 也就是用 Quick Select 方法找 第k小或第k大的数 的时间消耗。最优以及平均 O(n)，最差 O(n^2)
-* Space: O(1) <=== 对么 ？？？
-
-### Java
-```java
-public class Solution {
-    public int[] topk(int[] nums, int k) {
-        // Write your code here
-        quickSort(nums, 0, nums.length - 1, k);
-
-        int[] topk = new int[k];
-        for (int i = 0; i < k; ++i)
-            topk[i] = nums[i];
-
-        return topk;
-    }
-    
-    private void quickSort(int[] nums, int start, int end, int k) {
-        if (start >= k)
-            return;
-
-        if (start >= end) {
-            return;
-        }
-        
-        int left = start, right = end;
-        Random rand =new Random(end - start + 1);
-        int index = rand.nextInt(end - start + 1) + start;
-        int pivot = nums[index];
-
-        // left的数大于pivot时left++，这样排出来是从大到小
-        while (left <= right) {
-            if (nums[left] > pivot) {
-                left ++;
-            } else if (nums[right] < pivot) {
-                right --;
-            } else {
-                swap(nums, left++, right--);
-            }
-        }
-        
-        quickSort(nums, start, right, k);
-        quickSort(nums, left, end, k);
-    }
-    
-    private void swap(int[] nums, int i1, int i2) {
-        int tmp = nums[i1];
-        nums[i1] = nums[i2];
-        nums[i2] = tmp;
-    }
-}
-```
-
-## Solution 2: 用Max Heap装所有元素，比较符合直觉，但速度慢，不写了
+## Solution 1: 用Max Heap装所有元素，比较符合直觉，但速度慢，不写了
 步骤：
 * Do max heapify on all the elements in the array, to form them into a max heap --> O(n) Time
 * Call pop() on the max heap for k times, at the same time place them in a new array of size k, with the larger ones placed at the head of the new array --> O(klogn) Time
@@ -89,7 +32,7 @@ public class Solution {
 * Space: O(n), size of the max heap <=== 对么 ？？？
 
 
-## Solution 3: 用Min Heap装最大的k个元素，速度比quick select慢一些
+## Solution 2: 用Min Heap装最大的k个元素。到时候就用这个方法
 步骤：
 * Do min heapify on the first k elements in the array, to form them into a min heap --> O(k) Time
 * Iterate the rest n-k elements, for each of them, compare with the smallest one of the k elements in the min heap:
@@ -134,6 +77,64 @@ public class Solution {
             result[i] = minHeap.poll();
         }
         return result;
+    }
+}
+```
+
+## Solution 3: 笨办法，Quick Sort 排序整个数组，再输出最大的k个，这样做是 over kill
+
+### 这题不能用Quick Select来做！因为Quick Select只管两分边，但并不排序任何一边，而这题特别要求输出的结果要从大到小
+算法笔记里专门有一篇讲 Quick Select，可以找那个看看。
+
+### Complexity
+* Time: O(nlogn)，用quick sort排序的时间
+* Space: O(1) <=== 对么 ？？？
+
+### Java
+```java
+public class Solution {
+    public int[] topk(int[] nums, int k) {
+        quickSort(nums, 0, nums.length - 1, k);
+
+        int[] topk = new int[k];
+        for (int i = 0; i < k; ++i)
+            topk[i] = nums[i];
+
+        return topk;
+    }
+    
+    private void quickSort(int[] nums, int start, int end, int k) {
+        if (start >= k)
+            return;
+
+        if (start >= end) {
+            return;
+        }
+        
+        int left = start, right = end;
+        Random rand =new Random(end - start + 1);
+        int index = rand.nextInt(end - start + 1) + start;
+        int pivot = nums[index];
+
+        // left的数大于pivot时left++，这样排出来是从大到小
+        while (left <= right) {
+            if (nums[left] > pivot) {
+                left ++;
+            } else if (nums[right] < pivot) {
+                right --;
+            } else {
+                swap(nums, left++, right--);
+            }
+        }
+        
+        quickSort(nums, start, right, k);
+        quickSort(nums, left, end, k);
+    }
+    
+    private void swap(int[] nums, int i1, int i2) {
+        int tmp = nums[i1];
+        nums[i1] = nums[i2];
+        nums[i2] = tmp;
     }
 }
 ```
