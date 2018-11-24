@@ -117,9 +117,9 @@ public class Solution {
         }
         
         int left = start, right = end;
-        Random rand =new Random(end - start + 1);
-        int index = rand.nextInt(end - start + 1) + start;
-        int pivot = nums[index];
+
+        int random = new Random().nextInt(end - start) + start;
+        int pivot = nums[random];
 
         // left的数大于pivot时left++，这样排出来是从大到小
         while (left <= right) {
