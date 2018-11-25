@@ -77,6 +77,48 @@ public class Trie {
         }
     }
 }
+
+
+    def _deleteHelper(self,pNode,key,level,length): 
+        ''' 
+        Helper function for deleting key from trie 
+        '''
+        if pNode: 
+            # Base case 
+            if level == length: 
+                if pNode.value: 
+                    # unmark leaf node 
+                    pNode.value = 0
+  
+                # if empty, node to be deleted 
+                return pNode.isItFreeNode() 
+  
+            # recursive case 
+            else: 
+                index = self._Index(key[level]) 
+                if self._deleteHelper(pNode.children[index],\ 
+                                        key,level+1,length): 
+  
+                    # last node marked,delete it 
+                    del pNode.children[index] 
+  
+                    # recursively climb up and delete  
+                    # eligible nodes 
+                    return (not pNode.leafNode() and \ 
+                                pNode.isItFreeNode()) 
+  
+        return False
+  
+    def deleteKey(self,key): 
+        ''' 
+        Delete key from trie 
+        '''
+        length = len(key) 
+        if length > 0: 
+            self._deleteHelper(self.root,key,0,length)     
+  
+  
+  
 ```
 
 ## Reference
