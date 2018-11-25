@@ -24,11 +24,27 @@ toc: false
   * 找某个字母（这个字母可能在某个String里的某个位置）后面有没有接另外一个字母：O(1)
 * Space: O(所有Strings的长度和)
 
-## Implementation 1: 每个 Node 的 Children 用 Map<Character, Node> 来表示
+## Implementation 1: 每个 Node 的 Children 用 `Map<Character, Node>` 表示
 
 ### Java
 ```java
+// Trie Node class
+class Node {
+    char val;
+    Map<Character, Node> children;
+    boolean endOfWord; // end of word以后，后面还可能继续有别的word！例：Trie里同时存 car 和 card 的情况
+    int size; // // number of all descendants, including this node itself if it is an end of a word
+    
+    public Node(char c) {
+        this.val = c;
+        this.children = new HashMap<>();
+    }
+}
 
+public class Trie {
+
+
+}
 ```
 
 ## Reference
