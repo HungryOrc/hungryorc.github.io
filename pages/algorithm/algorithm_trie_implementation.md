@@ -42,8 +42,40 @@ class Node {
 }
 
 public class Trie {
-
-
+    Node root;
+    
+    public Trie() {
+        root = new Node('');
+    }
+    
+    // insert a word into the Trie
+    // ----------------------------------------------------------------
+    public void insert(String word) {
+        insert(root, word, 0);
+        root.size ++;
+    }
+    
+    private void insert(Node node, String word, int index) {
+        if (index == word.length()) {
+            return;
+        }
+        
+        char c = word.charAt(index);
+        Node child = node.children.get(c);
+        
+        if (child == null) {
+            child = new Node(c);
+            node.children.put(c, child);
+        }
+        
+        child.size++;
+        
+        if (index == word.length() - 1) {
+            child.endOfWord = true;
+        } else {
+            insert(child, word, index + 1);
+        }
+    }
 }
 ```
 
