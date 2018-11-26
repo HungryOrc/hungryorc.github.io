@@ -24,7 +24,9 @@ toc: false
   * 找某个字母（这个字母可能在某个String里的某个位置）后面有没有接另外一个字母：O(1)
 * Space: O(所有Strings的长度和)
 
-## Implementation 1: 每个 Node 的 Children 用 `Map<Character, Node>` 表示
+## Implementation 1: Node的Children用`Map<Character, Node>`表示，Trie的member methods用Recursion实现
+
+下面实现iteration！！！并申明不是一一绑定的！！！！！！！
 
 ### Java
 ```java
