@@ -76,52 +76,80 @@ public class Trie {
             insert(child, word, index + 1);
         }
     }
+    
+    // Search for a word in the Trie
+    // ----------------------------------------------------------------
+    public boolean search(String word) {
+        return search(root, word, 0);
+    }
+    
+    private boolean search(Node node, String word, int index) {
+        char c = word.charAt(index);
+        Node child = node.children.get(c);
+        
+        if (child == null) {
+            return false;
+        }
+        
+        if (index == word.length() - 1) {
+            if (child.endOfWord == true) {
+                return true;
+            }
+            return false;
+        }
+        
+        return search(child, word, index + 1);
+    }
+    
+    // Delete a word in the trie
+    // 方法：首先在trie里找这个word，
+    // 如果这个word根本无法在trie里完整地找到，或者完整找到了，但word的最后一个char不是endOfWord，都算没找到。
+    // 如果找到了，就把这个word的每个char node的size--，把最后一个char node的endOfWord设为false。
+    // 如果被删除word的最后一个char node的size为0了，即它后面再没有任何children，那么可以把这个node设为null，也可以不管它
+    // ----------------------------------------------------------------
+    public boolean delete(String word) {
+        if (!this.search(word)) {
+            return false;
+        }
+    
+        return delete(root, word, 0);
+    }
+    
+    private boolean delete(Node node, String word, int index) {
+        char c = word.charAt(index);
+        Node child = node.children.get(c);
+        
+        if (child == null) {
+            return false;
+        }
+        
+        child.size--;
+        
+        if (index == word.length() - 1) {
+            if (child.endOfWord == true) {
+                child.endOfWord = false;
+                
+                if (child.size == 0) {
+                    node.children.remove(c);
+                }
+            
+                return true;
+            }
+            return false;
+        }
+        
+        return delete(child, word, index + 1);
+    }   
+   
 }
 
 
-    def _deleteHelper(self,pNode,key,level,length): 
-        ''' 
-        Helper function for deleting key from trie 
-        '''
-        if pNode: 
-            # Base case 
-            if level == length: 
-                if pNode.value: 
-                    # unmark leaf node 
-                    pNode.value = 0
-  
-                # if empty, node to be deleted 
-                return pNode.isItFreeNode() 
-  
-            # recursive case 
-            else: 
-                index = self._Index(key[level]) 
-                if self._deleteHelper(pNode.children[index],\ 
-                                        key,level+1,length): 
-  
-                    # last node marked,delete it 
-                    del pNode.children[index] 
-  
-                    # recursively climb up and delete  
-                    # eligible nodes 
-                    return (not pNode.leafNode() and \ 
-                                pNode.isItFreeNode()) 
-  
-        return False
-  
-    def deleteKey(self,key): 
-        ''' 
-        Delete key from trie 
-        '''
-        length = len(key) 
-        if length > 0: 
-            self._deleteHelper(self.root,key,0,length)     
-  
   
   
 ```
 
 ## Reference
-* [Trie | (Insert and Search) [GeeksforGeeks]](https://www.geeksforgeeks.org/trie-insert-and-search/)
+* [Trie | Insert and Search [GeeksforGeeks]](https://www.geeksforgeeks.org/trie-insert-and-search/)
+* [Trie | Delete [GeeksforGeeks]](https://www.geeksforgeeks.org/trie-delete/)
 
 {% include links.html %}
