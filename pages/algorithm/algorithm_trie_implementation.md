@@ -28,14 +28,13 @@ toc: false
 
 ### Java
 ```java
-// Trie Node class
-class Node {
+class TrieNode {
     char val;
-    Map<Character, Node> children;
+    Map<Character, TrieNode> children;
     boolean endOfWord; // end of word以后，后面还可能继续有别的word！例：Trie里同时存 car 和 card 的情况
     int size; // // number of all descendants, including this node itself if it is an end of a word
     
-    public Node(char c) {
+    public TrieNode(char c) {
         this.val = c;
         this.children = new HashMap<>();
     }
