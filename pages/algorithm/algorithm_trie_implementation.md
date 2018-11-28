@@ -10,23 +10,32 @@ toc: false
 ---
 
 ## Overview
-本 Trie（每个 Node 里存的 value 是一个 char）要实现的操作：
-* 在每个 Trie Node 上存一个 int size，记录从 Trie root 开始到本node为止组成的这个prefix，后面一共有多少个word
-  * 如果到本 node 为止，恰好形成一个完整的word，那么这个word也要算到这个 size 里去
+### 这个 Trie 要实现的操作
+* 每个 TrieNode 里存的 value 是一个 char，从`a`到·`z`的小写字母，共26种可能的值
+* 在每个 TrieNode 上存一个 int size，记录从 Trie root 开始到本node为止组成的这个prefix，后面一共有多少个word
+  * 如果到本 Node 为止，恰好形成一个完整的word，那么这个word也要算到这个 size 里去
 * 往Trie里插入一个 String
 * 查找一个 String 是否在Trie里作为一个完整的 word
 * 查找一个 Prefix String 是否存在于Trie里，且返回其最后一个node，如果false，则返回null
 * 返回一个 Prefix String 在Trie里的所有 后继(Subsequent) Strings，用 List<String> 来表示
-   
+
+### 实现方式
+#### 对于每个TrieNode的Children，可用以下方式中的一种
+* `Map<Character, TrieNode>`
+* `TrieNode[26]`，26的意思是26个小写字母。注意这里是array of TrieNode，不是array of char 或 int。这种方式也不存char，用数组里的相对位置就知道一个child node的val是哪个char了
+  * Trie的层数多了以后，这种方式比Map的方式要快很多，也要省很多空间
+
+#### 对于Trie class的member methods
+* 可以用Recursive的方式来写
+* 也可以用Iterative的方式来写。下面分别用了这两种方式
+
 ### Complexity
 * Time:
   * 找一个String是否存在：O(这个String的长度)
-  * 找某个字母（这个字母可能在某个String里的某个位置）后面有没有接另外一个字母：O(1)
+  * 找某个String里的某个字母后面有没有接另外一个字母，或者它后面有哪些字母：O(1)
 * Space: O(所有Strings的长度和)
 
 ## Implementation 1: Node的Children用`Map<Character, Node>`表示，Trie的member methods用Recursion实现
-
-下面实现iteration！！！并申明不是一一绑定的！！！！！！！
 
 ### Java
 ```java
