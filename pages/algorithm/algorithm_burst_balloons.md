@@ -48,6 +48,7 @@ n - 1 的气球，就用这个规则计分
   ```
   * 其中 nums[i - 2] 代表了 气球 i - 1 左边的那个气球，nums[j] 代表了 气球 j - 1 右边的那个气球
   * 这个递推公式的理由是：这一段上的其他气球已经都被打爆了，现在只剩下一个气球，那么最后打爆它的时候，它的分数只能和这个区间段外面相邻的2个气球的分数相乘了
+  * 可以想到，**我们只会填写这个dp矩阵的右上半部。左下半部都会是0。因为j永远要 >= i**
 * 结果：dp[1][n]，代表了打爆 index = 0 到 index = n - 1 的所有气球的 最高可能得分
 
 ### Complexity
@@ -82,6 +83,8 @@ class Solution {
                     dp[i][j] = Math.max(dp[i][j],
                         dp[i][k - 1] + dp[k + 1][j] + 
                         newNums[k] * newNums[i - 1] * newNums[j + 1]);
+                        // 可以看出，当len=1时，这个induction rule就变成:
+                        // dp[i][i] = newNums[i] * newNums[i - 1] * newNums[i + 1]
                 }
             }
         }
