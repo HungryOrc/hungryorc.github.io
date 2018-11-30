@@ -55,7 +55,7 @@ public class Trie {
     TrieNode root;
     
     public Trie() {
-        root = new Node('');
+        this.root = new TrieNode('');
     }
     
     // insert a word into the Trie
@@ -65,7 +65,7 @@ public class Trie {
         root.size ++;
     }
     
-    private void insert(Node node, String word, int index) {
+    private void insert(TrieNode node, String word, int index) {
         if (index == word.length()) {
             return;
         }
@@ -74,7 +74,7 @@ public class Trie {
         TrieNode child = node.children.get(c);
         
         if (child == null) {
-            child = new Node(c);
+            child = new TrieNode(c);
             node.children.put(c, child);
         }
         
@@ -93,7 +93,7 @@ public class Trie {
         return search(root, word, 0);
     }
     
-    private boolean search(Node node, String word, int index) {
+    private boolean search(TrieNode node, String word, int index) {
         char c = word.charAt(index);
         TrieNode child = node.children.get(c);
         
@@ -125,7 +125,7 @@ public class Trie {
         return delete(root, word, 0);
     }
     
-    private boolean delete(Node node, String word, int index) {
+    private boolean delete(TrieNode node, String word, int index) {
         char c = word.charAt(index);
         TrieNode child = node.children.get(c);
         
@@ -156,11 +156,11 @@ public class Trie {
     // return null if the Prefix String doesn't exist in the Trie
     // 这个method和search整个word的method基本一样，唯一区别是这个method不判断是否到了end of word
     // ----------------------------------------------------------------
-    public Node findEndNodeOfPrefixString(String prefix) {
+    public TrieNode findEndNodeOfPrefixString(String prefix) {
         return findEndNode(root, prefix, 0);
     }
     
-    private Node findEndNode(Node node, String prefix, int index) {
+    private TrieNode findEndNode(TrieNode node, String prefix, int index) {
         char c = prefix.charAt(index);
         TrieNode child = node.children.get(c);
         
@@ -219,9 +219,40 @@ public class Trie {
 ### Java
 ```java
 class TrieNode {
-
+    TrieNode[] children;
+    boolean endOfWord;
+    
+    public TrieNode() {
+        this.children = new TrieNode[26]; // from a to z
+    }
 }
 
+public class Trie {
+    TrieNode root;
+    
+    public Trie() {
+        this.root = new TrieNode();
+    }
+    
+    // insert a word into the Trie
+    // ----------------------------------------------------------------
+    public void insert(String word) {
+        TrieNode curNode = this.root;
+        
+        for (char c : word.toCharArray()) {
+            if (curNode.children[c - 'a'] == null) {
+                curNode.children[c - 'a'] = new TrieNode();
+            }
+            // 如果c和以前的所有chars都已经在Trie里了，则do nothing
+            
+            curNode = curNode.children[c - 'a'];
+        }
+        curNode.endOfWord = true;
+    }
+    
+    
+    // 其他的method我都自己做一下！！！ 然后在IDE里跑一下看看！！！！
+}
 ```
 
 ## Reference
