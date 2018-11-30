@@ -197,26 +197,21 @@ public class Trie {
     }
     
     private void getAllSubstrings(TrieNode node, StringBuilder sb, List<String> substrings) {
-    	   if (node.endOfWord == true) {
-    		      // 如果当前node是一个word的end，就要把这个word记录到substrings里面去，
-    		      // 但是在此不要return。DFS必须继续下去，因为后面可能还连着更长的词
-    		      substrings.add(sb.toString());
+        if (node.endOfWord == true) {
+            // 如果当前node是一个word的end，就要把这个word记录到substrings里面去，
+            // 但是在此不要return。DFS必须继续下去，因为后面可能还连着更长的词
+            substrings.add(sb.toString());
             // return; <== do not return here!
-    	   }
+        }
     	
         // Map.values(): returns a Collection view of the values contained in this map.
-    	   for (TrieNode child : node.children.values()) {
-    		      sb.append(child.val);
-    		      getAllSubstrings(child, sb, substrings);
-    		      sb.deleteCharAt(sb.length() - 1);
+        for (TrieNode child : node.children.values()) {
+            sb.append(child.val);
+            getAllSubstrings(child, sb, substrings);
+            sb.deleteCharAt(sb.length() - 1);
     	   }
     }
 }
-
-
-
-  
-  
 ```
 
 
