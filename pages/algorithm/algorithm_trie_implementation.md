@@ -35,7 +35,7 @@ toc: false
   * 找某个String里的某个字母后面有没有接另外一个字母，或者它后面有哪些字母：O(1)
 * Space: O(所有Strings的长度和)
 
-## Implementation 1: Children用`Map<Character, Node>`表示. Recursive Member Methods
+## Implementation 1: Children用`Map<Character, TrieNode>`表示. Member Methods用Recursion写
 
 ### Java
 ```java
@@ -214,9 +214,15 @@ public class Trie {
 }
 ```
 
+## Implementation 2: Children用`TrieNode[26]`表示. Member Methods用Iteration写
 
-第二种实现方式，根据老师的答案来填入各个member functions！
+### Java
+```java
+class TrieNode {
 
+}
+
+```
 
 ## Reference
 * [Trie | Insert and Search [GeeksforGeeks]](https://www.geeksforgeeks.org/trie-insert-and-search/)
