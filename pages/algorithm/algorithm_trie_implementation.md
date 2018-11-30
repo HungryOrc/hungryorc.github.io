@@ -43,7 +43,7 @@ class TrieNode {
     char val;
     Map<Character, TrieNode> children;
     boolean endOfWord; // end of word以后，后面还可能继续有别的word！例：Trie里同时存 car 和 card 的情况
-    int size; // // number of all descendants, including this node itself if it is an end of a word
+    int size; // number of all descendants, including this node itself if it is an end of a word
     
     public TrieNode(char c) {
         this.val = c;
@@ -52,7 +52,7 @@ class TrieNode {
 }
 
 public class Trie {
-    Node root;
+    TrieNode root;
     
     public Trie() {
         root = new Node('');
@@ -71,7 +71,7 @@ public class Trie {
         }
         
         char c = word.charAt(index);
-        Node child = node.children.get(c);
+        TrieNode child = node.children.get(c);
         
         if (child == null) {
             child = new Node(c);
@@ -95,7 +95,7 @@ public class Trie {
     
     private boolean search(Node node, String word, int index) {
         char c = word.charAt(index);
-        Node child = node.children.get(c);
+        TrieNode child = node.children.get(c);
         
         if (child == null) {
             return false;
@@ -107,7 +107,7 @@ public class Trie {
             }
             return false;
         }
-        
+     
         return search(child, word, index + 1);
     }
     
@@ -127,7 +127,7 @@ public class Trie {
     
     private boolean delete(Node node, String word, int index) {
         char c = word.charAt(index);
-        Node child = node.children.get(c);
+        TrieNode child = node.children.get(c);
         
         if (child == null) {
             return false;
@@ -154,32 +154,35 @@ public class Trie {
 
     // Returns the ending Node if the given Prefix String exists in the Trie,
     // return null if the Prefix String doesn't exist in the Trie
+    // 这个method和search整个word的method基本一样，唯一区别是这个method不判断是否到了end of word
     // ----------------------------------------------------------------
-    public Node findEndNodeOfPrefix(String prefix) {
+    public Node findEndNodeOfPrefixString(String prefix) {
         return findEndNode(root, prefix, 0);
     }
     
     private Node findEndNode(Node node, String prefix, int index) {
         char c = prefix.charAt(index);
-        Node child = node.children.get(c);
+        TrieNode child = node.children.get(c);
+        
         if (child == null) {
             return null;
-        } else {
-            if (index == prefix.length() - 1) {
-                return child;
-            }
-            return findEndNode(child, prefix, index + 1);
+
+        if (index == prefix.length() - 1) {
+            return child;
         }
+        
+        return findEndNode(child, prefix, index + 1);
     }
     
     // Returns all the subsequent words starting with this prefix, in a list of Strings,
-    // if the prefix is also regarded as a complete word in the Trie, 
-    // then this prefix should also be included in the result 
+    // if the prefix itself is also a complete word in the Trie, then include itself.
+    // 这个method的做法是，先找到prefix string的end node在trie里的位置，再找
+    // 从这个end node开始往下的所有 substrings。再把这些 substrings 和 prefix 连在一起
     // ----------------------------------------------------------------
     public List<String> getAllStringsWithPrefix(String prefix) {
         List<String> result = new ArrayList<>();
         
-        Node endNode = getEndNode(prefix);
+        TrieNode endNode = getEndNode(prefix);
         if (endNode == null) {
             return result;
         }
@@ -192,20 +195,22 @@ public class Trie {
         }
         return result;
     }
-    private void getAllSubstrings(Node node, StringBuilder sb, List<String> substrings) {
-    	if (node.endOfWord == true) {
-    		// 注意 ！！！如果当前node是一个word的end，就要把这个word记录到substrings里面去，
-    		// 但是这并不意味着 DFS 到此结束了！相反，DFS 必须继续！！！因为后面可能还继续连着更长的词！！！
-    		substrings.add(sb.toString());
-    	}
+    
+    private void getAllSubstrings(TrieNode node, StringBuilder sb, List<String> substrings) {
+    	   if (node.endOfWord == true) {
+    		      // 如果当前node是一个word的end，就要把这个word记录到substrings里面去，
+    		      // 但是在此不要return。DFS必须继续下去，因为后面可能还连着更长的词
+    		      substrings.add(sb.toString());
+            // return; <== do not return here!
+    	   }
     	
-    	for (Node child : node.children.values()) {
-    		sb.append(child.value);
-    		getAllSubstrings(child, sb, substrings);
-    		sb.deleteCharAt(sb.length() - 1);
-    	}
+        // Map.values(): returns a Collection view of the values contained in this map.
+    	   for (TrieNode child : node.children.values()) {
+    		      sb.append(child.val);
+    		      getAllSubstrings(child, sb, substrings);
+    		      sb.deleteCharAt(sb.length() - 1);
+    	   }
     }
-   
 }
 
 
