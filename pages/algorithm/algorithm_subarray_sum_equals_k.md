@@ -26,7 +26,10 @@ Given an array of integers and an integer k, you need to find the total number o
 有点像 Two Sum 的思路。另一个关键点是想到用 prefix sum。
 
 
-
+        // 注意，别忘了把index=0之前的情况考虑进去！因为不能漏了从index=0开始的prefix sum，
+        // 这样就需要在map里放“index=-1时的prefix sum”，即 0，即prefixSum的初始值，如下：
+        // 而且后面的才能减去前面的的
+        // 所以如果把所有的prefix sum都放在一个map里以后再处理，则难以解决上面两个问题。好办法是从左到右在走的过程中就做了
 
 ### Complexity
 * Time: O(n)
@@ -45,11 +48,8 @@ class Solution {
         
         // 这一题不需要整个prefix sum array，只需要一个当前的prefix sum就行，
         // 因为后面有个map记录所有的prefix sum及其出现次数了。
-        // 注意，别忘了把index=0之前的情况考虑进去！因为不能漏了从index=0开始的prefix sum，
-        // 这样就需要在map里放“index=-1时的prefix sum”，即 0，即prefixSum的初始值，如下：
-        // 而且后面的才能减去前面的的
-        // 所以如果把所有的prefix sum都放在一个map里以后再处理，则难以解决上面两个问题。好办法是从左到右在走的过程中就做了
-        int prefixSum = 0;
+        int prefixSum = 0; // 这个0是记录不含任何数时的prefix sum，即左边第一个元素的左边
+        
         // <prefixSum, number of occurrences of this prefixSum>
         Map<Integer, Integer> map = new HashMap<>();
         map.put(0, 1);
