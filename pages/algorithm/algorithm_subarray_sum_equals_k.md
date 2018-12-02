@@ -52,7 +52,7 @@ class Solution {
         
         // <prefixSum, number of occurrences of this prefixSum>
         Map<Integer, Integer> map = new HashMap<>();
-        map.put(0, 1);
+        map.put(0, 1); // 这里就是放前面那个prefix sum
         
         for (int i = 0; i < n; i++) {
             prefixSum += nums[i]; 
