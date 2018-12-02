@@ -23,13 +23,13 @@ Given an array of integers and an integer k, you need to find the total number o
   * Output: 2
 
 ## Solution
-有点像 Two Sum 的思路。另一个关键点是想到用 prefix sum。
+有点像 Two Sum 的思路。另一个关键点是想到用 prefix sum。总而言之：把所有prefix sum都求出来，然后看对于每个prefix sum，有多少个 **在他之前的** prefix sum 等于 他减去k
 
-
-        // 注意，别忘了把index=0之前的情况考虑进去！因为不能漏了从index=0开始的prefix sum，
-        // 这样就需要在map里放“index=-1时的prefix sum”，即 0，即prefixSum的初始值，如下：
-        // 而且后面的才能减去前面的的
-        // 所以如果把所有的prefix sum都放在一个map里以后再处理，则难以解决上面两个问题。好办法是从左到右在走的过程中就做了
+注意:
+* 做prefix sum时，别忘了从index=0开始的prefix sum，这样就需要在map里放“index=-1时的prefix sum”，即 0
+* 只有后面的prefix sum才能减去前面的prefix sum！反过来是不行的
+  * 所以如果把所有的prefix sum都放在一个map里以后再处理，则难以解决上面两个问题
+* 所以，**这一题的解法最大的trick是：从左到右在走的过程中就做了所有事，见下面的代码**
 
 ### Complexity
 * Time: O(n)
