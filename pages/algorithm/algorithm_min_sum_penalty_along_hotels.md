@@ -32,11 +32,11 @@ toc: false
 * `dp[i] = min(dp[j] + (200 - (ai - aj))^2)`
   * 0 <= j < i
 * 初始：dp[0] = (200 - hotels[0])^2
-* 要得到dp[n - 1]，但不是要返回它，要返回的是沿路各个停靠hotels。**这些路径点在求最小的总罚款额的时候，就已经可以知道，我们要做的只是把这些节点都记录下来**
+* 要得到dp[n - 1]，但不是要返回它，要返回的是沿路各个停靠hotels。**这些路径点在求最小的总罚款额的时候，就已经可以知道，我们要做的只是把这些节点都记录下来**。我们用一个 array of list 来做这个记录，这个array里坐标j的list就是到达 hotel j 时累计罚款额最小的路径，所经停过的（在它前面的那些）hotels
 
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(n^2)
+* Space: O(n^2)，那个记录路点的 array of list
 
 ### Java
 ```java
