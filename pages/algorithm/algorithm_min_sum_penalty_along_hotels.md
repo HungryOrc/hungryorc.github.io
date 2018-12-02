@@ -31,8 +31,10 @@ toc: false
 * int[] dp = new int[n]，其中 dp[i] 表示到达 hotel i（不管哪一天到达），最少的**累计**罚款额
 * `dp[i] = min(dp[j] + (200 - (ai - aj))^2)`
   * 0 <= j < i
+  * 注意，这里必须满足：ai - aj <= 200
+* 在hotels[i] <= 200 的情况下，上面的递推公式，还要考虑从最初出发点直接到达本hotel的罚款情况
 * 初始：dp[0] = (200 - hotels[0])^2
-* 要得到dp[n - 1]，但不是要返回它，要返回的是沿路各个停靠hotels。**这些路径点在求最小的总罚款额的时候，就已经可以知道，我们要做的只是把这些节点都记录下来**。我们用一个 array of list 来做这个记录，这个array里坐标j的list就是到达 hotel j 时累计罚款额最小的路径，所经停过的（在它前面的那些）hotels
+* 要得到dp[n - 1]，但不是要返回它，要返回的是沿路各个停靠hotels。**这些路径点在求最小的总罚款额的时候，就已经可以知道，我们要做的只是把这些节点都记录下来**。我们用一个 list of list 来做这个记录，这个list of list里序号为j的list就是到达 hotel j 时累计罚款额最小的路径，所经停过的（在它前面的那些）hotels
 
 ### Complexity
 * Time: O(n^2)
@@ -40,7 +42,62 @@ toc: false
 
 ### Java
 ```java
-
+public class Solution {
+    public List<Integer> minTotalPenalty(int[] hotels) {
+        List<Integer> result = new ArrayList<>();
+        
+        // corner cases
+        if (hotels == null || hotels.length == 0) {
+            return result;
+        }
+        
+        // 查看是否不可能到达终点
+        if (hotels[0] > 200) {
+            return result;
+        }
+        int n = hotels.length;
+        for (int i = 1; i < n; i++) {
+            if (hotels[i] - hotels[i - 1] > 200) {
+                return result;
+            }
+        }
+        
+        int[] dp = new int[n]; // 到达hotel i 最小的累计罚款额
+        List<List<Integer>> checkPoints = new ArrayList<>(); // 到达各个hotels的最优路径
+        
+        // 初始情况
+        dp[0] = (int)Math.pow(200 - hotels[0], 2);
+        List<Integer> list = new ArrayList<>();
+        list.add(0);
+        checkPoints.add(list);
+        
+        for (int i = 1; i < n; i++) {
+            if (hotels[i] <= 200) {
+                dp[i] = (200 - hotel[i]) * (200 - hotels[i]);
+            }
+            
+            int bestPrev = 0;
+            for (int j = 0; j < i; j++) {
+                int diff = hotels[i] - hotels[j];
+                if (diff <= 200) {
+                    int update = dp[j] + (int)Math.pow(200 - diff, 2);
+                    
+                    if (update < dp[i]) {
+                        dp[i] = update;
+                        bestPrev = j;
+                    }
+                }
+            }
+            
+            List<Integer> path = new ArrayList<>();
+            path.addAll(checkPoints.get(bestPrev));
+            path.add(bestPrev);
+            list.add(path);
+        }
+        
+        return checkPoints.get(n - 1);
+    }
+}
 ```
 
 ## Reference
