@@ -41,6 +41,8 @@ toc: false
 * Space: O(n^2)，那个记录路点的 array of list
 
 ### Java
+代码看起来不短，其实逻辑很简明
+
 ```java
 public class Solution {
     public List<Integer> minTotalPenalty(int[] hotels) {
