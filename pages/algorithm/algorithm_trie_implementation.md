@@ -179,7 +179,7 @@ public class Trie {
     // 这个method的做法是，先找到prefix string的end node在trie里的位置，再找
     // 从这个end node开始往下的所有 substrings。再把这些 substrings 和 prefix 连在一起
     // ----------------------------------------------------------------
-    public List<String> getAllStringsWithPrefix(String prefix) {
+    public List<String> getAllWordsWithPrefix(String prefix) {
         List<String> result = new ArrayList<>();
         
         TrieNode endNode = getEndNode(prefix);
