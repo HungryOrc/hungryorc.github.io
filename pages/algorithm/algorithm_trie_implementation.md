@@ -110,6 +110,28 @@ public class Trie {
      
         return search(child, word, index + 1);
     }
+
+    // Returns the ending Node if the given Prefix String exists in the Trie,
+    // return null if the Prefix String doesn't exist in the Trie
+    // 这个method和search整个word的method基本一样，唯一区别是这个method不判断是否到了end of word
+    // ----------------------------------------------------------------
+    public TrieNode getEndNodeOfPrefixString(String prefix) {
+        return findEndNode(root, prefix, 0);
+    }
+    
+    private TrieNode findEndNode(TrieNode node, String prefix, int index) {
+        char c = prefix.charAt(index);
+        TrieNode child = node.children.get(c);
+        
+        if (child == null) {
+            return null;
+
+        if (index == prefix.length() - 1) {
+            return child;
+        }
+        
+        return findEndNode(child, prefix, index + 1);
+    }
     
     // Delete a word in the trie
     // 方法：首先在trie里找这个word，
@@ -150,28 +172,6 @@ public class Trie {
         }
         
         return delete(child, word, index + 1);
-    }   
-
-    // Returns the ending Node if the given Prefix String exists in the Trie,
-    // return null if the Prefix String doesn't exist in the Trie
-    // 这个method和search整个word的method基本一样，唯一区别是这个method不判断是否到了end of word
-    // ----------------------------------------------------------------
-    public TrieNode findEndNodeOfPrefixString(String prefix) {
-        return findEndNode(root, prefix, 0);
-    }
-    
-    private TrieNode findEndNode(TrieNode node, String prefix, int index) {
-        char c = prefix.charAt(index);
-        TrieNode child = node.children.get(c);
-        
-        if (child == null) {
-            return null;
-
-        if (index == prefix.length() - 1) {
-            return child;
-        }
-        
-        return findEndNode(child, prefix, index + 1);
     }
     
     // Returns all the subsequent words starting with this prefix, in a list of Strings,
