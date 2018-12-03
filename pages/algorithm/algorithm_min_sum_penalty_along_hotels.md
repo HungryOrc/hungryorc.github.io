@@ -72,12 +72,16 @@ public class Solution {
         checkPoints.add(list);
         
         for (int i = 1; i < n; i++) {
+            // 给每个 dp[i] 一个初值
             if (hotels[i] <= 200) {
-                dp[i] = (200 - hotel[i]) * (200 - hotels[i]);
+                dp[i] = (int)Math.pow(200 - hotels[i], 2);
+            } else {
+                dp[i] = Integer.MAX_VALUE; // 这只是为了之后求min penalty at i
             }
             
-            int bestPrev = 0;
-            for (int j = 0; j < i; j++) {
+            int bestPrev = -1;
+            int j = 0;
+            for (; j < i; j++) {
                 int diff = hotels[i] - hotels[j];
                 if (diff <= 200) {
                     int update = dp[j] + (int)Math.pow(200 - diff, 2);
@@ -90,9 +94,11 @@ public class Solution {
             }
             
             List<Integer> path = new ArrayList<>();
-            path.addAll(checkPoints.get(bestPrev));
-            path.add(bestPrev);
-            list.add(path);
+            if (bestPrev != -1) { // 如果当前hotel j 的最优路径是从最初出发点直接到 j
+                path.addAll(checkPoints.get(bestPrev));
+            }
+            path.add(j);
+            checkPoints.add(path);
         }
         
         return checkPoints.get(n - 1);
