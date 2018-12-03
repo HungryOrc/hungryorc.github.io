@@ -219,22 +219,25 @@ public class Trie {
 ### Java
 ```java
 class TrieNode {
+    // this Node class does not have a "value" property!
     TrieNode[] children;
     boolean endOfWord;
+    int size; // number of all descendants, including this node itself if it is an end of a word
     
+    // this constructor does not need a value to be input
     public TrieNode() {
-        this.children = new TrieNode[26]; // from a to z
+        this.children = new TrieNode[26]; // from 'a' to 'z'
     }
 }
 
-public class Trie {
+class Trie {
     TrieNode root;
     
     public Trie() {
         this.root = new TrieNode();
     }
     
-    // insert a word into the Trie
+    // Insert a word into the Trie
     // ----------------------------------------------------------------
     public void insert(String word) {
         TrieNode curNode = this.root;
@@ -245,14 +248,112 @@ public class Trie {
             }
             // 如果c和以前的所有chars都已经在Trie里了，则do nothing
             
+            curNode.size++;
             curNode = curNode.children[c - 'a'];
         }
+        
+        curNode.size++;
         curNode.endOfWord = true;
     }
     
+    // Search for a word in the Trie
+    // ----------------------------------------------------------------
+    public boolean search(String word) {
+        TrieNode curNode = this.root;
+        
+        for (char c : word.toCharArray()) {
+            if (curNode.children[c - 'a'] == null) {
+                return false;
+            }
+            curNode = curNode.children[c - 'a'];
+        }
+        
+        if (!curNode.endOfWord) {
+            return false;
+        }
+        return true;
+    }
     
-    // 其他的method我都自己做一下！！！ 然后在IDE里跑一下看看！！！！
+    // Returns the ending Node if the given Prefix String exists in the Trie,
+    // return null if the Prefix String doesn't exist in the Trie
+    // ----------------------------------------------------------------
+    public TrieNode getEndNodeOfPrefixString(String prefix) {
+        TrieNode curNode = this.root;
+        
+        for (char c : prefix.toCharArray()) {
+            if (curNode.children[c - 'a'] == null) {
+                return null;
+            }
+            curNode = curNode.children[c - 'a'];
+        }
+        return curNode;
+    }
+    
+    // Delete a word in a Trie
+    // ----------------------------------------------------------------
+    public boolean delete(String word) {
+        if (!search(word)) {
+            return false;
+        }
+        
+        TrieNode curNode = this.root;
+        for (char c : word.toCharArray()) {
+            curNode.size--;
+            curNode = curNode.children[c - 'a'];
+        }
+        
+        curNode.size--;
+        curNode.endOfWord = false;
+        return true;
+    }
+    
+    // Returns all the subsequent words starting with this prefix, in a list of Strings,
+    // if the prefix itself is also a complete word in the Trie, then include itself.
+    // ----------------------------------------------------------------
+    public List<String> getAllWordsWithPrefix(String prefix) {
+        List<String> result = new ArrayList<>();
+        
+        TrieNode endNodeOfPrefix = getEndNodeOfPrefixString(prefix);
+        if (endNodeOfPrefix == null) {
+            return result;
+        }
+        
+        List<String> substrings = new ArrayList<>();
+        getAllSubstrings(endNodeOfPrefix, new StringBuilder(), substrings);
+        
+        for (String s : substrings) {
+            result.add(prefix + s);
+        }
+        return result;
+    }
+    
+    private void getAllSubstrings(TrieNode node, StringBuilder sb, List<String> substrings) {
+        if (node.endOfWord) {
+            substrings.add(sb.toString());
+        }
+        
+        for (int i = 0; i < 26; i++) {
+            TrieNode child = node.children[i];
+            if (child == null) {
+                continue;
+            }
+            
+            sb.append((char)('a' + i));
+            getAllSubstrings(child, sb, substrings);
+            sb.deleteCharAt(sb.length() - 1);
+        }
+    }
 }
+
+public class Solution {
+    public static void main(String[] args) {
+        Trie trie = new Trie();
+        trie.insert("ab");
+        trie.insert("ac");
+        
+        System.out.println(trie.getAllWordsWithPrefix("a")); // [ab, ac]
+    }
+}  
 ```
 
 ## Reference
