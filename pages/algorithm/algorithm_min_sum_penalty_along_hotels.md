@@ -41,7 +41,7 @@ toc: false
 * Space: O(n^2)，那个记录路点的 array of list
 
 ### Java
-代码看起来不短，其实逻辑很简明
+代码看起来不短，其实逻辑很简明。有不少代码都是为了把路径存下来，如果只求最小的总罚款额的话，代码会短很多
 
 ```java
 public class Solution {
