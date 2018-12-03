@@ -96,7 +96,8 @@ public class Solution {
             }
             
             List<Integer> path = new ArrayList<>();
-            if (bestPrev != -1) { // 如果当前hotel j 的最优路径是从最初出发点直接到 j
+            // 如果到了现在 bestPrev 还是 -1，就意味着 当前hotel j的最优路径是从最初出发点直接到 j
+            if (bestPrev != -1) { 
                 path.addAll(checkPoints.get(bestPrev));
             }
             path.add(j);
