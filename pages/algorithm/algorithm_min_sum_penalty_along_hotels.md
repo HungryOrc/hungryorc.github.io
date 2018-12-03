@@ -70,7 +70,7 @@ public class Solution {
         // 初始情况
         dp[0] = (int)Math.pow(200 - hotels[0], 2);
         List<Integer> list = new ArrayList<>();
-        list.add(0);
+        list.add(0); // path of hotel 0
         checkPoints.add(list);
         
         for (int i = 1; i < n; i++) {
