@@ -26,19 +26,20 @@ Find k numbers where sum is target. Calculate how many solutions there are?
 问题：下面这种DP做法，就算数组里有重复数字，也一样可以适用么 ？？？
 
 三维DP。类似于 **背包问题，限定物品个数上限，限定总重量，求最高总价值** 的那类题目。
-* 设给的数组长度 = n, DP矩阵为：int dp[n + 1][k + 1][target + 1]
-* dp[i][j][sum]: 从数组里 index从0到i 的数里（这种做法下数组不用排序），正好使用了j个数，总和正好为sum，满足这三个条件的解法一共有多少种。
+* 设给的数组长度 = n, DP矩阵为：`int dp[n + 1][k + 1][target + 1]`
+* `dp[i][j][sum]`: 从数组里 index从0到i 的数里（这种做法下数组不用排序），正好使用了j个数，总和正好为sum，满足这三个条件的解法一共有多少种。
 * Base Case
   * 先考察第二维为0，即取0个数的情况
-    * `dp[i][0][0] = 1`, 0 <= i < n
+    `dp[i][0][0] = 1`, 0 <= i < n
   * 再考虑第一维为0，即只能最多取第一个数的情况，取或者不取。不取的情况上面其实已经有了
       `dp[0][1][nums[0]] = 1`, if (nums[0] <= target)
 * Induction Rules
   * 情况一：如果 array[i1] <= sum
-    * `dp[i][j][sum] = dp[i - 1][j][sum] + dp[i - 1][j - 1][sum - array[i - 1]]`
+    `dp[i][j][sum] = dp[i - 1][j][sum] + dp[i - 1][j - 1][sum - array[i - 1]]`
     * 等号右边加号左边是 没有使用 index=i 的这个数，加号右边是 使用了这个数。
   * 情况二：如果 array[i - 1] > sum，
-    * `dp[i][j][sum] = dp[i - 1][j][sum]`，可见这个式子和上面那个式子的一部分是一样的，所以这两个式子可以合并
+    `dp[i][j][sum] = dp[i - 1][j][sum]`
+    * 可见这个式子和上面那个式子的一部分是一样的，所以这两个式子可以合并
 
 ### Complexity
 * Time: O(n * k * target)
