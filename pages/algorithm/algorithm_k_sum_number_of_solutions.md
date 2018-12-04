@@ -25,7 +25,7 @@ Find k numbers where sum is target. Calculate how many solutions there are?
 
 问题：下面这种DP做法，就算数组里有重复数字，也一样可以适用么 ？？？
 
-三维DP。类似于 **背包问题，限定物品个数上限，限定总重量，求最高总价值** 的那类题目。
+三维DP。类似于 **背包问题，限制物品个数，限制总重量，求有多少种装法正好等于某个总重量** 的那类题目。
 * 设给的数组长度 = n, DP矩阵为：`int dp[n + 1][k + 1][target + 1]`
 * `dp[i][j][sum]`: 从数组里 index从0到i 的数里（这种做法下数组不用排序），正好使用了j个数，总和正好为sum，满足这三个条件的解法一共有多少种。
 * Base Case
