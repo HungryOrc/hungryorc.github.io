@@ -34,10 +34,10 @@ Find k numbers where sum is target. Calculate how many solutions there are?
   * 再考虑第一维为0，即只能最多取第一个数的情况，取或者不取。不取的情况上面其实已经有了
     * `dp[0][1][nums[0]] = 1`, if (nums[0] <= target)
 * Induction Rules
-  * 情况一：如果 array[i1] <= sum
+  * 情况一：如果 array[i] <= sum
     * `dp[i][j][sum] = dp[i - 1][j][sum] + dp[i - 1][j - 1][sum - array[i - 1]]`
     * 等号右边加号左边是 没有使用 index=i 的这个数，加号右边是 使用了这个数。
-  * 情况二：如果 array[i - 1] > sum，
+  * 情况二：如果 array[i] > sum，
     * `dp[i][j][sum] = dp[i - 1][j][sum]`
     * 可见这个式子和上面那个式子的一部分是一样的，所以这两个式子可以合并
 
