@@ -21,7 +21,7 @@ Now your task is to find the maximum number of strings that you can form with gi
 ### Example
 * Input: Array = {"10", "0001", "111001", "1", "0"}, m = 5, n = 3
   * Output: 4
-  * This are totally 4 strings can be formed by the using of 5 0s and 3 1s, which are “10,”0001”,”1”,”0”
+  * At most 4 strings can be formed by the using of 5 0s and 3 1s, which are “10,”0001”,”1”,”0”
 
 ## Solution
 哦也
