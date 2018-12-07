@@ -4,7 +4,7 @@ tags: [algorithm, binary_search]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_smallest_number_larger_than_or_largest_number_smaller_than_target_in_sorted_array.html
+permalink: algorithm_smallest_larger_or_largest_smaller_than_target_in_sorted_array.html
 folder: algorithm
 toc: false
 ---
