@@ -141,8 +141,7 @@ public class Solution {
                 int newX = x + dir[0];
                 int newY = y + dir[1];
                 
-                dfsForMultipleWords(board, root, curNode, 
-                        newX, newY, visited, curSize, maxSize);
+                dfsForMultipleWords(board, root, curNode, newX, newY, visited, curSize, maxSize);
             }
         }
         
