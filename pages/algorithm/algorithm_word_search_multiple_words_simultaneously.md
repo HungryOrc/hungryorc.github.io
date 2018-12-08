@@ -102,33 +102,34 @@ public class Solution {
         return maxSize[0];
     }
     
-    private void dfsForMultipleWords(char[][] board, TrieNode root, TrieNode curNode, 
+    private void dfsForMultipleWords(char[][] board, TrieNode root, TrieNode parentNode, 
             int x, int y, boolean[][] visited, int curSize, int[] maxSize) {
         if (!valid(x, y, board)) {
             return;
         }
+        
         if (visited[x][y]) {
             return;
         }
         
-        char nextChar = board[x][y];
-        if (curNode.children[nextChar - 'a'] == null) {
+        char curChar = board[x][y];
+        if (parentNode.children[curChar - 'a'] == null) {
             return;
         }
-        
-        curNode = curNode.children[nextChar - 'a'];
+        TrieNode curNode = parentNode.children[nextChar - 'a'];
         
         // mark visited of cur node
         visited[x][y] = true;
         
-        // if we are currently at an end of a word，then we
-        // keep this word to be marked as visited, and start to find the next word
+        // if we are currently at the end of any word in the Trie，we
+        // keep this word marked as visited, and start to find the next word with the visited matrix
         if (curNode.endOfWord) {
             curSize++;
             maxSize[0] = Math.max(maxSize[0], curSize);
             
             // dfs函数里再包一个 双层for loop！前所未闻！
-            // 而且注意这个 双层for循环 是再次从0,0开始，从左到右，从上到下！
+            // 而且注意这个 双层for循环 是再次从0,0开始，从左到右，从上到下！node也是再次从trie root开始！
+            // 要继承下去的是visited矩阵，curSize这个数，以及maxSize这个数
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board[0].length; j++) {
                     dfsForMultipleWords(board, root, root, i, j, visited, curSize, maxSize);
