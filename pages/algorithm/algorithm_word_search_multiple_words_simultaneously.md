@@ -30,6 +30,12 @@ board和words里面都只有小写字母a到z，没有任何其他char。
 ## Solution: DFS，特殊之处在于 DFS函数里面还有双层for循环！
 “DFS函数的内部结构也许看起来疯狂，但其实 只要当前的状态越来越接近 Base Case，就不会无限循环，就没错”
 
+步骤
+* 对于矩阵上从上到下从左到右的每一点，用DFS找有没有从它开始的word
+  * 没有的话，就去矩阵上的下一个点作为新的开始点，按上面说的从上到下从左到右的顺序
+  * 如果找到了，
+* 用Trie能大幅提高找词的速度。不过Trie并不是本解法的核心逻辑所在，不是必须
+
 ### Complexity
 * Time: O(buildTrieTime + (wordAvgLen) * 2^(n * m)) <==== Jack老师给的时间复杂度，但我还是不理解
 * Space: O(n * m), dp矩阵
@@ -37,7 +43,7 @@ board和words里面都只有小写字母a到z，没有任何其他char。
 ### Java
 ```java
 class TrieNode {
-    // this Node class does not have a "value" property
+    // this kind of Node class does not have a "value" property
     TrieNode[] children;
     boolean endOfWord;
 
