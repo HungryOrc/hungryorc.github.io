@@ -150,7 +150,7 @@ class Solution {
 * Space: O(m * n)
 
 ### Java
-这个解法里用了 Offset One 的方法
+这个解法里也用了 Offset One 的方法
 ```java
 class Solution {
     public int findMaxForm(String[] strs, int m, int n) {
