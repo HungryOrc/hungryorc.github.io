@@ -31,6 +31,7 @@ Now your task is to find the maximum number of strings that you can form with gi
 
 这题明显用DP做。难点在于这是一个三维DP，一开始不是很好想到这种三维结构
 * dp[len + 1][m + 1][n + 1]，其中 dp[i][j][k] 表示 **用 j个0 和 k个1，最多能组成String数组里 前i个元素 中的几个**。注意这里是 前i个元素，不是元素index从0到i。这前i个元素里的任何元素都可能被或者不被组成
+* 初始条件：dp[0][i][j] 总是 0。因为是要去组成数组里的第0个元素，而所谓的第0个元素根本不存在，所以永远都是只能组成 0个。既然是0，那么这个初始条件也就不用写出来了
 
 注意
 * m 和 n 都是可以等于 0 的
