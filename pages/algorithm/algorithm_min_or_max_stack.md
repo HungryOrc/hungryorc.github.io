@@ -1,10 +1,10 @@
 ---
-title: "Implement a kind of Stack that can Get Min"
+title: "Implement a Kind of Stack that Can Get Min"
 tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_min_stack.html
+permalink: algorithm_min_or_max_stack.html
 folder: algorithm
 toc: false
 ---
@@ -15,6 +15,8 @@ Design a stack that supports push, pop, top, and retrieving the minimum element 
 * pop() -- Removes the element on top of the stack.
 * top() -- Get the top element, 相当于 peek()
 * getMin() -- Retrieve the minimum element in the stack.
+
+这一题的要求是搞一个 min stack。如果要搞 max stack，也是同理的
 
 ### Example
 ```
