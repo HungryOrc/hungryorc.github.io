@@ -74,7 +74,9 @@ class Solution {
         
             cur.val = sum % 10;
             carry = sum / 10;
-
+            
+            // 另一个关键的妙处：下面这两句这么做，就能保证，新来的node在左边，之前来的node在右边；
+            // 而不是像一般的linkedlist那样，新来的在右边老的在左边
             cur.next = prev.next;
             prev.next = cur;
         }
