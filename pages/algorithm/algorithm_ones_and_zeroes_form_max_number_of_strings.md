@@ -30,7 +30,7 @@ Now your task is to find the maximum number of strings that you can form with gi
 这一题只要用 m个0 和 n个1 凑String数组里的strings，所以每个string里的0和1是怎么排列的根本不care，只care每个string里有几个0，几个1
 
 这题明显用DP做。难点在于这是一个三维DP，一开始不是很好想到这种三维结构
-* dp[len + 1][m + 1][n + 1]，其中 dp[i][j][k] 表示 用 j个0 和 k个1，最多能组成String数组里 前i个元素 中的几个。注意这里是 前i个元素，不是元素index从0到i。
+* dp[len + 1][m + 1][n + 1]，其中 dp[i][j][k] 表示 **用 j个0 和 k个1，最多能组成String数组里 前i个元素 中的几个**。注意这里是 前i个元素，不是元素index从0到i。这前i个元素里的任何元素都可能被或者不被组成
 
 注意
 * m 和 n 都是可以等于 0 的
@@ -48,7 +48,7 @@ class Solution {
         }
         
         int len = strs.length;
-        int[][] counts = new int[len][2];
+        int[][] counts = new int[len][2]; // number of 0s and 1s in each String
         
         // fill in the counts matrix
         for (int i = 0; i < len; i++) {
@@ -67,12 +67,12 @@ class Solution {
             int zeroNum = counts[i - 1][0];
             int oneNum = counts[i - 1][1];
             
-            for (int j = 0; j <= m; j++) { // number of zeroes
-                for (int k = 0; k <= n; k++) { // number of ones
+            for (int j = 0; j <= m; j++) { // j is number of zeroes
+                for (int k = 0; k <= n; k++) { // k is number of ones
                     
-                    dp[i][j][k] = dp[i - 1][j][k];
+                    dp[i][j][k] = dp[i - 1][j][k]; // 不使用 0 and/or 1 来凑第i个String的情况
                     
-                    if (j >= zeroNum && k >= oneNum) {
+                    if (j >= zeroNum && k >= oneNum) { // 使用 0 and/or 1 来凑第i个String的情况
                         dp[i][j][k] = Math.max(dp[i][j][k], dp[i - 1][j - zeroNum][k - oneNum] + 1);
                     }
                 }
