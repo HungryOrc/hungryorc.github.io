@@ -31,12 +31,140 @@ board和words里面都只有小写字母a到z，没有任何其他char。
 “DFS函数的内部结构也许看起来疯狂，但其实 只要当前的状态越来越接近 Base Case，就不会无限循环，就没错”
 
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(buildTrieTime + (wordAvgLen) * 2^(n * m)) <==== Jack老师给的时间复杂度，但我还是不理解
+* Space: O(n * m), dp矩阵
 
 ### Java
 ```java
+class TrieNode {
+    // this Node class does not have a "value" property
+    TrieNode[] children;
+    boolean endOfWord;
 
+    public TrieNode() {
+        this.children = new TrieNode[26]; // from 'a' to 'z'
+    }
+}
+
+class Trie {
+    TrieNode root;
+    
+    public Trie() {
+        this.root = new TrieNode(); // root node does not hold any char
+    }
+    
+    public void insert(String word) {
+        TrieNode curNode = this.root;
+        
+        for (char c : word.toCharArray()) {
+            if (curNode.children[c - 'a'] == null) {
+                curNode.children[c - 'a'] = new TrieNode();
+            }
+            curNode = curNode.children[c - 'a'];
+        }
+        curNode.endOfWord = true;
+    }
+}
+
+public class Solution {
+    private static final int[][] DIRS = {
+        {1, 0}, {-1, 0}, {0, 1}, {0, -1}
+    };
+    
+    public int largestCollection(char[][] board, String[] dict) {
+        // ignore validations of the parameters
+        
+        int n = board.length;
+        int m = board[0].length;
+        
+        // Build Trie, time cost: sum of lengths of the words in the dict
+        Trie trie = new Trie();
+        for (String word : dict) {
+            trie.insert(word);
+        }
+        
+        int[] maxSize = {0}; // an array to carry around the max size of the collection
+        boolean[][] visited = new boolean[n][m];
+        
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                dfsForMultipleWords(board, trie.root, trie.root, i, j, visited, 0, maxSize);
+            }
+        }
+
+        return maxSize[0];
+    }
+    
+    private void dfsForMultipleWords(char[][] board, TrieNode root, TrieNode curNode, 
+            int x, int y, boolean[][] visited, int curSize, int[] maxSize) {
+        if (!valid(x, y, board)) {
+            return;
+        }
+        if (visited[x][y]) {
+            return;
+        }
+        
+        char nextChar = board[x][y];
+        if (curNode.children[nextChar - 'a'] == null) {
+            return;
+        }
+        
+        curNode = curNode.children[nextChar - 'a'];
+        
+        // mark visited of cur node
+        visited[x][y] = true;
+        
+        // if we are currently at an end of a word，then we
+        // keep this word to be marked as visited, and start to find the next word
+        if (curNode.endOfWord) {
+            curSize++;
+            maxSize[0] = Math.max(maxSize[0], curSize);
+            
+            // dfs函数里再包一个双层for loop！前所未闻！
+            for (int i = 0; i < board.length; i++) {
+                for (int j = 0; j < board[0].length; j++) {
+                    dfsForMultipleWords(board, root, root, 
+                            i, j, visited, curSize, maxSize);
+                }
+            }
+        }
+        else {
+            for (int[] dir : DIRS) {
+                int newX = x + dir[0];
+                int newY = y + dir[1];
+                
+                dfsForMultipleWords(board, root, curNode, 
+                        newX, newY, visited, curSize, maxSize);
+            }
+        }
+        
+        // 复原
+        visited[x][y] = false;
+    }
+    
+    private boolean valid(int x, int y, char[][] board) {
+        int n = board.length, m = board[0].length;
+        return x >= 0 && x < n && y >= 0 && y < m;
+    }
+
+    
+    // ------------------------------------------------------
+    // main
+    public static void main(String[] args) {
+        String[] dict = {"abc","deh","cfi","eh", "xy", "fi", "f"};
+        
+        char[][] board = {
+            {'a', 'b', 'c'},
+            {'d', 'e', 'f'},
+            {'g', 'h', 'i'}
+        };
+        
+        Solution solu = new Solution();
+        int result = solu.largestCollection(board, dict);
+        
+        System.out.println(result); // should be 3
+    }
+}
 ```
 
 ## Reference
