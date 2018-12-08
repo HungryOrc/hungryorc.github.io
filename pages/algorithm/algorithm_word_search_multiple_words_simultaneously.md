@@ -31,9 +31,10 @@ board和words里面都只有小写字母a到z，没有任何其他char。
 “DFS函数的内部结构也许看起来疯狂，但其实 只要当前的状态越来越接近 Base Case，就不会无限循环，就没错”
 
 步骤
-* 对于矩阵上从上到下从左到右的每一点，用DFS找有没有从它开始的word
-  * 没有的话，就去矩阵上的下一个点作为新的开始点，按上面说的从上到下从左到右的顺序
-  * 如果找到了，
+* 对于矩阵上从从左到右从上到下的每一点，用DFS找有没有从它开始的word
+  * 没有的话，就去矩阵上的下一个点作为新的开始点，按上面说的从左到右从上到下的顺序
+  * 如果找到了，就在visited矩阵上标记这个词的各个chars的位置，然后开始找下一个词。每找到一个词要记得更新最终的max size of found words
+* 在找每个词的过程中，要记得做visited矩阵上的back tracking，即 标记和取消标记
 * 用Trie能大幅提高找词的速度。不过Trie并不是本解法的核心逻辑所在，不是必须
 
 ### Complexity
@@ -126,11 +127,11 @@ public class Solution {
             curSize++;
             maxSize[0] = Math.max(maxSize[0], curSize);
             
-            // dfs函数里再包一个双层for loop！前所未闻！
+            // dfs函数里再包一个 双层for loop！前所未闻！
+            // 而且注意这个 双层for循环 是再次从0,0开始，从左到右，从上到下！
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board[0].length; j++) {
-                    dfsForMultipleWords(board, root, root, 
-                            i, j, visited, curSize, maxSize);
+                    dfsForMultipleWords(board, root, root, i, j, visited, curSize, maxSize);
                 }
             }
         }
