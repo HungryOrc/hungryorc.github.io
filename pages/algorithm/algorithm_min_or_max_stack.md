@@ -44,6 +44,7 @@ minStack.getMin();   --> Returns -2.
 * Time:
   * Push: O(1)
   * Pop and Peek: O(1)
+  * Get current Min: O(1)
 * Space: O(n)
 
 ### Java
@@ -120,6 +121,7 @@ public class MinStack {
 * Time:
   * Push: O(1)
   * Pop and Peek: O(1)
+  * Get current Min: O(1)
 * Space: O(n)
 
 ### Java
