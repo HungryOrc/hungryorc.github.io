@@ -25,14 +25,14 @@ public class ListNode {
 * 要求的结果也要是左边大位，右边小位
 
 ### Follow up
-What if you cannot modify the input lists? In other words, reversing the lists is not allowed.
+What if you **cannot modify the input lists**? In other words, **reversing the lists is not allowed**.
 
 ### Example
 * Input: (7 -> 2 -> 4 -> 3) + (5 -> 6 -> 4)
   * Output: 7 -> 8 -> 0 -> 7, since 7243 + 564 = 7807
 
-## Solution
-用2个stacks来装lists里的数，这样就把各个数位反过来了，个位最先被处理。速度在leetcode上是前1%。这种方法没有把lists反转过来，符合follow up question的要求
+## Solution：用2个Stack来做，速度 前1%
+用2个stacks来装lists里的数，这样就把各个数位反过来了，个位最先被处理。这种方法没有把lists反转过来，符合follow up question的要求
 
 ### Complexity
 * Time: O(n)
@@ -42,7 +42,6 @@ What if you cannot modify the input lists? In other words, reversing the lists i
 ```java
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        // define 2 stacks
         Deque<Integer> s1 = new ArrayDeque<>();
         Deque<Integer> s2 = new ArrayDeque<>();
         
