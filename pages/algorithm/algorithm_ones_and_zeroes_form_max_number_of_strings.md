@@ -30,7 +30,7 @@ Now your task is to find the maximum number of strings that you can form with gi
 这一题只要用 m个0 和 n个1 凑String数组里的strings，所以每个string里的0和1是怎么排列的根本不care，只care每个string里有几个0，几个1
 
 这题明显用DP做。难点在于这是一个三维DP，一开始不是很好想到这种三维结构
-* dp[len + 1][m + 1][n + 1]，其中
+* dp[len + 1][m + 1][n + 1]，其中 dp[i][j][k] 表示 用 j个0 和 k个1，最多能组成String数组里 前i个元素 中的几个。注意这里是 前i个元素，不是元素index从0到i。
 
 注意
 * m 和 n 都是可以等于 0 的
@@ -41,7 +41,46 @@ Now your task is to find the maximum number of strings that you can form with gi
 
 ### Java
 ```java
-
+class Solution {
+    public int findMaxForm(String[] strs, int m, int n) {
+        if (strs == null || strs.length == 0 || m < 0 || n < 0) {
+            return 0;
+        }
+        
+        int len = strs.length;
+        int[][] counts = new int[len][2];
+        
+        // fill in the counts matrix
+        for (int i = 0; i < len; i++) {
+            for (char c : strs[i].toCharArray()) {
+                if (c == '0') {
+                    counts[i][0]++;
+                } else { // c == '1'
+                    counts[i][1]++;
+                }
+            }
+        }
+        
+        int[][][] dp = new int[len + 1][m + 1][n + 1];
+        
+        for (int i = 1; i <= len; i++) {
+            int zeroNum = counts[i - 1][0];
+            int oneNum = counts[i - 1][1];
+            
+            for (int j = 0; j <= m; j++) { // number of zeroes
+                for (int k = 0; k <= n; k++) { // number of ones
+                    
+                    dp[i][j][k] = dp[i - 1][j][k];
+                    
+                    if (j >= zeroNum && k >= oneNum) {
+                        dp[i][j][k] = Math.max(dp[i][j][k], dp[i - 1][j - zeroNum][k - oneNum] + 1);
+                    }
+                }
+            }
+        }
+        return dp[len][m][n];
+    }
+}
 ```
 
 ## Reference
