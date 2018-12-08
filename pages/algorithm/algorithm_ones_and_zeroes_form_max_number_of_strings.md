@@ -26,12 +26,18 @@ Now your task is to find the maximum number of strings that you can form with gi
   * Output: 2
   * You could form "10", but then you'd have nothing left, and it's only one number. Better form "0" and "1", that's two numbers.
 
-## Solution
-哦也
+## Solution 1: 三维DP。用了“Offset One”的方法，即把“零”而非第一个元素作为某一个或几个维度的开始
+这一题只要用 m个0 和 n个1 凑String数组里的strings，所以每个string里的0和1是怎么排列的根本不care，只care每个string里有几个0，几个1
+
+这题明显用DP做。难点在于这是一个三维DP，一开始不是很好想到这种三维结构
+* dp[len + 1][m + 1][n + 1]，其中
+
+注意
+* m 和 n 都是可以等于 0 的
 
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(len * m * n), len是String数组的长度
+* Space: O(len * m * n)
 
 ### Java
 ```java
