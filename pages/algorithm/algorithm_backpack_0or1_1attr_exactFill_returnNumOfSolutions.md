@@ -18,7 +18,7 @@ toc: false
 ### Example
 略
 
-## Solution 1：二维DP
+## Solution 1：二维DP，速度前50%
 * `int dp[i][s]`：使用数组里 index为0到i 的items中的任意几个，一共有多少种不同的组合方式，能正好组成总 size = s。
 * `int dp[][] = new int[number of items][capacity of backpack + 1]`
 * Base Cases
@@ -67,7 +67,7 @@ class Solution {
 }
 ```
 
-## Solution 1.1：基于Solution 1，使用Offset One方法，简化代码
+## Solution 1.1：基于Solution 1，使用Offset One方法，简化代码。速度前50%
 所谓的Offset One方法，就是：dp[i][j] 里的 i 原本意思是 index为i的元素，现在意思是 **第i个** 元素。这样设置以后，对有些题目，代码能简化不少，对有些题目作用不明显
 
 Offset One方法不能降低时间和空间复杂度
@@ -101,6 +101,44 @@ class Solution {
             }
         }
         return dp[n][capacity]; // 第一维从n-1变为n
+    }
+}
+```
+
+## Solution 1.2：基于Solution 1，dp[index][size]降维为dp[size]。速度前1% ！
+
+### 只要是DP矩阵降维，就要考虑从大往小填写（矩阵里的一个或多个维度）！
+
+### Complexity
+* Time: O(n * capacity)，与Solution 1 相同。但其实空间下降以后，时间上也下降了，只是不是量级意义上的下降
+* Space: O(capacity)
+
+### Java
+```java
+class Solution {
+    public int backPackV(int[] sizes, int capacity) {
+        int n = sizes.length;
+        int[] dp = new int[capacity + 1]; // 去掉了第一维（第一维原本size是n）
+        
+        // base case 1
+        if (sizes[0] <= capacity) {
+            dp[sizes[0]] = 1; // 去掉了第一维
+        }
+        // base case 2
+        dp[0] = 1; // 去掉了第一维，以及for循环
+
+        for (int i = 1; i < n; i++) {
+            int curItemSize = sizes[i];
+            
+            for (int sum = capacity; sum >= 0; sum--) { // 这里要变成从大往小循环！！
+                dp[sum] = dp[sum]; // 去掉了第一维
+                
+                if (sum >= curItemSize) {
+                    dp[sum] += dp[sum - curItemSize]; // 去掉了第一维
+                }
+            }
+        }
+        return dp[capacity]; // 去掉了第一维
     }
 }
 ```
