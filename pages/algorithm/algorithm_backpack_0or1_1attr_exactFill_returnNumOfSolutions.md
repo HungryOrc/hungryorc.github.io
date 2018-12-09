@@ -143,6 +143,40 @@ class Solution {
 }
 ```
 
+## Solution 2：一种很有趣的DFS方法。但速度超时 hoho
+
+### Complexity
+* Time: O(2^n) <=== 对么 ？？？？
+* Space: O(n)，因为有n层call stack <=== 对么 ？？？？
+
+### Java
+```java
+class Solution {
+    public int backPackV(int[] sizes, int capacity) {
+        // ignore the validation of the parameters
+        
+        return numOfWays(sizes, 0, capacity);
+    }
+    
+    private int numOfWays(int[] sizes, int curIndex, int remain) {
+        if (remain == 0) {
+            return 1;
+        } else if (remain < 0) {
+            return 0;
+        }
+        
+        if (curIndex == sizes.length) {
+            return 0;
+        }
+        
+        int numWays = 0;
+        numWays += numOfWays(sizes, curIndex + 1, remain); // 不使用 current item
+        numWays += numOfWays(sizes, curIndex + 1, remain - sizes[curIndex]); // 使用 current item
+        return numWays;
+    } 
+}
+```
+
 ## Reference
 * [Backpack V [LintCode]](https://www.lintcode.com/problem/backpack-v/description)
 
