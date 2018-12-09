@@ -18,7 +18,7 @@ toc: false
 ### Example
 略
 
-## Solution：二维DP
+## Solution 1：二维DP
 * `int dp[i][s]`：使用数组里 index为0到i 的items中的任意几个，一共有多少种不同的组合方式，能正好组成总 size = s。
 * `int dp[][] = new int[number of items][capacity of backpack + 1]`
 * Base Cases
@@ -63,6 +63,44 @@ class Solution {
             }
         }
         return dp[n - 1][capacity];
+    }
+}
+```
+
+## Solution 1.1：基于Solution 1，使用Offset One方法，简化代码
+所谓的Offset One方法，就是：dp[i][j] 里的 i 原本意思是 index为i的元素，现在意思是 **第i个** 元素。这样设置以后，对有些题目，代码能简化不少，对有些题目作用不明显
+
+Offset One方法不能降低时间和空间复杂度
+
+### Complexity
+* Time: O(n * capacity)，与Solution 1 相同
+* Space: O(n * capacity)，与Solution 1 相同
+
+### Java
+```java
+class Solution {
+    public int backPackV(int[] sizes, int capacity) {
+        int n = sizes.length;
+        int[][] dp = new int[n + 1][capacity + 1]; // 第一维从n变为n+1
+        
+        // base case 1 不用写了
+        // base case 2 还得写！
+        for (int i = 0; i <= n; i++) {
+            dp[i][0] = 1;
+        }
+
+        for (int i = 1; i <= n; i++) { // 从 i < n 变为 i <= n
+            int curItemSize = sizes[i - 1]; // 从 i 变为 i - 1
+            
+            for (int sum = 1; sum <= capacity; sum++) {
+                dp[i][sum] = dp[i - 1][sum];
+                
+                if (sum >= curItemSize) {
+                    dp[i][sum] += dp[i - 1][sum - curItemSize];
+                }
+            }
+        }
+        return dp[n][capacity]; // 第一维从n-1变为n
     }
 }
 ```
