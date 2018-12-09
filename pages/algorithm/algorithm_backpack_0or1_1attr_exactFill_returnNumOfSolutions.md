@@ -131,7 +131,7 @@ class Solution {
             int curItemSize = sizes[i];
             
             for (int sum = capacity; sum >= 0; sum--) { // 这里要变成从大往小循环！！
-                dp[sum] = dp[sum]; // 去掉了第一维
+                // dp[sum] = dp[sum]; // 去掉了第一维。然后剩下的这一行也没意义了
                 
                 if (sum >= curItemSize) {
                     dp[sum] += dp[sum - curItemSize]; // 去掉了第一维
