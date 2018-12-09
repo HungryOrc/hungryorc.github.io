@@ -19,11 +19,11 @@ board和words里面都只有小写字母a到z，没有任何其他char。
 它的各个char每次被添加到visited矩阵里以后，都要在适当的时候做back tracking，即从visited矩阵里剔除出去**。
 
 ### Example
-* Input: String[] dict = {"abc","deh","cfi","eh", "xy", "fi", "f"}
+* Input: String[] dict = {"abc","deh","cfi","eh", "xy", "fi", "f"}, board is as follows:
   ```
-  char[][] board = {{'a', 'b', 'c'},
-                    {'d', 'e', 'f'},
-                    {'g', 'h', 'i'}};
+  a b c
+  d e f
+  g h i
   ```
   * Output: 3, for example a max size set is: {"abc", "deh", "fi"}
 
