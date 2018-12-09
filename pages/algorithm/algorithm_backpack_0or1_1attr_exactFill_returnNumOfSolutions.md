@@ -37,7 +37,7 @@ toc: false
 ### Java
 ```java
 class Solution {
-    public int backPack(int capacity, int[] sizes) {
+    public int backPackV(int[] sizes, int capacity) {
         int n = sizes.length;
         
         int[][] dp = new int[n][capacity + 1];
@@ -50,21 +50,18 @@ class Solution {
         for (int i = 0; i < n; i++) {
             dp[i][0] = 1;
         }
-        
-        // 从第二个item（即i=1）开始
+
         for (int i = 1; i < n; i++) {
             int curItemSize = sizes[i];
             
             for (int sum = 1; sum <= capacity; sum++) {
+                dp[i][sum] = dp[i - 1][sum];
                 
-                if (sum - curItemSize >= 0) { // 别忘了检查越界 ！！！
-                    dp[i][sum] = dp[i - 1][sum] + dp[i - 1][sum - curItemSize];
-                } else {
-                    dp[i][sum] = dp[i - 1][sum]; // 这种情况下就不加后面那项了 ！！！
+                if (sum >= curItemSize) {
+                    dp[i][sum] += dp[i - 1][sum - curItemSize];
                 }
             }
         }
-        
         return dp[n - 1][capacity];
     }
 }
