@@ -42,16 +42,12 @@ class Solution {
         int[][] dp = new int[n][capacity + 1];
         
         // base case 1
-        for (int i = 0; i < n; i++) {
+        dp[0][0] = 0; // 这里要写0！因为要避免成为-1！这里是因为总size为0，那么当然只要0个item
+        for (int i = 1; i < n; i++) {
             dp[0][i] = -1; // -1 表示不可能实现；但下面有个例外，见紧邻的下面那个if语句
         }
         if (sizes[0] <= capacity) {
             dp[0][sizes[0]] = 1;
-        }
-        
-        // base case 2
-        for (int i = 0; i < n; i++) {
-            dp[i][0] = 0; // 这些等式右边的 0s 表示用0个item实现总size为0的目标
         }
 
         for (int i = 1; i < n; i++) {
@@ -59,6 +55,8 @@ class Solution {
             
             for (int sum = 1; sum <= capacity; sum++) {
                 // case 1: item i 不参与
+                // 下面这一句，以及前面的 dp[0][0] = 0，二者一起保证了对所有的i，永远有 dp[i][0] = 0 ！
+                // 那么下面case 2 的 dp[i - 1][sum - curItemSize] + 1 在 sum == curItemSize 的时候也就会等于 1 ！
                 dp[i][sum] = dp[i - 1][sum];
                 
                 // case 2: item i 参与
@@ -84,15 +82,11 @@ Offset One方法不能降低时间和空间复杂度
 ### Java
 ```java
 class Solution {
-    public int backPackV(int[] sizes, int capacity) {
+    public int backPack_DidntFindThisQuestionOnline(int[] sizes, int capacity) {
         int n = sizes.length;
         int[][] dp = new int[n + 1][capacity + 1]; // 第一维从n变为n+1
         
-        // base case 1 不用写了
-        // base case 2 还得写！
-        for (int i = 0; i <= n; i++) {
-            dp[i][0] = 1;
-        }
+        // base case 1 不用写了，因为第一维是0的话，即“前0个"元素，自然永远item数是0了
 
         for (int i = 1; i <= n; i++) { // 从 i < n 变为 i <= n
             int curItemSize = sizes[i - 1]; // 从 i 变为 i - 1
@@ -100,8 +94,8 @@ class Solution {
             for (int sum = 1; sum <= capacity; sum++) {
                 dp[i][sum] = dp[i - 1][sum];
                 
-                if (sum >= curItemSize) {
-                    dp[i][sum] += dp[i - 1][sum - curItemSize];
+                if (sum >= curItemSize && dp[i - 1][sum - curItemSize] != -1) {
+                    dp[i][sum] = Math.min(dp[i][sum], dp[i - 1][sum - curItemSize] + 1);
                 }
             }
         }
@@ -110,36 +104,38 @@ class Solution {
 }
 ```
 
-## Solution 1.2：基于Solution 1，dp[index][size]降维为dp[size]。速度前1% ！
+## Solution 1.2：基于Solution 1，dp[index][size]降维为dp[size]
 
 ### 只要是DP矩阵降维，就要考虑从大往小填写（矩阵里的一个或多个维度）！
 
 ### Complexity
-* Time: O(n * capacity)，与Solution 1 相同。但其实空间下降以后，时间上也下降了，只是不是量级意义上的下降
+* Time: O(n * capacity)，与Solution 1 相同。但其实空间下降以后，时间也下降了，只是不是量级意义上的下降
 * Space: O(capacity)
 
 ### Java
 ```java
 class Solution {
-    public int backPackV(int[] sizes, int capacity) {
+    public int backPack_DidntFindThisQuestionOnline(int[] sizes, int capacity) {
         int n = sizes.length;
         int[] dp = new int[capacity + 1]; // 去掉了第一维（第一维原本size是n）
         
-        // base case 1
-        if (sizes[0] <= capacity) {
-            dp[sizes[0]] = 1; // 去掉了第一维
+        // base case 1，去掉了第一维
+        dp[0] = 0;
+        for (int i = 1; i < n; i++) {
+            dp[i] = -1;
         }
-        // base case 2
-        dp[0] = 1; // 去掉了第一维，以及for循环
-
+        if (sizes[0] <= capacity) {
+            dp[sizes[0]] = 1;
+        }
+        
         for (int i = 1; i < n; i++) {
             int curItemSize = sizes[i];
             
             for (int sum = capacity; sum >= 0; sum--) { // 这里要变成从大往小循环！！
                 // dp[sum] = dp[sum]; // 去掉了第一维。然后剩下的这一行也没意义了
                 
-                if (sum >= curItemSize) {
-                    dp[sum] += dp[sum - curItemSize]; // 去掉了第一维
+                if (sum >= curItemSize && dp[sum - curItemSize] != -1) {
+                    dp[sum] = Math.min(dp[sum], dp[sum - curItemSize] + 1); // 去掉了第一维
                 }
             }
         }
@@ -157,7 +153,7 @@ class Solution {
 ### Java
 ```java
 class Solution {
-    public int backPackV(int[] sizes, int capacity) {
+    public int backPack_DidntFindThisQuestionOnline(int[] sizes, int capacity) {
         // ignore the validation of the parameters
         
         return numOfWays(sizes, 0, capacity);
