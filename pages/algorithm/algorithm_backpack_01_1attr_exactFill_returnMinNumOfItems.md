@@ -170,8 +170,10 @@ class Solution {
             return Integer.MAX_VALUE; // 表示未能正好装满，以失败结束
         }
         
-        int use = minNumOfItems(sizes, curIndex + 1, curNumOfItems, remain); // 不使用 current item
-        int notUse = minNumOfItems(sizes, curIndex + 1, curNumOfItems, remain - sizes[curIndex]); // 使用 current item
+        // 不使用 current item
+        int use = minNumOfItems(sizes, curIndex + 1, curNumOfItems, remain);
+        // 使用 current item
+        int notUse = minNumOfItems(sizes, curIndex + 1, curNumOfItems, remain - sizes[curIndex]); 
     } 
 }
 ```
