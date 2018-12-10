@@ -37,28 +37,33 @@ toc: false
 ### Java
 ```java
 class Solution {
-    public int backPackV(int[] sizes, int capacity) {
+    public int backPack_DidntFindThisQuestionOnline(int[] sizes, int capacity) {
         int n = sizes.length;
-        
         int[][] dp = new int[n][capacity + 1];
         
         // base case 1
+        for (int i = 0; i < n; i++) {
+            dp[0][i] = -1; // -1 表示不可能实现；但下面有个例外，见紧邻的下面那个if语句
+        }
         if (sizes[0] <= capacity) {
             dp[0][sizes[0]] = 1;
         }
+        
         // base case 2
         for (int i = 0; i < n; i++) {
-            dp[i][0] = 1;
+            dp[i][0] = 0; // 这些等式右边的 0s 表示用0个item实现总size为0的目标
         }
 
         for (int i = 1; i < n; i++) {
             int curItemSize = sizes[i];
             
             for (int sum = 1; sum <= capacity; sum++) {
+                // case 1: item i 不参与
                 dp[i][sum] = dp[i - 1][sum];
                 
-                if (sum >= curItemSize) {
-                    dp[i][sum] += dp[i - 1][sum - curItemSize];
+                // case 2: item i 参与
+                if (sum >= curItemSize && dp[i - 1][sum - curItemSize] != -1) { // 别忘了检查是否是 -1 ！
+                    dp[i][sum] = Math.min(dp[i][sum], dp[i - 1][sum - curItemSize] + 1);
                 }
             }
         }
@@ -67,7 +72,7 @@ class Solution {
 }
 ```
 
-## Solution 1.1：基于Solution 1，使用Offset One方法，简化代码。速度前50%
+## Solution 1.1：基于Solution 1，使用Offset One方法，简化代码
 所谓的Offset One方法，就是：dp[i][j] 里的 i 原本意思是 index为i的元素，现在意思是 **第i个** 元素。这样设置以后，对有些题目，代码能简化不少，对有些题目作用不明显
 
 Offset One方法不能降低时间和空间复杂度
@@ -178,6 +183,6 @@ class Solution {
 ```
 
 ## Reference
-* [Backpack V [LintCode]](https://www.lintcode.com/problem/backpack-v/description)
+没有在网上找到这题
 
 {% include links.html %}
