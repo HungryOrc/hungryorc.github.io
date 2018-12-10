@@ -156,24 +156,22 @@ class Solution {
     public int backPack_DidntFindThisQuestionOnline(int[] sizes, int capacity) {
         // ignore the validation of the parameters
         
-        return numOfWays(sizes, 0, capacity);
+        return minNumOfItems(sizes, 0, 0, capacity);
     }
     
-    private int numOfWays(int[] sizes, int curIndex, int remain) {
-        if (remain == 0) {
-            return 1;
+    private int minNumOfItems(int[] sizes, int curIndex, int curNumOfItems, int remain) {
+        if (remain == 0) { // 这个条件要写在 curIndex == sizes.length 之前！否则会漏解！
+            return curNumOfItems;
         } else if (remain < 0) {
-            return 0;
+            return Integer.MAX_VALUE; // 表示未能正好装满，以失败结束
         }
         
         if (curIndex == sizes.length) {
-            return 0;
+            return Integer.MAX_VALUE; // 表示未能正好装满，以失败结束
         }
         
-        int numWays = 0;
-        numWays += numOfWays(sizes, curIndex + 1, remain); // 不使用 current item
-        numWays += numOfWays(sizes, curIndex + 1, remain - sizes[curIndex]); // 使用 current item
-        return numWays;
+        int use = minNumOfItems(sizes, curIndex + 1, curNumOfItems, remain); // 不使用 current item
+        int notUse = minNumOfItems(sizes, curIndex + 1, curNumOfItems, remain - sizes[curIndex]); // 使用 current item
     } 
 }
 ```
