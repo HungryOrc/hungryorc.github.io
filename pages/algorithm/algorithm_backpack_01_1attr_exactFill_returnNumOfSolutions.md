@@ -158,7 +158,7 @@ class Solution {
     }
     
     private int numOfWays(int[] sizes, int curIndex, int remain) {
-        if (remain == 0) {
+        if (remain == 0) { // 这个条件要写在 curIndex == sizes.length 之前！否则会漏解！
             return 1;
         } else if (remain < 0) {
             return 0;
