@@ -174,6 +174,8 @@ class Solution {
         int use = minNumOfItems(sizes, curIndex + 1, curNumOfItems, remain);
         // 使用 current item
         int notUse = minNumOfItems(sizes, curIndex + 1, curNumOfItems, remain - sizes[curIndex]); 
+        
+        return Math.min(use, notUse);
     } 
 }
 ```
