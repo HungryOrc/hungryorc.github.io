@@ -39,7 +39,6 @@ toc: false
 class Solution {
     public int backPackV(int[] sizes, int capacity) {
         int n = sizes.length;
-        
         int[][] dp = new int[n][capacity + 1];
         
         // base case 1
