@@ -4,7 +4,7 @@ tags: [algorithm, dynamic_programming]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_backpack_0or1_1attr_exactFill_returnNumOfSolutions.html
+permalink: algorithm_backpack_01_1attr_exactFill_returnNumOfSolutions.html
 folder: algorithm
 toc: false
 ---
