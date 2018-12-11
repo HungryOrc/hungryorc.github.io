@@ -74,7 +74,7 @@ public class Solution {
 }
 ```
 
-## Solution 1.1：基于Solution 1，使用Offset One方法。运算速度和原来差不多
+## Solution 1.1：基于Solution 1，使用Offset One方法。简化代码。运算速度和原来差不多
 所谓的Offset One方法，就是：dp[i][j] 里的 i 原本意思是 index为i的元素，现在意思是 **第i个** 元素。这样设置以后，对有些题目，代码能简化不少，对有些题目作用不明显
 
 Offset One方法不能降低时间和空间复杂度
@@ -163,10 +163,7 @@ public class Solution {
 }
 ```
 
-## Solution 2.1：基于Solution 2，使用Offset One方法。对这题来说效果微弱
-所谓的Offset One方法，就是：dp[i][j] 里的 i 原本意思是 index为i的元素，现在意思是 **第i个** 元素。这样设置以后，对有些题目，代码能简化不少，对有些题目作用不明显
-
-Offset One方法不能降低时间和空间复杂度
+## Solution 2.1：基于Solution 2，使用Offset One方法。简化代码。运算速度和原来差不多
 
 ### Complexity
 * Time: 与Solution 2 相同
