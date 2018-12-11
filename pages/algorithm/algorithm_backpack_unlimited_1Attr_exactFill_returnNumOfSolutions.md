@@ -72,7 +72,7 @@ public class Solution {
 }
 ```
 
-## Solution 1.1：基于Solution 1，使用Offset One方法，简化代码。速度前50%
+## Solution 1.1：基于Solution 1，使用Offset One方法。对这题来说，简化代码和速度提升都很有限
 所谓的Offset One方法，就是：dp[i][j] 里的 i 原本意思是 index为i的元素，现在意思是 **第i个** 元素。这样设置以后，对有些题目，代码能简化不少，对有些题目作用不明显
 
 Offset One方法不能降低时间和空间复杂度
@@ -83,29 +83,32 @@ Offset One方法不能降低时间和空间复杂度
 
 ### Java
 ```java
-class Solution {
-    public int backPackV(int[] sizes, int capacity) {
-        int n = sizes.length;
-        int[][] dp = new int[n + 1][capacity + 1]; // 第一维从n变为n+1
+public class Solution {
+    public int backPackIV(int[] sizes, int capacity) {
+        if (sizes == null || sizes.length == 0 || capacity <= 0) {
+            return 0;        
+        }
         
-        // base case 1 不用写了
-        // base case 2 还得写！
-        for (int i = 0; i <= n; i++) {
+        int n = sizes.length;
+        int[][] dp = new int[n + 1][capacity + 1]; // n -> n + 1
+        
+        // base case 1 不用了
+        
+        // base case 2
+        for (int i = 0; i < n; i++) {
             dp[i][0] = 1;
         }
-
-        for (int i = 1; i <= n; i++) { // 从 i < n 变为 i <= n
-            int curItemSize = sizes[i - 1]; // 从 i 变为 i - 1
-            
+        
+        for (int i = 1; i <= n; i++) { // i < n i <= n
             for (int sum = 1; sum <= capacity; sum++) {
-                dp[i][sum] = dp[i - 1][sum];
+                int curSize = sizes[i - 1]; // sizes[i] -> sizes[i - 1]
                 
-                if (sum >= curItemSize) {
-                    dp[i][sum] += dp[i - 1][sum - curItemSize];
+                for (int j = 0; j <= sum / curSize; j++) {
+                    dp[i][sum] += dp[i - 1][sum - j * curSize];
                 }
             }
         }
-        return dp[n][capacity]; // 第一维从n-1变为n
+        return dp[n][capacity]; // dp[n - 1][capacity] -> dp[n][capacity]
     }
 }
 ```
