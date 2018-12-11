@@ -73,22 +73,14 @@ public class Solution {
 ```
 
 ## Solution 2：二维DP，与Solution 1 同理，用了一种看起来不同其实同理的 Induction Rule。速度要慢一点，前20%
-* `int dp[i][s]`：使用数组里 index为0到i 的items中的任意几个item，每个item可以取任意多次，一共有多少种不同的组合方式，能正好组成总 size = s。
-* `int dp[][] = new int[number of items][capacity of backpack + 1]`
-* Base Cases
-  * 对于数组里的第一个item
-    * if (sizes[0] <= capacity)，dp[0][sizes[0] * i] = 1，这里1的意思是1种方法，其中 i = 1, 2, 3...
-    * 其他的 dp[0][s != sizes[0]] 都 = 0，因为不可能实现，所以是0种方法
-  * 总size为0的情况，对于任何多个items，都是可以的，即什么都不放，这算是1种方法。所以 `dp[i][0] = 1`, 0 <= i < n
 * Induction Rule
   `dp[i][size] += dp[i - 1][size - j * sizes[i]]`, 0 <= j <= size / sizes[i]
   * 上面这个induction rule其实包含了2个方面：
   * `dp[i][size] += dp[i - 1][size]`
   * `dp[i][size] += dp[i - 1][size - j * sizes[i]]`, 1 <= j <= size / sizes[i]
-* Return: `dp[n - 1][capacity of backpack]`
 
 ### Complexity
-* Time: O(n * capacity * (sum / curSize)), 其中n是items的个数
+* Time: O(n * capacity * (sum / curSize)), 其中n是items的个数 <=== 对么 ？？？？
 * Space: O(n * capacity)。可以优化为 O(capacity)，因为dp矩阵里，第i行永远只用到第i-1行
 
 ### Java
@@ -133,7 +125,7 @@ public class Solution {
 Offset One方法不能降低时间和空间复杂度
 
 ### Complexity
-* Time: O(n * capacity * (sum / curSize))，与Solution 1 相同
+* Time: O(n * capacity * (sum / curSize))，与Solution 1 相同 <=== 对么 ？？？？
 * Space: O(n * capacity)，与Solution 1 相同
 
 ### Java
@@ -174,7 +166,7 @@ public class Solution {
 ### 只要是DP矩阵降维，就要考虑从大往小填写（矩阵里的一个或多个维度）！
 
 ### Complexity
-* Time: O(n * capacity * (sum / curSize))，与Solution 1 相同，对这题来说，实测速度没有变化
+* Time: O(n * capacity * (sum / curSize))，与Solution 1 相同，对这题来说，实测速度没有变化 <=== 对么 ？？？？
 * Space: O(capacity)
 
 ### Java
