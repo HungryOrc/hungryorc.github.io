@@ -48,10 +48,12 @@ public class Solution {
         int n = sizes.length;
         int[][] dp = new int[n][capacity + 1];
         
+        // base case 1
         for (int i = 1; i <= capacity / sizes[0]; i++) {
             dp[0][sizes[0] * i] = 1;
         }
         
+        // base case 2
         for (int i = 0; i < n; i++) {
             dp[i][0] = 1;
         }
@@ -68,6 +70,48 @@ public class Solution {
             }
         }
         return dp[n - 1][capacity];
+    }
+}
+```
+
+## Solution 1.1：基于Solution 1，使用Offset One方法。运算速度和原来差不多
+所谓的Offset One方法，就是：dp[i][j] 里的 i 原本意思是 index为i的元素，现在意思是 **第i个** 元素。这样设置以后，对有些题目，代码能简化不少，对有些题目作用不明显
+
+Offset One方法不能降低时间和空间复杂度
+
+### Complexity
+* Time: 与Solution 1 相同
+* Space: 与Solution 1 相同
+
+### Java
+```java
+public class Solution {
+    public int backPackIV(int[] sizes, int capacity) {
+        if (sizes == null || sizes.length == 0 || capacity < 0) {
+            return 0;
+        }
+        
+        int n = sizes.length;
+        int[][] dp = new int[n + 1][capacity + 1]; // n -> n + 1
+        
+        // base case 1 可以省掉了
+        
+        for (int i = 1; i <= n; i++) { // 从0到n-1 变为 从1到n
+            dp[i][0] = 1;
+        }
+        
+        for (int i = 1; i <= n; i++) { // i < n -> i <= n
+            int curSize = sizes[i - 1]; // sizes[i] -> sizes[i - 1]
+            
+            for (int sum = 1; sum <= capacity; sum++) {
+                dp[i][sum] = dp[i - 1][sum];
+                
+                if (sum >= curSize) {
+                    dp[i][sum] += dp[i][sum - curSize];
+                }
+            }
+        }
+        return dp[n][capacity]; // dp[n - 1][capacity] -> dp[n][capacity]
     }
 }
 ```
@@ -119,14 +163,14 @@ public class Solution {
 }
 ```
 
-## Solution 2.1：基于Solution 1，使用Offset One方法。对这题来说效果微弱
+## Solution 2.1：基于Solution 2，使用Offset One方法。对这题来说效果微弱
 所谓的Offset One方法，就是：dp[i][j] 里的 i 原本意思是 index为i的元素，现在意思是 **第i个** 元素。这样设置以后，对有些题目，代码能简化不少，对有些题目作用不明显
 
 Offset One方法不能降低时间和空间复杂度
 
 ### Complexity
-* Time: O(n * capacity * (sum / curSize))，与Solution 1 相同 <=== 对么 ？？？？
-* Space: O(n * capacity)，与Solution 1 相同
+* Time: 与Solution 2 相同
+* Space: 与Solution 2 相同
 
 ### Java
 ```java
@@ -161,12 +205,12 @@ public class Solution {
 }
 ```
 
-## Solution 2.2：基于Solution 1，dp[index][size]降维为dp[size]。对这题来说效果微弱
+## Solution 2.2：基于Solution 2，dp[index][size]降维为dp[size]。对这题来说效果微弱
 
 ### 只要是DP矩阵降维，就要考虑从大往小填写（矩阵里的一个或多个维度）！
 
 ### Complexity
-* Time: O(n * capacity * (sum / curSize))，与Solution 1 相同，对这题来说，实测速度没有变化 <=== 对么 ？？？？
+* Time: 与Solution 2 相同
 * Space: O(capacity)
 
 ### Java
