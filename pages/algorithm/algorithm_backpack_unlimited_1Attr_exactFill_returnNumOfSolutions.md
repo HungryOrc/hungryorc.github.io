@@ -33,7 +33,7 @@ Unlimited 的意思是 每个item可以被取用 0次到无限次。
 * Return: `dp[n - 1][capacity of backpack]`
 
 ### Complexity
-* Time: O(n * capacity), 其中n是items的个数
+* Time: O(n * capacity * (sum / curSize)), 其中n是items的个数
 * Space: O(n * capacity)。可以优化为 O(capacity)，因为dp矩阵里，第i行永远只用到第i-1行
 
 ### Java
@@ -58,8 +58,9 @@ public class Solution {
         }
         
         for (int i = 1; i < n; i++) {
+            int curSize = sizes[i];
+            
             for (int sum = 1; sum <= capacity; sum++) {
-                int curSize = sizes[i];
                 
                 for (int j = 0; j <= sum / curSize; j++) {
                     dp[i][sum] += dp[i - 1][sum - j * curSize];
@@ -71,13 +72,13 @@ public class Solution {
 }
 ```
 
-## Solution 1.1：基于Solution 1，使用Offset One方法。对这题来说，简化代码和速度提升都很有限
+## Solution 1.1：基于Solution 1，使用Offset One方法。对这题来说效果微弱
 所谓的Offset One方法，就是：dp[i][j] 里的 i 原本意思是 index为i的元素，现在意思是 **第i个** 元素。这样设置以后，对有些题目，代码能简化不少，对有些题目作用不明显
 
 Offset One方法不能降低时间和空间复杂度
 
 ### Complexity
-* Time: O(n * capacity)，与Solution 1 相同
+* Time: O(n * capacity * (sum / curSize))，与Solution 1 相同
 * Space: O(n * capacity)，与Solution 1 相同
 
 ### Java
@@ -99,8 +100,9 @@ public class Solution {
         }
         
         for (int i = 1; i <= n; i++) { // i < n i <= n
+            int curSize = sizes[i - 1]; // sizes[i] -> sizes[i - 1]
+            
             for (int sum = 1; sum <= capacity; sum++) {
-                int curSize = sizes[i - 1]; // sizes[i] -> sizes[i - 1]
                 
                 for (int j = 0; j <= sum / curSize; j++) {
                     dp[i][sum] += dp[i - 1][sum - j * curSize];
@@ -112,36 +114,43 @@ public class Solution {
 }
 ```
 
-## Solution 1.2：基于Solution 1，dp[index][size]降维为dp[size]。速度前1% ！
+## Solution 1.2：基于Solution 1，dp[index][size]降维为dp[size]。对这题来说效果微弱
 
 ### 只要是DP矩阵降维，就要考虑从大往小填写（矩阵里的一个或多个维度）！
 
 ### Complexity
-* Time: O(n * capacity)，与Solution 1 相同。但其实空间下降以后，时间上也下降了，只是不是量级意义上的下降
+* Time: O(n * capacity * (sum / curSize))，与Solution 1 相同，对这题来说，实测速度没有变化
 * Space: O(capacity)
 
 ### Java
 ```java
-class Solution {
-    public int backPackV(int[] sizes, int capacity) {
+public class Solution {
+    public int backPackIV(int[] sizes, int capacity) {
+        if (sizes == null || sizes.length == 0 || capacity <= 0) {
+            return 0;        
+        }
+        
         int n = sizes.length;
-        int[] dp = new int[capacity + 1]; // 去掉了第一维（第一维原本size是n）
+        int[] dp = new int[capacity + 1]; // 去掉了第一维
         
         // base case 1
-        if (sizes[0] <= capacity) {
-            dp[sizes[0]] = 1; // 去掉了第一维
+        for (int i = 1; i <= capacity / sizes[0]; i++) {
+            dp[sizes[0] * i] = 1;
         }
+        
         // base case 2
-        dp[0] = 1; // 去掉了第一维，以及for循环
-
+        dp[0] = 1; // 去掉了第一维
+        
         for (int i = 1; i < n; i++) {
-            int curItemSize = sizes[i];
-            
-            for (int sum = capacity; sum >= 0; sum--) { // 这里要变成从大往小循环！！
-                // dp[sum] = dp[sum]; // 去掉了第一维。然后剩下的这一行也没意义了
-                
-                if (sum >= curItemSize) {
-                    dp[sum] += dp[sum - curItemSize]; // 去掉了第一维
+            int curSize = sizes[i];
+
+            for (int sum = capacity; sum >= 1; sum--) { // 这一维的顺序改为从大到小！
+
+                // 这一维不要改为从大到小！因为j从小到大的结果其实就是剩余的sum从大到小！
+                // 另外还要注意，j要从1开始了！不要像以前一样从0开始！因为降维了，
+                // 还从0开始就意味着 dp[sum] += dp[sum]，这样重复加是错的
+                for (int j = 1; j <= sum / curSize; j++) {
+                    dp[sum] += dp[sum - j * curSize];
                 }
             }
         }
@@ -150,7 +159,14 @@ class Solution {
 }
 ```
 
-## Solution 2：一种很有趣的DFS方法。但速度超时 hoho
+## Solution 2: 二维DP，另一种 Induction Rule！！！！
+
+
+
+
+
+
+## Solution 3：一种很有趣的DFS方法。但速度超时 hoho
 
 ### Complexity
 * Time: O(2^n) <=== 对么 ？？？？
