@@ -17,7 +17,62 @@ Unlimited 的意思是 每个item可以被取用 0次到无限次。
 ### Example
 略
 
-## Solution 1：二维DP，速度前20%
+## Solution 1: 二维DP。速度 前5% ！
+* `int dp[i][s]`：使用数组里 index为0到i 的items中的任意几个item，每个item可以取任意多次，一共有多少种不同的组合方式，能正好组成总 size = s。
+* `int dp[][] = new int[number of items][capacity of backpack + 1]`
+* Base Cases
+  * 对于数组里的第一个item
+    * if (sizes[0] <= capacity)，dp[0][sizes[0] * i] = 1，这里1的意思是1种方法，其中 i = 1, 2, 3...
+    * 其他的 dp[0][s != sizes[0]] 都 = 0，因为不可能实现，所以是0种方法
+  * 总size为0的情况，对于任何多个items，都是可以的，即什么都不放，这算是1种方法。所以 `dp[i][0] = 1`, 0 <= i < n
+* Induction Rule: `dp[i][sum] = dp[i - 1][sum] + dp[i][sum - curValue]`
+  * `dp[i - 1][sum]` 表示 sum里面将没有item i 的任何参与
+  * `dp[i][sum - curValue]` 表示 sum里面将存在item i 的一次或者多次参与
+  * 注意，`dp[i][sum - curValue]` 是**包含了** `dp[i - 1][sum - curValue]` 的。所以上面的式子不再加入 `dp[i - 1][sum - curValue]`。理由是：
+    * `dp[i - 1][sum - curValue]` 表示 array[i] **已经被使用0次**，然后将会被使用一次
+    * `dp[i][sum - curValue]` 表示 array[i] **已经被使用 0次，1次，或多次了**，然后将再被使用一次。所以可见它是涵盖了上面那个情况的
+* Return: `dp[n - 1][capacity of backpack]`
+
+### Complexity
+* Time: O(n * capacity * (sum / curSize)), 其中n是items的个数
+* Space: O(n * capacity)。可以优化为 O(capacity)，因为dp矩阵里，第i行永远只用到第i-1行
+
+### Java
+```java
+public class Solution {
+    public int backPackIV(int[] sizes, int capacity) {
+        if (sizes == null || sizes.length == 0 || capacity < 0) {
+            return 0;
+        }
+        
+        int n = sizes.length;
+        int[][] dp = new int[n][capacity + 1];
+        
+        for (int i = 1; i <= capacity / sizes[0]; i++) {
+            dp[0][sizes[0] * i] = 1;
+        }
+        
+        for (int i = 0; i < n; i++) {
+            dp[i][0] = 1;
+        }
+        
+        for (int i = 1; i < n; i++) {
+            int curSize = sizes[i];
+            
+            for (int sum = 1; sum <= capacity; sum++) {
+                dp[i][sum] = dp[i - 1][sum];
+                
+                if (sum >= curSize) {
+                    dp[i][sum] += dp[i][sum - curSize];
+                }
+            }
+        }
+        return dp[n - 1][capacity];
+    }
+}
+```
+
+## Solution 2：二维DP，与Solution 1 同理，用了一种看起来不同其实同理的 Induction Rule。速度要慢一点，前20%
 * `int dp[i][s]`：使用数组里 index为0到i 的items中的任意几个item，每个item可以取任意多次，一共有多少种不同的组合方式，能正好组成总 size = s。
 * `int dp[][] = new int[number of items][capacity of backpack + 1]`
 * Base Cases
@@ -72,7 +127,7 @@ public class Solution {
 }
 ```
 
-## Solution 1.1：基于Solution 1，使用Offset One方法。对这题来说效果微弱
+## Solution 2.1：基于Solution 1，使用Offset One方法。对这题来说效果微弱
 所谓的Offset One方法，就是：dp[i][j] 里的 i 原本意思是 index为i的元素，现在意思是 **第i个** 元素。这样设置以后，对有些题目，代码能简化不少，对有些题目作用不明显
 
 Offset One方法不能降低时间和空间复杂度
@@ -114,7 +169,7 @@ public class Solution {
 }
 ```
 
-## Solution 1.2：基于Solution 1，dp[index][size]降维为dp[size]。对这题来说效果微弱
+## Solution 2.2：基于Solution 1，dp[index][size]降维为dp[size]。对这题来说效果微弱
 
 ### 只要是DP矩阵降维，就要考虑从大往小填写（矩阵里的一个或多个维度）！
 
@@ -158,54 +213,6 @@ public class Solution {
     }
 }
 ```
-
-## Solution 2: 二维DP，与Solution 1 同样的思路，衍生出另一种看起来不同其实同理的 Induction Rule。运行速度相同
-
-* Induction Rule: `dp[i][sum] = dp[i - 1][sum] + dp[i][sum - curValue]`
-  * `dp[i - 1][sum]` 表示 sum里面将没有item i 的任何参与
-  * `dp[i][sum - curValue]` 表示 sum里面将存在item i 的一次或者多次参与
-  * 注意，`dp[i][sum - curValue]` 是**包含了** `dp[i - 1][sum - curValue]` 的。所以上面的式子不再加入 `dp[i - 1][sum - curValue]`。理由是：
-    * `dp[i - 1][sum - curValue]` 表示 array[i] **已经被使用0次**，然后将会被使用一次
-    * `dp[i][sum - curValue]` 表示 array[i] **已经被使用 0次，1次，或多次了**，然后将再被使用一次。所以可见它是涵盖了上面那个情况的
-
-// 方法2：
-public class Solution {
-    
-    public static long makeChange(int[] coins, int money) {
-        if (coins == null || coins.length == 0 || money < 0) {
-            return 0L;
-        }
-        
-        int n = coins.length;
-        long[][] dp = new long[n][money + 1];
-        
-        for (int i = 0; i < n; i++) {
-            dp[i][0] = 1L;
-        }
-        
-        if (coins[0] <= money) {
-            int sum = coins[0];
-            while (sum <= money) {
-                dp[0][sum] = 1L;
-                sum += coins[0];
-            }
-        }
-        
-        for (int i = 1; i < n; i++) {
-            for (int sum = 1; sum <= money; sum++) {
-                int curValue = coins[i];
-                
-                if (curValue > sum) {
-                    dp[i][sum] = dp[i - 1][sum];
-                } else {
-                    dp[i][sum] = dp[i - 1][sum] + dp[i][sum - curValue];
-                }
-            }
-        }
-        
-        return dp[n - 1][money];
-    }
-}
 
 
 
