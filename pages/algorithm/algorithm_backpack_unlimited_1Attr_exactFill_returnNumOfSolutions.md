@@ -38,28 +38,32 @@ Unlimited 的意思是 每个item可以被取用 0次到无限次。
 
 ### Java
 ```java
-class Solution {
-    public int backPackV(int[] sizes, int capacity) {
+public class Solution {
+
+    public int backPackIV(int[] sizes, int capacity) {
+        if (sizes == null || sizes.length == 0 || capacity <= 0) {
+            return 0;        
+        }
+        
         int n = sizes.length;
         int[][] dp = new int[n][capacity + 1];
         
         // base case 1
-        if (sizes[0] <= capacity) {
-            dp[0][sizes[0]] = 1;
+        for (int i = 1; i <= capacity / sizes[0]; i++) {
+            dp[0][sizes[0] * i] = 1;
         }
+        
         // base case 2
         for (int i = 0; i < n; i++) {
             dp[i][0] = 1;
         }
-
+        
         for (int i = 1; i < n; i++) {
-            int curItemSize = sizes[i];
-            
             for (int sum = 1; sum <= capacity; sum++) {
-                dp[i][sum] = dp[i - 1][sum];
+                int curSize = sizes[i];
                 
-                if (sum >= curItemSize) {
-                    dp[i][sum] += dp[i - 1][sum - curItemSize];
+                for (int j = 0; j <= sum / curSize; j++) {
+                    dp[i][sum] += dp[i - 1][sum - j * curSize];
                 }
             }
         }
