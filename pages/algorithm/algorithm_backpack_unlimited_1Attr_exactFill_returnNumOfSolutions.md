@@ -39,7 +39,6 @@ Unlimited 的意思是 每个item可以被取用 0次到无限次。
 ### Java
 ```java
 public class Solution {
-
     public int backPackIV(int[] sizes, int capacity) {
         if (sizes == null || sizes.length == 0 || capacity <= 0) {
             return 0;        
