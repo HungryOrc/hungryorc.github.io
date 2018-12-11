@@ -24,12 +24,12 @@ Unlimited 的意思是 每个item可以被取用 0次到无限次。
   * 对于数组里的第一个item
     * if (sizes[0] <= capacity)，dp[0][sizes[0] * i] = 1，这里1的意思是1种方法，其中 i = 1, 2, 3...
     * 其他的 dp[0][s != sizes[0]] 都 = 0，因为不可能实现，所以是0种方法
-  * 总size为0的情况，对于任何多个items，都是可以的，即什么都不放，这算是1种方法。所以 `dp[i][0]` = 1, for 0 <= i < n
+  * 总size为0的情况，对于任何多个items，都是可以的，即什么都不放，这算是1种方法。所以 `dp[i][0] = 1`, 0 <= i < n
 * Induction Rule
-  `dp[i][size] += dp[i - 1][size - j * sizes[i]]`, `0 <= j <= size / sizes[i]`
+  `dp[i][size] += dp[i - 1][size - j * sizes[i]]`, 0 <= j <= size / sizes[i]
   * 上面这个induction rule其实包含了2个方面：
   * `dp[i][size] += dp[i - 1][size]`
-  * `dp[i][size] += dp[i - 1][size - j * sizes[i]]`, `1 <= j <= size / sizes[i]`
+  * `dp[i][size] += dp[i - 1][size - j * sizes[i]]`, 1 <= j <= size / sizes[i]
 * Return: `dp[n - 1][capacity of backpack]`
 
 ### Complexity
