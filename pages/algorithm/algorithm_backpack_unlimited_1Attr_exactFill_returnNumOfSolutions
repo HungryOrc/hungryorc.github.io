@@ -17,16 +17,19 @@ Unlimited 的意思是 每个item可以被取用 0次到无限次。
 ### Example
 略
 
-## Solution 1：二维DP，速度前50%
-* `int dp[i][s]`：使用数组里 index为0到i 的items中的任意几个，一共有多少种不同的组合方式，能正好组成总 size = s。
+## Solution 1：二维DP，速度前20%
+* `int dp[i][s]`：使用数组里 index为0到i 的items中的任意几个item，每个item可以取任意多次，一共有多少种不同的组合方式，能正好组成总 size = s。
 * `int dp[][] = new int[number of items][capacity of backpack + 1]`
 * Base Cases
-  * 对于数组里的第一个item，if(sizes[0] <= capacity)，dp[0][sizes[0]] = 1; 其他的 dp[0][s != sizes[0]] 都 = 0.
-  * size和为0的情况，对于任何多个items，都是可以的，即什么都不放，这算是1种方法。所以 `dp[i][0]` = 1, for 0 <= i < n
+  * 对于数组里的第一个item
+    * if (sizes[0] <= capacity)，dp[0][sizes[0] * i] = 1，这里1的意思是1种方法，其中 i = 1, 2, 3...
+    * 其他的 dp[0][s != sizes[0]] 都 = 0，因为不可能实现，所以是0种方法
+  * 总size为0的情况，对于任何多个items，都是可以的，即什么都不放，这算是1种方法。所以 `dp[i][0]` = 1, for 0 <= i < n
 * Induction Rule
-  * `dp[i][s] = dp[i - 1][s] + dp[i - 1][s - sizes[i]]`
-    * `dp[i - 1][s]`：i之前的那些items已经可以组成总和正好为 s 的组合了，item i 不参与的话，自然也还是和为s的组合
-    * `dp[i - 1][s - sizes[i]]`：i之前的那些items组成了总和正好为 s - sizes[i] 的组合，那么 item i 参与进来后，自然正好就是和为s
+  `dp[i][size] += dp[i - 1][size - j * sizes[i]]`, `0 <= j <= size / sizes[i]`
+  * 上面这个induction rule其实包含了2个方面：
+  * `dp[i][size] += dp[i - 1][size]`
+  * `dp[i][size] += dp[i - 1][size - j * sizes[i]]`, `1 <= j <= size / sizes[i]`
 * Return: `dp[n - 1][capacity of backpack]`
 
 ### Complexity
