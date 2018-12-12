@@ -277,10 +277,10 @@ public class Solution {
 
             for (int sum = capacity; sum >= 1; sum--) { // 这一维的顺序改为从大到小！
 
-                // 这一维不要改为从大到小！因为j从小到大的结果其实就是剩余的sum从大到小！
+                // 这一维也改为从大到小
                 // 另外还要注意，j要从1开始了！不要像以前一样从0开始！因为降维了，
                 // 还从0开始就意味着 dp[sum] += dp[sum]，这样重复加是错的
-                for (int j = 1; j <= sum / curSize; j++) {
+                for (int j = sum / curSize; j >= 1; j--) {
                     dp[sum] += dp[sum - j * curSize];
                 }
             }
@@ -289,12 +289,6 @@ public class Solution {
     }
 }
 ```
-
-
-
-下面的sulution 3 还没归纳呢！！！
-
-
 
 ## Solution 3：一种很有趣的DFS方法。但速度超时 hoho
 
