@@ -116,6 +116,49 @@ public class Solution {
 }
 ```
 
+## Solution 1.2：基于Solution 1，dp[index][size]降维为dp[size]。对这题来说效果微弱
+
+### 只要是DP矩阵降维，就要考虑从大往小填写（矩阵里的一个或多个维度）！但是这题反而不能从大到小，还是得从小到大！所以DP矩阵降维不一定需要从大到小
+
+### Complexity
+* Time: 与Solution 1 相同
+* Space: O(capacity)
+
+### Java
+```java
+public class Solution {
+    public int backPackIV(int[] sizes, int capacity) {
+        if (sizes == null || sizes.length == 0 || capacity < 0) {
+            return 0;
+        }
+        
+        int n = sizes.length;
+        int[] dp = new int[capacity + 1]; // 去掉第一维
+        
+        // base case 1，去掉第一维
+        for (int i = 1; i <= capacity / sizes[0]; i++) {
+            dp[sizes[0] * i] = 1;
+        }
+        
+        // base case 2，去掉第一维
+        dp[0] = 1;
+        
+        for (int i = 1; i < n; i++) {
+            int curSize = sizes[i];
+            
+            for (int sum = 1; sum <= capacity; sum++) {
+                // 去掉第一维以后，这个也就没意义了：dp[sum] = dp[sum];
+                
+                if (sum >= curSize) {
+                    dp[sum] += dp[sum - curSize];
+                }
+            }
+        }
+        return dp[capacity];
+    }
+}
+```
+
 ## Solution 2：二维DP，与Solution 1 同理，用了一种看起来不同其实同理的 Induction Rule。速度要慢一点，前20%
 * Induction Rule
   `dp[i][size] += dp[i - 1][size - j * sizes[i]]`, 0 <= j <= size / sizes[i]
