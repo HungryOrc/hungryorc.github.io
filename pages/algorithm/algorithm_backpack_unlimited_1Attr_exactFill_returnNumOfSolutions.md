@@ -299,8 +299,10 @@ public class Solution {
 ### Java
 ```java
 class Solution {
-    public int backPackV(int[] sizes, int capacity) {
-        // ignore the validation of the parameters
+    public int backPackIV(int[] sizes, int capacity) {
+        if (sizes == null || sizes.length == 0 || capacity < 0) {
+            return 0;        
+        }
         
         return numOfWays(sizes, 0, capacity);
     }
@@ -316,9 +318,12 @@ class Solution {
             return 0;
         }
         
+        int curSize = sizes[curIndex];
+        
         int numWays = 0;
-        numWays += numOfWays(sizes, curIndex + 1, remain); // 不使用 current item
-        numWays += numOfWays(sizes, curIndex + 1, remain - sizes[curIndex]); // 使用 current item
+        for (int i = 0; i <= remain / curSize; i++) {
+            numWays += numOfWays(sizes, curIndex + 1, remain - i * curSize);
+        }
         return numWays;
     } 
 }
