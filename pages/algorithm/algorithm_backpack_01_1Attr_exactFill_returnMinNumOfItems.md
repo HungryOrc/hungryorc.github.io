@@ -10,9 +10,7 @@ toc: false
 ---
 
 ## Description
-这一类题也叫 “Naive 0/1背包问题”，因为每个item最多取一次，Naive的意思是item只有一个属性，比如size或weight
-
-每个item有自己的size（或者weight）。背包有最大的容量（对于size或weight）。
+这一类题也叫 “Naive 0/1背包问题”，因为每个item最多取一次，Naive的意思是 每个item只有一个属性，比如size或weight。背包有最大的容量（对于size或weight）。
 求最少用多少个items，可以正好填满这个背包
 
 ### Example
