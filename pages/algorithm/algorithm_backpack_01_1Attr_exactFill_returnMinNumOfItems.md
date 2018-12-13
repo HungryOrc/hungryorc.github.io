@@ -20,7 +20,7 @@ toc: false
 * `int dp[i][s]`：使用数组里 index为0到i 的items中的任意几个，最少用多少个item，能正好组成总 size = s。
 * `int dp[][] = new int[number of items][capacity of backpack + 1]`
 * Base Cases
-  * 对于数组里的第一个item，if(sizes[0] <= capacity)，dp[0][sizes[0]] = 1; 其他的 dp[0][s != sizes[0]] 都 = -1，用这种方式来表示不可能完成
+  * 对于数组里的第一个item，if(sizes[0] <= capacity)，dp[0][sizes[0]] = 1; 其他的 dp[0][s != sizes[0]] 都 = -1，用-1来表示不可能（也可以用Integer.MAX_VALUE）
   * size和为0的情况，对于任何多个items，都是可以的，即什么都不放，即0个item。所以 `dp[i][0]` = 0, for 0 <= i < n。因为是0，所以也可以不写了
 * Induction Rule
   * `dp[i][s] = min(dp[i - 1][s], dp[i - 1][s - sizes[i]] + 1)`
