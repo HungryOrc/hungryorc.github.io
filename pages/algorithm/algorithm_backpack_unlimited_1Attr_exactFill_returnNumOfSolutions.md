@@ -34,7 +34,7 @@ Unlimited 的意思是 每个item可以被取用 0次到无限次。
 * Return: `dp[n - 1][capacity of backpack]`
 
 ### Complexity
-* Time: O(n * capacity * (sum / curSize)), 其中n是items的个数
+* Time: O(n * capacity), 其中n是items的个数
 * Space: O(n * capacity)。可以优化为 O(capacity)，因为dp矩阵里，第i行永远只用到第i-1行
 
 ### Java
