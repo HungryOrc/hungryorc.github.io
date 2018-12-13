@@ -77,11 +77,7 @@ public class Solution {
 }
 ```
 
-<====== 看到这里！！！！
-
-
-
-## Solution 1.1：基于Solution 1，使用Offset One方法。简化代码。运算速度和原来差不多
+## Solution 1.1：基于Solution 1，使用Offset One方法。简化代码
 所谓的Offset One方法，就是：dp[i][j] 里的 i 原本意思是 index为i的元素，现在意思是 **第i个** 元素。这样设置以后，对有些题目，代码能简化不少，对有些题目作用不明显
 
 Offset One方法不能降低时间和空间复杂度
@@ -101,11 +97,11 @@ public class Solution {
         int n = sizes.length;
         int[][] dp = new int[n + 1][capacity + 1]; // n -> n + 1
         
-        // base case 1 可以省掉了
+        // base case 1 不用写了，因为第一维是0的话，即“前0个"元素，自然永远item数是0了
         
-        for (int i = 1; i <= n; i++) { // 从0到n-1 变为 从1到n
-            dp[i][0] = 1;
-        }
+        
+        
+        <==== 看到了这里！！！！
         
         for (int i = 1; i <= n; i++) { // i < n -> i <= n
             int curSize = sizes[i - 1]; // sizes[i] -> sizes[i - 1]
