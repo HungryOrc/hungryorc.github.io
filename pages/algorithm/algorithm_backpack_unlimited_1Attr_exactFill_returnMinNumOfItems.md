@@ -39,7 +39,7 @@ Unlimited 的意思是 每个item可以被取用 0次到无限次。每个item�
 ### Java
 ```java
 public class Solution {
-    public int backPack_UnknownSeriesNumber(int[] sizes, int capacity) {
+    public int backPack_UnknownProblemNumber(int[] sizes, int capacity) {
         if (sizes == null || sizes.length == 0 || capacity < 0) {
             return 0;
         }
@@ -48,6 +48,9 @@ public class Solution {
         int[][] dp = new int[n][capacity + 1];
         
         // base case 1
+        for (int i = 1; i <= capacity; i++) { // 注意i从1开始，因为i=0即总size为0是可以实现的
+            dp[0][i] = -1; // 初始化都设为-1表示不可能实现的情况，例外是可以实现的情况，在下面的for loop里写
+        }
         for (int i = 1; i <= capacity / sizes[0]; i++) {
             dp[0][sizes[0] * i] = i; // 这里是 = i，不是 = 1 了
         }
@@ -63,7 +66,8 @@ public class Solution {
             for (int sum = 1; sum <= capacity; sum++) {
                 dp[i][sum] = dp[i - 1][sum];
                 
-                if (sum >= curSize) {
+                // 别忘了判断 dp[i][sum - curSize] != -1
+                if (sum >= curSize && dp[i][sum - curSize] != -1) {
                     dp[i][sum] = Math.min(dp[i][sum], dp[i][sum - curSize] + 1);
                 }
             }
@@ -89,7 +93,7 @@ Offset One方法不能降低时间和空间复杂度
 ### Java
 ```java
 public class Solution {
-    public int backPack_UnknownSeriesNumber(int[] sizes, int capacity) {
+    public int backPack_UnknownProblemNumber(int[] sizes, int capacity) {
         if (sizes == null || sizes.length == 0 || capacity < 0) {
             return 0;
         }
@@ -130,7 +134,7 @@ public class Solution {
 ### Java
 ```java
 public class Solution {
-    public int backPack_UnknownSeriesNumber(int[] sizes, int capacity) {
+    public int backPack_UnknownProblemNumber(int[] sizes, int capacity) {
         if (sizes == null || sizes.length == 0 || capacity < 0) {
             return 0;
         }
@@ -172,7 +176,7 @@ public class Solution {
 ### Java
 ```java
 class Solution {
-    public int backPack_UnknownSeriesNumber(int[] sizes, int capacity) {
+    public int backPack_UnknownProblemNumber(int[] sizes, int capacity) {
         if (sizes == null || sizes.length == 0 || capacity < 0) {
             return 0;        
         }
