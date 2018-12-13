@@ -23,7 +23,7 @@ Unlimited 的意思是 每个item可以被取用 0次到无限次。每个item�
   * 对于数组里的第一个item
     * if (sizes[0] <= capacity)，dp[0][sizes[0] * i] = i，这里i的意思是i个（这种）item，其中 i = 1, 2, 3...
     * 其他的 dp[0][s != sizes[0]] 都 = -1，因为不可能实现，用-1来表示不可能（也可以用Integer.MAX_VALUE）
-  * 总size为0的情况，对于任何多个items，都是可以的，即什么都不放。这些情况都算是0个item。所以 `dp[i][0] = 0`, 0 <= i < n
+  * 总size为0的情况，对于任何多个items，都是可以的，即什么都不放。这些情况都算是0个item。所以 `dp[i][0] = 0`, 0 <= i < n。因为都是0所以可以不写了
 * Induction Rule: `dp[i][sum] = min(dp[i - 1][sum], dp[i][sum - curValue] + 1)`
   * `dp[i - 1][sum]` 表示 sum里面将没有item i 的任何参与
   * `dp[i][sum - curValue]` 表示 sum里面将存在item i 的一次或者多次参与
@@ -36,23 +36,10 @@ Unlimited 的意思是 每个item可以被取用 0次到无限次。每个item�
 * Time: O(n * capacity), 其中n是items的个数
 * Space: O(n * capacity)。可以优化为 O(capacity)，因为dp矩阵里，第i行永远只用到第i-1行
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### Java
 ```java
 public class Solution {
-    public int backPackIV(int[] sizes, int capacity) {
+    public int backPack_UnknownSeriesNumber(int[] sizes, int capacity) {
         if (sizes == null || sizes.length == 0 || capacity < 0) {
             return 0;
         }
@@ -62,13 +49,13 @@ public class Solution {
         
         // base case 1
         for (int i = 1; i <= capacity / sizes[0]; i++) {
-            dp[0][sizes[0] * i] = 1;
+            dp[0][sizes[0] * i] = i; // 这里是 = i，不是 = 1 了
         }
         
-        // base case 2
-        for (int i = 0; i < n; i++) {
-            dp[i][0] = 1;
-        }
+        // base case 2，可以不写
+        //for (int i = 0; i < n; i++) {
+        //    dp[i][0] = 0;
+        //}
         
         for (int i = 1; i < n; i++) {
             int curSize = sizes[i];
@@ -77,7 +64,7 @@ public class Solution {
                 dp[i][sum] = dp[i - 1][sum];
                 
                 if (sum >= curSize) {
-                    dp[i][sum] += dp[i][sum - curSize];
+                    dp[i][sum] = Math.min(dp[i][sum], dp[i][sum - curSize] + 1);
                 }
             }
         }
@@ -85,6 +72,10 @@ public class Solution {
     }
 }
 ```
+
+<====== 看到这里！！！！
+
+
 
 ## Solution 1.1：基于Solution 1，使用Offset One方法。简化代码。运算速度和原来差不多
 所谓的Offset One方法，就是：dp[i][j] 里的 i 原本意思是 index为i的元素，现在意思是 **第i个** 元素。这样设置以后，对有些题目，代码能简化不少，对有些题目作用不明显
@@ -98,7 +89,7 @@ Offset One方法不能降低时间和空间复杂度
 ### Java
 ```java
 public class Solution {
-    public int backPackIV(int[] sizes, int capacity) {
+    public int backPack_UnknownSeriesNumber(int[] sizes, int capacity) {
         if (sizes == null || sizes.length == 0 || capacity < 0) {
             return 0;
         }
@@ -139,7 +130,7 @@ public class Solution {
 ### Java
 ```java
 public class Solution {
-    public int backPackIV(int[] sizes, int capacity) {
+    public int backPack_UnknownSeriesNumber(int[] sizes, int capacity) {
         if (sizes == null || sizes.length == 0 || capacity < 0) {
             return 0;
         }
@@ -171,138 +162,8 @@ public class Solution {
 }
 ```
 
-## Solution 2：二维DP，与Solution 1 同理，用了一种看起来不同其实同理的 Induction Rule。速度要慢一点，前20%
-* Induction Rule
-  `dp[i][size] += dp[i - 1][size - j * sizes[i]]`, 0 <= j <= size / sizes[i]
-  * 上面这个induction rule其实包含了2个方面：
-  * `dp[i][size] += dp[i - 1][size]`
-  * `dp[i][size] += dp[i - 1][size - j * sizes[i]]`, 1 <= j <= size / sizes[i]
 
-### Complexity
-* Time: O(n * capacity * (sum / curSize)), 其中n是items的个数 <=== 对么 ？？？？
-* Space: O(n * capacity)。可以优化为 O(capacity)，因为dp矩阵里，第i行永远只用到第i-1行
-
-### Java
-```java
-public class Solution {
-    public int backPackIV(int[] sizes, int capacity) {
-        if (sizes == null || sizes.length == 0 || capacity < 0) {
-            return 0;        
-        }
-        
-        int n = sizes.length;
-        int[][] dp = new int[n][capacity + 1];
-        
-        // base case 1
-        for (int i = 1; i <= capacity / sizes[0]; i++) {
-            dp[0][sizes[0] * i] = 1;
-        }
-        
-        // base case 2
-        for (int i = 0; i < n; i++) {
-            dp[i][0] = 1;
-        }
-        
-        for (int i = 1; i < n; i++) {
-            int curSize = sizes[i];
-            
-            for (int sum = 1; sum <= capacity; sum++) {
-                
-                for (int j = 0; j <= sum / curSize; j++) {
-                    dp[i][sum] += dp[i - 1][sum - j * curSize];
-                }
-            }
-        }
-        return dp[n - 1][capacity];
-    }
-}
-```
-
-## Solution 2.1：基于Solution 2，使用Offset One方法。简化代码。运算速度和原来差不多
-
-### Complexity
-* Time: 与Solution 2 相同
-* Space: 与Solution 2 相同
-
-### Java
-```java
-public class Solution {
-    public int backPackIV(int[] sizes, int capacity) {
-        if (sizes == null || sizes.length == 0 || capacity < 0) {
-            return 0;        
-        }
-        
-        int n = sizes.length;
-        int[][] dp = new int[n + 1][capacity + 1]; // n -> n + 1
-        
-        // base case 1 不用了
-        
-        // base case 2
-        for (int i = 0; i < n; i++) {
-            dp[i][0] = 1;
-        }
-        
-        for (int i = 1; i <= n; i++) { // i < n i <= n
-            int curSize = sizes[i - 1]; // sizes[i] -> sizes[i - 1]
-            
-            for (int sum = 1; sum <= capacity; sum++) {
-                
-                for (int j = 0; j <= sum / curSize; j++) {
-                    dp[i][sum] += dp[i - 1][sum - j * curSize];
-                }
-            }
-        }
-        return dp[n][capacity]; // dp[n - 1][capacity] -> dp[n][capacity]
-    }
-}
-```
-
-## Solution 2.2：基于Solution 2，dp[index][size]降维为dp[size]。对这题来说效果微弱
-
-### 只要是DP矩阵降维，就要考虑从大往小填写（矩阵里的一个或多个维度）！
-
-### Complexity
-* Time: 与Solution 2 相同
-* Space: O(capacity)
-
-### Java
-```java
-public class Solution {
-    public int backPackIV(int[] sizes, int capacity) {
-        if (sizes == null || sizes.length == 0 || capacity < 0) {
-            return 0;        
-        }
-        
-        int n = sizes.length;
-        int[] dp = new int[capacity + 1]; // 去掉了第一维
-        
-        // base case 1
-        for (int i = 1; i <= capacity / sizes[0]; i++) {
-            dp[sizes[0] * i] = 1;
-        }
-        
-        // base case 2
-        dp[0] = 1; // 去掉了第一维
-        
-        for (int i = 1; i < n; i++) {
-            int curSize = sizes[i];
-
-            for (int sum = capacity; sum >= 1; sum--) { // 这一维的顺序改为从大到小！
-
-                // 这一维也改为从大到小
-                // 另外还要注意，j要从1开始了！不要像以前一样从0开始！因为降维了，
-                // 还从0开始就意味着 dp[sum] += dp[sum]，这样重复加是错的
-                for (int j = sum / curSize; j >= 1; j--) {
-                    dp[sum] += dp[sum - j * curSize];
-                }
-            }
-        }
-        return dp[capacity]; // 去掉了第一维
-    }
-}
-```
-
-## Solution 3：一种很有趣的DFS方法。但速度超时 hoho
+## Solution 2：一种很有趣的DFS方法。但速度超时 hoho
 
 ### Complexity
 * Time: O(2^n) <=== 对么 ？？？？
@@ -311,7 +172,7 @@ public class Solution {
 ### Java
 ```java
 class Solution {
-    public int backPackIV(int[] sizes, int capacity) {
+    public int backPack_UnknownSeriesNumber(int[] sizes, int capacity) {
         if (sizes == null || sizes.length == 0 || capacity < 0) {
             return 0;        
         }
@@ -342,6 +203,6 @@ class Solution {
 ```
 
 ## Reference
-* [Backpack V [LintCode]](https://www.lintcode.com/problem/backpack-v/description)
+网上没找到这题
 
 {% include links.html %}
