@@ -97,11 +97,11 @@ public class Solution {
         int n = sizes.length;
         int[][] dp = new int[n + 1][capacity + 1]; // n -> n + 1
         
-        // base case 1 不用写了，因为第一维是0的话，即“前0个"元素，自然永远item数是0了
-        
-        
-        
-        <==== 看到了这里！！！！
+        // base case 1，有了一定的简化。第一维是0的话，即“前0个"元素
+        for (int i = 1; i <= capacity; i++) { // 注意i从1开始，因为i=0即总size为0是可以实现的，用0个元素实现
+            dp[0][i] = -1; // 初始化都设为-1表示不可能实现的情况
+        }
+        // dp[0][0] = 0 是为以后留下的火种。不然dp[0][i]全都是-1的话，以后整个矩阵都会是-1，就没戏了
         
         for (int i = 1; i <= n; i++) { // i < n -> i <= n
             int curSize = sizes[i - 1]; // sizes[i] -> sizes[i - 1]
@@ -109,8 +109,9 @@ public class Solution {
             for (int sum = 1; sum <= capacity; sum++) {
                 dp[i][sum] = dp[i - 1][sum];
                 
-                if (sum >= curSize) {
-                    dp[i][sum] += dp[i][sum - curSize];
+                // 别忘了判断 dp[i][sum - curSize] != -1
+                if (sum >= curSize && dp[i][sum - curSize] != -1) {
+                    dp[i][sum] = Math.min(dp[i][sum], dp[i][sum - curSize] + 1);
                 }
             }
         }
@@ -119,7 +120,7 @@ public class Solution {
 }
 ```
 
-## Solution 1.2：基于Solution 1，dp[index][size]降维为dp[size]。对这题来说效果微弱
+## Solution 1.2：基于Solution 1，dp[index][size]降维为dp[size]
 
 ### 只要是DP矩阵降维，就要考虑从大往小填写（矩阵里的一个或多个维度）！但是这题反而不能从大到小，还是得从小到大！所以DP矩阵降维不一定需要从大到小
 
@@ -139,21 +140,21 @@ public class Solution {
         int[] dp = new int[capacity + 1]; // 去掉第一维
         
         // base case 1，去掉第一维
-        for (int i = 1; i <= capacity / sizes[0]; i++) {
-            dp[sizes[0] * i] = 1;
+        for (int i = 1; i <= capacity; i++) {
+            dp[i] = -1;
         }
-        
-        // base case 2，去掉第一维
-        dp[0] = 1;
-        
+        for (int i = 1; i <= capacity / sizes[0]; i++) {
+            dp[sizes[0] * i] = i;
+        }
+
         for (int i = 1; i < n; i++) {
             int curSize = sizes[i];
             
             for (int sum = 1; sum <= capacity; sum++) {
                 // 去掉第一维以后，这个也就没意义了：dp[sum] = dp[sum];
                 
-                if (sum >= curSize) {
-                    dp[sum] += dp[sum - curSize];
+                if (sum >= curSize && dp[s][sum - curSize] != -1) {
+                    dp[sum] = Math.min(dp[sum], dp[sum - curSize] + 1);
                 }
             }
         }
