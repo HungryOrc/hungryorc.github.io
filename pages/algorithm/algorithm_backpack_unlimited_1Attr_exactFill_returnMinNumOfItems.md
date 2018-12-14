@@ -40,7 +40,7 @@ Unlimited 的意思是 每个item可以被取用 0次到无限次。每个item�
 ```java
 public class Solution {
     public int backPack_UnknownProblemNumber(int[] sizes, int capacity) {
-        if (sizes == null || sizes.length == 0 || capacity < 0) {
+        if (sizes == null || sizes.length == 0 || capacity <= 0) {
             return 0;
         }
         
@@ -90,7 +90,7 @@ Offset One方法不能降低时间和空间复杂度
 ```java
 public class Solution {
     public int backPack_UnknownProblemNumber(int[] sizes, int capacity) {
-        if (sizes == null || sizes.length == 0 || capacity < 0) {
+        if (sizes == null || sizes.length == 0 || capacity <= 0) {
             return 0;
         }
         
@@ -132,7 +132,7 @@ public class Solution {
 ```java
 public class Solution {
     public int backPack_UnknownProblemNumber(int[] sizes, int capacity) {
-        if (sizes == null || sizes.length == 0 || capacity < 0) {
+        if (sizes == null || sizes.length == 0 || capacity <= 0) {
             return 0;
         }
         
@@ -174,14 +174,16 @@ public class Solution {
 ```java
 class Solution {
     public int backPack_UnknownProblemNumber(int[] sizes, int capacity) {
-        if (sizes == null || sizes.length == 0 || capacity < 0) {
+        if (sizes == null || sizes.length == 0 || capacity <= 0) {
             return 0;        
         }
         
-        return numOfWays(sizes, 0, capacity);
+        return minNumItems(sizes, 0, 0, capacity);
     }
     
-    private int numOfWays(int[] sizes, int curIndex, int remain) {
+    <==== 看到这里！！！！！
+    
+    private int minNumItems(int[] sizes, int curIndex, int curNumItems, int remain) {
         if (remain == 0) { // 这个条件要写在 curIndex == sizes.length 之前！否则会漏解！
             return 1;
         } else if (remain < 0) {
