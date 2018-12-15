@@ -185,11 +185,11 @@ class Solution {
         if (remain == 0) { // 这个条件要写在 curIndex == sizes.length 之前！否则会漏解！
             return curNumItems;
         } else if (remain < 0) {
-            return Integer.MAX_VALUE;
+            return Integer.MAX_VALUE; // 意味着失败
         }
         
         if (curIndex == sizes.length) {
-            return Integer.MAX_VALUE;
+            return Integer.MAX_VALUE; // 意味着失败
         }
         
         int curSize = sizes[curIndex];
