@@ -1,5 +1,5 @@
 ---
-title: "Backpack: Unlimited, One Attribute, Exactly Fill the Pack, Return Number of Solutions"
+title: "Backpack: Unlimited, One Attribute, Exactly Fill the Pack, Return Minimum Number of Items"
 tags: [algorithm, dynamic_programming]
 keywords:
 summary:
