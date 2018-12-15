@@ -1,5 +1,5 @@
 ---
-title: "Backpack: 0 or 1, One Attribute, Exactly Fill the Pack, Return Number of Solutions"
+title: "Backpack: 0 or 1, One Attribute, Exactly Fill the Pack, Return Minimum Number of Items"
 tags: [algorithm, dynamic_programming]
 keywords:
 summary:
@@ -36,6 +36,10 @@ toc: false
 ```java
 class Solution {
     public int backPack_DidntFindThisQuestionOnline(int[] sizes, int capacity) {
+        if (sizes == null || sizes.length == 0 || capacity <= 0) {
+            return 0;
+        }
+    
         int n = sizes.length;
         int[][] dp = new int[n][capacity + 1];
         
@@ -81,6 +85,10 @@ Offset One方法不能降低时间和空间复杂度
 ```java
 class Solution {
     public int backPack_DidntFindThisQuestionOnline(int[] sizes, int capacity) {
+        if (sizes == null || sizes.length == 0 || capacity <= 0) {
+            return 0;
+        }
+        
         int n = sizes.length;
         int[][] dp = new int[n + 1][capacity + 1]; // 第一维从n变为n+1
         
@@ -114,6 +122,10 @@ class Solution {
 ```java
 class Solution {
     public int backPack_DidntFindThisQuestionOnline(int[] sizes, int capacity) {
+        if (sizes == null || sizes.length == 0 || capacity <= 0) {
+            return 0;
+        }
+        
         int n = sizes.length;
         int[] dp = new int[capacity + 1]; // 去掉了第一维（第一维原本size是n）
         
@@ -142,7 +154,7 @@ class Solution {
 }
 ```
 
-## Solution 2：一种很有趣的DFS方法。但速度超时 hoho
+## Solution 2：一种很有趣的DFS方法。但速度超时 hoho <==== 我这样做对么？？？？
 
 ### Complexity
 * Time: O(2^n) <=== 对么 ？？？？
@@ -152,12 +164,14 @@ class Solution {
 ```java
 class Solution {
     public int backPack_DidntFindThisQuestionOnline(int[] sizes, int capacity) {
-        // ignore the validation of the parameters
+        if (sizes == null || sizes.length == 0 || capacity <= 0) {
+            return 0;
+        }
         
         return minNumOfItems(sizes, 0, 0, capacity);
     }
     
-    private int minNumOfItems(int[] sizes, int curIndex, int curNumOfItems, int remain) {
+    private int minNumOfItems(int[] sizes, int curIndex, int curNumItems, int remain) {
         if (remain == 0) { // 这个条件要写在 curIndex == sizes.length 之前！否则会漏解！
             return curNumOfItems;
         } else if (remain < 0) {
@@ -169,9 +183,9 @@ class Solution {
         }
         
         // 不使用 current item
-        int use = minNumOfItems(sizes, curIndex + 1, curNumOfItems, remain);
+        int use = minNumOfItems(sizes, curIndex + 1, curNumItems, remain);
         // 使用 current item
-        int notUse = minNumOfItems(sizes, curIndex + 1, curNumOfItems + 1, remain - sizes[curIndex]); 
+        int notUse = minNumOfItems(sizes, curIndex + 1, curNumItems + 1, remain - sizes[curIndex]); 
         
         return Math.min(use, notUse);
     } 
