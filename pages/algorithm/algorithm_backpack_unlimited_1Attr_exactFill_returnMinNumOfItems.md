@@ -164,7 +164,7 @@ public class Solution {
 ```
 
 
-## Solution 2：一种很有趣的DFS方法。但速度超时 hoho
+## Solution 2：一种很有趣的DFS方法。但速度超时 hoho <==== 我写的这个解法对么？
 
 ### Complexity
 * Time: O(2^n) <=== 对么 ？？？？
@@ -181,26 +181,24 @@ class Solution {
         return minNumItems(sizes, 0, 0, capacity);
     }
     
-    <==== 看到这里！！！！！
-    
     private int minNumItems(int[] sizes, int curIndex, int curNumItems, int remain) {
         if (remain == 0) { // 这个条件要写在 curIndex == sizes.length 之前！否则会漏解！
-            return 1;
+            return curNumItems;
         } else if (remain < 0) {
-            return 0;
+            return Integer.MAX_VALUE;
         }
         
         if (curIndex == sizes.length) {
-            return 0;
+            return Integer.MAX_VALUE;
         }
         
         int curSize = sizes[curIndex];
         
-        int numWays = 0;
+        int numItems = Integer.MAX_VALUE;
         for (int i = 0; i <= remain / curSize; i++) {
-            numWays += numOfWays(sizes, curIndex + 1, remain - i * curSize);
+            numItems = Math.min(numItems, minNumItems(sizes, curIndex + 1, remain - i * curSize));
         }
-        return numWays;
+        return numItems;
     } 
 }
 ```
