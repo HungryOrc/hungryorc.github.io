@@ -314,32 +314,30 @@ public class Solution {
 ### Java
 ```java
 class Solution {
-    public int backPack_DidntFindThisQuestionOnline(int[] sizes, int capacity) {
+    public int backPack(int capacity, int[] sizes) {
         if (sizes == null || sizes.length == 0 || capacity <= 0) {
             return 0;
         }
         
-        return minNumOfItems(sizes, 0, 0, capacity);
+        return maxTotalSize(sizes, 0, 0, capacity);
     }
     
-    private int minNumOfItems(int[] sizes, int curIndex, int curNumItems, int remain) {
-        if (remain == 0) { // 这个条件要写在 curIndex == sizes.length 之前！否则会漏解！
-            return curNumOfItems;
-        } else if (remain < 0) {
-            return Integer.MAX_VALUE; // 表示未能正好装满，以失败结束
+    private int maxTotalSize(int[] sizes, int curIndex, int curTotalSize, int remain) {
+        if (remain == 0) {
+            return curTotalSize;
+        } else if (remain < 0) { // 这个要放在curIndex == sizes.length 之前，因为超了capacity就没意义了
+            return 0; // 表示超出了capacity，失败
         }
         
         if (curIndex == sizes.length) {
-            return Integer.MAX_VALUE; // 表示未能正好装满，以失败结束
+            return curTotalSize;
         }
         
-        // 不使用 current item
-        int use = minNumOfItems(sizes, curIndex + 1, curNumItems, remain);
-        // 使用 current item
-        int notUse = minNumOfItems(sizes, curIndex + 1, curNumItems + 1, remain - sizes[curIndex]); 
-        
-        return Math.min(use, notUse);
-    } 
+        int result = 0;
+        result = Math.max(result, maxTotalSize(sizes, curIndex + 1, curTotalSize, remain));
+        result = Math.max(result, maxTotalSize(sizes, curIndex + 1, curTotalSize + sizes[curIndex], remain - sizes[curIndex]));
+        return result;
+    }
 }
 ```
 
