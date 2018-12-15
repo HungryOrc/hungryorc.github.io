@@ -195,7 +195,7 @@ class Solution {
         int curSize = sizes[curIndex];
         
         int numItems = Integer.MAX_VALUE;
-        for (int i = 0; i <= remain / curSize; i++) {
+        for (int i = 0; i <= remain / curSize; i++) { // 这里i要从0开始，表示一个也不用的情况
             // 注意，这里要有 curNumItems + i
             numItems = Math.min(numItems, minNumItems(
                 sizes, curIndex + 1, curNumItems + i, remain - i * curSize));
