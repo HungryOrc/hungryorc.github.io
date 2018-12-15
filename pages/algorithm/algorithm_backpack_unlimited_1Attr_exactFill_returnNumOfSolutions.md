@@ -330,6 +330,6 @@ class Solution {
 ```
 
 ## Reference
-* [Backpack V [LintCode]](https://www.lintcode.com/problem/backpack-v/description)
+* [Backpack IV [LintCode]](https://www.lintcode.com/problem/backpack-iv/description)
 
 {% include links.html %}
