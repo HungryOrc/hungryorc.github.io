@@ -28,7 +28,7 @@ Unlimited 的意思是 每个item可以被取用 0次到无限次。每个item�
   * `dp[i - 1][s]`：i之前的那些items已经可以组成总和正好为 s 的组合了，item i 不参与
   * `dp[i][s - sizes[i]]`：已经用过了 **0次或若干次 item i**，组成了总和为 s - sizes[i] 的组合
   * 注意，`dp[i][sum - curValue]` 是**包含了** `dp[i - 1][sum - curValue]` 的。因为 `dp[i - 1][sum - curValue]` 表示 item i **已经被使用0次**，然后将会被使用一次
-* Return: `dp[n - 1][capacity of backpack]`
+* Return: 这里不是返回 `dp[n - 1][capacity]`。因为 获得总value最大时的总size未必是capacity。所以应该返回的是：`max(dp[n - 1][totalSize])`, for 1 <= totalSize <= capacity
 
 ### Complexity
 * Time: O(n * capacity)
@@ -86,38 +86,40 @@ Offset One方法不能降低时间和空间复杂度
 ### Java
 ```java
 public class Solution {
-    public int backPack_UnknownProblemNumber(int[] sizes, int capacity) {
-        if (sizes == null || sizes.length == 0 || capacity <= 0) {
+    public int backPackIII(int[] sizes, int[] values, int capacity) {
+        if (sizes == null || sizes.length == 0 || values == null || values.length == 0
+                || sizes.length != values.length || capacity <= 0) {
             return 0;
         }
         
         int n = sizes.length;
-        int[][] dp = new int[n + 1][capacity + 1]; // n -> n + 1
+        int[][] dp = new int[n + 1][capacity + 1]; // n + 1
         
-        // base case 1，有了一定的简化。第一维是0的话，即“前0个"元素
-        for (int i = 1; i <= capacity; i++) { // 注意i从1开始，因为i=0即总size为0是可以实现的，用0个元素实现
-            dp[0][i] = -1; // 初始化都设为-1表示不可能实现的情况
-        }
-        // dp[0][0] = 0 是为以后留下的火种。不然dp[0][i]全都是-1的话，以后整个矩阵都会是-1，就没戏了
-        
-        for (int i = 1; i <= n; i++) { // i < n -> i <= n
-            int curSize = sizes[i - 1]; // sizes[i] -> sizes[i - 1]
+        // base case 1 不必写了
+
+        for (int i = 1; i <= n; i++) { // i <= n
+            int curSize = sizes[i - 1]; // i - 1
+            int curValue = values[i - 1]; // i - 1
             
-            for (int sum = 1; sum <= capacity; sum++) {
-                dp[i][sum] = dp[i - 1][sum];
+            for (int j = 1; j <= capacity; j++) {
+                dp[i][j] = dp[i - 1][j];
                 
-                // 别忘了判断 dp[i][sum - curSize] != -1
-                if (sum >= curSize && dp[i][sum - curSize] != -1) {
-                    dp[i][sum] = Math.min(dp[i][sum], dp[i][sum - curSize] + 1);
+                if (curSize <= j) {
+                    dp[i][j] = Math.max(dp[i][j], dp[i][j - curSize] + curValue);
                 }
             }
         }
-        return dp[n][capacity]; // dp[n - 1][capacity] -> dp[n][capacity]
+        
+        int maxValue = 0;
+        for (int v : dp[n]) { // dp[n]
+            maxValue = Math.max(maxValue, v);
+        }
+        return maxValue;
     }
 }
 ```
 
-## Solution 1.2：基于Solution 1，dp[index][size]降维为dp[size]
+## Solution 1.2：基于Solution 1，dp[index][size]降维为dp[size]，速度 前1% ！
 
 ### 只要是DP矩阵降维，就要考虑从大往小填写（矩阵里的一个或多个维度）！但是这题反而不能从大到小，还是得从小到大！所以DP矩阵降维不一定需要从大到小
 
@@ -128,38 +130,41 @@ public class Solution {
 ### Java
 ```java
 public class Solution {
-    public int backPack_UnknownProblemNumber(int[] sizes, int capacity) {
-        if (sizes == null || sizes.length == 0 || capacity <= 0) {
+    public int backPackIII(int[] sizes, int[] values, int capacity) {
+        if (sizes == null || sizes.length == 0 || values == null || values.length == 0
+                || sizes.length != values.length || capacity <= 0) {
             return 0;
         }
         
         int n = sizes.length;
-        int[] dp = new int[capacity + 1]; // 去掉第一维
+        int[] dp = new int[capacity + 1]; // 一维
         
-        // base case 1，去掉第一维
-        for (int i = 1; i <= capacity; i++) {
-            dp[i] = -1;
-        }
+        // base case 1
         for (int i = 1; i <= capacity / sizes[0]; i++) {
-            dp[sizes[0] * i] = i;
+            dp[sizes[0] * i] = values[0] * i; // 一维
         }
-
+        
         for (int i = 1; i < n; i++) {
             int curSize = sizes[i];
+            int curValue = values[i];
             
-            for (int sum = 1; sum <= capacity; sum++) {
-                // 去掉第一维以后，这个也就没意义了：dp[sum] = dp[sum];
+            for (int j = 1; j <= capacity; j++) {
+                // dp[j] = dp[j]; // 在一维下，这个没意义了
                 
-                if (sum >= curSize && dp[s][sum - curSize] != -1) {
-                    dp[sum] = Math.min(dp[sum], dp[sum - curSize] + 1);
+                if (curSize <= j) {
+                    dp[j] = Math.max(dp[j], dp[j - curSize] + curValue); // 一维
                 }
             }
         }
-        return dp[capacity];
+        
+        int maxValue = 0;
+        for (int v : dp) { // 一维
+            maxValue = Math.max(maxValue, v);
+        }
+        return maxValue;
     }
 }
 ```
-
 
 ## Solution 2：一种很有趣的DFS方法。但速度超时 hoho <==== 我写的这个解法对么？
 
@@ -169,40 +174,41 @@ public class Solution {
 
 ### Java
 ```java
-class Solution {
-    public int backPack_UnknownProblemNumber(int[] sizes, int capacity) {
-        if (sizes == null || sizes.length == 0 || capacity <= 0) {
-            return 0;        
+public class Solution {
+    public int backPackIII(int[] sizes, int[] values, int capacity) {
+        if (sizes == null || sizes.length == 0 || values == null || values.length == 0
+                || sizes.length != values.length || capacity <= 0) {
+            return 0;
         }
         
-        return minNumItems(sizes, 0, 0, capacity);
+        return dfs(sizes, values, 0, capacity, 0);
     }
     
-    private int minNumItems(int[] sizes, int curIndex, int curNumItems, int remain) {
-        if (remain == 0) { // 这个条件要写在 curIndex == sizes.length 之前！否则会漏解！
-            return curNumItems;
-        } else if (remain < 0) {
-            return Integer.MAX_VALUE; // 意味着失败
+    private int dfs(int[] sizes, int[] values, int curInd,
+            int remainSize, int curTotalVal) {
+        if (remainSize == 0) {
+            return curTotalVal;
+        } else if (remainSize < 0) {
+            return 0; // 表示此路失败
         }
         
-        if (curIndex == sizes.length) {
-            return Integer.MAX_VALUE; // 意味着失败
+        if (curInd == sizes.length) {
+            return curTotalVal;
         }
         
-        int curSize = sizes[curIndex];
-        
-        int numItems = Integer.MAX_VALUE;
-        for (int i = 0; i <= remain / curSize; i++) { // 这里i要从0开始，表示一个也不用的情况
-            // 注意，这里要有 curNumItems + i
-            numItems = Math.min(numItems, minNumItems(
-                sizes, curIndex + 1, curNumItems + i, remain - i * curSize));
+        int totalVal = 0;
+        int curSize = sizes[curInd];
+        int curVal = values[curInd];
+        for (int i = 0; i <= remainSize / curSize; i++) {
+            totalVal = Math.max(totalVal,
+                dfs(sizes, values, curInd + 1, remainSize - i * curSize, curTotalVal + i * curVal));
         }
-        return numItems;
-    } 
+        return totalVal;
+    }
 }
 ```
 
 ## Reference
-网上没找到这题
+[Backpack III [LintCode]](https://www.lintcode.com/problem/backpack-iii/description)
 
 {% include links.html %}
