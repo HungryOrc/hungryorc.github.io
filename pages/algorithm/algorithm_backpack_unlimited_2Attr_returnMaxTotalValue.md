@@ -4,43 +4,43 @@ tags: [algorithm, dynamic_programming]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_backpack_unlimited_2Attr_returnMaxValue.html
+permalink: algorithm_backpack_unlimited_2Attr_returnMaxTotalValue.html
 folder: algorithm
 toc: false
 ---
 
 ## Description
-Unlimited 的意思是 每个item可以被取用 0次到无限次。每个item只有一个属性，比如size或weight。背包有最大的容量（对于size或weight）。
-求最少用多少个items，可以正好填满这个背包
+Unlimited 的意思是 每个item可以被取用 0次到无限次。每个item有2个属性，size和value。背包有最大的容量（对于size）。
+求 max possible total value（达到 max value 时背包未必被填满）。
 
 ### Example
 略
 
 ## Solution 1: 二维DP
-* `int dp[i][s]`：使用数组里 index为0到i 的items中的任意几个item，每个item可以取任意多次。最少用多少个item，能正好组成总 size = s。。
+* `int dp[i][s]`：使用数组里 index为0到i 的items中的任意几个item，每个item可以取任意多次，正好组成总 size = s 的前提下，最大的总value是多少
 * `int dp[][] = new int[number of items][capacity of backpack + 1]`
 * Base Cases
   * 对于数组里的第一个item
-    * if (sizes[0] <= capacity)，dp[0][sizes[0] * i] = i，这里i的意思是i个（这种）item，其中 i = 1, 2, 3...
-    * 其他的 dp[0][s != sizes[0]] 都 = -1，因为不可能实现，用-1来表示不可能（也可以用Integer.MAX_VALUE）
-  * 总size为0的情况，对于任何多个items，都是可以的，即什么都不放。这些情况都算是0个item。所以 `dp[i][0] = 0`, 0 <= i < n。因为都是0所以可以不写了
-* Induction Rule: `dp[i][sum] = min(dp[i - 1][sum], dp[i][sum - curValue] + 1)`
-  * `dp[i - 1][sum]` 表示 sum里面将没有item i 的任何参与
-  * `dp[i][sum - curValue]` 表示 sum里面将存在item i 的一次或者多次参与
-  * 注意，`dp[i][sum - curValue]` 是**包含了** `dp[i - 1][sum - curValue]` 的。所以上面的式子不再加入 `dp[i - 1][sum - curValue]`。理由是：
-    * `dp[i - 1][sum - curValue]` 表示 item i **已经被使用0次**，然后将会被使用一次
-    * `dp[i][sum - curValue]` 表示 item i **已经被使用 0次，1次，或多次了**，然后将再被使用一次。所以可见它是涵盖了上面那个情况的
+    * if (sizes[0] <= capacity)，`dp[0][sizes[0] * i] = values[0] * i`，for 1 <= i <= capacity / sizes[0]
+    * 其他的 dp[0][j] 都是 0，因为不可能实现
+  * 总size为0的情况，对于任何多个items，都必然是什么都不放，所以总value必是0。即 `dp[i][0] = 0`, 0 <= i < n。因为都是0，所以可以不写了
+* Induction Rule: `dp[i][sum] = max(dp[i - 1][sum], dp[i][sum - curValue] + 1)`
+  * `dp[i - 1][s]`：i之前的那些items已经可以组成总和正好为 s 的组合了，item i 不参与
+  * `dp[i][s - sizes[i]]`：已经用过了 **0次或若干次 item i**，组成了总和为 s - sizes[i] 的组合
+  * 注意，`dp[i][sum - curValue]` 是**包含了** `dp[i - 1][sum - curValue]` 的。因为 `dp[i - 1][sum - curValue]` 表示 item i **已经被使用0次**，然后将会被使用一次
 * Return: `dp[n - 1][capacity of backpack]`
 
 ### Complexity
-* Time: O(n * capacity), 其中n是items的个数
-* Space: O(n * capacity)。可以优化为 O(capacity)，因为dp矩阵里，第i行永远只用到第i-1行
+* Time: O(n * capacity)
+* Space: O(n * capacity)
 
 ### Java
 ```java
 public class Solution {
-    public int backPack_UnknownProblemNumber(int[] sizes, int capacity) {
-        if (sizes == null || sizes.length == 0 || capacity <= 0) {
+    public int backPackIII(int[] sizes, int[] values, int capacity) {
+        if (sizes == null || sizes.length == 0 || values == null || values.length == 0
+                || sizes.length != values.length || capacity <= 0) {
+            // 特殊情况别忘了：两个数组长度不同!
             return 0;
         }
         
@@ -48,31 +48,28 @@ public class Solution {
         int[][] dp = new int[n][capacity + 1];
         
         // base case 1
-        for (int i = 1; i <= capacity; i++) { // 注意i从1开始，因为i=0即总size为0是可以实现的
-            dp[0][i] = -1; // 初始化都设为-1表示不可能实现的情况，例外是可以实现的情况，在下面的for loop里写
-        }
         for (int i = 1; i <= capacity / sizes[0]; i++) {
-            dp[0][sizes[0] * i] = i; // 这里是 = i，不是 = 1 了
+            dp[0][sizes[0] * i] = values[0] * i;
         }
-        
-        // base case 2，可以不写
-        //for (int i = 0; i < n; i++) {
-        //    dp[i][0] = 0;
-        //}
         
         for (int i = 1; i < n; i++) {
             int curSize = sizes[i];
+            int curValue = values[i];
             
-            for (int sum = 1; sum <= capacity; sum++) {
-                dp[i][sum] = dp[i - 1][sum];
+            for (int j = 1; j <= capacity; j++) {
+                dp[i][j] = dp[i - 1][j];
                 
-                // 别忘了判断 dp[i][sum - curSize] != -1
-                if (sum >= curSize && dp[i][sum - curSize] != -1) {
-                    dp[i][sum] = Math.min(dp[i][sum], dp[i][sum - curSize] + 1);
+                if (curSize <= j) {
+                    dp[i][j] = Math.max(dp[i][j], dp[i][j - curSize] + curValue);
                 }
             }
         }
-        return dp[n - 1][capacity];
+        
+        int maxValue = 0;
+        for (int v : dp[n - 1]) {
+            maxValue = Math.max(maxValue, v);
+        }
+        return maxValue;
     }
 }
 ```
