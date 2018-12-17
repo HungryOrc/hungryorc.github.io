@@ -128,12 +128,13 @@ class Solution {
     
     private int maxTotalVal(int[] sizes, int[] values, int curIndex, 
             int remainItemNum, int remainSize, int curTotalVal) {
-        
-        if (remainSize < 0) { // 这个条件要写在第一个！针对remainItemNum还 >=0 但 remainSize 已经为负的情况
+        // 这个条件要写在第一个！针对remainItemNum还 >=0 但 remainSize 已经为负的情况
+        if (remainSize < 0) { 
             return 0; // 失败
         }
         
-        if (remainSize == 0 || remainItemNum == 0) { // 这个条件要写在 curIndex == sizes.length 之前！否则会漏解！
+        // 这个条件要写在 curIndex == sizes.length 之前！否则会漏解
+        if (remainSize == 0 || remainItemNum == 0) { 
             return curTotalVal;
         }
         
@@ -147,10 +148,12 @@ class Solution {
         int totalVal = 0;
         // 不使用 current item
         totalVal = Math.max(totalVal,
-            maxTotalVal(sizes, values, curIndex + 1, remainItemNum, remainSize, curTotalVal);
+                            maxTotalVal(sizes, values, curIndex + 1, 
+                                        remainItemNum, remainSize, curTotalVal);
         // 使用 current item
         totalVal = Math.max(totalVal,
-            maxTotalVal(sizes, values, curIndex + 1, remainItemNum - 1, remainSize - curSize, curTotalVal + curVal); 
+                            maxTotalVal(sizes, values, curIndex + 1, 
+                                        remainItemNum - 1, remainSize - curSize, curTotalVal + curVal); 
         return totalVal;
     } 
 }
