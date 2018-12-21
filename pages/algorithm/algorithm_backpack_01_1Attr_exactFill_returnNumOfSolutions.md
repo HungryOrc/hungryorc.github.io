@@ -23,7 +23,7 @@ toc: false
   * 对于数组里的第一个item，if(sizes[0] <= capacity)，dp[0][sizes[0]] = 1; 其他的 dp[0][s != sizes[0]] 都 = 0.
   * size和为0的情况，对于任何多个items，都是可以的，即什么都不放，这算是1种方法。所以 `dp[i][0]` = 1, for 0 <= i < n
 * Induction Rule
-  * `dp[i][s] = dp[i - 1][s] + dp[i - 1][s - sizes[i]]`
+  * `dp[i][s] = dp[i - 1][s] + dp[i - 1][s - sizes[i]]`，第二项存在的前提是 sizes[i] <= s
     * `dp[i - 1][s]`：i之前的那些items已经可以组成总和正好为 s 的组合了，item i 不参与的话，自然也还是和为s的组合
     * `dp[i - 1][s - sizes[i]]`：i之前的那些items组成了总和正好为 s - sizes[i] 的组合，那么 item i 参与进来后，自然正好就是和为s
 * Return: `dp[n - 1][capacity of backpack]`
