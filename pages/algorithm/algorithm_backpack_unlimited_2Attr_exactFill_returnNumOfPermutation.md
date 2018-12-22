@@ -38,7 +38,7 @@ toc: false
   }
   ```
   * 这个做法的道理是：
-    * 相当于bag的capacity从小到大，然后，对于一定的capacity，对所有的items loop一遍，cur item可以有用和不用 两种情况。相当于对于每个capacity，每个item都来试一下，**关键是这个试是相当于把这个item放到（或者不用）当前的items的排列的   最   右   边！！** 
+    * 相当于bag的capacity从小到大，然后，对于一定的capacity，对所有的items loop一遍，cur item可以有用和不用 两种情况。相当于对于每个capacity，每个item都来试一下，**关键是这个试是相当于把这个item放到（或者不用）当前这个半成品的items的permutation的   最   右   边！！** 
     * 然后对于每个capacity，每个item只能最多被装进去1次！虽然每个item都可以用无限次，但我们这么做就是为了 把permutation做出来。然后到了之后更大的capacity的时候，当前的这个item又会有一个机会，对于每次+1的capacity（所以总共来说每个item都有capacity次机会）。
 * Return: `dp[n - 1][capacity]`
 
