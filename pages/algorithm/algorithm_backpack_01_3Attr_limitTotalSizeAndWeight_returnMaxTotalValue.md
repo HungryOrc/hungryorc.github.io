@@ -201,7 +201,46 @@ public class Solution {
 
 ### Java
 ```java
-
+public class Solution {
+    public int backPack_unknownProblemNumber(int maxTotalSize, int maxTotalWeight, 
+            int[] sizes, int[] weights, int[] values) {
+        if (maxTotalSize <= 0 || maxTotalWeight <= 0 ||
+                sizes == null || weights == null || values == null ||
+                sizes.length == 0 || weights.length == 0 || values.length == 0 ||
+                sizes.length != weights.length || weights.length != values.length) {
+            return 0;
+        }
+        
+        return dfs(sizes, weights, values, 0, maxTotalSize, maxTotalWeight, 0);
+    }
+    
+    private int dfs(int[] sizes, int[] weights, int[] values, int curInd,
+            int remainSize, int remainWeight, int curTotalVal) {
+        if (remainSize < 0 || remainWeight < 0) {
+            return 0; // 表示失败
+        } else if (remainSize == 0 || remainWeight == 0) {
+            return curTotalVal;
+        }
+        
+        if (curInd == sizes.length) {
+            return curTotalVal;
+        }
+        
+        int totalVal = 0;
+        int curSize = sizes[curInd];
+        int curWeight = weights[curInd];
+        int curVal = values[curInd];
+        
+        // 不用 cur item
+        totalVal = Math.max(totalVal, 
+            dfs(sizes, weights, values, curInd + 1, remainSize, remainWeight, curTotalVal));
+        // 用 cur item
+        totalVal = Math.max(totalVal,
+            dfs(sizes, weights, values, curInd + 1, 
+            remainSize - curSize, remainWeight - curWeight, curTotalVal + curVal));
+        return totalVal;
+    }
+}
 ```
 
 ## Reference
