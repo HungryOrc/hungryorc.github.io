@@ -26,7 +26,34 @@ toc: false
 
 ### Java
 ```java
-
+public class Solution {
+    public int minNumOfSquares(int num) {
+        if (num <= 0) {
+            return 0;
+        }
+        
+        int[] dp = new int[num + 1]; // 从 0 到 num
+        
+        // base case 1
+        for (int i = 1; i <= num; i++) {
+            dp[i] = i; // at least we can cut an "i" into all 1's
+        }
+        
+        // bas2 case 2
+        int sqrt = 1;
+        while (sqrt * sqrt <= num) {
+            dp[sqrt * sqrt] = 1;
+            sqrt++;
+        }
+        
+        for (int i = 1; i <= num; i++) {
+            for (int j = 1; j <= i - 1; j++) {
+                dp[i] = Math.min(dp[i], dp[j] + dp[i - j]); // 关键在此
+            }
+        }
+        return dp[num];
+    }
+}
 ```
 
 ## Reference
