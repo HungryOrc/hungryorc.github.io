@@ -17,12 +17,11 @@ return the nodes in this cycle as a list。
 ### Example
 略
 
-## Solution
-哦也
+## Solution: DFS <---- 我的方法对么？？？？
 
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(|V| + |E|) <--- 对么 ？？？？
+* Space: O(|V|) <--- 对么 ？？？？
 
 ### Java
 ```java
