@@ -114,12 +114,11 @@ Offset One方法不能降低时间和空间复杂度
 * Space: O(n)，因为有n层call stack <=== 对么 ？？？？
 
 ### Java
-下面这个代码是别的题目的，对这一题不对，只是留在这里作为参考，如果以后要写这一题的DFS的话
 ```java
 class Solution {
     public int backPack_UnknownQuestionNumber(int capacity, int m, int[] sizes, int[] values) {
-        if (sizes == null || sizes.length == 0 || values == null || values.length == 0
-                || sizes.length != values.length || capacity <= 0 || m <= 0) {
+        if (sizes == null || sizes.length == 0 || values == null || values.length == 0 ||
+            sizes.length != values.length || capacity <= 0 || m <= 0) {
             return 0;
         }
         
