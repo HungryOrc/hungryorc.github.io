@@ -17,7 +17,7 @@ toc: false
 ### Example
 如上
 
-## Solution 1: 一维DP
+## Solution 1: 一维DP。后面还有一个更快的一维DP的方法
 见代码
 
 ### Complexity
@@ -49,6 +49,35 @@ public class Solution {
         for (int i = 1; i <= num; i++) {
             for (int j = 1; j <= i - 1; j++) {
                 dp[i] = Math.min(dp[i], dp[j] + dp[i - j]); // 关键在此
+            }
+        }
+        return dp[num];
+    }
+}
+```
+
+## Solution 2: 一维DP。比前面那个方法更快！
+见代码
+
+### Complexity
+* Time: O(n^1.5)，解释见下文代码中。两层for loop，外层是 O(n)，内层是 O(n^0.5)
+* Space: O(n)，dp array
+
+### Java
+```java
+public class Solution {
+    public int minNumOfSquares(int num) {
+        if (num <= 0) {
+            return 0;
+        }
+        
+        int[] dp = new int[num + 1]; // from 0 to num
+        
+        for (int i = 1; i <= num; i++) { // 外层for loop，每次进1，时间为 n
+            dp[i] = i;
+            
+            for (int j = 1; j * j <= i; j++) { // 内层for loop，每次进j的平方，时间为 n^0.5
+                dp[i] = Math.min(dp[i], dp[i - j * j] + 1);
             }
         }
         return dp[num];
