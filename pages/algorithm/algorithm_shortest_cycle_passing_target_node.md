@@ -25,7 +25,21 @@ return the nodes in this cycle as a list。
 
 ### Java
 ```java
+class Node {
+    char val; // 这个其实用不上
+    List<Node> neighbors;
+    
+    public Node() {
+        this.val = '';
+        this.neighbors = new ArrayList<>();
+    }
+}
 
+public class Solution {
+    public List<Node> shortestCycle(Node target) {
+    
+    }
+}
 ```
 
 ## Reference
