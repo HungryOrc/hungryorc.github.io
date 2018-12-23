@@ -35,34 +35,38 @@ Assumptions
 ### Java
 ```java
 public class Solution {
-    public boolean canJump(int[] jumps) {
+    public int minJump(int[] jumps) {
         if (jumps == null || jumps.length == 0) {
-            return false;
+            return 0;
         }
       
         int n = jumps.length;
-        boolean[] dp = new boolean[n];
-        dp[n - 1] = true;
-      
+        int[] dp = new int[n];
+        dp[n - 1] = 0; // it's already there, so only need 0 step
+        
         for (int i = n - 2; i >= 0; i--) {
+            dp[i] = Integer.MAX_VALUE; // 初始化
+          
             int curMaxJump = jumps[i];
-            int maxDestination = i + curMaxJump;
-            
-            if (maxDestination >= n - 1) {
-                dp[i] = true;
-                continue; // 可以到下一个i去了
+            if (i + curMaxJump >= n - 1) {
+                dp[i] = 1;
+                continue; // go to the next i
             }
-            
-            for (int j = maxDestination; j >= i + 1; j--) {
-                if (dp[j]) {
-                    dp[i] = true;
-                    break; // 可以到下一个i去了
+          
+            for (int j = i + curMaxJump; j >= i + 1; j--) {
+                if (dp[j] != Integer.MAX_VALUE) {
+                    dp[i] = Math.min(dp[i], dp[j] + 1);
                 }
             }
+        }
+        
+        if (dp[0] == Integer.MAX_VALUE) {
+            return -1;
         }
         return dp[0];
     }
 }
+
 ```
 
 ## Reference
