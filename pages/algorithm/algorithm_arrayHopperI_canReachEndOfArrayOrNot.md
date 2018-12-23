@@ -26,9 +26,13 @@ Assumptions
   * Output: false
   
 ## Solution: DP
+从后往前搞。dp[i] 表示从元素i 出发，能否到达最后一个元素。最后一个元素一定能达到最后一个元素，然后一个一个往前检查
+
+对于元素i，如果在它的向后的max hop distance以内的任何元素可以到达最后的元素，则i也可以到达最后的元素，此时此次loop检查就可以终止，
+然后开始对元素 i-1 的检查
 
 ### Complexity
-* Time: O(n)
+* Time: O(n^2)，2层 for loop
 * Space: O(n)
 
 ### Java
@@ -65,6 +69,6 @@ public class Solution {
 ```
 
 ## Reference
-* [文章标题 [LeetCode]](网址放在这里)
+* [Array Hopper I [LaiCode]](https://app.laicode.io/app/problem/88)
 
 {% include links.html %}
