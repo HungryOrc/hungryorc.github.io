@@ -10,19 +10,21 @@ toc: false
 ---
 
 ## Description
-Given an array A of non-negative integers, you are initially positioned at index 0 of the array. 
+Given an array A of **non-negative** integers, you are initially positioned at index 0 of the array. 
 A[i] means the maximum jump distance from that position (you can only jump towards the end of the array). 
 Determine if you are able to reach the last index
 
 Assumptions
-1. The given array is not null and has length of at least 1.
-2. If the length of the given array is 1, then we define the result to be true, even if array[0] = 0.
-   数组最后一个元素一定可以达到最后一个元素，就算这个元素的值为0，它也达到了，因为它自己本身就是最后一个，不用走也自然达到
+* The given array is not null and has length of at least 1.
+* If the length of the given array is 1, then we define the result to be true, even if array[0] = 0.
+  * 数组最后一个元素一定可以达到最后一个元素，就算这个元素的值为0，它也达到了，因为它自己本身就是最后一个，不用走也自然达到
 
 ### Example
-* Input: 
-  * Output: 
-
+* Input: {1, 3, 2, 0, 3}
+  * Output: true
+* Input: {2, 1, 1, 0, 2}
+  * Output: false
+  
 ## Solution: DP
 
 ### Complexity
