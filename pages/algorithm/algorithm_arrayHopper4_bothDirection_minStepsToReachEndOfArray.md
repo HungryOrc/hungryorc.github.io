@@ -30,13 +30,20 @@ Assumptions
   * Output: -1. Cannot reach the end of array starting at initial index = 2, no matter how you go left/right with any number of steps
 
 ## Solution: 一种综合了DP和图遍历的思想。其实DP就是一种图遍历。对于这题来说，相当于一种“图上的最短路径”
-具体逻辑见代码。
+我们搞一个 **从最后一个元素开始，向前“逐层BFS”** 的做法！
+
+首先把能够一步到达n-1位置的indexes找出来，放到queue里。然后把这些indexes弹出来，再找能一步到达它们的indexes，再放到queue里去。以此类推。
+注意去重。每搞这么一轮，step number 就得 +1。在这个过程里，一旦遇到题目给的 starting index，就返回当前的 step number
+
+为了用 O(1) 的时间辨别出 哪些index能一步跳到一个给定的index，我们搞一个map。map的key是数组里的一个index，value是一个set，
+set里装的是所有能一步到达这个index的indexes。这个map的填写就把题目给的数组walk through 一遍就填好了
 
 ### Complexity
 * Time: O(n^2)，2层 for loop
 * Space: O(n^2), HashMap
 
 ### Java
+代码虽然看起来长，但逻辑并不复杂，看上面的思路说明
 ```java
 public class Solution {
     public int minJump(int[] jumps, int index) {
