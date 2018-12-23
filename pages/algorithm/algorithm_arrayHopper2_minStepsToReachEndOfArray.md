@@ -4,7 +4,7 @@ tags: [algorithm, dynamic_programming]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_arrayHopperII_minStepsToReachEndOfArray.html
+permalink: algorithm_arrayHopper2_minStepsToReachEndOfArray.html
 folder: algorithm
 toc: false
 ---
