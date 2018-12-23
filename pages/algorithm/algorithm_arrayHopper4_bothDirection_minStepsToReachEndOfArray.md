@@ -58,7 +58,7 @@ public class Solution {
       
         int n = jumps.length;
       
-        // <目的点index, {可以到达目的点的出发点index}>
+        // <目的点index, {可以一步到达目的点的出发点index}>
         Map<Integer, HashSet<Integer>> reachable = new HashMap<>();
         for (int i = 0; i < n; i++) {
             int radius = jumps[i];
