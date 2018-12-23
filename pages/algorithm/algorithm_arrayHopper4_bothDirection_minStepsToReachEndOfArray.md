@@ -14,7 +14,7 @@ Given an array A of non-negative integers, you are initially positioned at an ar
 A[i] means the maximum jump distance from that position (you can **either jump left or right**). 
 Determine the minimum jumps you need to reach the right end of the array. 
 
-Return -1 if you can not reach the right end of the array.
+Return -1 if you can not reach the right end of the array. 这题的难度是 hard。
 
 Assumptions
 * The given array is not null and has length of at least 1.
@@ -30,43 +30,77 @@ Assumptions
   * Output: -1. Cannot reach the end of array starting at initial index = 2, no matter how you go left/right with any number of steps
 
 ## Solution: 一种综合了DP和图遍历的思想。其实DP就是一种图遍历。对于这题来说，相当于一种“图上的最短路径”
-这题的
-## Solution: 一种综合了DP和图遍历的思想。其实DP就是一种图遍历。对于这题来说，相当于一种“图上的最短路径
-从后往前搞。dp[i] 表示从元素i 出发，到达最后一个元素的最少步数。最后一个元素一定能达到最后一个元素，然后一个一个往前检查。具体逻辑见代码
+具体逻辑见代码。
 
 ### Complexity
 * Time: O(n^2)，2层 for loop
-* Space: O(n). This question CANNOT be simplified to a O(1) space complexity.
+* Space: O(n^2), HashMap
 
 ### Java
 ```java
 public class Solution {
-    public boolean canJump(int[] jumps) {
-        if (jumps == null || jumps.length == 0) {
-            return false;
+    public int minJump(int[] jumps, int index) {
+        if (jumps == null || jumps.length == 0 ||
+            index < 0 || index >= jumps.length) {
+            return -1;
+        }
+      
+        if (index == jumps.length - 1) {
+            return 0;
         }
       
         int n = jumps.length;
-        boolean[] dp = new boolean[n];
-        dp[n - 1] = true;
       
-        for (int i = n - 2; i >= 0; i--) {
-            int curMaxJump = jumps[i];
-            int maxDestination = i + curMaxJump;
+        // <目的点index, {可以到达目的点的出发点index}>
+        Map<Integer, HashSet<Integer>> reachable = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            int radius = jumps[i];
+            int leftEnd = Math.max(0, i - radius);
+            int rightEnd = Math.min(n - 1, i + radius);
             
-            if (maxDestination >= n - 1) {
-                dp[i] = true;
-                continue; // 可以到下一个i去了
-            }
-            
-            for (int j = maxDestination; j >= i + 1; j--) {
-                if (dp[j]) {
-                    dp[i] = true;
-                    break; // 可以到下一个i去了
-                }
+            for (int j = leftEnd; j <= rightEnd; j++) {
+                HashSet<Integer> startPoints = 
+                    reachable.getOrDefault(j, new HashSet<Integer>());
+                startPoints.add(i);
+                reachable.put(j, startPoints);
             }
         }
-        return dp[0];
+      
+        // 找出所有可以一步到达 n-1 位置的 indexes，把它们放到queue里
+        Queue<Integer> queue = new LinkedList<>();
+        Set<Integer> used = new HashSet<>();
+      
+        Set<Integer> oneStepIndexes = reachable.get(n - 1);
+        oneStepIndexes.remove(n - 1); // 要把n-1自己去掉！因为它不是一步到达！而是零步到达！
+        for (int ind : oneStepIndexes) {
+            queue.offer(ind);
+            used.add(ind);
+        }
+      
+        int stepNum = 1; // 几步能到n-1处
+        while (!queue.isEmpty()) {
+            int curSize = queue.size();
+            
+            for (int i = 0; i < curSize; i++) {
+                int curIndex = queue.poll();
+                
+                if (curIndex == index) {
+                    return stepNum;
+                }
+              
+                Set<Integer> indexesThatCanReachCurIndexInOneStep =
+                    reachable.get(curIndex);
+                for (int ind : indexesThatCanReachCurIndexInOneStep) {
+                    if (used.contains(ind)) {
+                        continue;
+                    }
+                    queue.offer(ind);
+                    used.add(ind);
+                }
+            }
+            stepNum++;
+        }
+        return -1;
     }
 }
 ```
