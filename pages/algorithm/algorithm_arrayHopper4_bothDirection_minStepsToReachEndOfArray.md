@@ -30,7 +30,7 @@ Assumptions
   * Output: -1. Cannot reach the end of array starting at initial index = 2, no matter how you go left/right with any number of steps
 
 ## Solution: 一种综合了DP和图遍历的思想。其实DP就是一种图遍历。对于这题来说，相当于一种“图上的最短路径”
-我们搞一个 **从最后一个元素开始，向前“逐层BFS”** 的做法！
+我自己的方法。**从最后一个元素开始，向前“逐层BFS”！**
 
 首先把能够一步到达n-1位置的indexes找出来，放到queue里。然后把这些indexes弹出来，再找能一步到达它们的indexes，再放到queue里去。以此类推。
 注意去重。每搞这么一轮，step number 就得 +1。在这个过程里，一旦遇到题目给的 starting index，就返回当前的 step number
