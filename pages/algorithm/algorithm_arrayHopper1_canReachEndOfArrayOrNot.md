@@ -4,7 +4,7 @@ tags: [algorithm, dynamic_programming]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_arrayHopperI_canReachEndOfArrayOrNot.html
+permalink: algorithm_arrayHopper1_canReachEndOfArrayOrNot.html
 folder: algorithm
 toc: false
 ---
@@ -33,7 +33,7 @@ Assumptions
 
 ### Complexity
 * Time: O(n^2)，2层 for loop
-* Space: O(n)
+* Space: O(n). This question CANNOT be simplified to a O(1) space complexity.
 
 ### Java
 ```java
