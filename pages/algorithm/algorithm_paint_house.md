@@ -61,6 +61,46 @@ Space O(n * m) 可以优化到 O(2 * m) 即 O(m)，因为每个dp[i][...] 只看
 
 这题不太能用滚动数组直接优化到一行dp数组，只好优化到两行的dp矩阵，因为dp矩阵在第一维一定以后，第二维之间的m个数是互相dependent的，所以不便于用滚动数组。用滚动数组的话，各个元素会互相叠加，导致错误
 
+### Complexity
+* Time: 和 Solution 1 一样，O(n * m^2)，其中 n 是房子的个数，m 是颜色的个数
+* Space: O(m)
+
+### Java
+```java
+class Solution {
+    public int minCost(int[][] costs) {
+        if (costs == null || costs.length == 0) {
+            return 0;
+        }
+        
+        int n = costs.length; // number of houses
+        int m = 3; // number of colors
+        
+        // 第一维从n变成2，
+        // 其中dp[0][m] 代表 prev house，dp[1][m] 代表cur house
+        int[][] dp = new int[2][m];
+        
+        // base case
+        dp[0][0] = costs[0][0];
+        dp[0][1] = costs[0][1];
+        dp[0][2] = costs[0][2];
+        
+        for (int i = 1; i < n; i++) {
+            dp[1][0] = Math.min(dp[0][1], dp[0][2]) + costs[i][0];
+            dp[1][1] = Math.min(dp[0][0], dp[0][2]) + costs[i][1];
+            dp[1][2] = Math.min(dp[0][1], dp[0][0]) + costs[i][2];
+            
+            // 节约了空间，但多了下面这三步，导致多用了时间。虽然没造成时间上的量级增加
+            dp[0][0] = dp[1][0];
+            dp[0][1] = dp[1][1];
+            dp[0][2] = dp[1][2]; 
+        }
+        
+        return Math.min(dp[0][0], Math.min(dp[0][1], dp[0][2]));
+    }
+}
+```
+
 ## Solution 2: 大幅优化DP时间消耗
 
 
