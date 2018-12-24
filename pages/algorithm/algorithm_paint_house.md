@@ -21,11 +21,11 @@ Note: All costs are positive integers.
   * Output: 10. Paint house 0 into blue, paint house 1 into green, paint house 2 into blue. Minimum cost: 2 + 5 + 3 = 10.
 
 ## Solution 1: DP
-挺简明的逻辑。把3种颜色分开处理
+挺简明的逻辑。把3种颜色分开处理。dp[i][j] 表示：index 为 i 的房子涂了编号为j 的颜色 的前提下，从index 0 到 index i (inclusive at both ends) 的所有房子的总cost的最小值
 
 ### Complexity
 * Time: O(n * m * (m - 1)) = O(n * m^2)，其中 n 是房子的个数，m 是颜色的个数
-* Space: O(n * m)，这空间可以优化，因为每个dp[i][...] 只看 dp[i - 1][...]
+* Space: O(n * m)
 
 ### Java
 ```java
@@ -56,9 +56,10 @@ class Solution {
 }
 ```
 
-## Solution 1.1: 优化Solution1的空间
+## Solution 1.1: 优化Solution1的空间，dp矩阵优化到 两行（似乎无法优化到一行），但会导致时间略微增加
+Space O(n * m) 可以优化到 O(2 * m) 即 O(m)，因为每个dp[i][...] 只看 dp[i - 1][...]
 
-
+这题不太能用滚动数组直接优化到一行dp数组，只好优化到两行的dp矩阵，因为dp矩阵在第一维一定以后，第二维之间的m个数是互相dependent的，所以不便于用滚动数组。用滚动数组的话，各个元素会互相叠加，导致错误
 
 ## Solution 2: 大幅优化DP时间消耗
 
