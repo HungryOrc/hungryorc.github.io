@@ -35,23 +35,23 @@ class Solution {
             return 0;
         }
         
-        int n = costs.length;
-        int[] dpR = new int[n];
-        int[] dpG = new int[n];
-        int[] dpB = new int[n];
+        int n = costs.length; // number of houses
+        int m = 3; // number of colors
+        
+        int[][] dp = new int[n][m];
         
         // base case
-        dpR[0] = costs[0][0];
-        dpG[0] = costs[0][1];
-        dpB[0] = costs[0][2];
+        dp[0][0] = costs[0][0];
+        dp[0][1] = costs[0][1];
+        dp[0][2] = costs[0][2];
         
         for (int i = 1; i < n; i++) {
-            dpR[i] = Math.min(dpG[i - 1], dpB[i - 1]) + costs[i][0];
-            dpG[i] = Math.min(dpR[i - 1], dpB[i - 1]) + costs[i][1];
-            dpB[i] = Math.min(dpR[i - 1], dpG[i - 1]) + costs[i][2];
+            dp[i][0] = Math.min(dp[i - 1][1], dp[i - 1][2]) + costs[i][0];
+            dp[i][1] = Math.min(dp[i - 1][0], dp[i - 1][2]) + costs[i][1];
+            dp[i][2] = Math.min(dp[i - 1][1], dp[i - 1][0]) + costs[i][2];
         }
         
-        return Math.min(dpR[n - 1], Math.min(dpG[n - 1], dpB[n - 1]));
+        return Math.min(dp[n - 1][0], Math.min(dp[n - 1][1], dp[n - 1][2]));
     }
 }
 ```
