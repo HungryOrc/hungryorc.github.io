@@ -24,7 +24,7 @@ Note: All costs are positive integers.
 挺简明的逻辑。把3种颜色分开处理
 
 ### Complexity
-* Time: O(n * m)，其中 n 是房子的个数，m 是颜色的个数
+* Time: O(n * m * (m - 1)) = O(n * m^2)，其中 n 是房子的个数，m 是颜色的个数
 * Space: O(n * m)
 
 ### Java
