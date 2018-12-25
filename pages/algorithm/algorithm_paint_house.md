@@ -114,9 +114,93 @@ class Solution {
 }
 ```
 
-## Solution 2: 大幅优化DP时间消耗
+## Solution 2: DP 优化时间，O(n * m^2) -> O(n * m)
 
 
+### Complexity
+* Time: O(n * m)，其中 n 是房子的个数，m 是颜色的个数
+* Space: O(m)
+
+### Java
+代码看起来很长，其实逻辑不复杂。下面这样的做法做是为了之后更复杂的 k 个颜色的题目做准备的，本题只有3个颜色，这么做会显得小题大做
+```java
+public class Solution {
+    public int minCost(int[][] costs) {
+        if (costs == null || costs.length == 0) {
+            return 0;
+        }
+        
+        int n = costs.length; // number of houses
+        int m = 3; // number of colors
+        
+        // dp[0][m] 代表 prev house，dp[1][m] 代表cur house
+        int[][] dp = new int[2][m];
+        
+        // base case 变成了下面这几个参数
+        Result result = getMinAndSecondMin(costs[0]);
+        
+        if (n == 1) {
+            return result.prevMinCost;
+        }
+        
+        for (int i = 1; i < n; i++) { // for each house
+            for (int j = 0; j < m; j++) { // for each color
+                
+                int prevMinCost = result.prevMinCost;
+                int prevMinColor = result.prevMinColor;
+                int prevSecondMinCost = result.prevSecondMinCost;
+                
+                if (j != prevMinColor) {
+                    dp[1][j] = prevMinCost + costs[i][j];
+                } else { // if(j == prevMiColor), 之前的 min color 就不能用了
+                    dp[1][j] = prevSecondMinCost + costs[i][j];
+                }
+            }
+            
+            // 对于 house i 的各个颜色 j 都计算完以后，
+            // 要把 house i 的各个参数算出来
+            // 注意这里要用 dp[1]，不是用 costs[i] ！
+            result = getMinAndSecondMin(dp[1]);
+            
+            for (int j = 0; j < m; j++) {
+                dp[0][j] = dp[1][j];
+            }
+        }
+        
+        return Math.min(dp[0][0], Math.min(dp[0][1], dp[0][2]));
+    }
+    
+    // 要求输入的数组的长度 >= 2
+    private Result getMinAndSecondMin(int[] array) {
+        int min = array[0];
+        int minIndex = 0;
+        int secondMin = Integer.MAX_VALUE;
+        
+        for (int i = 1; i < array.length; i++) {
+            int cur = array[i];
+            if (cur <= min) {
+                secondMin = min;
+                min = cur;
+                minIndex = i;
+            } else if (cur < secondMin) { // && cur > min
+                secondMin = cur;
+            }
+        }
+        
+        return new Result(min, minIndex, secondMin);
+    }
+}
+
+// A helper class, 让参数传递更明晰。不是必须的
+class Result {
+    int prevMinCost, prevMinColor, prevSecondMinCost;
+    public Result(int mcs, int mcl, int smcs) {
+        this.prevMinCost = mcs;
+        this.prevMinColor = mcl;
+        this.prevSecondMinCost = smcs;
+    }
+}
+```
 
 ## Reference
 * [Paint House [LeetCode]](https://leetcode.com/problems/paint-house/description/)
