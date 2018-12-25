@@ -85,6 +85,12 @@ class Solution {
             dp[0][i] = costs[0][i];
         }
         
+        
+        // 改写！！！！！！！
+        把这里面改为 n * m * m 的写法！！！！！！
+        
+        
+        
         for (int i = 1; i < n; i++) {
             dp[1][0] = Math.min(dp[0][1], dp[0][2]) + costs[i][0];
             dp[1][1] = Math.min(dp[0][0], dp[0][2]) + costs[i][1];
