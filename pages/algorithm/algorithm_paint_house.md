@@ -41,9 +41,9 @@ class Solution {
         int[][] dp = new int[n][m];
         
         // base case
-        dp[0][0] = costs[0][0];
-        dp[0][1] = costs[0][1];
-        dp[0][2] = costs[0][2];
+        for (int i = 0; i < m; i++) {
+            dp[0][i] = costs[0][i];
+        }
         
         for (int i = 1; i < n; i++) {
             dp[i][0] = Math.min(dp[i - 1][1], dp[i - 1][2]) + costs[i][0];
@@ -81,9 +81,9 @@ class Solution {
         int[][] dp = new int[2][m];
         
         // base case
-        dp[0][0] = costs[0][0];
-        dp[0][1] = costs[0][1];
-        dp[0][2] = costs[0][2];
+        for (int i = 0; i < m; i++) {
+            dp[0][i] = costs[0][i];
+        }
         
         for (int i = 1; i < n; i++) {
             dp[1][0] = Math.min(dp[0][1], dp[0][2]) + costs[i][0];
@@ -91,9 +91,9 @@ class Solution {
             dp[1][2] = Math.min(dp[0][1], dp[0][0]) + costs[i][2];
             
             // 节约了空间，但多了下面这三步，导致多用了时间。虽然没造成时间上的量级增加
-            dp[0][0] = dp[1][0];
-            dp[0][1] = dp[1][1];
-            dp[0][2] = dp[1][2]; 
+            for (int i = 0; i < m; i++) {
+                dp[0][i] = dp[1][i];
+            }
         }
         
         return Math.min(dp[0][0], Math.min(dp[0][1], dp[0][2]));
