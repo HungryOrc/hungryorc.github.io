@@ -91,8 +91,8 @@ class Solution {
             dp[1][2] = Math.min(dp[0][1], dp[0][0]) + costs[i][2];
             
             // 节约了空间，但多了下面这三步，导致多用了时间。虽然没造成时间上的量级增加
-            for (int i = 0; i < m; i++) {
-                dp[0][i] = dp[1][i];
+            for (int j = 0; j < m; j++) {
+                dp[0][j] = dp[1][j];
             }
         }
         
