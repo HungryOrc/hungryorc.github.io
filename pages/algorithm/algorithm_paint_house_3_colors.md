@@ -1,10 +1,10 @@
 ---
-title: "Paint House I"
+title: "Paint House I: 3 Colors"
 tags: [algorithm, dynamic_programming]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_paint_house.html
+permalink: algorithm_paint_house_3_colors.html
 folder: algorithm
 toc: false
 ---
@@ -137,7 +137,7 @@ public class Solution {
         }
         
         int n = costs.length; // number of houses
-        int m = 3; // number of colors
+        int m = costs[0].length; // number of colors
         
         // dp[0][m] 代表 prev house，dp[1][m] 代表cur house
         int[][] dp = new int[2][m];
@@ -146,15 +146,15 @@ public class Solution {
         Result result = getMinAndSecondMin(costs[0]);
         
         if (n == 1) {
-            return result.prevMinCost;
+            return result.min;
         }
         
         for (int i = 1; i < n; i++) { // for each house
             for (int j = 0; j < m; j++) { // for each color
                 
-                int prevMinCost = result.prevMinCost;
-                int prevMinColor = result.prevMinColor;
-                int prevSecondMinCost = result.prevSecondMinCost;
+                int prevMinCost = result.min;
+                int prevMinColor = result.minIndex;
+                int prevSecondMinCost = result.secondMin;
                 
                 if (j != prevMinColor) {
                     dp[1][j] = prevMinCost + costs[i][j];
@@ -173,7 +173,7 @@ public class Solution {
             }
         }
         
-        return Math.min(dp[0][0], Math.min(dp[0][1], dp[0][2]));
+        return getMinAndSecondMin(dp[0]).min;
     }
     
     // 要求输入的数组的长度 >= 2
@@ -199,11 +199,11 @@ public class Solution {
 
 // A helper class, 让参数传递更明晰。不是必须的
 class Result {
-    int prevMinCost, prevMinColor, prevSecondMinCost;
-    public Result(int mcs, int mcl, int smcs) {
-        this.prevMinCost = mcs;
-        this.prevMinColor = mcl;
-        this.prevSecondMinCost = smcs;
+    int min, minIndex, secondMin;
+    public Result(int m, int mi, int sm) {
+        this.min = m;
+        this.minIndex = mi;
+        this.secondMin = sm;
     }
 }
 ```
