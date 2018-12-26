@@ -33,48 +33,38 @@ toc: false
 ### Java
 ```java
 public class Solution {
-    public int backPack_UnknownQuestionNumber(int capacity, int m, int[] sizes, int[] values) {
-        if (sizes == null || sizes.length == 0 || values == null || values.length == 0
-                || sizes.length != values.length || capacity <= 0 || m <= 0) {
-            return 0;
+    public int backPackII(int capacity, int[] sizes, int[] values) {
+        if (capacity <= 0 || sizes == null || values == null ||
+            sizes.length == 0 || values.length == 0 || sizes.length != values.length) {
+            return 0;        
         }
-    
-        int n = sizes.length;
-        int[][][] dp = new int[n][m + 1][capacity + 1];
         
-        // base case 1：只取 index = 0 的 item
+        int n = sizes.length;
+        int[][] dp = new int[n][capacity + 1];
+        
+        // base case 1
         if (sizes[0] <= capacity) {
-            dp[0][1][sizes[0]] = values[0];
+            dp[0][sizes[0]] = values[0];
         }
         
         for (int i = 1; i < n; i++) {
-            int curSize = sizes[i];
-            int curValue = values[i];
-            
-            // j表示正好使用了几个items。所以j至少等于1，最多等于i+1个（因为i是序号，比如序号0到4共有5个item）
-            for (int j = 1; j <= i + 1 && j <= m; j++) {
-            
-                for (int sum = 1; sum <= capacity; sum++) {
-                    dp[i][j][sum] = dp[i - 1][j][sum];
-                    
-                    if (sum - curSize >= 0) {
-                        dp[i][j][sum] = Math.max(dp[i][j][sum], 
-                                dp[i - 1][j - 1][sum - curSize] + curValue);
-                    }
+            for (int j = 1; j <= capacity; j++) {
+                dp[i][j] = dp[i - 1][j];
+                
+                if (sizes[i] <= j) {
+                    dp[i][j] = Math.max(dp[i][j], 
+                                        dp[i - 1][j - sizes[i]] + values[i]);
                 }
             }
         }
         
-        int maxTotalValue = 0;
-        for (int sum = 1; sum <= capacity; sum++) {
-            for (int j = 1; j <= m; j ++) {
-                maxTotalValue = Math.max(maxTotalValue, dp[n - 1][j][sum]);
-            }
+        int maxValue = 0;
+        for (int value : dp[n - 1]) {
+            maxValue = Math.max(maxValue, value);
         }
-        return maxTotalValue;
+        return maxValue;
     }
 }
-
 ```
 
 ## Solution 1.1：基于Solution 1，使用Offset One方法，简化代码
@@ -88,7 +78,7 @@ Offset One方法不能降低时间和空间复杂度
 
 ### Java
 ```java
-...
+
 ```
 
 ## Solution 1.2：基于Solution 1，dp[index][size]降维为dp[size]
