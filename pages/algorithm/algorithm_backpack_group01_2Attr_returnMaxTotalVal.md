@@ -25,10 +25,10 @@ Group 0/1 是指：每个group里的items 最多取 1个1次，最少取 0次。
 * Base Cases
   * 对于第一个group，对于它里面的每个item，最多只有一个item可以被选用，最多只能被选用一次，所以:
     * for each item in group 0, if itemSize <= capacity, `dp[0][itemSize] = max(itemValue)`
-    * Attention! In each group, there might be items of same size but different values! And this might also happen across different groups!
+    * Attention! In each group, **there might be items of same size but different values**! And this might also happen across different groups!
   * `dp[i][0] = 0`，因为总size为0的话，总value自然为0。既然是0也就不用写出来了
 * Induction Rule
-  * 注意！这一题的递推公式非常特别！每一次 要添入一个新的item 到组合里去的时候，要把 所有存在的items全都试一遍！
+  * 注意，这一题的递推公式非常特别！每一次 要添入一个新的item 到组合里去的时候，要把 所有存在的items全都试一遍！Check it in the code below
 * Return: 注意，这里不是返回 `dp[n - 1][capacity]`。因为获得总value最大时，总size未必是 capacity。所以：
   * Return max(dp[n - 1][1 <= totalSize <= capacity])
 
