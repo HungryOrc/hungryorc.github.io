@@ -163,7 +163,7 @@ public class Solution {
 }
 ```
 
-## Solution 2：DFS。速度超时 <----- 这个做法对么 ？？？？
+## Solution 2：DFS。速度超时
 
 ### Complexity
 * Time: O(2^n) <=== 对么 ？？？？
@@ -171,30 +171,25 @@ public class Solution {
 
 ### Java
 ```java
-class Solution {
-    public int backPack_UnknownQuestionNumber(int capacity, int m, int[] sizes, int[] values) {
+public class Solution {
+    public int backPackII(int capacity, int[] sizes, int[] values) {
         if (sizes == null || sizes.length == 0 || values == null || values.length == 0 ||
-            sizes.length != values.length || capacity <= 0 || m <= 0) {
+            sizes.length != values.length || capacity <= 0) {
             return 0;
         }
         
-        return maxTotalVal(sizes, values, 0, m, capacity, 0);
+        return maxTotalVal(sizes, values, 0, capacity, 0);
     }
     
     private int maxTotalVal(int[] sizes, int[] values, int curIndex, 
-            int remainItemNum, int remainSize, int curTotalVal) {
-        // 这个条件要写在第一个！针对remainItemNum还 >=0 但 remainSize 已经为负的情况
+            int remainSize, int curTotalVal) {
+        // 这个条件要写在第一个
         if (remainSize < 0) { 
             return 0; // 失败
         }
         
-        // 这个条件要写在 curIndex == sizes.length 之前！否则会漏解
-        if (remainSize == 0 || remainItemNum == 0) { 
+        if (remainSize == 0 || curIndex == sizes.length) { 
             return curTotalVal;
-        }
-        
-        if (curIndex == sizes.length) {
-            return 0; // 失败
         }
         
         int curSize = sizes[curIndex];
@@ -204,11 +199,11 @@ class Solution {
         // 不使用 current item
         totalVal = Math.max(totalVal,
                             maxTotalVal(sizes, values, curIndex + 1, 
-                                        remainItemNum, remainSize, curTotalVal);
+                                        remainSize, curTotalVal));
         // 使用 current item
         totalVal = Math.max(totalVal,
                             maxTotalVal(sizes, values, curIndex + 1, 
-                                        remainItemNum - 1, remainSize - curSize, curTotalVal + curVal); 
+                                        remainSize - curSize, curTotalVal + curVal)); 
         return totalVal;
     } 
 }
