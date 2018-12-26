@@ -79,7 +79,39 @@ Offset One方法不能降低时间和空间复杂度
 
 ### Java
 ```java
+public class Solution {
+    public int backPackII(int capacity, int[] sizes, int[] values) {
+        if (capacity <= 0 || sizes == null || values == null ||
+            sizes.length == 0 || values.length == 0 || sizes.length != values.length) {
+            return 0;        
+        }
 
+        int n = sizes.length;
+        int[][] dp = new int[n + 1][capacity + 1]; // n + 1
+        
+        // base case 1, no need to write now
+        
+        for (int i = 1; i <= n; i++) { // i <= n
+            int curSize = sizes[i - 1]; // i - 1
+            int curValue = values[i - 1]; // i - 1
+        
+            for (int j = 1; j <= capacity; j++) {
+                dp[i][j] = dp[i - 1][j];
+                
+                if (curSize <= j) {
+                    dp[i][j] = Math.max(dp[i][j], 
+                                        dp[i - 1][j - curSize] + curValue);
+                }
+            }
+        }
+        
+        int maxValue = 0;
+        for (int value : dp[n]) { // dp[n]
+            maxValue = Math.max(maxValue, value);
+        }
+        return maxValue;
+    }
+}
 ```
 
 ## Solution 1.2：基于Solution 1，dp[index][size]降维为dp[size]
@@ -92,7 +124,43 @@ Offset One方法不能降低时间和空间复杂度
 
 ### Java
 ```java
-...
+public class Solution {
+    public int backPackII(int capacity, int[] sizes, int[] values) {
+        if (capacity <= 0 || sizes == null || values == null ||
+            sizes.length == 0 || values.length == 0 || sizes.length != values.length) {
+            return 0;        
+        }
+
+        int n = sizes.length;
+        int[] dp = new int[capacity + 1]; // 1 dimension
+        
+        // base case 1
+        if (sizes[0] <= capacity) {
+            dp[sizes[0]] = values[0]; // 1 dimension
+        }
+        
+        for (int i = 1; i < n; i++) {
+            int curSize = sizes[i];
+            int curValue = values[i];
+            
+            // this loop is changed to start at bigger and end at smaller!!
+            for (int j = capacity; j >= 1; j--) {
+                // dp[j] = dp[j]; // for 1 dimension, we don't need this now
+                
+                if (curSize <= j) {
+                    dp[j] = Math.max(dp[j], 
+                                     dp[j - curSize] + curValue); // 1 dimension
+                }
+            }
+        }
+        
+        int maxValue = 0;
+        for (int value : dp) { // 1 dimension
+            maxValue = Math.max(maxValue, value);
+        }
+        return maxValue;
+    }
+}
 ```
 
 ## Solution 2：DFS。速度超时 <----- 这个做法对么 ？？？？
@@ -147,6 +215,6 @@ class Solution {
 ```
 
 ## Reference
-网上没找到这题
+[Backpack II [LintCode]](https://www.lintcode.com/problem/backpack-ii/description)
 
 {% include links.html %}
