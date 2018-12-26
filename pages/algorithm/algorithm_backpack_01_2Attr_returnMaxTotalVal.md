@@ -120,7 +120,7 @@ public class Solution {
 
 ### Complexity
 * Time: 与Solution 1 相同
-* Space: O(m * capacity)
+* Space: O(capacity)
 
 ### Java
 ```java
