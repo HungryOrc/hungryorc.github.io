@@ -10,24 +10,30 @@ toc: false
 ---
 
 ## Description
-每个item 取0或1次，每个item有 2个属性：size和value。背包有最大的size容量。求最大的总value。
+Group 0/1 是指：每个group里的items 最多取 1个1次，最少取 0次。一个group里可能有 1个 或 多个items。
+
+每个item有2个属性，size和value。背包有最大的 size 容量。求最大的总 value。背包不必被填满。
 
 ### Example
 略
 
-## Solution 1：二维DP
-* `int dp[i][s]`：使用数组里 index为0到i 的items中的 任意个items，正好组成 总size = s，最大可能的 总value 是多少。
-* `int dp[][] = new int[number of items][capacity of backpack + 1]`
+## Solution 1：二维DP <=== 对么 ？？？？
+* `int dp[i][s]`：使用数组里 index为0到i 的 groups 中的 0个or任意个 groups，
+每个被选中的group里 任选1个item 1次，
+正好组成 总size = s，最大可能的 总value 是多少。
+* `int dp[][] = new int[number of groups][capacity of backpack + 1]`
 * Base Cases
-  * 对于index=0 的 item，if sizes[0] <= capacity, `dp[0][sizes[0]] = values[0]`
+  * 对于第一个group，对于它里面的每个item，最多只有一个item可以被选用，最多只能被选用一次，所以:
+    * for each item in group 0, if itemSize <= capacity, `dp[0][itemSize] = max(itemValue)`
+    * Attention! In each group, there might be items of same size but different values! And this might also happen across different groups!
   * `dp[i][0] = 0`，因为总size为0的话，总value自然为0。既然是0也就不用写出来了
 * Induction Rule
-  * `dp[i][s] = Math.max(dp[i - 1][s], dp[i - 1][s - sizes[i]] + values[i])`
+  * 注意！这一题的递推公式非常特别！每一次 要添入一个新的item 到组合里去的时候，要把 所有存在的items全都试一遍！
 * Return: 注意，这里不是返回 `dp[n - 1][capacity]`。因为获得总value最大时，总size未必是 capacity。所以：
   * Return max(dp[n - 1][1 <= totalSize <= capacity])
 
 ### Complexity
-* Time: O(n * capacity), 其中n是items的个数
+* Time: O(n * m * capacity), 其中n是groups的个数，m是平均每个group里面的items的个数
 * Space: O(n * capacity)。可以优化为 O(capacity)，因为dp矩阵里，第i行永远只用到第i-1行
 
 ### Java
