@@ -74,7 +74,9 @@ public class Solution {
                 // Always use "Math.max" here!! Since we might drop by this totalSize for 
                 // multiple times within one group!!
                 dp[i][totalSize] = Math.max(dp[i][totalSize], dp[i - 1][totalSize]); 
-                    
+                
+                // The following for loop is what makes this question unique from the other
+                // "no-group" backpack questions
                 for (int j = 0; j < sizeList.size(); j++) { // for each item in this group
                     int curItemSize = sizeList.get(j);
                     int curItemValue = valueList.get(j);
@@ -89,8 +91,8 @@ public class Solution {
         }
         
         int maxTotalValue = 0;
-        for (int sum = 1; sum <= capacity; sum++) {
-            maxTotalValue = Math.max(maxTotalValue, dp[n - 1][sum]);
+        for (int i = 1; i <= capacity; i++) {
+            maxTotalValue = Math.max(maxTotalValue, dp[n - 1][i]);
         }
         return maxTotalValue;
     }
