@@ -39,37 +39,60 @@ Group 0/1 是指：每个group里的items 最多取 1个1次，最少取 0次。
 ### Java
 ```java
 public class Solution {
-    public int backPackII(int capacity, int[] sizes, int[] values) {
+
+    // In the array named "sizes", each element is a list of Integer,
+    // each list represents a group, the elements in each list represent the sizes of the items in that group.
+    // Same for the array named "values"
+    public int backPack_unkownProblemNumber(int capacity, List<Integer>[] sizes, List<Integer>[] values) {
         if (capacity <= 0 || sizes == null || values == null ||
             sizes.length == 0 || values.length == 0 || sizes.length != values.length) {
             return 0;        
         }
         // 这里还考虑了sizes数组和values数组长度不同的情况！
         
-        int n = sizes.length;
+        int n = sizes.length; // number of groups, not items
         int[][] dp = new int[n][capacity + 1];
         
-        // base case 1
-        if (sizes[0] <= capacity) {
-            dp[0][sizes[0]] = values[0];
+        // base case 1, for group 0
+        List<Integer> sizesForGroup0 = sizes[0];
+        List<Integer> valuesForGroup0 = values.get[0];
+
+        for (int i = 0; i < sizesForGroup0.size(); i++) {
+            int curSize = sizesForGroup0.get(i);
+            int curValue = valuesForGroup0.get(i);
+
+            // Always use "Math.max" here!!
+            dp[0][curSize] = Math.max(curValue, dp[0][curSize]);
         }
-        
-        for (int i = 1; i < n; i++) {
-            for (int j = 1; j <= capacity; j++) {
-                dp[i][j] = dp[i - 1][j];
-                
-                if (sizes[i] <= j) {
-                    dp[i][j] = Math.max(dp[i][j], 
-                                        dp[i - 1][j - sizes[i]] + values[i]);
+
+        for (int totalSize = 1; totalSize <= capacity; totalSize++) {
+            // start from the 2nd group
+            for (int i = 1; i < n; i++) {
+                List<Integer> sizeList = sizes[i];
+                List<Integer> valueList = values.get[i];
+
+                // Always use "Math.max" here!! Since we might drop by this totalSize for 
+                // multiple times within one group!!
+                dp[i][totalSize] = Math.max(dp[i][totalSize], dp[i - 1][totalSize]); 
+                    
+                for (int j = 0; j < sizeList.size(); j++) { // for each item in this group
+                    int curItemSize = sizeList.get(j);
+                    int curItemValue = valueList.get(j);
+
+                    if (totalSize >= curItemSize) {
+                        dp[i][totalSize] = Math.max(
+                            dp[i][totalSize], 
+                            dp[i - 1][totalSize - curItemSize] + curItemValue);
+                    }
                 }
             }
         }
         
-        int maxValue = 0;
-        for (int value : dp[n - 1]) {
-            maxValue = Math.max(maxValue, value);
+        int maxTotalValue = 0;
+        for (int sum = 1; sum <= capacity; sum++) {
+            maxTotalValue = Math.max(maxTotalValue, dp[n - 1][sum]);
         }
-        return maxValue;
+        return maxTotalValue;
     }
 }
 ```
