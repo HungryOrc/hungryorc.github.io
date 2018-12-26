@@ -38,6 +38,7 @@ public class Solution {
             sizes.length == 0 || values.length == 0 || sizes.length != values.length) {
             return 0;        
         }
+        // 这里还考虑了sizes数组和values数组长度不同的情况！
         
         int n = sizes.length;
         int[][] dp = new int[n][capacity + 1];
