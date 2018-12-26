@@ -15,21 +15,20 @@ toc: false
 ### Example
 略
 
-## Solution 1：三维DP <----- 这个做法对么 ？？？？？
-* `int dp[i][j][s]`：使用数组里 index为0到i 的items中的 **正好j个items**（j <= m），正好组成 总size = s，最大可能的 总value 是多少。
-* `int dp[][][] = new int[number of items][m + 1][capacity of backpack + 1]`
+## Solution 1：二维DP
+* `int dp[i][s]`：使用数组里 index为0到i 的items中的 任意个items，正好组成 总size = s，最大可能的 总value 是多少。
+* `int dp[][] = new int[number of items][capacity of backpack + 1]`
 * Base Cases
-  * 对于index=0 的 item，if sizes[0] <= capacity, `dp[0][1][sizes[0]] = values[0]`
-  * `dp[i][0][s] = 0`，因为item个数为0的话，总value自然为0。既然是0也就不用写出来了
-  * `dp[i][j][0] = 0`，因为总size为0的话，总value自然为0。既然是0也就不用写出来了
+  * 对于index=0 的 item，if sizes[0] <= capacity, `dp[0][sizes[0]] = values[0]`
+  * `dp[i][0] = 0`，因为总size为0的话，总value自然为0。既然是0也就不用写出来了
 * Induction Rule
-  * `dp[i][j][s] = Math.max(dp[i - 1][j][s], dp[i - 1][j - 1][s - sizes[i]] + values[i])`
-* Return: 注意，这里不是返回 `dp[n - 1][m][capacity]`。因为获得总value最大时，总items的个数未必是 m，总size也未必是 capacity。所以：
-  * Return max(dp[n - 1][1 <= numItem <= m][1 <= totalSize <= capacity])
+  * `dp[i][s] = Math.max(dp[i - 1][s], dp[i - 1][s - sizes[i]] + values[i])`
+* Return: 注意，这里不是返回 `dp[n - 1][capacity]`。因为获得总value最大时，总size未必是 capacity。所以：
+  * Return max(dp[n - 1][1 <= totalSize <= capacity])
 
 ### Complexity
-* Time: O(n * m * capacity), 其中n是items的个数
-* Space: O(n * m * capacity)。可以优化为 O(m * capacity)，因为dp矩阵里，第i行永远只用到第i-1行
+* Time: O(n * capacity), 其中n是items的个数
+* Space: O(n * capacity)。可以优化为 O(capacity)，因为dp矩阵里，第i行永远只用到第i-1行
 
 ### Java
 ```java
