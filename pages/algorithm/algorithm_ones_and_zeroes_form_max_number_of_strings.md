@@ -29,7 +29,7 @@ Now your task is to find the maximum number of strings that you can form with gi
 ## Solution 1: 三维DP。用了“Offset One”的方法，即把“零”而非第一个元素作为某一个或几个维度的开始
 这一题只要用 m个0 和 n个1 凑String数组里的strings，所以每个string里的0和1是怎么排列的根本不care，只care每个string里有几个0，几个1
 
-这题明显用DP做。难点在于这是一个三维DP，一开始不是很好想到这种三维结构
+这题明显用DP做。有点像 **背包问题里面 又限制总重量，又限制总体积 的题目**。可以用 三维DP 来做。
 * dp[len + 1][m + 1][n + 1]，其中 dp[i][j][k] 表示 **用 j个0 和 k个1，最多能组成String数组里 前i个元素 中的几个**。注意这里是 前i个元素，不是元素index从0到i。这前i个元素里的任何元素都可能被或者不被组成
 * 初始条件：dp[0][i][j] 总是 0。因为是要去组成数组里的第0个元素，而所谓的第0个元素根本不存在，所以永远都是只能组成 0个。既然是0，那么这个初始条件也就不用写出来了
 
