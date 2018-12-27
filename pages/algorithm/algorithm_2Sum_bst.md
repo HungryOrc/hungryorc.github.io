@@ -33,8 +33,8 @@ Given a Binary Search Tree and a target number, return true if there exist two e
   * Output: True
 
 ## Solution
-1. 既然是BST，那么用inorder traversal，把所有nodes的values都弄出来，自然会形成一个排好序的数组
-2. 在这个sorted数组上做 two sum
+1. 既然是BST，那么用inorder traversal，把所有nodes的values都弄出来，自然会形成一个排好序的list（因为事先不知道size，所以用list比用array方便。得到所有数以后，也不必把list转成array，two sum 用set来做的话可以直接在list上做，不必前后2个指针那样非要在array上做）
+2. 在这个sorted list 上做 two sum，用hashset的方法。见下面的代码
 
 ### Complexity
 * Time: O(n)，n 是tree里nodes的个数
@@ -48,13 +48,11 @@ class Solution {
         if (root == null) {
             return false;
         }
-        
-        int[] numbers = inorderTraversal(root);
-        
-        return twoSum(numbers, target);
+
+        return twoSum(inorderTraversal(root), target);
     }
     
-    private int[] inorderTraversal(TreeNode root) {
+    private List<Integer> inorderTraversal(TreeNode root) {
         Deque<TreeNode> stack = new ArrayDeque<>();
         stack.push(root);
         List<Integer> list = new ArrayList<>();
@@ -79,16 +77,10 @@ class Solution {
             cur.left = null;
             cur.right = null;
         }
-        
-        int n = list.size();
-        int[] result = new int[n];
-        for (int i = 0; i < n; i++) {
-            result[i] = list.get(i);
-        }
-        return result;
+        return list;
     }
     
-    private boolean twoSum(int[] nums, int target) {
+    private boolean twoSum(List<Integer> nums, int target) {
         Set<Integer> set = new HashSet<>();
         for (int num : nums) {
             if (set.contains(target - num)) {
