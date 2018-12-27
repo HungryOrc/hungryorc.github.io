@@ -68,8 +68,8 @@ class Solution {
             int zeroNum = counts[i - 1][0];
             int oneNum = counts[i - 1][1];
             
-            for (int j = 0; j <= m; j++) { // j is number of zeroes
-                for (int k = 0; k <= n; k++) { // k is number of ones
+            for (int j = 0; j <= m; j++) { // j: number of zeroes，不要从0开始！有可能0个零
+                for (int k = 0; k <= n; k++) { // k: number of ones，不要从0开始！有可能0个一
                     
                     dp[i][j][k] = dp[i - 1][j][k]; // 不使用 0 and/or 1 来凑第i个String的情况
                     
