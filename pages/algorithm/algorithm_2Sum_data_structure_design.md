@@ -4,7 +4,7 @@ tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_two_sum_data_structure_design.html
+permalink: algorithm_2Sum_data_structure_design.html
 folder: algorithm
 toc: false
 ---
