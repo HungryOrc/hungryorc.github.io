@@ -4,7 +4,7 @@ tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_two_sum.html                               
+permalink: algorithm_2sum.html                               
 folder: algorithm
 toc: false
 ---
