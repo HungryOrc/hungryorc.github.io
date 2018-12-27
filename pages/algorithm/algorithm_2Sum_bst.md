@@ -32,11 +32,12 @@ Given a Binary Search Tree and a target number, return true if there exist two e
   * Output: True
 
 ## Solution
-哦也
+1. 既然是BST，那么用inorder traversal，把所有nodes的values都弄出来，自然会形成一个排好序的数组
+2. 在这个sorted数组上做 two sum
 
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(n)，n 是tree里nodes的个数
+* Space: O(n)，stack
 
 ### Java
 代码虽然看起来长，其实逻辑很简单
