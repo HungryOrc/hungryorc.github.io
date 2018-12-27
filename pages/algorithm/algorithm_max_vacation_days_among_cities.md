@@ -28,10 +28,16 @@ between any cities, so we will have to stay at city 0 always.**
   * For each city, you can only have restricted vacation days in different weeks, given an N*K matrix called days representing this relationship. For the value of days[i][j], it represents the maximum days you could take vacation in the city i in the week j.
 
 You're given the flights matrix and days matrix, and you need to output the maximum vacation days you could take during K weeks.
+This is a **Hard** level question.
 
 ### Example
-* Input: 
-  * Output: 
+* Input: flights = [[0,1,1],[1,0,1],[1,1,0]], days = [[1,3,1],[6,0,3],[3,3,3]]
+  * Output: 12. 6 + 3 + 3 = 12
+  * One of the best strategies is:
+1st week : fly from city 0 to city 1 on Monday, and play 6 days and work 1 day. 
+(Although you start at city 0, we could also fly to and start at other cities since it is Monday.) 
+2nd week : fly from city 1 to city 2 on Monday, and play 3 days and work 4 days.
+3rd week : stay at city 2, and play 3 days and work 4 days.
 
 ## Solution: DP
 哦也
