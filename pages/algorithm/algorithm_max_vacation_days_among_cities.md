@@ -30,17 +30,31 @@ between any cities, so we will have to stay at city 0 always.**
 You're given the flights matrix and days matrix, and you need to output the maximum vacation days you could take during K weeks.
 This is a **Hard** level question.
 
+* Note
+  * N and K are positive integers, which are in the range of [1, 100].
+  * In the matrix flights, all the values are integers in the range of [0, 1].
+  * In the matrix days, all the values are integers in the range [0, 7].
+  * You could stay at a city beyond the number of vacation days, but you should work on the extra days, which won't be counted as vacation days.
+  * If you fly from the city A to the city B and take the vacation on that day, the deduction towards vacation days will count towards the vacation days of city B in that week.
+  * We don't consider the impact of flight hours towards the calculation of vacation days.
+
 ### Example
 * Input: flights = [[0,1,1],[1,0,1],[1,1,0]], days = [[1,3,1],[6,0,3],[3,3,3]]
   * Output: 12. 6 + 3 + 3 = 12
   * One of the best strategies is:
-1st week : fly from city 0 to city 1 on Monday, and play 6 days and work 1 day. 
-(Although you start at city 0, we could also fly to and start at other cities since it is Monday.) 
-2nd week : fly from city 1 to city 2 on Monday, and play 3 days and work 4 days.
-3rd week : stay at city 2, and play 3 days and work 4 days.
+    * 1st week : fly from city 0 to city 1 on Monday, and play 6 days and work 1 day. (Although you start at city 0, we could also fly to and start at other cities since it is Monday.) 
+    * 2nd week : fly from city 1 to city 2 on Monday, and play 3 days and work 4 days.
+    * 3rd week : stay at city 2, and play 3 days and work 4 days.
+* Input: flights = [[0,1,1],[1,0,1],[1,1,0]], days = [[7,0,0],[0,7,0],[0,0,7]]
+  * Output: 21. 7 + 7 + 7 = 21
+  * One of the best strategies is:
+    * 1st week : stay at city 0, and play 7 days. 
+    * 2nd week : fly from city 0 to city 1 on Monday, and play 7 days.
+    * 3rd week : fly from city 1 to city 2 on Monday, and play 7 days.
+  
 
 ## Solution: DP
-哦也
+* `int dp[i][j]` means: we are **staying at city i in week j**, the max vacation days we can get from week 0 to week j, with any possible flights/stays since week 0
 
 ### Complexity
 * Time: O(n)
@@ -48,7 +62,70 @@ This is a **Hard** level question.
 
 ### Java
 ```java
+class Solution {
+    public int maxVacationDays(int[][] flights, int[][] days) {
+        // ignore the validation of parameters
+        
+        int numCities = flights.length;
+        int numWeeks = days[0].length;
+        
+        int[][] dp = new int[numCities][numWeeks];
+        
+        // since the number of holidays in any week in any city can
+        // be 0, we have to set all elements to be -1 in advance
+        // to distinguish the "unreachable" (city, week) state to
+        // the "zero holiday" (city, week) state
+        for (int i = 0; i < numCities; i++) {
+            for (int j = 0; j < numWeeks; j++) {
+                dp[i][j] = -1;
+            }
+        }
+        
+        // base case: for the 1st week:
+        // we start at city 1
+        dp[0][0] = days[0][0];
+        // we can also stay at other cities in the 1st week,
+        // if city 1 can fly to that city
+        for (int i = 1; i < numCities; i++) {
+            if (flights[0][i] == 1) {
+                dp[i][0] = days[i][0];
+            }
+        }
+        
+        // the outer loop must be the weeks! the inner loop is cities,
+        // since this problem is developed by time,
+        // so we have to fill in the dp matrix by column, from left to right!
+        
+        // starting from the 2nd week
+        for (int j = 1; j < numWeeks; j++) {
+                
+            // for each city
+            for (int i = 0; i < numCities; i++) {
+            
 
+                // if it is possible to staty at city i in week j-1
+                if (dp[i][j - 1] != -1) {
+                    dp[i][j] = dp[i][j - 1] + days[i][j];
+                }
+                
+                for (int prevCity = 0; prevCity < numCities; prevCity++) {
+                    // if it's possible to stay a this prevCity in week j-1,
+                    // and this prevCity has a flight to fly to city i
+                    if (dp[prevCity][j - 1] != -1 && flights[prevCity][i] == 1) {
+                        dp[i][j] = Math.max(dp[i][j],
+                                            dp[prevCity][j - 1] + days[i][j]);
+                    }            
+                }
+            }
+        }
+        
+        int maxVDays = 0;
+        for (int i = 0; i < numCities; i++) {
+            maxVDays = Math.max(maxVDays, dp[i][numWeeks - 1]);
+        }
+        return maxVDays;
+    }
+}
 ```
 
 ## Reference
