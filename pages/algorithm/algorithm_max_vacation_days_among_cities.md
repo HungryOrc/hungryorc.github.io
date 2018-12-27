@@ -51,14 +51,14 @@ This is a **Hard** level question.
     * 1st week : stay at city 0, and play 7 days. 
     * 2nd week : fly from city 0 to city 1 on Monday, and play 7 days.
     * 3rd week : fly from city 1 to city 2 on Monday, and play 7 days.
-  
 
 ## Solution: DP
 * `int dp[i][j]` means: we are **staying at city i in week j**, the max vacation days we can get from week 0 to week j, with any possible flights/stays since week 0
+* Attention: when filling up the dp matrix, **the outer for loop must be the weeks!** The inner loop are the cities.
 
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(numOfWeeks * numOfCities * numOfCities)
+* Space: O(numOfWeeks * numOfCities)
 
 ### Java
 ```java
