@@ -19,6 +19,7 @@ Given a Binary Search Tree and a target number, return true if there exist two e
      TreeNode(int x) { val = x; }
  }
 ```
+这是一道 easy 档次的题目
 
 ### Example
 * Input: target = 9
@@ -40,7 +41,7 @@ Given a Binary Search Tree and a target number, return true if there exist two e
 * Space: O(n)，stack
 
 ### Java
-代码虽然看起来长，其实逻辑很简单
+代码虽然看起来有点长，其实逻辑非常简单
 ```java
 class Solution {
     public boolean findTarget(TreeNode root, int target) {
@@ -88,15 +89,12 @@ class Solution {
     }
     
     private boolean twoSum(int[] nums, int target) {
-        int left = 0, right = nums.length - 1;
-        while (left < right && left < nums.length && right >= 0) {
-            if (nums[left] + nums[right] > target) {
-                right--;
-            } else if (nums[left] + nums[right] < target) {
-                left++;
-            } else {
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            if (set.contains(target - num)) {
                 return true;
             }
+            set.add(num);
         }
         return false;
     }
