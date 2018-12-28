@@ -34,18 +34,21 @@ Note:
 
 ### Java
 ```java
+import java.util.*;
+
+
 class Pair {
-    int leftIndex, rightIndex;
-    public Pair(int li, int ri) {
-	this.leftIndex = li;
-	this.rightIndex = ri;
-    }
+	int leftIndex, rightIndex;
+	public Pair(int li, int ri) {
+		this.leftIndex = li;
+		this.rightIndex = ri;
+	}
 }
 
 public class Solution {
 	public boolean fourSum(int[] nums, int target) {
 		if (nums == null || nums.length < 4) {
-			return false;
+		    return false;
 		}
 		
 		int n = nums.length;
@@ -53,13 +56,13 @@ public class Solution {
 		Map<Integer, Pair> map = new HashMap<>();
 		
 		for (int i = 0; i < n - 1; i++) { // index of the left number in the pair
-			for (int j = i + 1; j < n; j++) { // index of the right number in the pair
+		    for (int j = i + 1; j < n; j++) { // index of the right number in the pair
 				int sum = nums[i] + nums[j];
 				
 				Pair sameSumPair = map.get(sum);
 				if (sameSumPair != null) {
 					if (sum * 2 == target && sameSumPair.rightIndex < i) {
-						return true;
+					    return true;
 					} else {
 						continue;
 					}
