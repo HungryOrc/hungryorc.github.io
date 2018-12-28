@@ -62,6 +62,8 @@ public class Solution {
 		    if (sum * 2 == target && sameSumPair.rightIndex < i) {
 		        return true;
 		    } else {
+		        // we don't add the current pair into the map, since for a specific
+			// sum value, we want to put the leftmost pair into the map for this sum
 			continue;
 		    }
 		}
