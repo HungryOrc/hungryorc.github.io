@@ -34,62 +34,59 @@ Note:
 
 ### Java
 ```java
-import java.util.*;
-
-
 class Pair {
-	int leftIndex, rightIndex;
-	public Pair(int li, int ri) {
-		this.leftIndex = li;
-		this.rightIndex = ri;
-	}
+    int leftIndex, rightIndex;
+    public Pair(int li, int ri) {
+	this.leftIndex = li;
+	this.rightIndex = ri;
+    }
 }
 
 public class Solution {
-	public boolean fourSum(int[] nums, int target) {
-		if (nums == null || nums.length < 4) {
-		    return false;
-		}
-		
-		int n = nums.length;
-		// key is the sum of the 2 numbers in the pair
-		Map<Integer, Pair> map = new HashMap<>();
-		
-		for (int i = 0; i < n - 1; i++) { // index of the left number in the pair
-		    for (int j = i + 1; j < n; j++) { // index of the right number in the pair
-				int sum = nums[i] + nums[j];
-				
-				Pair sameSumPair = map.get(sum);
-				if (sameSumPair != null) {
-					if (sum * 2 == target && sameSumPair.rightIndex < i) {
-					    return true;
-					} else {
-						continue;
-					}
-				}
-				
-				Pair complementPair = map.get(target - sum); // complement pair
-				// if the complement pair exists, and its right index is smaller than
-				// the left index of the current pair, then we found a valid quadruplet
-				if (complementPair != null && complementPair.rightIndex < i) {
-					return true;
-				}
-				
-				map.put(sum, new Pair(i, j));
-			}
-		}
-		return false;
+    public boolean fourSum(int[] nums, int target) {
+	if (nums == null || nums.length < 4) {
+	    return false;
 	}
-	
-	
-	public static void main(String[] args) {
-		int[] nums = {1, 1, 2, 5, 11, 20, 4, -1};
-		int target = 37;
-		
-		Solution solu = new Solution();
-		
-		System.out.println(solu.fourSum(nums, target));
+
+	int n = nums.length;
+	// key is the sum of the 2 numbers in the pair
+	Map<Integer, Pair> map = new HashMap<>();
+
+	for (int i = 0; i < n - 1; i++) { // index of the left number in the pair
+	    for (int j = i + 1; j < n; j++) { // index of the right number in the pair
+		int sum = nums[i] + nums[j];
+
+		Pair sameSumPair = map.get(sum);
+		if (sameSumPair != null) {
+		    if (sum * 2 == target && sameSumPair.rightIndex < i) {
+		        return true;
+		    } else {
+			continue;
+		    }
+		}
+
+		Pair complementPair = map.get(target - sum); // complement pair
+		// if the complement pair exists, and its right index is smaller than
+		// the left index of the current pair, then we found a valid quadruplet
+		if (complementPair != null && complementPair.rightIndex < i) {
+		    return true;
+		}
+
+		map.put(sum, new Pair(i, j));
+	    }
 	}
+	return false;
+}
+
+
+public static void main(String[] args) {
+	int[] nums = {1, 1, 2, 5, 11, 20, 4, -1};
+	int target = 37;
+
+	Solution solu = new Solution();
+
+	System.out.println(solu.fourSum(nums, target));
+    }
 }
 ```
 
