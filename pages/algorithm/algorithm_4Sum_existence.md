@@ -35,11 +35,11 @@ Note:
 ### Java
 ```java
 class Pair {
-	int leftIndex, rightIndex;
-	public Pair(int li, int ri) {
-		this.leftIndex = li;
-		this.rightIndex = ri;
-	}
+    int leftIndex, rightIndex;
+    public Pair(int li, int ri) {
+	this.leftIndex = li;
+	this.rightIndex = ri;
+    }
 }
 
 public class Solution {
