@@ -34,6 +34,7 @@ Note:
 
 ### Java
 ```java
+// a helper class, this is not a must have
 class Pair {
     int leftIndex, rightIndex;
     public Pair(int li, int ri) {
@@ -76,16 +77,6 @@ public class Solution {
 	    }
 	}
 	return false;
-}
-
-
-public static void main(String[] args) {
-	int[] nums = {1, 1, 2, 5, 11, 20, 4, -1};
-	int target = 37;
-
-	Solution solu = new Solution();
-
-	System.out.println(solu.fourSum(nums, target));
     }
 }
 ```
