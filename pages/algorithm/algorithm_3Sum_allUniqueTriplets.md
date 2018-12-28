@@ -22,90 +22,121 @@ Note:
 * Input: nums = [-1, 0, 1, 2, -1, -4], target sum = 0, as this question said
   * Output: [[-1, 0, 1], [-1, -1, 2]]
 
-## Solution 1，先排序数组，然后两边向中间逼近
+## Solution 1，先排序数组，然后两边向中间逼近。速度较快
 
 ### Complexity
-* Time: O(n^2)  ????
-* Space: O(n)  ????
+* Time: O(n^2)
+* Space: O(1) <=== 对么 ？？？？
 
 ### Java
 ```java
 public class Solution {
-    public int[] twoSum(int[] givenNumbers, int targetSum) {
-        int[] output = new int[2];
-
-        int indexLeft = 0;
-        int indexRight = givenNumbers.length - 1;
-
-        // copy the given array
-        int[] givenNumbersCopy = new int[givenNumbers.length];
-        for (int i = 0; i < givenNumbers.length; i++) {
-            givenNumbers_Copy[i] = givenNumbers[i];
-        }
-
-        // "Dual-Pivot" Quick Sort
-        // Sort the copy of the given array, from smaller to bigger
-        Arrays.sort(givenNumbersCopy);
-
-        while (indexLeft < indexRight) {
-            if (givenNumbersCopy[indexLeft] + givenNumbersCopy[indexRight] == targetSum) {
-                // find the indexes of these 2 numbers in the original given array
-                for (int i = 0; i < givenNumbers.length; i ++) {
-                    if (givenNumbers[i] == givenNumbersCopy[indexLeft])	{
-                        output[0] = i;
-                        break;
+    public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums); // O(nlogn) time
+        List<List<Integer>> result = new ArrayList<>(); 
+        
+        // the 1st number in the triplet
+        for (int i = 0; i < nums.length - 2; i++) {
+            
+            // dedupte the 1st number
+            if (i == 0 || (i > 0 && nums[i] != nums[i - 1])) {
+                int start = i + 1, end = nums.length - 1;
+                int target = 0 - nums[i];
+                
+                while (start < end) {
+                    if (nums[start] + nums[end] == target) {
+                        result.add(Arrays.asList(nums[i], nums[start], nums[end]));
+                        
+                        while (start < end && nums[start] == nums[start + 1]) {
+                            start++;
+                        }
+                        while (start < end && nums[end] == nums[end - 1]) {
+                            end--;
+                        }
+                        
+                        start++;
+                        end--;
+                    } else if (nums[start] + nums[end] < target) {
+                        start++;
+                    } else {
+                        end--;
                     }
                 }
-                for (int i = givenNumbers.length - 1; i >= 0; i --) {
-                    if (givenNumbers[i] == givenNumbersCopy[indexRight])	{
-                        output[1] = i;
-                        break;
-                    }
-                }
-            } else if (givenNumbersCopy[indexLeft] + givenNumbersCopy[indexRight] < targetSum) {
-                indexLeft++;
-            } else
-                indexRight--;
             }
         }
-        return output;
+        return result;
     }
 }
 ```
 
-## Solution 2，把数组排序，然后一个 for loop 包一个2Sum，2Sum 用 HashSet 做
+## Solution 2，把数组排序，然后一个 for loop 包一个2Sum，2Sum 用 HashSet 做。实测速度非常慢
 
 ### Complexity
 * Time: O(n^2)
 * Space: O(n)，size of set
 
 ### Java
+这个代码看起来不短，其实逻辑很简单
 ```java
 class Solution {
-    public int[] twoSum(int[] nums, int target) {
-        if (nums == null || nums.length == 0) {
-            return new int[0];
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (nums == null || nums.length < 3) {
+            return result;
         }
         
         int n = nums.length;
+        Arrays.sort(nums); // O(nlogn) time
         
-        // map<element value in the array, element index>
-        // 因为题意说了有且只会有一组答案，所以map里的一个key不会有2个value
-        Map<Integer, Integer> elements = new HashMap<>();
-        
-        for (int i = 0; i < n; i++) {
-            int cur = nums[i];
+        // i indicates the 1st number in the triplet
+        for (int i = 0; i < n - 2; i++) {
             
-            Integer indexOfMatchingNum = elements.get(target - cur);
-            if (indexOfMatchingNum != null) {
-                return new int[]{i, indexOfMatchingNum};
+            // deduplicate the 1st number
+            if (i >= 1 && nums[i] == nums[i - 1]) {
+                continue;
             }
             
-            elements.put(cur, i);
+            List<List<Integer>> pairs = twoSum(nums, i + 1, 0 - nums[i]);
+
+            for (List<Integer> pair : pairs) {
+                // in this way we are appending the 1st number last,
+                // but doesn't matter, deduplication had been ensured beforehand
+                pair.add(nums[i]);
+                result.add(pair);
+            }
         }
+        return result;
+    }
+    
+    // the input array is guaranteed to be sorted
+    private List<List<Integer>> twoSum(int[] nums, int start, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        Set<Integer> set = new HashSet<>();
+        boolean foundTwoHalvesOfTarget = false;
         
-        // 我们不会到这里
-        return null;
+        for (int i = start; i < nums.length; i++) {
+            int cur = nums[i];
+            
+            if (set.contains(cur)) {
+                if (cur * 2 == target && !foundTwoHalvesOfTarget) {
+                    foundTwoHalvesOfTarget = true;
+                    List<Integer> pair = new ArrayList<>();
+                    pair.add(cur);
+                    pair.add(cur);
+                    result.add(pair);
+                }
+                continue;
+            }
+
+            if (set.contains(target - cur)) {
+                List<Integer> pair = new ArrayList<>();
+                pair.add(cur);
+                pair.add(target - cur);
+                result.add(pair);
+            }
+            set.add(cur);
+        }
+        return result;
     }
 }
 ```
