@@ -1,10 +1,10 @@
 ---
-title: "Two Sum, there is Exactly One Valid Pair"
+title: "2 Sum, there is Exactly One Valid Pair"
 tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_2Sum.html                               
+permalink: algorithm_2Sum_exactlyOnePair.html                               
 folder: algorithm
 toc: false
 ---
