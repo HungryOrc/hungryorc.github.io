@@ -20,10 +20,12 @@ The given array is not null and has length of at least 2. **The order of the val
 * 返回的是一对一对的不同的values，而非indices，所以要去重，比如 **[2, 4] 和 [4, 2] 是一回事**。我们先把数组排个序就能避免这种情况
 
 ### Example
-* Input: A = {2, 1, 3, 2, 4, 3}, target = 6
-  * Output: [[2, 4], [3, 3]]
+* Input: A = {1,0,-1,0,-2,2}, target = 0
+  * Output: [[0, 0], [-1, 1], [-2, 2]]
+* Input: A = {2, 1, 3, 2, 4}, target = 6
+  * Output: [[2, 4]]
 
-## Solution <=== 对么 ？？？？
+## Solution
 和只用找一个pair的方法一样，用hashset来做
 
 ### Complexity
@@ -48,9 +50,9 @@ public class Solution {
             // 下面这代码也能解决 num * 2 == target 的情况
             if (visited.contains(target - num)) {
                 List<Integer> pair = new ArrayList<>();
+                pair.add(target - num); // 这样能做到小在前，大在后
                 pair.add(num);
-                pair.add(target - num);
-                dedupRestult.add(pair);
+                dedupResult.add(pair);
             }
 
             visited.add(num);
