@@ -47,6 +47,7 @@ public class Solution {
                     if (nums[start] + nums[end] == target) {
                         result.add(Arrays.asList(nums[i], nums[start], nums[end]));
                         
+                        // 这两个while loop很重要！不是可有可无的！triplet里的后面两个数的去重就靠它了！！
                         while (start < end && nums[start] == nums[start + 1]) {
                             start++;
                         }
