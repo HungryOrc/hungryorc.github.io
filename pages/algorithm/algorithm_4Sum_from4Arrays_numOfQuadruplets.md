@@ -28,7 +28,7 @@ Note:
     * (0, 0, 0, 1) -> A[0] + B[0] + C[0] + D[1] = 1 + (-2) + (-1) + 2 = 0
     * (1, 1, 0, 0) -> A[1] + B[1] + C[0] + D[0] = 2 + (-1) + (-1) + 0 = 0
 
-## Solution：见 4 Sum Existence 那题。把4个数化为2个Pair，然后用瞄准一个pair的loop来实现模拟两个pairs
+## Solution：用一个map记录A和B的所有可能的和以及其次数，然后计算C和D的所有可能的和，同时看有多少A+B能和它们match
 详见下面代码。很简明。这题并不需要事先排序这些数组
 
 ### Complexity
@@ -43,8 +43,6 @@ class Solution {
         
         // <sum, count>
         Map<Integer, Integer> mapAB = new HashMap<>();
-        // <sum, count>
-        Map<Integer, Integer> mapCD = new HashMap<>();
         
         for (int a : A) {
             for (int b : B) {
