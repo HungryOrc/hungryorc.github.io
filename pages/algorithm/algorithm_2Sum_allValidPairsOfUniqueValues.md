@@ -23,8 +23,8 @@ The given array is not null and has length of at least 2. **The order of the val
 * Input: A = {2, 1, 3, 2, 4, 3}, target = 6
   * Output: [[2, 4], [3, 3]]
 
-## Solution
-和只用找一个pair的方法一样，用hashset来做，这样就不用事先排序数组
+## Solution <=== 对么 ？？？？
+和只用找一个pair的方法一样，用hashset来做
 
 ### Complexity
 * Time: O(n^2) <=== 对么 ？？？？
