@@ -1,10 +1,10 @@
 ---
-title: "Two Sum, All Valid Pairs"
+title: "2 Sum, All Valid Pairs of Indexes"
 tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_2Sum_all_valid_pairs_of_indices.html
+permalink: algorithm_2Sum_allValidPairsOfIndices.html
 folder: algorithm
 toc: false
 ---
@@ -13,7 +13,7 @@ toc: false
 Find all pairs of elements in a given array that sum to the given target number. Return all the pairs of indices.
 The given array is not null and has length of at least 2.
 
-* 数组里可能有重复的元素，返回的是一对一对的indexes，所以重复元素但是index不同也算是不同的对象！
+* 数组里可能有重复的元素，**但返回的是一对一对的indexes，所以重复元素但是index不同也算是不同的对象！**
 * 同一个元素（即同一个index）最多只能使用一次
 
 ### Example
