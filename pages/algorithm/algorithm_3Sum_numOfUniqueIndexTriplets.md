@@ -10,21 +10,42 @@ toc: false
 ---
 
 ## Description
-注意这题 **要返回的是 unique triplets of indexes**，不是 triplets of element values。而 indexes 是永远不会重复的，所以 triplets of indexes 也永远不会重复，不管 element values 是否有重复
+注意这题 **要返回的是 unique triplets of indexes**，不是 triplets of element values。而 indexes 是永远不会重复的，所以 triplets of indexes 也永远不会重复，不管 element values 是否有重复。
+* 除非故意把 index triplet 的顺序打乱，比如 indexes [1,2,3] 和 [1,3,2] 是重复的，但我们按照index从小到大的顺序来做，也不会出现这种情况
 
-Given an array nums of n integers, are there elements a, b, c in nums such that a + b + c = 0? Find all unique triplets in the array which gives the sum of zero.
+Given an integer array A, and an integer target, return the number of tuples i, j, k  such that i < j < k and A[i] + A[j] + A[k] == target.
+* 3 <= A.length <= 3000
+* 0 <= A[i] <= 100
+* 0 <= target <= 300
+* 最后
+
+As the answer can be very large, return it modulo 10^9 + 7. 这是这一题的特殊要求，和主干逻辑无关，其他类似的题也不需要做这个
 
 Note:
-* The solution set must not contain duplicate triplets.
-* [1,1,2] and [2,1,1] and [1,2,1] are considered as the same triplet.
+* The solution set must not contain duplicate triplets of indexes.
+* [1,1,2] and [2,1,1] and [1,2,1] (all the numbers here are indexes) are considered as the same triplet.
 * 数组里可能有重复的元素
 * 同一个元素最多只能使用一次。但如果数组里有两个1，则这两个1分别可以被使用一次
 
 ### Example
-* Input: nums = [-1, 0, 1, 2, -1, -4], target sum = 0, as this question said
-  * Output: [[-1, 0, 1], [-1, -1, 2]]
+* Input: A = [1,1,2,2,3,3,4,4,5,5], target = 8
+  * Output: 20
+  * Enumerating by the values (A[i], A[j], A[k]):
+    ```
+    (1, 2, 5) occurs 8 times;
+    (1, 3, 4) occurs 8 times;
+    (2, 2, 4) occurs 2 times;
+    (2, 3, 3) occurs 2 times.
+    ```
+* A = [1,1,2,2,2,2], target = 5
+  * Output: 12
+  * A[i] = 1, A[j] = A[k] = 2 occurs 12 times:
+    ```
+    We choose one 1 from [1,1] in 2 ways,
+    and two 2s from [2,2,2,2] in 6 ways.
+    ```
 
-## Solution 1，先排序数组，然后两边向中间逼近。速度较快
+## Solution：DP，我自己的想法，感觉思路是比较给力的，但实测速度很慢，还没看leetcode的答案
 
 ### Complexity
 * Time: O(n^2)
