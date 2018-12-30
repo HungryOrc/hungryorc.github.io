@@ -11,7 +11,6 @@ toc: false
 
 ## Description
 注意这题 **要返回的是 unique triplets of indexes**，不是 triplets of element values。而 indexes 是永远不会重复的，所以 triplets of indexes 也永远不会重复，不管 element values 是否有重复。
-* 除非故意把 index triplet 的顺序打乱，比如 indexes [1,2,3] 和 [1,3,2] 是重复的，但我们按照index从小到大的顺序来做，也不会出现这种情况
 
 Given an integer array A, and an integer target, return the number of tuples i, j, k  such that i < j < k and A[i] + A[j] + A[k] == target.
 * 3 <= A.length <= 3000
