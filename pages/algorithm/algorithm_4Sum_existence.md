@@ -1,5 +1,5 @@
 ---
-title: "Four Sum, Check If There Exists a Quadruplet that Sum up to the Target Number"
+title: "4 Sum, Check If There Exists a Quadruplet that Sum up to the Target Number"
 tags: [algorithm]
 keywords:
 summary:
