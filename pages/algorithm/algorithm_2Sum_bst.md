@@ -1,5 +1,5 @@
 ---
-title: "Two Sum: Input is a BST"
+title: "2 Sum: Input is a BST"
 tags: [algorithm]
 keywords:
 summary:
