@@ -1,5 +1,5 @@
 ---
-title: "Two Sum: Data Structure Design"
+title: "2 Sum: Data Structure Design"
 tags: [algorithm]
 keywords:
 summary:
