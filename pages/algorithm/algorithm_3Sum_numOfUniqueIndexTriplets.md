@@ -67,6 +67,8 @@ class Solution {
         
         for (int i = 0; i < n; i++) {
             if (nums[i] <= target) {
+                // 注意！这题的induction rule 有些特别：如果 dp[i][1][x] = 1，则
+                // dp[j >= i][1][x] 都等于1！这个由dp矩阵的定义方式易得
                 for (int j = i; j < n; j++) {
                     dp[j][1][nums[i]]++;
                 }
