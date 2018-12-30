@@ -15,9 +15,9 @@ toc: false
 
 Given an integer array A, and an integer target, return the number of tuples i, j, k  such that i < j < k and A[i] + A[j] + A[k] == target.
 * 3 <= A.length <= 3000
-* 0 <= A[i] <= 100
-* 0 <= target <= 300
-* 最后
+* **0 <= A[i] <= 100**
+* **0 <= target <= 300**
+* **最后这两个条件特别重要！即数组里每个元素都 >= 0，且 target >= 0，如果没这两个条件，用 DP 做就要费点事：就需要把所有数平移，以便把负数纳入到DP矩阵里去，因为矩阵里各个维度的序号自然都必须是非负数**
 
 As the answer can be very large, return it modulo 10^9 + 7. 这是这一题的特殊要求，和主干逻辑无关，其他类似的题也不需要做这个
 
@@ -48,124 +48,49 @@ Note:
 ## Solution：DP，我自己的想法，感觉思路是比较给力的，但实测速度很慢，还没看leetcode的答案
 
 ### Complexity
-* Time: O(n^2)
-* Space: O(1) <=== 对么 ？？？？
+* Time: O(n * 3 * target) = O(n * target)，其中 n 是数组里的元素个数，3是3Sum所要求的三个元素的意思
+* Space: O(n * 3 * target) = O(n * target)
 
 ### Java
 ```java
-public class Solution {
-    public List<List<Integer>> threeSum(int[] nums) {
-        Arrays.sort(nums); // O(nlogn) time
-        List<List<Integer>> result = new ArrayList<>(); 
+class Solution {
+    private static final int MOD = (int)(Math.pow(10, 9) + 7);
+     
+    public int threeSumMulti(int[] nums, int target) {
+        if (nums == null || nums.length < 3) {
+            return 0;
+        }
         
-        // the 1st number in the triplet
-        for (int i = 0; i < nums.length - 2; i++) {
-            
-            // dedupte the 1st number
-            if (i == 0 || (i > 0 && nums[i] != nums[i - 1])) {
-                int start = i + 1, end = nums.length - 1;
-                int target = 0 - nums[i];
-                
-                while (start < end) {
-                    if (nums[start] + nums[end] == target) {
-                        result.add(Arrays.asList(nums[i], nums[start], nums[end]));
-                        
-                        // 这两个while loop很重要！不是可有可无的！triplet里的后面两个数的去重就靠它了！！
-                        while (start < end && nums[start] == nums[start + 1]) {
-                            start++;
-                        }
-                        while (start < end && nums[end] == nums[end - 1]) {
-                            end--;
-                        }
-                        
-                        start++;
-                        end--;
-                    } else if (nums[start] + nums[end] < target) {
-                        start++;
-                    } else {
-                        end--;
+        int n = nums.length;
+        int[][][] dp = new int[n][3 + 1][target + 1];
+        
+        for (int i = 0; i < n; i++) {
+            if (nums[i] <= target) {
+                for (int j = i; j < n; j++) {
+                    dp[j][1][nums[i]]++;
+                }
+            }
+        }
+        
+        for (int j = 2; j <= 3; j++) {
+            for (int i = j - 1; i < n; i++) {
+                for (int k = 0; k <= target; k++) {
+                    
+                    dp[i][j][k] = dp[i - 1][j][k];
+                    
+                    if (nums[i] <= k) {
+                        dp[i][j][k] += dp[i - 1][j - 1][k - nums[i]];
+                        dp[i][j][k] %= MOD;
                     }
                 }
             }
         }
-        return result;
-    }
-}
-```
-
-## Solution 2，把数组排序，然后一个 for loop 包一个2Sum，2Sum 用 HashSet 做。实测速度非常慢
-
-### Complexity
-* Time: O(n^2)
-* Space: O(n)，size of set
-
-### Java
-这个代码看起来不短，其实逻辑很简单
-```java
-class Solution {
-    public List<List<Integer>> threeSum(int[] nums) {
-        List<List<Integer>> result = new ArrayList<>();
-        if (nums == null || nums.length < 3) {
-            return result;
-        }
-        
-        int n = nums.length;
-        Arrays.sort(nums); // O(nlogn) time
-        
-        // i indicates the 1st number in the triplet
-        for (int i = 0; i < n - 2; i++) {
-            
-            // deduplicate the 1st number
-            if (i >= 1 && nums[i] == nums[i - 1]) {
-                continue;
-            }
-            
-            List<List<Integer>> pairs = twoSum(nums, i + 1, 0 - nums[i]);
-
-            for (List<Integer> pair : pairs) {
-                // in this way we are appending the 1st number last,
-                // but doesn't matter, deduplication had been ensured beforehand
-                pair.add(nums[i]);
-                result.add(pair);
-            }
-        }
-        return result;
-    }
-    
-    // the input array is guaranteed to be sorted
-    private List<List<Integer>> twoSum(int[] nums, int start, int target) {
-        List<List<Integer>> result = new ArrayList<>();
-        Set<Integer> set = new HashSet<>();
-        boolean foundTwoHalvesOfTarget = false;
-        
-        for (int i = start; i < nums.length; i++) {
-            int cur = nums[i];
-            
-            if (set.contains(cur)) {
-                if (cur * 2 == target && !foundTwoHalvesOfTarget) {
-                    foundTwoHalvesOfTarget = true;
-                    List<Integer> pair = new ArrayList<>();
-                    pair.add(cur);
-                    pair.add(cur);
-                    result.add(pair);
-                }
-                continue;
-            }
-
-            if (set.contains(target - cur)) {
-                List<Integer> pair = new ArrayList<>();
-                pair.add(cur);
-                pair.add(target - cur);
-                result.add(pair);
-            }
-            set.add(cur);
-        }
-        return result;
+        return dp[n - 1][3][target];
     }
 }
 ```
 
 ## Reference
-[3Sum [LeetCode]](https://leetcode.com/problems/3sum/description/)
+[3Sum With Multiplicity [LeetCode]](https://leetcode.com/problems/3sum-with-multiplicity/description/)
 
 {% include links.html %}
