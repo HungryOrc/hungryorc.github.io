@@ -45,7 +45,7 @@ Note:
     and two 2s from [2,2,2,2] in 6 ways.
     ```
 
-## Solution：DP，我自己的想法，感觉思路是比较给力的，但实测速度很慢，还没看leetcode的答案
+## Solution：三维DP，我自己的想法，感觉思路是比较给力的，但实测速度很慢，还没看leetcode的答案
 * int dp[i][j][k]：数组里index从0到i的数里面，选出来**正好j个数**，这j个数正好加在一起等于k，这样的不同的选法一共有多少种，所谓的不同的选法是指**不同的indexes，而非不同的element values**
 
 ### Complexity
