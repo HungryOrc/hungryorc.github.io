@@ -1,5 +1,5 @@
 ---
-title: "Two Sum, Return All Valid Pairs of Unique Values"
+title: "2 Sum, Return All Valid Pairs of Unique Values"
 tags: [algorithm]
 keywords:
 summary:
