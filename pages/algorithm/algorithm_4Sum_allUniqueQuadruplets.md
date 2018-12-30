@@ -1,5 +1,5 @@
 ---
-title: "Four Sum, Return All Unique Quadruplets (the Order of the 4 Numbers in a Quadruplet Doesn't Matter)"
+title: "4 Sum, Return All Unique Quadruplets (the Order of the 4 Numbers in a Quadruplet Doesn't Matter)"
 tags: [algorithm]
 keywords:
 summary:
