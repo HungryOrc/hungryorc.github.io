@@ -28,13 +28,12 @@ Could you solve it in O(n^2) runtime?
   * Output: 2
   * Because there are two triplets which sums are less than 2: [-2,0,1], [-2,0,3]
 
-## Solution：双指针，挺巧妙的
-参考的
-
+## Solution：双指针，挺巧妙的，具体逻辑见代码
+参考的这个答案：https://leetcode.com/problems/3sum-smaller/discuss/68817/Simple-and-easy-understanding-O(n2)-JAVA-solution
 
 ### Complexity
-* Time: O(n * 3 * target) = O(n * target)，其中 n 是数组里的元素个数，3是3Sum所要求的三个元素的意思
-* Space: O(n * 3 * target) = O(n * target)
+* Time: O(n^2)，双层 loop
+* Space: O(1)
 
 ### Java
 ```java
