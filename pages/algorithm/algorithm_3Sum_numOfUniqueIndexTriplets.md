@@ -1,5 +1,5 @@
 ---
-title: "3 Sum, Return All Unique Triplets (the Order of the 3 Numbers in a Triplet Doesn't Matter)"
+title: "3 Sum, Return All Unique Triplets of Indexes"
 tags: [algorithm]
 keywords:
 summary:
