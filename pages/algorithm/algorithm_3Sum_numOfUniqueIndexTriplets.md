@@ -46,6 +46,7 @@ Note:
     ```
 
 ## Solution：DP，我自己的想法，感觉思路是比较给力的，但实测速度很慢，还没看leetcode的答案
+* int dp[i][j][k]：数组里index从0到i的数里面，选出来**正好j个数**，这j个数正好加在一起等于k，这样的不同的选法一共有多少种，所谓的不同的选法是指**不同的indexes，而非不同的element values**
 
 ### Complexity
 * Time: O(n * 3 * target) = O(n * target)，其中 n 是数组里的元素个数，3是3Sum所要求的三个元素的意思
@@ -54,7 +55,7 @@ Note:
 ### Java
 ```java
 class Solution {
-    private static final int MOD = (int)(Math.pow(10, 9) + 7);
+    private static final int MOD = (int)(Math.pow(10, 9) + 7); // 这是这题的特殊要求，属于个例
      
     public int threeSumMulti(int[] nums, int target) {
         if (nums == null || nums.length < 3) {
@@ -72,15 +73,17 @@ class Solution {
             }
         }
         
-        for (int j = 2; j <= 3; j++) {
-            for (int i = j - 1; i < n; i++) {
+        // 注意！要先 loop “第二个第三个数” 这个维度！
+        for (int j = 2; j <= 3; j++) { 
+            // 注意！这里从j-1开始loop，因为要保证目前至少有两个或者三个数在i的前面(含i在内)！
+            for (int i = j - 1; i < n; i++) { 
                 for (int k = 0; k <= target; k++) {
                     
                     dp[i][j][k] = dp[i - 1][j][k];
                     
                     if (nums[i] <= k) {
                         dp[i][j][k] += dp[i - 1][j - 1][k - nums[i]];
-                        dp[i][j][k] %= MOD;
+                        dp[i][j][k] %= MOD; // 这是这题的特殊要求，属于个例
                     }
                 }
             }
