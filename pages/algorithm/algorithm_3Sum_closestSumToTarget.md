@@ -1,5 +1,5 @@
 ---
-title: "Three Sum, Return the Closest Sum to the Target Sum"
+title: "3 Sum, Return the Closest Sum to the Target Sum"
 tags: [algorithm]
 keywords:
 summary:
