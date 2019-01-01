@@ -84,15 +84,14 @@ class Solution {
                     
                     if (dp[prevStoneIndex][prevSpeed]) {
                         dp[i][speed] = true;
+                        
+                        if (i == n - 1) {
+                            return true;
+                        }
+                        
                         break; // we are done with dp[i][speed] now
                     }
                 }
-            }
-        }
-        
-        for (int speed = 1; speed <= maxSpeed; speed++) {
-            if (dp[n - 1][speed]) {
-                return true;
             }
         }
         return false;
