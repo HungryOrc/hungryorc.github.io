@@ -36,9 +36,10 @@ Note
 * Input: [0,1,2,3,4,8,9,11]
   * Output: Integer.MAX_VALUE，无法跳到河的尽头，因为 the gap between the 5th and 6th stone is too large
 
-## Solution: 我自己的 二维DP做法
-* boolean dp[i][j] 表示 **离开** stones数组里index为i的那个石头（不是指石头的position值为i），**离开的速度** 正好为j，是否有可能实现这种状态
+## Solution: 我自己的 二维DP做法 <=== 对么 ？？？？
+* int dp[i][j] 表示 **离开** stones数组里index为i的那个石头（不是指石头的position值为i），**离开的速度** 正好为j，最少多少步可以到达这个状态
   * 特别注意！这里的速度是离开这个石头时的速度！不是到达这个石头时的速度！这个区别很重要！如果搞混了，题目一定会做错
+  * 这个dp矩阵里每个元素的初始值我们都填为 -1，如果最终都无法到达这个状态，也是 -1
 * max possible speed 和 river length 的关系：按这题的题意，每次速度变化可以是不变，+1 或 -1，那么最大的速度就是每次都 +1，但当然不可能无限加速下去，加速到 river length 的时候就到头了，那么有：1 + 2 + 3 + 4 + ... + (maxSpeed-1) + maxSpeed >= riverLen，所以 maxSpeed * (maxSpeed + 1) / 2 >= riverLen，所以 maxSpeed 约等于 sqrt(riverLen * 2)
 
 ### Complexity
@@ -48,18 +49,24 @@ Note
 ### Java
 ```java
 class Solution {
-    public boolean canCross(int[] stones) {
+    public int minJumps(int[] stones) {
         if (stones == null || stones.length == 0 || stones[0] != 0) {
-            return false;
+            return -1; // 数据错误
         }
         
         int n = stones.length;
-        if (n == 1) return true;
+        if (n == 1) return 0; // 不用跳了
         
-        int riverLen = stones[n - 1] + 1; // 注意riverLen和n的区别
+        int riverLen = stones[n - 1]; // 注意riverLen和n的区别
         int maxSpeed = (int)(Math.sqrt(riverLen * 2)); // max possible speed
         
-        boolean[][] dp = new boolean[n][maxSpeed + 1];
+        int[][] dp = new int[n][maxSpeed + 1];
+        // 初始化
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= maxSpeed; j++) {
+                dp[i][j] = -1;
+            }
+        }
         
         // <stone position, stone index in the stnes array>
         Map<Integer, Integer> stoneMap = new HashMap<>();
@@ -68,7 +75,7 @@ class Solution {
         }
         
         // base case
-        dp[0][1] = true; // the first position and first speed
+        dp[0][1] = 0; // the first position and first speed，初始不用跳就是这个状态，所以0
         
         for (int i = 1; i < n; i++) { // each stone in the river
             int curPos = stones[i]; // current position (must be a stone)
@@ -83,7 +90,7 @@ class Solution {
                     
                     // 注意！这里应该 减prevSpeed！不是 减curSpeed！
                     int prevPos = curPos - prevSpeed; 
-                    if (prevPos < 0) {
+                    if (prevPos <= 0) {
                         continue;
                     }
                     int prevStoneIndex = stoneMap.getOrDefault(prevPos, -1);
@@ -91,19 +98,23 @@ class Solution {
                         continue;
                     }
                     
-                    if (dp[prevStoneIndex][prevSpeed]) {
-                        dp[i][speed] = true;
-                        
-                        if (i == n - 1) {
-                            return true;
-                        }
-                        
+                    // 别忘了判断 假设的之前的这个状态 是否可达
+                    if (dp[prevStoneIndex][prevSpeed] ！= -1) { 
+                        dp[i][speed] = Math.min(dp[i][speed], 
+                                                dp[prevStoneIndex][prevSpeed] + 1);
                         break; // we are done with dp[i][speed] now
                     }
                 }
             }
         }
-        return false;
+        
+        int minSteps = Integer.MAX_VALUE;
+        for (int num : dp[n - 1]) {
+            if (num != -1) { // 别忘了查这一条
+                minSteps = Math.min(minSteps, num);
+            }
+        }
+        return minSteps;
     }
 }
 ```
