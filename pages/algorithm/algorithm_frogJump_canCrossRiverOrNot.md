@@ -1,0 +1,110 @@
+---
+title: "Frog Jump: Can Cross River Or Not"
+tags: [algorithm, dynamic_programming]
+keywords:
+summary:
+sidebar: mydoc_sidebar
+permalink: algorithm_frogJump_canCrossRiverOrNot.html
+folder: algorithm
+toc: false
+---
+
+## Description
+A frog is crossing a river. The river is divided into x units and at each unit there may or may not exist a stone. The frog can jump on a stone, but it must not jump into the water.
+
+Given a list of stones' positions (in units) in sorted ascending order, determine if the frog is able to cross the river by landing on the last stone. Initially, the frog is on the first stone and assume the first jump must be 1 unit.
+
+If the frog's last jump was k units, then its next jump must be either k - 1, k, or k + 1 units. Note that the frog can only jump in the forward direction.
+
+Note
+* The number of stones is ≥ 2 and is < 1100.
+* Each stone's position will be a non-negative integer < 2^31.
+* The first stone's position is always 0.
+
+### Example
+* Input: [0,1,3,5,6,8,12,17]，注意数组里的每个数字表示石头的坐标，从0开始编index，即数组里的0表示小河里的第1个位置有石头，数组里的3表示小河里的第4个位置有石头
+  * Output: True
+  * The frog can jump to the last stone by jumping 1 unit to the 2nd stone, then 2 units to the 3rd stone, then 2 units to the 4th stone, then 3 units to the 6th stone, 4 units to the 7th stone, and 5 units to the 8th stone.
+* Input: [0,1,2,3,4,8,9,11]
+  * Output: False
+  * There is no way to jump to the last stone as the gap between the 5th and 6th stone is too large.
+
+## Solution: 我自己的DP做法，实测速度很慢，但自我感觉挺好
+* boolean dp[i][j] 表示 到stones数组里index为i的那个石头的时候（不是指石头的position值为i），速度正好为j，是否有可能实现这种状态
+
+### Complexity
+* Time: O(n * maxSpeed)，其中n是题目给的数组的长度，不是小河的长度；maxSpeed是小河的长度的平方根，具体解释见前面
+* Space: O(n * maxSpeed * 3) = O(n * maxSpeed)，其中3是指三种速度变化方式
+
+### Java
+```java
+class Solution {
+    public boolean canCross(int[] stones) {
+        if (stones == null || stones.length == 0 || stones[0] != 0) {
+            return false;
+        }
+        
+        int n = stones.length;
+        if (n == 1) return true;
+        
+        int riverLen = stones[n - 1] + 1;
+        int maxSpeed = (int)(Math.sqrt(riverLen * 2)); // max possible speed
+        
+        // only for this question, can remove, try to remove it ????????
+        if (riverLen < 0 || riverLen == Integer.MAX_VALUE) {
+            return false;
+        }
+        
+        boolean[][] dp = new boolean[n][maxSpeed + 1];
+        
+        // <stone position, stone index in the stnes array>
+        Map<Integer, Integer> stoneMap = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            stoneMap.put(stones[i], i);
+        }
+        
+        // base case
+        dp[0][1] = true; // the first position and first speed
+        
+        for (int i = 1; i < n; i++) { // each stone in the river
+            int curPos = stones[i]; // current position (must be a stone)
+            
+            for (int speed = 1; speed <= maxSpeed; speed++) { // each possible speed
+                
+                for (int diff = -1; diff <= 1; diff++) { // 3 possible prev speeds
+                    int prevSpeed = speed + diff;
+                    if (prevSpeed <= 0 || prevSpeed > maxSpeed) {
+                        continue;
+                    }
+                    
+                    int prevPos = curPos - prevSpeed;
+                    if (prevPos < 0) {
+                        continue;
+                    }
+                    int prevStoneIndex = stoneMap.getOrDefault(prevPos, -1);
+                    if (prevStoneIndex == -1) {
+                        continue;
+                    }
+                    
+                    if (dp[prevStoneIndex][prevSpeed]) {
+                        dp[i][speed] = true;
+                        break; // we are done with dp[i][speed] now
+                    }
+                }
+            }
+        }
+        
+        for (int speed = 1; speed <= maxSpeed; speed++) {
+            if (dp[n - 1][speed]) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+```
+
+## Reference
+* [Frog Jump [LeetCode]](https://leetcode.com/problems/frog-jump/description/)
+
+{% include links.html %}
