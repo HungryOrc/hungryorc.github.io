@@ -31,6 +31,7 @@ Note
 
 ## Solution: 我自己的DP做法，实测速度很慢，但自我感觉挺好
 * boolean dp[i][j] 表示 到stones数组里index为i的那个石头的时候（不是指石头的position值为i），速度正好为j，是否有可能实现这种状态
+* max possible speed 和 river length 的关系：按这题的题意，每次速度变化可以是不变，+1 或 -1，那么最大的速度就是每次都 +1，
 
 ### Complexity
 * Time: O(n * maxSpeed)，其中n是题目给的数组的长度，不是小河的长度；maxSpeed是小河的长度的平方根，具体解释见前面
@@ -47,13 +48,8 @@ class Solution {
         int n = stones.length;
         if (n == 1) return true;
         
-        int riverLen = stones[n - 1] + 1;
+        int riverLen = stones[n - 1] + 1; // 注意riverLen和n的区别
         int maxSpeed = (int)(Math.sqrt(riverLen * 2)); // max possible speed
-        
-        // only for this question, can remove, try to remove it ????????
-        if (riverLen < 0 || riverLen == Integer.MAX_VALUE) {
-            return false;
-        }
         
         boolean[][] dp = new boolean[n][maxSpeed + 1];
         
