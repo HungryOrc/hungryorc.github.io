@@ -49,7 +49,7 @@ class Solution {
         int n = stones.length;
         if (n == 1) return true;
         
-        int riverLen = stones[n - 1] + 1; // 注意riverLen和n的区别
+        int riverLen = stones[n - 1]; // 注意riverLen和n的区别
         int maxSpeed = (int)(Math.sqrt(riverLen * 2)); // max possible speed
         
         boolean[][] dp = new boolean[n][maxSpeed + 1];
