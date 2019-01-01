@@ -76,7 +76,7 @@ class Solution {
                     
                     // 注意！这里应该 减prevSpeed！不是 减curSpeed！
                     int prevPos = curPos - prevSpeed; 
-                    if (prevPos < 0) {
+                    if (prevPos <= 0) {
                         continue;
                     }
                     int prevStoneIndex = stoneMap.getOrDefault(prevPos, -1);
