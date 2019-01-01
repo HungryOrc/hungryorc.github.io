@@ -104,7 +104,7 @@ class Solution {
 ## Solution 2: BFS，比上面的DP还慢。DFS的代码和BFS基本一样，只是把queue改为stack就行，速度也一样很慢
 
 ### Complexity
-* Time: O(n^3)，其中n是题目给的数组的长度
+* Time: O(3^n)，其中n是题目给的数组的长度
 * Space: O(n), queue size
 
 ### Java
