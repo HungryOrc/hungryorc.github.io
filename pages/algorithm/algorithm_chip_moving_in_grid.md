@@ -84,7 +84,8 @@ public int chipMoving(int[][] grid, int directChangeCost) {
                                        directChangeCost + grid[row][1];
     }
     // 第二行里 除了第一二列 的cells
-    // 从左边进入它们有两种情况：要么从左邻是从左边被进入的，这样从左邻到它就没拐弯；要么左邻是被从上方被进入的，这样从左邻到它就拐弯了
+    // 从左边进入它们有两种情况：
+    // 要么它的左邻是从左边被进入的，这样从左邻到它就没拐弯；要么它的左邻是从上方被进入的，这样从左邻到它就有拐弯
     for (int col = 2; col < m; col++) {
         reachCurCellFromLeft[1][col] = grid[1][col] + 
             Math.min(reachCurCellFromLeft[1][col - 1], 
@@ -92,25 +93,27 @@ public int chipMoving(int[][] grid, int directChangeCost) {
     }
     // 第二列里 除了第一二行 的cells
     // 从上方进入它们有两种情况：
-    for (int row = 2; row < rows; row++) {
-        costToReachCurCell_FromAbove[row][1] = grid[row][1] + 
-                Math.min(costToReachCurCell_FromAbove[row - 1][1], 
-                         costToReachCurCell_FromLeft[row - 1][1] + directChangeCost);
+    // 要么它的上邻是从上方被进入的，这样从上邻到它就没拐弯；要么它的上邻是从左方被进入的，这样从上邻到它就有拐弯
+    for (int row = 2; row < n; row++) {
+        reachCurCellFromAbove[row][1] = grid[row][1] + 
+            Math.min(reachCurCellFromAbove[row - 1][1], 
+                     reachCurCellFromLeft[row - 1][1] + directChangeCost);
     }
     
-    for (int row = 2; row < rows; row++) {
-        for (int col = 2; col < cols; col++) {
-            costToReachCurCell_FromAbove[row][col] = grid[row][col] + 
-                    Math.min(costToReachCurCell_FromAbove[row - 1][col], 
-                             costToReachCurCell_FromLeft[row - 1][col] + directChangeCost);
-            costToReachCurCell_FromLeft[row][col] = grid[row][col] + 
-                    Math.min(costToReachCurCell_FromLeft[row][col - 1], 
-                             costToReachCurCell_FromAbove[row][col - 1] + directChangeCost);
+    // 对于所有第三行(含)第三列(含)以后的cells，如下，它们在两个方向都会有两种情况了
+    for (int row = 2; row < n; row++) {
+        for (int col = 2; col < m; col++) {
+            reachCurCellFromAbove[row][col] = grid[row][col] + 
+                Math.min(reachCurCellFromAbove[row - 1][col], 
+                         reachCurCellFromLeft[row - 1][col] + directChangeCost);
+            reachCurCellFromLeft[row][col] = grid[row][col] + 
+                Math.min(reachCurCellFromLeft[row][col - 1], 
+                         reachCurCellFromAbove[row][col - 1] + directChangeCost);
         }
     }
 
-    return Math.min(costToReachCurCell_FromAbove[rows - 1][cols - 1], 
-                    costToReachCurCell_FromLeft[rows - 1][cols - 1]);   
+    return Math.min(reachCurCellFromAbove[rows - 1][cols - 1], 
+                    reachCurCellFromLeft[rows - 1][cols - 1]);   
 }
 ```
 
