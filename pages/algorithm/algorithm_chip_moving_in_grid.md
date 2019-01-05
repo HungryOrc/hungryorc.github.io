@@ -24,12 +24,14 @@ It is guaranteed that each of all possible paths will cost less than 10^7 points
 * 0 ≤ grid[i][j] ≤ 2000.
 
 ### Example
-* Input: grid = [
-      [ 0,  0, 99, 99, 99],
-      [99,  0,  0,  0, 99],
-      [99, 99, 99,  0, 99],
-      [99, 99, 99,  0, 99],
-      [99, 99, 99,  0,  0]]
+* Input: 给的 grid 如下：
+  ```
+  [ 0,  0, 99, 99, 99]
+  [99,  0,  0,  0, 99
+  [99, 99, 99,  0, 99]
+  [99, 99, 99,  0, 99]
+  [99, 99, 99,  0,  0]
+  ```
   * Output: 40. You could avoid all the 99 spots but you would need to change direction 4 times
 
 ## Solution：我的方法，使用 2个 二维DP矩阵，各表征一个“进入的方向”
@@ -43,40 +45,53 @@ It is guaranteed that each of all possible paths will cost less than 10^7 points
 
 ### Java
 ```java
-public int chipMoving(int[][] grid) {
+public int chipMoving(int[][] grid, int directChangeCost) {
     // ignore validations
     
-    int rows = grid.length;
-    int cols = grid[0].length;
+    int n = grid.length;
+    int m = grid[0].length;
     
-    int directChangeCost = 10;
+    // 定义两个DP矩阵，表征两个不同的“进入方向”
+    int[][] reachCurCellFromAbove = new int[n][m];
+    int[][] reachCurCellFromLeft = new int[n][m];
     
-    int[][] costToReachCurCell_FromAbove = new int[rows][cols];
-    int[][] costToReachCurCell_FromLeft = new int[rows][cols];
+    // 第一行第一列即左上角的 [0, 0] cell，
+    // 它是起始点，题目说了占据它不产生任何cost
     
-    for (int col = 1; col < cols; col++) {
-        costToReachCurCell_FromLeft[0][col] = costToReachCurCell_FromLeft[0][col - 1] + grid[0][col];
-        // actually we will never use the following values
-        costToReachCurCell_FromAbove[0][col] = -1;
+    // 第一行 除了[0, 0] 的cells
+    // 从左边进入它们只有一种方式，就是从左边的邻cell直接过来，之前不可能有任何转弯
+    // 从上方进入它们是不可能的
+    for (int col = 1; col < m; col++) {
+        reachCurCellFromLeft[0][col] = reachCurCellFromLeft[0][col - 1] + grid[0][col];
     }
-    for (int row = 1; row < rows; row++) {
-        costToReachCurCell_FromAbove[row][0] = costToReachCurCell_FromAbove[row - 1][0] + grid[row][0];
-        // actually we will never use the following values
-        costToReachCurCell_FromLeft[row][0] = -1;
-    }
-    
-    for (int col = 1; col < cols; col++) {
-        costToReachCurCell_FromAbove[1][col] = costToReachCurCell_FromLeft[0][col] + directChangeCost + grid[1][col];
-    }
-    for (int row = 1; row < rows; row++) {
-        costToReachCurCell_FromLeft[row][1] = costToReachCurCell_FromAbove[row][0] + directChangeCost + grid[row][1];
+    // 第一列 除了[0, 0] 的cells
+    // 从上方进入他们只有一种方式，就是从上方的邻cell直接过来，之前不可能有任何转弯
+    // 从左方进入它们是不可能的
+    for (int row = 1; row < n; row++) {
+        reachCurCellFromAbove[row][0] = rachCurCellFromAbove[row - 1][0] + grid[row][0];
     }
     
-    for (int col = 2; col < cols; col++) {
-        costToReachCurCell_FromLeft[1][col] = grid[row][1] + 
-                Math.min(costToReachCurCell_FromLeft[1][col - 1], 
-                         costToReachCurCell_FromAbove[1][col - 1] + directChangeCost);
+    // 第二行里 除了第一列 的cells
+    // 从上方进入它们只有一种情况：它上方的邻居nei只可能从左边被进入(因为nei在第一行)，所以从nei到它必须转一次弯
+    for (int col = 1; col < m; col++) {
+        reachCurCellFromAbove[1][col] = reachCurCellFromLeft[0][col] + 
+                                        directChangeCost + grid[1][col];
     }
+    // 第二列里 除了第一行 的cells
+    // 从左边进入它们只有一种情况：它左边的邻居nei只可能从上方被进入(因为nei在第一列)，所以从nei到它必须转一次弯
+    for (int row = 1; row < n; row++) {
+        reachCurCellFromLeft[row][1] = reachCurCellFromAbove[row][0] + 
+                                       directChangeCost + grid[row][1];
+    }
+    // 第二行里 除了第一二列 的cells
+    // 从左边进入它们有两种情况：要么从左邻是从左边被进入的，这样从左邻到它就没拐弯；要么左邻是被从上方被进入的，这样从左邻到它就拐弯了
+    for (int col = 2; col < m; col++) {
+        reachCurCellFromLeft[1][col] = grid[1][col] + 
+            Math.min(reachCurCellFromLeft[1][col - 1], 
+                     reachCurCellFromAbove[1][col - 1] + directChangeCost);
+    }
+    // 第二列里 除了第一二行 的cells
+    // 从上方进入它们有两种情况：
     for (int row = 2; row < rows; row++) {
         costToReachCurCell_FromAbove[row][1] = grid[row][1] + 
                 Math.min(costToReachCurCell_FromAbove[row - 1][1], 
