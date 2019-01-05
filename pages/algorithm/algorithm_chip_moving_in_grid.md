@@ -44,6 +44,7 @@ It is guaranteed that each of all possible paths will cost less than 10^7 points
 * Space: O(n * m)
 
 ### Java
+代码看起来不短，但逻辑其实不复杂。只是一步一步要很细心，哪个cell的哪个方向填了，哪个方向没填，要清晰地推进
 ```java
 public int chipMoving(int[][] grid, int directChangeCost) {
     // ignore validations
