@@ -9,7 +9,7 @@ folder: algorithm
 toc: false
 ---
 
-## Description
+## Description：这题有点难
 You are given a grid filled with non-negative integer numbers, and a chip is placed on the top left cell. 
 On each turn the chip can be moved either to the right neighboring cell or to the bottom neighboring cell. 
 The cost of the move is equal to the number written on the resulting cell.
