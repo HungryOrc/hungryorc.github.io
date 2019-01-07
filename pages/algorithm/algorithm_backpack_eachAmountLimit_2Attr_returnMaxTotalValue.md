@@ -16,7 +16,7 @@ toc: false
 ### Example
 略
 
-## Solution 1: 二维DP
+## Solution 1: 二维DP，速度 前1%
 * `int dp[i][s]`：使用数组里 index为0到i 的items中的任意几个item，每个item可能取用任意次（但这些次数必须符合每种item各自的次数限制），正好组成总 size = s 的前提下，最大的总value是多少
 * `int dp[][] = new int[number of items][capacity of backpack + 1]`
 * Base Cases：见下面的代码
@@ -87,35 +87,35 @@ Offset One方法不能降低时间和空间复杂度
 ### Java
 ```java
 public class Solution {
-    public int backPackIII(int[] sizes, int[] values, int capacity) {
-        if (sizes == null || sizes.length == 0 || values == null || values.length == 0
-                || sizes.length != values.length || capacity <= 0) {
+    public int backPackVII(int capacity, int[] sizes, int[] values, int[] amounts) {
+        if (capacity <= 0 || sizes == null || values == null || amounts == null ||
+            sizes.length == 0 || values.length == 0 || amounts.length == 0 ||
+            sizes.length != values.length || values.length != amounts.length) {
             return 0;
         }
         
         int n = sizes.length;
         int[][] dp = new int[n + 1][capacity + 1]; // n + 1
         
-        // base case 1 不必写了
+        // 从第一种item开始
+        for (int i = 1; i <= n; i++) { // i = 1, i <= n
+            int curSize = sizes[i - 1]; // 以下三行都从 i 变成 i-1
+            int curValue = values[i - 1];
+            int curMaxAmount = amounts[i - 1];
 
-        for (int i = 1; i <= n; i++) { // i <= n
-            int curSize = sizes[i - 1]; // i - 1
-            int curValue = values[i - 1]; // i - 1
-            
-            for (int j = 1; j <= capacity; j++) {
-                dp[i][j] = dp[i - 1][j];
-                
-                if (curSize <= j) {
-                    dp[i][j] = Math.max(dp[i][j], dp[i][j - curSize] + curValue);
+            for (int j = 0; j <= curMaxAmount; j++) {
+                for (int k = curSize * j; k <= capacity; k++) {
+                    dp[i][k] = Math.max(dp[i][k], 
+                                        dp[i - 1][k - curSize * j] + curValue * j);
                 }
             }
         }
         
-        int maxValue = 0;
-        for (int v : dp[n]) { // dp[n]
-            maxValue = Math.max(maxValue, v);
+        int max = 0;
+        for (int totalVal : dp[n]) { // dp[n]
+            max = Math.max(max, totalVal);
         }
-        return maxValue;
+        return max;
     }
 }
 ```
