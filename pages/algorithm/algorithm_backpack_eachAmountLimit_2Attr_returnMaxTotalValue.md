@@ -51,6 +51,8 @@ public class Solution {
             int curValue = values[i];
             int curMaxAmount = amounts[i];
             
+            // 以下两
+            
             // for every possible amount of the current item
             for (int j = 0; j <= curMaxAmount; j++) {
                 
