@@ -55,12 +55,12 @@ public class Solution {
             
             // 以下两层for loop 是这个解法的精华所在 ！！！
             
-            // for every possible amount of the current item
+            // 这里的j表示 cur item 在整个组合里出现多少次！！！
             // 特别注意：这里 j 要从 0 开始！就是不放任何 cur item 的情况
             for (int j = 0; j <= curMaxAmount; j++) {
                 
-                // for every possible total capacity
-                // k 必须 >= curSize * i，下面的运算才有意义，所以不如直接从
+                // for every possible total size k
+                // 因为 k 必须 >= curSize * i，下面的运算才有意义，所以不如直接从
                 // curSize * i 开始 loop k 的值
                 for (int k = curSize * j; k <= capacity; k++) {
                     dp[i][k] = Math.max(dp[i][k], 
@@ -157,6 +157,9 @@ public class Solution {
             int curValue = values[i];
             int curMaxAmount = amounts[i];
             
+            // 注意！这里的j的意义和前面那些方法里的j的意义完全不同！虽然看起来关于j的代码基本一样，
+            // 但这个方法里的j表示的是 “我么一次又一次地铺cur item 到组合里去，每次铺一个 cur item，
+            // 当前是第j次铺一个 cur item 到组合里去”
             for (int j = 1; j <= curMaxAmount; j++) {
                 for (int k = capacity; k >= j * curSize; k--) {
                     dp[k] = Math.max(dp[k], 
