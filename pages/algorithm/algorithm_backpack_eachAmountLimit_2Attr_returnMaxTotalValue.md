@@ -13,6 +13,8 @@ toc: false
 每种item 有各自的 最高取用次数。每个item有2个属性，size和value。背包有最大的容量（对于size）。
 求 max possible total value（达到 max value 时背包未必被填满）。
 
+这题的思路和代码，可以 **对比 每种item都可以取用无数次，每个item有2个属性，求最大总value 那题**
+
 ### Example
 略
 
@@ -121,9 +123,12 @@ public class Solution {
 }
 ```
 
-## Solution 1.2：基于Solution 1，dp[index][size]降维为dp[size]，速度 前1% ！
+## Solution 1.2：基于Solution 1，dp[index][size]降维为dp[size]
 
-### 只要是DP矩阵降维，就要考虑从大往小填写（矩阵里的一个或多个维度）！但是这题反而不能从大到小，还是得从小到大！所以DP矩阵降维不一定需要从大到小
+### 只要是DP矩阵降维，就要考虑从大往小填写（矩阵里的一个或多个维度）！
+这题必须 从大到小填写！因为每种item都有个数限制
+
+如果每种物品都可以放无数个，那么 从小到大填写 是可以的，因为反正都是可以无限次取用，再怎么重复累计也都不会犯错
 
 ### Complexity
 * Time: 与Solution 1 相同
@@ -132,38 +137,39 @@ public class Solution {
 ### Java
 ```java
 public class Solution {
-    public int backPackIII(int[] sizes, int[] values, int capacity) {
-        if (sizes == null || sizes.length == 0 || values == null || values.length == 0
-                || sizes.length != values.length || capacity <= 0) {
+    public int backPackVII(int capacity, int[] sizes, int[] values, int[] amounts) {
+        if (capacity <= 0 || sizes == null || values == null || amounts == null ||
+            sizes.length == 0 || values.length == 0 || amounts.length == 0 ||
+            sizes.length != values.length || values.length != amounts.length) {
             return 0;
         }
         
         int n = sizes.length;
         int[] dp = new int[capacity + 1]; // 一维
         
-        // base case 1
-        for (int i = 1; i <= capacity / sizes[0]; i++) {
-            dp[sizes[0] * i] = values[0] * i; // 一维
+        // base case，一维
+        for (int i = 1; i <= amounts[0] && i * sizes[0] <= capacity; i++) {
+            dp[i * sizes[0]] = i * values[0];
         }
         
         for (int i = 1; i < n; i++) {
             int curSize = sizes[i];
             int curValue = values[i];
+            int curMaxAmount = amounts[i];
             
-            for (int j = 1; j <= capacity; j++) {
-                // dp[j] = dp[j]; // 在一维下，这个没意义了
-                
-                if (curSize <= j) {
-                    dp[j] = Math.max(dp[j], dp[j - curSize] + curValue); // 一维
+            for (int j = 1; j <= curMaxAmount; j++) {
+                for (int k = capacity; k >= j * curSize; k--) {
+                    dp[k] = Math.max(dp[k], 
+                                     dp[k - curSize] + curValue); // 一维
                 }
             }
         }
         
-        int maxValue = 0;
-        for (int v : dp) { // 一维
-            maxValue = Math.max(maxValue, v);
+        int max = 0;
+        for (int totalVal : dp) { // 一维
+            max = Math.max(max, totalVal);
         }
-        return maxValue;
+        return max;
     }
 }
 ```
