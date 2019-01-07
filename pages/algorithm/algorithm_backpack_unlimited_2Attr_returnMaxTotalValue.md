@@ -209,6 +209,6 @@ public class Solution {
 ```
 
 ## Reference
-[Backpack VII [LintCode]](https://www.lintcode.com/problem/backpack-vii/description)
+[Backpack III [LintCode]](https://www.lintcode.com/problem/backpack-iii/description)
 
 {% include links.html %}
