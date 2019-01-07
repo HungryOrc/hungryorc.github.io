@@ -13,7 +13,7 @@ toc: false
 每种item 有各自的 最高取用次数。每个item有2个属性，size和value。背包有最大的容量（对于size）。
 求 max possible total value（达到 max value 时背包未必被填满）。
 
-这题的思路和代码，可以 **对比 每种item都可以取用无数次，每个item有2个属性，求最大总value 那题**
+这题的思路和代码，**可以对比 "每种item都可以取用无数次，每个item有2个属性，求最大总value" 那题**
 
 ### Example
 略
