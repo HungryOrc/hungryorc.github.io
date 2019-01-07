@@ -54,6 +54,7 @@ public class Solution {
             // 以下两层for loop 是这个解法的精华所在 ！！！
             
             // for every possible amount of the current item
+            // 特别注意：这里 j 要从 0 开始！就是不放任何 cur item 的情况
             for (int j = 0; j <= curMaxAmount; j++) {
                 
                 // for every possible total capacity
