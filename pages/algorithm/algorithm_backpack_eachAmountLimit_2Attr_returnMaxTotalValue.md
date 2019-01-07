@@ -19,57 +19,56 @@ toc: false
 ## Solution 1: 二维DP
 * `int dp[i][s]`：使用数组里 index为0到i 的items中的任意几个item，每个item可能取用任意次（但这些次数必须符合每种item各自的次数限制），正好组成总 size = s 的前提下，最大的总value是多少
 * `int dp[][] = new int[number of items][capacity of backpack + 1]`
-* Base Cases
-  * 对于数组里的第一个item
-    * if (sizes[0] <= capacity)，`dp[0][sizes[0] * i] = values[0] * i`，for 1 <= i <= capacity / sizes[0]
-    * 其他的 dp[0][j] 都是 0，因为不可能实现
-  * 总size为0的情况，对于任何多个items，都必然是什么都不放，所以总value必是0。即 `dp[i][0] = 0`, 0 <= i < n。因为都是0，所以可以不写了
-* Induction Rule: `dp[i][sum] = max(dp[i - 1][sum], dp[i][sum - curValue] + 1)`
-  * `dp[i - 1][s]`：i之前的那些items已经可以组成总和正好为 s 的组合了，item i 不参与
-  * `dp[i][s - sizes[i]]`：已经用过了 **0次或若干次 item i**，组成了总和为 s - sizes[i] 的组合
-  * 注意，`dp[i][sum - curValue]` 是**包含了** `dp[i - 1][sum - curValue]` 的。因为 `dp[i - 1][sum - curValue]` 表示 item i **已经被使用0次**，然后将会被使用一次
+* Base Cases：见下面的代码
+* Induction Rule: 见下面的代码
 * Return: 这里不是返回 `dp[n - 1][capacity]`。因为 获得总value最大时的总size未必是capacity。所以应该返回的是：`max(dp[n - 1][totalSize])`, for 1 <= totalSize <= capacity
 
 ### Complexity
-* Time: O(n * capacity)
+* Time: O(n * capacity)，n 是有多少种 items
 * Space: O(n * capacity)
 
 ### Java
 ```java
 public class Solution {
-    public int backPackIII(int[] sizes, int[] values, int capacity) {
-        if (sizes == null || sizes.length == 0 || values == null || values.length == 0
-                || sizes.length != values.length || capacity <= 0) {
-            // 特殊情况别忘了：两个数组长度不同!
+    public int backPackVII(int capacity, int[] sizes, int[] values, int[] amounts) {
+        if (capacity <= 0 || sizes == null || values == null || amounts == null ||
+            sizes.length == 0 || values.length == 0 || amounts.length == 0 ||
+            sizes.length != values.length || values.length != amounts.length) {
             return 0;
         }
         
         int n = sizes.length;
         int[][] dp = new int[n][capacity + 1];
         
-        // base case 1
-        for (int i = 1; i <= capacity / sizes[0]; i++) {
-            dp[0][sizes[0] * i] = values[0] * i;
+        // base case
+        for (int i = 1; i <= amounts[0] && i * sizes[0] <= capacity; i++) {
+            dp[0][i * sizes[0]] = i * values[0];
         }
         
+        // 从第二种item开始
         for (int i = 1; i < n; i++) {
             int curSize = sizes[i];
             int curValue = values[i];
+            int curMaxAmount = amounts[i];
             
-            for (int j = 1; j <= capacity; j++) {
-                dp[i][j] = dp[i - 1][j];
+            // for every possible amount of the current item
+            for (int j = 0; j <= curMaxAmount; j++) {
                 
-                if (curSize <= j) {
-                    dp[i][j] = Math.max(dp[i][j], dp[i][j - curSize] + curValue);
+                // for every possible total capacity
+                // k 必须 >= curSize * i，下面的运算才有意义，所以不如直接从
+                // curSize * i 开始 loop k 的值
+                for (int k = curSize * j; k <= capacity; k++) {
+                    dp[i][k] = Math.max(dp[i][k], 
+                                        dp[i - 1][k - curSize * j] + curValue * j);
                 }
             }
         }
         
-        int maxValue = 0;
-        for (int v : dp[n - 1]) {
-            maxValue = Math.max(maxValue, v);
+        int max = 0;
+        for (int totalVal : dp[n - 1]) {
+            max = Math.max(max, totalVal);
         }
-        return maxValue;
+        return max;
     }
 }
 ```
