@@ -31,7 +31,7 @@ Unlimited 的意思是 每个item可以被取用 0次到无限次。每个item�
 * Return: 这里不是返回 `dp[n - 1][capacity]`。因为 获得总value最大时的总size未必是capacity。所以应该返回的是：`max(dp[n - 1][totalSize])`, for 1 <= totalSize <= capacity
 
 ### Complexity
-* Time: O(n * m * capacity)，n是有多少种items，m是平均每种item的允许个数
+* Time: O(n * capacity)
 * Space: O(n * capacity)
 
 ### Java
