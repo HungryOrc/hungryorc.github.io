@@ -26,7 +26,7 @@ toc: false
 * Return: 这里不是返回 `dp[n - 1][capacity]`。因为 获得总value最大时的总size未必是capacity。所以应该返回的是：`max(dp[n - 1][totalSize])`, for 1 <= totalSize <= capacity
 
 ### Complexity
-* Time: O(n * capacity)，n 是有多少种 items
+* Time: O(n * m * capacity)，n是有多少种items，m是平均每种item的允许个数
 * Space: O(n * capacity)
 
 ### Java
