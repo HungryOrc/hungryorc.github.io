@@ -18,20 +18,11 @@ toc: false
 略
 
 ## Solution 1: 二维DP
-* `int dp[i][s]`：使用数组里 index为0到i 的items中的任意几个item，每个item可以取任意多次。最少用多少个item，能正好组成总 size = s。。
+* `int dp[i][s]`：使用数组里 index为0到i 的items中的任意几个item，每个item可以取任意多次。在总size <= s 的前提下，最大的总size是多少
 * `int dp[][] = new int[number of items][capacity of backpack + 1]`
-* Base Cases
-  * 对于数组里的第一个item
-    * if (sizes[0] <= capacity)，dp[0][sizes[0] * i] = i，这里i的意思是i个（这种）item，其中 i = 1, 2, 3...
-    * 其他的 dp[0][s != sizes[0]] 都 = -1，因为不可能实现，用-1来表示不可能（也可以用Integer.MAX_VALUE）
-  * 总size为0的情况，对于任何多个items，都是可以的，即什么都不放。这些情况都算是0个item。所以 `dp[i][0] = 0`, 0 <= i < n。因为都是0所以可以不写了
-* Induction Rule: `dp[i][sum] = min(dp[i - 1][sum], dp[i][sum - curValue] + 1)`
-  * `dp[i - 1][sum]` 表示 sum里面将没有item i 的任何参与
-  * `dp[i][sum - curValue]` 表示 sum里面将存在item i 的一次或者多次参与
-  * 注意，`dp[i][sum - curValue]` 是**包含了** `dp[i - 1][sum - curValue]` 的。所以上面的式子不再加入 `dp[i - 1][sum - curValue]`。理由是：
-    * `dp[i - 1][sum - curValue]` 表示 item i **已经被使用0次**，然后将会被使用一次
-    * `dp[i][sum - curValue]` 表示 item i **已经被使用 0次，1次，或多次了**，然后将再被使用一次。所以可见它是涵盖了上面那个情况的
-* Return: `dp[n - 1][capacity of backpack]`
+* Base Cases：见下面代码
+* Induction Rule：见下面代码
+* Return: max(dp[n - 1][i])
 
 ### Complexity
 * Time: O(n * capacity), 其中n是items的个数
@@ -40,40 +31,38 @@ toc: false
 ### Java
 ```java
 public class Solution {
-    public int backPack_UnknownProblemNumber(int[] sizes, int capacity) {
-        if (sizes == null || sizes.length == 0 || capacity <= 0) {
-            return 0;
+    public int backPackX(int totalMoney) {
+        // ignore validation
+        
+        int[] prices = {150, 250, 350};
+        int n = 3; // n 是商品的种类数
+        
+        int[][] dp = new int[n][totalMoney + 1];
+        
+        // base case
+        for (int i = 1; i <= totalMoney / prices[0]; i++) {
+            dp[0][i * prices[0]] = i * prices[0];
         }
         
-        int n = sizes.length;
-        int[][] dp = new int[n][capacity + 1];
-        
-        // base case 1
-        for (int i = 1; i <= capacity; i++) { // 注意i从1开始，因为i=0即总size为0是可以实现的
-            dp[0][i] = -1; // 初始化都设为-1表示不可能实现的情况，例外是可以实现的情况，在下面的for loop里写
-        }
-        for (int i = 1; i <= capacity / sizes[0]; i++) {
-            dp[0][sizes[0] * i] = i; // 这里是 = i，不是 = 1 了
-        }
-        
-        // base case 2，可以不写
-        //for (int i = 0; i < n; i++) {
-        //    dp[i][0] = 0;
-        //}
-        
+        // 从第二种商品开始
         for (int i = 1; i < n; i++) {
-            int curSize = sizes[i];
+            int curPrice = prices[i];
             
-            for (int sum = 1; sum <= capacity; sum++) {
-                dp[i][sum] = dp[i - 1][sum];
+            for (int j = 1; j <= totalMoney; j++) {
+                dp[i][j] = dp[i - 1][j];
                 
-                // 别忘了判断 dp[i][sum - curSize] != -1
-                if (sum >= curSize && dp[i][sum - curSize] != -1) {
-                    dp[i][sum] = Math.min(dp[i][sum], dp[i][sum - curSize] + 1);
+                if (j >= curPrice) {
+                    dp[i][j] = Math.max(dp[i][j],
+                                        dp[i - 1][j - curPrice] + curPrice);
                 }
             }
         }
-        return dp[n - 1][capacity];
+        
+        int maxTotalSpent = 0;
+        for (int totalSpent : dp[n - 1]) {
+            maxTotalSpent = Math.max(maxTotalSpent, totalSpent);
+        }
+        return totalMoney - maxTotalSpent;
     }
 }
 ```
@@ -207,6 +196,6 @@ class Solution {
 ```
 
 ## Reference
-网上没找到这题
+* [Backpack X [LintCode]](https://www.lintcode.com/problem/backpack-x/description)
 
 {% include links.html %}
