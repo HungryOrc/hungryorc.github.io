@@ -43,7 +43,8 @@ public class Solution {
             failProbs[i] = 1 - probs[i];
         }
         
-        // dp represents the probability to fail all the schools that were applied
+        // dp represents the MIN probability 
+        // to fail ALL the schools that were applied
         double[][] dp = new double[m][totalMoney + 1];
         
         // 初始化，都设为1，fail概率为1即必败，这样就方便于之后再找min fail prob
@@ -53,6 +54,7 @@ public class Solution {
             }
         }
         
+        // base case, for the 1st school
         if (prices[0] <= totalMoney) {
             dp[0][prices[0]] = failProbs[0];
         }
@@ -66,13 +68,13 @@ public class Solution {
                 dp[i][money] = dp[i - 1][money];
                 
                 if (curPrice <= money) {
-                    dp[i][money] = Math.min(dp[i][money],
+                    dp[i][money] = Math.min(dp[i][money], // 注意，这里是要取 min！
                                             dp[i - 1][money - curPrice] * curFailProb);
                 }
             }
         }
         
-        // min Prob To Fai lAll Schools That Were Applied
+        // min Prob To Fail All Schools That Were Applied
         double minFailProb = 1;
         for (double prob : dp[m - 1]) {
             minFailProb = Math.min(minFailProb, prob);
@@ -82,49 +84,59 @@ public class Solution {
 }
 ```
 
-## Solution 1.2：基于Solution 1，dp[index][size]降维为dp[size]
+## Solution 1.2：基于Solution 1，dp[index][size]降维为dp[size]，速度比前面的方法 大幅提高
 
-### 只要是DP矩阵降维，就要考虑从大往小填写（矩阵里的一个或多个维度）！但是这题反而不能从大到小，还是得从小到大！所以DP矩阵降维不一定需要从大到小
+### 只要是DP矩阵降维，就要考虑从大往小填写（矩阵里的一个或多个维度）！
 
 ### Complexity
 * Time: 与Solution 1 相同
 * Space: O(capacity)
 
 ### Java
-代码比最初的方法简单了一些。但实测速度没啥变化其实。每一题不一样，有的题降维之后运算速度也能明显提升
 ```java
 public class Solution {
-    public int backPackX(int totalMoney) {
-        // ignore validation
+    public double backpackIX(int totalMoney, int[] prices, double[] probs) {
+        // ignore validations
         
-        int[] prices = {150, 250, 350};
-        int n = 3; // n 是商品的种类数
-        
-        int[] dp = new int[totalMoney + 1]; // 一维
+        int m = probs.length; // m is number of schools
+        double[] failProbs = new double[m];
+        for (int i = 0; i < m; i++) {
+            failProbs[i] = 1 - probs[i];
+        }
 
-        for (int i = 1; i <= totalMoney / prices[0]; i++) {
-            dp[i * prices[0]] = i * prices[0]; // 一维
+        double[] dp = new double[totalMoney + 1]; // 一维
+
+        for (int j = 0; j <= totalMoney; j++) {
+            dp[j] = 1; // 一维
         }
         
-        for (int i = 1; i < n; i++) {
+        // base case, for the 1st school
+        if (prices[0] <= totalMoney) {
+            dp[prices[0]] = failProbs[0]; // 一维
+        }
+        
+        // 从第二个学校开始
+        for (int i = 1; i < m; i++) {
             int curPrice = prices[i];
+            double curFailProb = failProbs[i];
             
-            for (int j = curPrice; j <= totalMoney; j++) { // 一维
-                dp[j] = Math.max(dp[j],
-                                 dp[j - curPrice] + curPrice);
+            // 因为每个学校只能申请一次，所以这里必须 从大到小！
+            for (int money = totalMoney; money >= curPrice; money--) { // 一维
+                dp[money] = Math.min(dp[money],
+                                     dp[money - curPrice] * curFailProb);
             }
         }
-        
-        int maxTotalSpent = 0;
-        for (int totalSpent : dp) { // 一维
-            maxTotalSpent = Math.max(maxTotalSpent, totalSpent);
+
+        double minFailProb = 1;
+        for (double prob : dp) { // 一维
+            minFailProb = Math.min(minFailProb, prob);
         }
-        return totalMoney - maxTotalSpent;
+        return 1 - minFailProb;
     }
 }
 ```
 
 ## Reference
-* [Backpack X [LintCode]](https://www.lintcode.com/problem/backpack-x/description)
+* [Backpack IX [LintCode]](https://www.lintcode.com/problem/backpack-ix/description)
 
 {% include links.html %}
