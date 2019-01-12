@@ -116,12 +116,13 @@ class Solution {
         int numOfMergedIndexesInThisRound = 0;
         int movesFromRightSubarray = 0;
         
+        // 这两个index 是左右两个half array 中分别最靠左的两个index
         int indexL = left;
         int indexR = mid + 1;
         
         while (indexL <= mid && indexR <= right) {
             // use <= instead of < here!! since if equal, then the right one 
-            // does not count as the smaller and righter one of the left one!
+            // does not count as the "smaller-and-righter-number" of the left one!
             if (nums[indexes[indexL]] <= nums[indexes[indexR]]) {
                 mergedIndexes[numOfMergedIndexesInThisRound] = indexes[indexL];
                 
@@ -131,7 +132,8 @@ class Solution {
             
                 indexL ++;
                 numOfMergedIndexesInThisRound ++;
-            } else {
+            } 
+            else {
                 mergedIndexes[numOfMergedIndexesInThisRound] = indexes[indexR];
                 
                 movesFromRightSubarray++;
@@ -141,15 +143,19 @@ class Solution {
             }
         }
         
-        while (indexL <= mid) { // right subarray is empty now
+        // if right subarray is empty and left array is not
+        while (indexL <= mid) { 
             mergedIndexes[numOfMergedIndexesInThisRound] = indexes[indexL];
             counts[indexes[indexL]] += movesFromRightSubarray;
+            
             indexL ++;
             numOfMergedIndexesInThisRound ++;
         }
         
-        while (indexR <= right) { // left subarray is empty now
+        // if left subarray is empty and right array is not
+        while (indexR <= right) {
             mergedIndexes[numOfMergedIndexesInThisRound] = indexes[indexR];
+            
             indexR ++;
             numOfMergedIndexesInThisRound ++;          
         }
