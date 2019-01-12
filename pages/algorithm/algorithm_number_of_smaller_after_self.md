@@ -269,7 +269,7 @@ public class Solution {
 }
 ```
 
-## Solution 3: 从尾部开始做 + ArrayList + 二分查找
+## Solution 3: 从尾部开始做 + ArrayList + 二分查找。这个方法思路很巧妙，但时间较慢，不采用，仅备案
 Ref: https://discuss.leetcode.com/topic/31173/my-simple-ac-java-binary-search-code
 
 对于数组里最右边的那个数，它右边比它小的数一定是0个，从它开始往左推导。Maintain an sorted ArrayList of numbers that had been visited. 
@@ -282,7 +282,7 @@ Then we insert 2 into the sorted array to form [1,2,3,6], and set `counts[1]` to
 Then keep doing this till the start of array `nums`.
 
 ### Complexity
-* Time: O(n^2). 这个解法的思路是很巧妙，但是它的时间效率并没有比暴力方法高。所以这个方法并不好。
+* Time: O(n^2)
   * Every insertion into the Arraylist costs O(n) time, since it has to move all the subsequent elements one slot towards the end.
   * Use binary search in the ArrayList for each time cost only O(logn), but since insertion costs O(n), so finding and insertion together costs O(n).
 * Space: O(n)
