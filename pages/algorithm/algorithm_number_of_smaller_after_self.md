@@ -281,7 +281,7 @@ Ref: https://discuss.leetcode.com/topic/31173/my-simple-ac-java-binary-search-co
 
 对于数组里最右边的那个数，它右边比它小的数一定是0个，从它开始往左推导。Maintain an sorted ArrayList of numbers that had been visited. 
 
-Use findIndex() to find the index of the 1st element in the sorted ArrayList which is larger or equal to the target number. 
+Use findIndex() to find the index of the 1st element in the sorted ArrayList which is larger than the target number. 
 For example, [5,2,3,6,1], by the time we reach 2, we should already have a sorted array: [1,3,6], 
 findIndex() returns 1, which is the index where 2 should be inserted and is ALSO the number smaller than 2. 
 Then we insert 2 into the sorted array to form [1,2,3,6], and set `counts[1]` to be 1 (relevant to the 2 at `nums[1]`).
