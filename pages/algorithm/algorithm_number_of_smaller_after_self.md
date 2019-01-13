@@ -72,22 +72,20 @@ Ref: https://leetcode.com/problems/count-of-smaller-numbers-after-self/discuss/7
 我写的code实现
 ```java
 class Solution {
-    
     public List<Integer> countSmaller(int[] nums) {
         List<Integer> result = new ArrayList<>();
-        
         if (nums == null || nums.length == 0) {
             return result;
         }
         
-        int len = nums.length;
-        int[] counts = new int[len];
-        int[] indexes = new int[len];
-        for (int i = 0; i < len; i++) {
+        int n = nums.length;
+        int[] counts = new int[n];
+        int[] indexes = new int[n];
+        for (int i = 0; i < n; i++) {
             indexes[i] = i;
         }
         
-        countSmallerByMergeSort(nums, 0, len - 1, indexes, counts);
+        countSmallerByMergeSort(nums, 0, n - 1, indexes, counts);
         
         for (int count : counts) {
             result.add(count);
@@ -98,7 +96,7 @@ class Solution {
     // 这个函数本身其实对于 indexes 和 counts 这两个数组没有任何改变，
     // 它只是为了把这两个数组的引用传给下一个函数 mergeAndCount 而已
     private void countSmallerByMergeSort(int[] nums, int left, int right,
-                                        int[] indexes, int[] counts) {
+                                         int[] indexes, int[] counts) {
         if (left >= right) {
             return;
         }
@@ -111,7 +109,7 @@ class Solution {
     }
     
     private void mergeAndCount(int[] nums, int left, int mid, int right,
-                              int[] indexes, int[] counts) {
+                               int[] indexes, int[] counts) {
         int[] mergedIndexes = new int[right - left + 1];
         int numOfMergedIndexesInThisRound = 0;
         int movesFromRightSubarray = 0;
@@ -179,100 +177,106 @@ Ref: Laicode
 我的code
 ```java
 class SegmentTreeNode {
-  int start, end; // range
-  int count; // count of numbers in this range
-  SegmentTreeNode left, right;
+    int start, end; // range of segment
+    int count; // count of numbers in this range
+    SegmentTreeNode left, right;
   
-  public SegmentTreeNode(int s, int e) {
-    start = s;
-    end = e;
-  }
+    public SegmentTreeNode(int s, int e) {
+        start = s;
+        end = e;
+    }
 }
 
 public class Solution {
-  
-  public List<Integer> countSmaller(int[] nums) {
-    if (nums == null || nums.length == 0) {
-      return null;
-    }
+    public List<Integer> countSmaller(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return null;
+        }
     
-    int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
-    for (int num : nums) {
-      if (num < min) {
-        min = num;
-      } else if (num > max) {
-        max = num;
-      }
-    }
-
-    SegmentTreeNode root = new SegmentTreeNode(min, max);
+        // 首先要得到整个数组里的最大和最小值，这样就能确定整个segment tree的 范围
+        int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+        for (int num : nums) {
+            if (num < min) {
+                min = num;
+            } else if (num > max) {
+                max = num;
+            }
+        }
+        
+        // root node 的range 就是整个数组的 range
+        SegmentTreeNode root = new SegmentTreeNode(min, max);
     
-    List<Integer> result = new LinkedList<>();
-    // 从右往左
-    for (int i = nums.length - 1; i >= 0; i--) {
-      int cur = nums[i];
-      // smaller than self means the number can be at most self - 1, 
-      // and at least equals min of the array
-      int countOfSmaller = query(root, min, cur - 1);
+        List<Integer> result = new LinkedList<>();
+        // 从右往左，把逐个数 放到 segment tree 里去
+        for (int i = nums.length - 1; i >= 0; i--) {
+            int cur = nums[i];
+            
+            // "smaller than self" means the value can be at most self-1, 
+            // and also at least equals min of the array
+            int countOfSmaller = query(root, min, cur - 1);
       
-      result.add(0, countOfSmaller); // add at head of linkedlist
+            result.add(0, countOfSmaller); // add at head of result
       
-      update(root, cur);
+            // add the cur value into the segment tree
+            update(root, cur);
+        }
+        return result;
     }
-    
-    return result;
-  }
   
-  private int query(SegmentTreeNode node, int start, int end) {
-    if (node == null || start > end) {
-      return 0;
-    }
+    // 找 segment tree里，对于某个范围 [start, end]，存了多少个数
+    private int query(SegmentTreeNode node, int start, int end) {
+        if (node == null || start > end) {
+            return 0;
+        }
     
-    if (start <= node.start && node.end <= end) {
-      return node.count;
-    }
+        if (start <= node.start && end >= node.end) {
+            return node.count;
+        }
     
-    // 注意！用node.start和node.end来算mid！不是用start和end来算mid
-    int mid = node.start + (node.end - node.start) / 2;
-    // 注意！这里默认的SegmentTreeNode的Range的两段的划分方式是：
-    // `[start, mid]` 和 `[mid+1, end]`
+        // 注意！用node.start和node.end来算mid！不是用start和end来算mid
+        int mid = node.start + (node.end - node.start) / 2;
+        // 注意！这里默认的SegmentTreeNode的Range的两段的划分方式是：
+        // `[start, mid]` 和 `[mid+1, end]`
+        // 其实采用怎样的划分方式都可以，关键是 query 函数的划分方式和 update 函数的划分方式 要一致
     
-    if (start >= mid + 1) { // 需要query的range在左半段
-      return query(node.right, start, end);
-    } else if (end <= mid) { // 需要query的range在有半段
-      return query(node.left, start, end);
+        if (start >= mid + 1) { // 需要query的range在 右半段
+            return query(node.right, start, end);
+        } else if (end <= mid) { // 需要query的range在 左半段
+            return query(node.left, start, end);
+        }
+        
+        // 到了这里，剩下的情况就是：需要query的range横跨左右两半
+        return query(node.left, start, mid) + query(node.right, mid + 1, end);
     }
-    // 需要query的range横跨左右两半
-    return query(node.left, start, mid) + query(node.right, mid + 1, end);
-  }
   
-  private void update(SegmentTreeNode node, int val) {
-    if (val < node.start || val > node.end) {
-      return;
-    }
+    // 把一个数插入到segment tree里去
+    private void update(SegmentTreeNode node, int val) {
+        if (val < node.start || val > node.end) {
+            return;
+        }
     
-    node.count ++; // 别忘了这个！
+        node.count ++; // 别忘了这个！
     
-    // root.start == root.end 就表示root本身是一个leaf node
-    // 注意！这个statement必须在 root.count ++ 之后！即leaf本身的count也要+1，然后才算完
-    if (node.start == node.end) {
-      return;
-    }
+        // root.start == root.end 就表示root本身是一个leaf node
+        // 注意！这个statement必须在 root.count ++ 之后！即leaf本身的count也要+1，然后才算完
+        if (node.start == node.end) {
+            return;
+        }
     
-    int mid = node.start + (node.end - node.start) / 2;
-    if (val <= mid) {
-      // 发现没有的时候才“造node”！而不是一开始就把整个树都建全！
-      if (node.left == null) {
-        node.left = new SegmentTreeNode(node.start, mid);
-      }
-      update(node.left, val);
-    } else {
-      if (node.right == null) {
-        node.right = new SegmentTreeNode(mid + 1, node.end);
-      }
-      update(node.right, val);
+        int mid = node.start + (node.end - node.start) / 2;
+        if (val <= mid) {
+            // 发现没有的时候才“造node”！而不是一开始就把整个树都建全！
+            if (node.left == null) {
+                node.left = new SegmentTreeNode(node.start, mid);
+            }
+            update(node.left, val);
+        } else {
+            if (node.right == null) {
+                node.right = new SegmentTreeNode(mid + 1, node.end);
+            }
+            update(node.right, val);
+        }
     }
-  }
 }
 ```
 
