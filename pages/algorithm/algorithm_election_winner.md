@@ -40,11 +40,13 @@ class Solution {
             count++;
             map.put(name, count);
             
-            if (count >= maxVote) {
+            // > 和 == 这两种情况 一定要分开处理
+            if (count > maxVote) {
                 maxVote = count;
-                
+                winner = name;
+            } else if (count == maxVote) {
                 // 注意这个 两个 String 之间的比较
-                if (name.compare(winner) > 0) {
+                if (name.compareTo(winner) > 0) {
                     winner = name;
                 }
             }
