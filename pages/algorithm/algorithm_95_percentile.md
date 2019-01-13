@@ -44,7 +44,7 @@ public class Solution {
         // 从大到小
         for (int i = 4096; i >= 0; i--) {
             cumulative += records[i];
-            if (cumulative > bar) { // 看题目里的例子，1到100，返回95而非返回96. 所以这里要用 >，而非 >=
+            if (cumulative >= bar) {
                 return i;
             }
         }
