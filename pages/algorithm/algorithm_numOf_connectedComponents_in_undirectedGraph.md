@@ -31,7 +31,7 @@ You can assume that no duplicate edges will appear in edges. Since all edges are
   * Output: 1
 
 ## Solution：速度较慢，回头看下有没有更好的方法
-朴素思路
+朴素思路。代码虽然看起来有点长，其实思路很简单
 
 ### Complexity
 * Time: O(n)，n 是 edges的个数
