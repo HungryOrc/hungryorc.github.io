@@ -23,7 +23,7 @@ Find k numbers where sum is target. Calculate how many solutions there are?
 
 ## Solution: DP, with a 3D array，速度 前15%
 
-问题：下面这种DP做法，就算数组里有重复数字，也一样可以适用么 ？？？
+**问题：下面这种DP做法，就算数组里有重复数字，就不行了吧？？？？ 那应该怎么做 ？？？？**
 
 三维DP。类似于 **背包问题，限制物品个数，限制总重量，求有多少种装法正好等于某个总重量** 的那类题目。
 * 设给的数组长度 = n, DP矩阵为：`int dp[n + 1][k + 1][target + 1]`
