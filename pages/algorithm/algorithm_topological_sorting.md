@@ -18,8 +18,9 @@ Find any topological order for the given graph.
 // Definition for Directed graph:
 class DirectedGraphNode {
     int label;
-    ArrayList<DirectedGraphNode> neighbors;
-    DirectedGraphNode(int x) { 
+    List<DirectedGraphNode> neighbors;
+    
+    public DirectedGraphNode(int x) { 
         label = x; 
         neighbors = new ArrayList<DirectedGraphNode>(); 
     }
@@ -42,6 +43,10 @@ For graph as follow: <此处有配图>
 4 如果任何neighbor 的 inDegree在上述的-1以后变成了0，就把这个neighbor 放到queue里去
 5 重复上述过程，直至queue空
 
+注意：
+* 天生就入度为0的nodes，它们一定是第一批被放入result的，也是第一批被放入queue的。它们所指向的入度为1的nodes，
+就是第2批应该放入 result 以及 queue 的nodes（因为这些nodes也将是第1批被转化为入度零的nodes）。
+* 对于天生都是入度为1的nodes，它们的“前置node”的天生入度有可能是0，也有可能大于0，而且它们有可能有不止一个前置nodes。这些因素就决定了，它们虽然都是天生入度为1，但它们进入result（以及queue）的排位可能会相差很远
 
 ### Complexity
 * Time: O(n) <==== 对么 ？？？？
@@ -50,13 +55,13 @@ For graph as follow: <此处有配图>
 ### Java
 ```java
 public class Solution {
-    public ArrayList<DirectedGraphNode> topSort(ArrayList<DirectedGraphNode> graph) {
-        ArrayList<DirectedGraphNode> result = new ArrayList<>();
+    public List<DirectedGraphNode> topSort(ArrayList<DirectedGraphNode> graph) {
+        List<DirectedGraphNode> result = new ArrayList<>();
         if (graph == null || graph.size() == 0) {
             return result;
         }
         
-        // build a map of the in-degree count of all the nodes
+        // build a map to store the in-degree count of all the nodes
         // <node, inDegree>
         Map<DirectedGraphNode, Integer> inDegreeMap = new HashMap<>();
         for (DirectedGraphNode node : graph) {
@@ -72,26 +77,26 @@ public class Solution {
         
         Queue<DirectedGraphNode> queue = new LinkedList<>();
         for (DirectedGraphNode node : inDegreeMap.keySet()) {
+            // 先把天生inDegree就是零的点(们)放到queue里，
+            // 同时也把它们放到result里，它们就是排在最前面的那些nodes
             if (inDegreeMap.get(node) == 0) {
                 queue.offer(node);
+                result.add(node);
             }
         }
         
         while (!queue.isEmpty()) {
             DirectedGraphNode node = queue.poll();
-            int inDegree = inDegreeMap.get(node);
-            
-            if (inDegree == 0) {
-                result.add(node);
+           
+            // 对于cur node 的每个 neighbor，上来二话不说，先把它们的 inDegree 都减1
+            for (DirectedGraphNode nei : node.neighbors) {
+                int neiInDegree = inDegreeMap.get(nei);
+                neiInDegree--;
+                inDegreeMap.put(nei, neiInDegree);
 
-                for (DirectedGraphNode nei : node.neighbors) {
-                    int neiInDegree = inDegreeMap.get(nei);
-                    neiInDegree--;
-                    inDegreeMap.put(nei, neiInDegree);
-                    
-                    if (neiInDegree == 0) {
-                        queue.offer(nei);
-                    }
+                if (neiInDegree == 0) {
+                    queue.offer(nei);
+                    result.add(nei);
                 }
             }
         }
