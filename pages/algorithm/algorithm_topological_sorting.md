@@ -37,11 +37,11 @@ For graph as follow: <此处有配图>
 本题链接：https://www.lintcode.com/problem/topological-sorting/description
 
 ## Solution：我现在这个写法思路是对的，但速度较慢，回头看下有没有更快的写法
-1 计算所有点的 in-degree
-2 把所有 in-degree == 0 的点都放到queue里去
-3 从queue里poll一个node出来，如果这个node的inDegree是0，就把它的所有neighbors 的 in-degree 都减1，包括in-degree已经为零甚至为负数的点！因为成为0只能最多有一次！
-4 如果任何neighbor 的 inDegree在上述的-1以后变成了0，就把这个neighbor 放到queue里去
-5 重复上述过程，直至queue空
+1. 计算所有点的 in-degree
+2. 把所有 in-degree == 0 的点都放到queue里去
+3. 从queue里poll一个node出来，如果这个node的inDegree是0，就把它的所有neighbors 的 in-degree 都减1，包括in-degree已经为零甚至为负数的点！因为成为0只能最多有一次！
+4. 如果任何neighbor 的 inDegree在上述的-1以后变成了0，就把这个neighbor 放到queue里去
+5. 重复上述过程，直至queue空
 
 注意：
 * 天生就入度为0的nodes，它们一定是第一批被放入result的，也是第一批被放入queue的。它们所指向的入度为1的nodes，
