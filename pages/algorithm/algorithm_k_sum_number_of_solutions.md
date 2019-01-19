@@ -63,18 +63,18 @@ public class Solution {
             dp[0][1][nums[0]] = 1;
         }
         
-        for (int i = 1; i < n; i++) { // i从1开始
+        for (int i = 1; i < n; i++) { // 从第2个item开始，到最后一个item
             int cur = nums[i];
             
-            for (int j = 1; j <= k; j++) { // j从1开始
-                for (int s = 0; s <= target; s++) {
+            for (int j = 1; j <= k; j++) { // 从用1个item开始，到用k个item
+            
+                for (int s = 0; s <= target; s++) { // 总和 s
                     
                     dp[i][j][s] = dp[i - 1][j][s];
                     
                     if (cur <= s) {
                         dp[i][j][s] += dp[i - 1][j - 1][s - cur];
                     }
-                    
                 }
             }
         }
