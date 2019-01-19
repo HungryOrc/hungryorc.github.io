@@ -15,7 +15,7 @@ Given n **distinct** positive integers, integer k (k <= n) and a number target.
 Find k numbers where sum is target. Calculate how many solutions there are?
 
 注意
-* 数组里没有重复的数字
+* 数组里没有重复的数字！这一点对于解法特别重要，如果有重复数字，解法就不能这样了
 
 ### Example
 * Input: [1,2,3,4], k = 2, target = 5.
