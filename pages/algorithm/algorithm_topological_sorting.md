@@ -36,7 +36,7 @@ Notice:
 For graph as follow: <此处有配图>
 本题链接：https://www.lintcode.com/problem/topological-sorting/description
 
-## Solution：我现在这个写法思路是对的，但速度较慢，回头看下有没有更快的写法
+## Solution：速度 前30%
 1. 计算所有点的 in-degree
 2. 把所有 in-degree == 0 的点都放到queue里去
 3. 从queue里poll一个node出来，如果这个node的inDegree是0，就把它的所有neighbors 的 in-degree 都减1，包括in-degree已经为零甚至为负数的点！因为成为0只能最多有一次！
