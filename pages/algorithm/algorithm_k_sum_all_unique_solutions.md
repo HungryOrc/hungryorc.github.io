@@ -22,7 +22,7 @@ Find all possible k-integers-combinations where their sum equals to target.
 * Input: [1,2,3,4], k = 2, target = 5.
   * [[1, 4], [2, 3]]
 
-## Solution: 朴素的 DFS，没什么花活儿，一直DFS到底，不借助 4sum或者2sum
+## Solution: 朴素的 DFS，没什么花活儿，一直DFS到底，不借助 4sum或者2sum <==== 这个方法速度较慢，有更快的方法么？DP可以么？
 
 ### Complexity
 * Time: O(n^k)，n 是数组的长度，k 是题目要求最终要取用多少个数 <=== 对么 ？？？？
