@@ -10,10 +10,20 @@ toc: false
 ---
 
 ## Overview
+Dijkastra's Algorithm 是一种 Graph 上的算法，用于计算 从图上的某1点出发，到其他所有点的分别的最短距离。以下图为例，
+每个 `Nx` 表示 `Node x`，每个 `--y--` 表示这个是一条边，这条边的长度是 `y`（两个方向走都是距离y）。
+```
+N6 --4-- N4 --9-- N5 
+         |        |   \
+         1        2     1
+         |        |       \
+         N3 --3-- N2 --1-- N1
+
+```
 
 ### Complexity
-* Time: 平均情况下 O(n*logn)
-* Space: 平均情况下 O(logn)
+* Time: O(？？？)
+* Space: O(？？？)
   
 ## Implementation
 
