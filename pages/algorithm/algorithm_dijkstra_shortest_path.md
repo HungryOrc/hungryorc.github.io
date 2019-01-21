@@ -10,8 +10,14 @@ toc: false
 ---
 
 ## Overview
-Dijkastra's Algorithm 是一种 Graph 上的算法，用于计算 从图上的某1点出发，到其他所有点的分别的最短距离。以下图为例，
-每个 `Nx` 表示 `Node x`，每个 `--y--` 表示这个是一条边，这条边的长度是 `y`（两个方向走都是距离y）。
+Dijkastra's Algorithm 是一种 Graph 上的算法，用于计算 从图上的某1点出发，到其他所有点的分别的最短距离
+* 所采用的主要数据结构是 Priority Queue (Min Heap)。
+* 当起始点到所有点的距离都算完的时候，这个 priority queue 应该是空的
+* Cost(source to cur node) = Cost(source to parent node) + Cost(parent to cur node)
+* Generation / Expansion rule for the nodes in this algorithm
+* **一个**
+
+以下图为例，每个 `Nx` 表示 `Node x`，每个 `--y--` 表示这个是一条边，这条边的长度是 `y`（两个方向走都是距离y）。
 ```
 N6 --4-- N4 --9-- N5 
          |        |   \
@@ -20,6 +26,13 @@ N6 --4-- N4 --9-- N5
          N3 --3-- N2 --1-- N1
 
 ```
+设 N4 为起始点，即要求 N4 到图上所有其他点的最短距离分别是多少。步骤：
+* 把 (N4, 0) 放到 priority queue 里去，其中后面那个int 0 表示从source node（即N4）开始到当前node的距离（可能是最终的最短距离，也可能只是计算结果中途的疑似最短距离）。在 PQ 里面，也是靠这个距离值进行排序的。当前 PQ 里距离最小的那个 node，会被排在 PR 的top。
+* 在 PQ 里，把top node 即 N4 弹出来。然后更新 N4 的所有邻居的距离，然后把这些邻居都放到 PQ 里去。
+  * 所以这些会被放到 PQ 里去：(N6, 4), (N3, 1), (N5, 9)
+  * 然后 (N3, 1) 会自然被置于 PQ 的顶端
+* 在 PQ 里，再次 pop top，N3 被弹出来了。
+
 
 ### Complexity
 * Time: O(？？？)
