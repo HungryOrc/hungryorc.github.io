@@ -41,52 +41,125 @@ N6 --4-- N4 --9-- N5
   
 ## Implementation
 * 用 Integer 代表 nodes，因为任何复杂的 object 都可以用 indexes 来表示
+* Graph 用一个map来表示，map的key是node id，value是另一个map <neighbor node id, distance from cur node to this neighbor node>
 * Priority Queue 里放的东西是我自定义的一个helper class "NodeDist"，这个class里有2个成员：node id 和 distance from source node to cur node。PQ 的排序规则是按照 distance 的升序排列
 
+思路并不复杂，代码也不长，去掉前面的helper function 和后面的 main function，主干的 Dijkstra 逻辑 也就 40行
 ```java
-public class Solution {
-    public int[] quickSort(int[] array) {
-        if (array == null || array.length <= 1) {
-            return array;
-        }
-        
-        quickSort(array, 0, array.length - 1);
-        return array;
+// helper class
+// 别忘了写Comparable后面的<NodeDist>！否则后面的 compareTo 函数的参数就
+// 必须是 Object type 了，而不能是 NodeDist type 了
+class NodeDist implements Comparable<NodeDist> {
+    int nodeId, distFromSource;
+    
+    public NodeDist(int id, int dist) {
+        nodeId = id;
+        distFromSource = dist;
     }
     
-    private void quickSort(int[] array, int start, int end) {
-        if (start >= end) {
-            return;
+    @Override
+    public int compareTo(NodeDist nd) {
+        if (this.distFromSource == nd.distFromSource) {
+            return 0;
         }
-        
-        int left = start, right = end;
-        int pivot = array[start + (end - start) / 2];
-
-        while (left <= right) {
-            if (array[left] < pivot) {
-                left ++;
-            } else if (array[right] > pivot) {
-                right --;
-            } else {
-                swap(array, left++, right--);
-            }
-        }
-        // 特别注意，while 循环结束以后，left 和 right 的关系是 right + 1 = left 
-        // 即 right 在 left 的左边一位
-        <=== 是么 ？？？ 有没有可能他们两中间间隔一位 ？？？因为在left==right的时候还可能进行left++且right--的操作！！！
-        
-        
-        // 这里没有判断左右index的大小关系，下一个recursion里的头部会做
-        quickSort(array, start, right);
-        quickSort(array, left, end);
-    }
-    
-    private void swap(int[] array, int i, int j) {
-        int temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
+        return this.distFromSource > nd.distFromSource ? 1 : -1;
     }
 }
+
+public class Solution {
+    // 要求返回的是一个map，key是node id，value是source node 到这个node的 min distance
+    public Map<Integer, Integer> dijkstra(
+            Map<Integer, Map<Integer, Integer>> graph, int sourceNode) {
+        // ignore data validations
+        
+        Map<Integer, Integer> result = new HashMap<>();
+        
+        // Java里的PQ默认是 min heap，要 max heap 的话，要写：PriorityQueue<Integer> pq = 
+        // new PriorityQueue<>(10, Collections.reverseOrder());
+        PriorityQueue<NodeDist> minHeap = new PriorityQueue<>();
+        
+        NodeDist sourceND = new NodeDist(sourceNode, 0);
+        minHeap.add(sourceND);
+        
+        while (!minHeap.isEmpty()) {
+            NodeDist cur = minHeap.poll();
+            int curNode = cur.nodeId;
+            int curDist = cur.distFromSource;
+            
+            // 注意！如果当前这个node之前已经被PQ pop过了，那么现在再被pop出来，
+            // 一定是距离source node 比之前的那次pop的更远，所以本次pop没有意义，直接抛弃
+            if (result.containsKey(curNode)) {
+                continue;
+            }
+            
+            result.put(curNode, curDist);
+            
+            Map<Integer, Integer> neighbors = graph.get(curNode);
+            System.out.print("cur node: " + curNode + ", ");
+            System.out.println(neighbors);
+            if (neighbors == null) {
+                continue;
+            }
+            for (Map.Entry<Integer, Integer> entry : neighbors.entrySet()) {
+                int neiId = entry.getKey();
+                int neiDist = entry.getValue();
+
+                if (result.containsKey(neiId)) {
+                    continue;
+                }
+                
+                // 别忘了加上当前node的dist！当前node算是 parent node
+                NodeDist neiND = new NodeDist(neiId, neiDist + curDist);
+                minHeap.add(neiND);
+            }
+        }
+        return result;
+    }
+    
+    // ------------------------------------------------------
+    // main
+    public static void main(String[] args) {
+        Map<Integer, Map<Integer, Integer>> graph = new HashMap<>();
+        
+        Map<Integer, Integer> neighbors4 = new HashMap<>();
+        neighbors4.put(6, 4);
+        neighbors4.put(3, 1);
+        neighbors4.put(5, 9);
+        graph.put(4, neighbors4);
+        
+        Map<Integer, Integer> neighbors3 = new HashMap<>();
+        neighbors3.put(4, 1);
+        neighbors3.put(2, 3);
+        graph.put(3, neighbors3);
+        
+        Map<Integer, Integer> neighbors5 = new HashMap<>();
+        neighbors5.put(4, 9);
+        neighbors5.put(1, 1);
+        neighbors5.put(2, 2);
+        graph.put(5, neighbors5);
+        
+        Map<Integer, Integer> neighbors6 = new HashMap<>();
+        neighbors6.put(4, 4);
+        graph.put(6, neighbors6);        
+        
+        Map<Integer, Integer> neighbors2 = new HashMap<>();
+        neighbors2.put(1, 1);
+        neighbors2.put(3, 3);
+        neighbors2.put(5, 2);
+        graph.put(2, neighbors2); 
+
+        Map<Integer, Integer> neighbors1 = new HashMap<>();
+        neighbors1.put(2, 1);
+        neighbors1.put(5, 1);
+        graph.put(1, neighbors1);
+        
+        Solution solu = new Solution();
+        Map<Integer, Integer> result = solu.dijkstra(graph, 4);
+        
+        System.out.println(result);
+        // 正确答案：{1=5, 2=4, 3=1, 4=0, 5=6, 6=4}，前面是node，后面是distance
+    }
+} 
 ```
 
 ## Reference
