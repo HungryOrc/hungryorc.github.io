@@ -44,7 +44,7 @@ N6 --4-- N4 --9-- N5
 * Graph 用一个map来表示，map的key是node id，value是另一个map <neighbor node id, distance from cur node to this neighbor node>
 * Priority Queue 里放的东西是我自定义的一个helper class "NodeDist"，这个class里有2个成员：node id 和 distance from source node to cur node。PQ 的排序规则是按照 distance 的升序排列
 
-思路并不复杂，代码也不长，去掉前面的helper function 和后面的 main function，主干的 Dijkstra 逻辑 也就 40行
+思路并不复杂，代码也不长，去掉前面的helper function 和后面的 main function，主干的 Dijkstra 逻辑 也就三四十行
 ```java
 // helper class
 // 别忘了写Comparable后面的<NodeDist>！否则后面的 compareTo 函数的参数就
@@ -91,15 +91,9 @@ public class Solution {
             if (result.containsKey(curNode)) {
                 continue;
             }
-            
             result.put(curNode, curDist);
             
             Map<Integer, Integer> neighbors = graph.get(curNode);
-            System.out.print("cur node: " + curNode + ", ");
-            System.out.println(neighbors);
-            if (neighbors == null) {
-                continue;
-            }
             for (Map.Entry<Integer, Integer> entry : neighbors.entrySet()) {
                 int neiId = entry.getKey();
                 int neiDist = entry.getValue();
