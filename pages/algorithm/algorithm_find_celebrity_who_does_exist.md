@@ -11,7 +11,7 @@ toc: false
 
 ## Description
 有n个人，编号0到n-1。里面一定有一个celebrity，作为cele，就是说ta不认识这n个人里的任何其他人，但所有其他人都认识ta。B格满格。
-要求返回cele的编号。
+要求返回cele的编号。要求：时间 O(n)！
 
 The `knows` API is defined in the parent class `Relation`:
 ```
