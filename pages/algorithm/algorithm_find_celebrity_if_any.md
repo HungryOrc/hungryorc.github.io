@@ -53,6 +53,7 @@ public class Solution extends Relation {
             return -1;
         }
         
+        // 第一步，筛查可能的cele
         int candidate = 0;
         for (int i = 1; i < n; i++) {
             if (knows(candidate, i)) {
@@ -60,6 +61,7 @@ public class Solution extends Relation {
             } // else keep the current candidate
         }
         
+        // 第二步，复查筛出来的这个cele到底是不是cele
         for (int i = 0; i < n; i++) {
             if (i == candidate) {
                 continue;
