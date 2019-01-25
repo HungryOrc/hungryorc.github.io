@@ -4,7 +4,7 @@ tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_kthSmallestElement_MatrixSortedByRowAndColumn.html4
+permalink: algorithm_kthSmallest_inMatrixSortedByRowAndCol.html4
 folder: algorithm
 toc: false
 ---
