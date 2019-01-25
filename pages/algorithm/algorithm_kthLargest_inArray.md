@@ -4,7 +4,7 @@ tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_kth_largest_element_in_array.html
+permalink: algorithm_kthLargest_inArray.html
 folder: algorithm
 toc: false
 ---
