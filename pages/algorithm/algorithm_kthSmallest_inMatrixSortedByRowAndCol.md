@@ -39,7 +39,7 @@ find the kth smallest element in the matrix.
   ```
   * Output: 13
 
-## Solution 1： Priority Queue (Min Heap)
+## Solution 1： Priority Queue (Min Heap) with Helper Class，面试时用这个方法来写
 首先把最左上角的元素放到PQ里去。之后不断地 pop PQ，得到当前最小，然后把当前最小的 cell 的右边和下面的2个cell 放到 PQ 里去。
 
 **每个cell的坐标和value都要封装到一个 helper class "Cell" 里去，然后作为一个整体 放到 PQ 里去**
@@ -111,19 +111,19 @@ public class Solution {
 }
 ```
 
-## Solution 2：Binary Search。最左上角一定是global min，最右下角一定是global max，很巧妙
+## Solution 2：Binary Search。最左上角一定是global min，最右下角一定是global max，思路挺巧妙的，但不好写，仅供参考
 Ref: https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/
 
 ### Complexity
-* Time: O(k logk) <=== 对么 ？？？？
-* Space: O(k + n * n) <=== 对么 ？？？？
+* Time: O(log(nm) * (nlogm))，其中n是矩阵的行数，m是列数 <=== 对么 ？？？？
+* Space: O(1) <=== 对么 ？？？？
 
 ### Java
 ```java
 public class Solution {
     public int kthSmallest(int[][] matrix, int k) {
-        int n = matrix.length;
-        int m = matrix[0].length;
+        int n = matrix.length; // rows
+        int m = matrix[0].length; // cols
    
         int min = matrix[0][0];
         int max = matrix[rows - 1][cols - 1];
@@ -131,43 +131,37 @@ public class Solution {
         while(min < max) {
             int mid = min + (max - min) / 2;
 
-            // 对每一个mid值，算一下，在matrix里，有多少个数小于或者等于这个mid值
+            // 对每一个mid值，用二分法计算 matrix里的每一行，有多少个数小于或者等于这个mid值
             int count = 0; 
            
             // 从上到下，逐行 找这一行里 > mid 的数有多少个
-            int j = cols - 1;
-            for(int i = 0; i < rows; i++) {
-                while(j >= 0 && matrix[i][j] > mid) {
-                    j--;
-                }
-                count += (j + 1);
+            int j = m - 1;
+            for(int i = 0; i < n; i++) {
+                用二分法count每一行
             }
             
             /* 上面这段也可以换做：从左到右，逐列，找这一列里 > mid 的数有多少个，如下：
             int i = rows - 1;
             for(int j = 0; j < cols; j++) {
-                while(i >= 0 && matrix[i][j] > mid) {
-                    i--;
-                }
-                count += (i + 1);
+                用二分法count每一列
             } */
             
             // 对于当前的mid值来说，count算出来了。现在把count和k做对比
             if (count < k) {
-                lowValue = mid + 1;
+                min = mid + 1;
             } else { // count >= k
-                highValue = mid;
+                max = mid;
             }
             
             /* 注意！
             >= k 时，不要 mid-1，只要 mid！
-            == k 时，不要马上 return mid，而是非要等到最后 high 和 low重合再return！这样的目的是
-            找到实际存在于matrix里的第k个数！而非某个大于matrix里的第k个数而小于matrix里的第k+1个数 的数！ */
+            == k 时，不要马上 return mid，而是非要等到最后 high 和 low重合再return！
+            这是因为，mid这个数只是一个标杆，一般来说 很可能不是给的数组里的任何一个元素 */
         }
         
-        // 最后return highValue或者lowValue都是一样的
+        // 最后return min 或者 max 都是一样的，
         // 因为按照此处二分法的实施方式，它们两最后一定相等
-        return highValue;
+        return min;
     }
 }
 ```
