@@ -10,11 +10,18 @@ toc: false
 ---
 
 ## Description
-Given two strings S and T, return if they are equal when both are typed into empty text editors. # means a backspace character.
+Given two strings S and T, return if they are equal when both are typed into empty text editors. # means a backspace character. For example:
+* "ab#c" = "ac"
+* "abb#c###" = ""
+* "ab###" = invalid string
+
+Note:
 * 1 <= S.length <= 200
 * 1 <= T.length <= 200
-* S and T only contain lowercase letters and '#' characters.
-Can you solve it in O(N) time and O(1) space?
+* S and T only contain lowercase letters and '#' characters
+* 这些Strings **有可能 invalid！**
+
+Can you solve it in O(N) time **and O(1) space**?
 
 ### Example
 * Input: S = "ab#c", T = "ad#c"
@@ -23,7 +30,7 @@ Can you solve it in O(N) time and O(1) space?
   * Output: True
 
 ## Solution
-如果不要求in place解决，那么非常简单。如果要求in place，则费不少功夫，窍门在于：**从后往前即从右往左**撸string！
+如果不要求in place解决，那么非常简单。如果要求in place，则费不少功夫，**窍门是 从右往左 撸string**
 
 注意如下的特殊情况（以下讨论都给予从后往前处理这两个string）：
 * 一个string分析完了，另一个string还没分析完，这二者已分析的部分都是相等的。到此不能断定这二者整体来说就不相等！因为后者从当前位置开始到最左端最后都能完全消掉的话，那么这两个string也是相等的
