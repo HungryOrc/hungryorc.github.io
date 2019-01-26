@@ -4,7 +4,7 @@ tags: [algorithm, algorithm_overview]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_DFS.html
+permalink: algorithm_DFS_and_backTracking.html
 folder: algorithm
 toc: false
 ---
