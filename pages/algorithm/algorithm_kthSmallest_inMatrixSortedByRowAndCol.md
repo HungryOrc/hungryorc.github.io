@@ -114,6 +114,8 @@ public class Solution {
 ## Solution 2：Binary Search。最左上角一定是global min，最右下角一定是global max，思路挺巧妙的，但不好写，仅供参考
 Ref: https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/
 
+这个方法的速度我感觉应该比前面的慢，但实测速度并不比前面的方法慢，不知道为什么
+
 ### Complexity
 * Time: O(log(nm) * (nlogm))，其中n是矩阵的行数，m是列数 <=== 对么 ？？？？
 * Space: O(1) <=== 对么 ？？？？
@@ -126,47 +128,68 @@ public class Solution {
         int m = matrix[0].length; // cols
    
         int min = matrix[0][0];
-        int max = matrix[rows - 1][cols - 1];
+        int max = matrix[n - 1][m - 1];
         
+        // 对每一个mid值，用二分法计算 matrix里的每一行，有多少个数 <= mid值
+        // 另一种同理的做法：从左到右，逐列，找这一列里 <= mid 的数有多少个
+        int count = 0;
         while(min < max) {
             int mid = min + (max - min) / 2;
-
-            // 对每一个mid值，用二分法计算 matrix里的每一行，有多少个数小于或者等于这个mid值
-            int count = 0; 
+            count = 0; 
            
-            // 从上到下，逐行 找这一行里 > mid 的数有多少个
-            int j = m - 1;
+            // 从上到下，逐行 找这一行里 <= mid 的数有多少个
             for(int i = 0; i < n; i++) {
-                用二分法count每一行
+                count += numOfSmallerOrEqual(matrix[i], mid);
             }
-            
-            /* 上面这段也可以换做：从左到右，逐列，找这一列里 > mid 的数有多少个，如下：
-            int i = rows - 1;
-            for(int j = 0; j < cols; j++) {
-                用二分法count每一列
-            } */
-            
+
             // 对于当前的mid值来说，count算出来了。现在把count和k做对比
             if (count < k) {
                 min = mid + 1;
-            } else { // count >= k
+            }
+            // count == k 的话，不要 mid-1，因为可能有多个数都(并列)等于mid
+            else if (count >= k) {
                 max = mid;
             }
             
             /* 注意！
-            >= k 时，不要 mid-1，只要 mid！
-            == k 时，不要马上 return mid，而是非要等到最后 high 和 low重合再return！
-            这是因为，mid这个数只是一个标杆，一般来说 很可能不是给的数组里的任何一个元素 */
+            count == k 时，不要马上 return mid，而是非要等到最后 high 和 low重合再return
+            这是因为，mid这个数只是一个标杆，一般来说 不会是给的数组里的任何一个元素 */
         }
         
-        // 最后return min 或者 max 都是一样的，
-        // 因为按照此处二分法的实施方式，它们两最后一定相等
+        System.out.println("count: " + count);
+        if (count < k ) return max;
         return min;
+    }
+    
+    // int[] nums is an un-empty sorted array
+    private int numOfSmallerOrEqual(int[] nums, int target) {
+        int n = nums.length;
+        int l = 0, r = n - 1;
+        
+        while (l + 1 < r) {
+            int mid = l + (r - l) / 2;
+            if (nums[mid] <= target) {
+                l = mid;
+            } else { // if (nums[mid] > target)
+                r = mid - 1;
+            }
+        }
+        
+        // 最后 l 应该是在 r 的左边一位
+        if (nums[r] <= target) {
+            return r + 1;
+        }
+        if (nums[l] <= target) {
+            return l + 1;
+        }
+        // 别忘了这种情况！
+        // 如果l和r所指向的数都 >= mid，则意味着本数组里没有 < mid 的数！
+        return 0;
     }
 }
 ```
 
 ## Reference
-* [也许在lintcode上 [LintCode]](网址放在这里)
+* [Kth Smallest Element in a Sorted Matrix [LintCode]](https://www.lintcode.com/problem/kth-smallest-element-in-a-sorted-matrix/description)
 
 {% include links.html %}
