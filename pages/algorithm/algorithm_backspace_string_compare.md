@@ -13,13 +13,12 @@ toc: false
 Given two strings S and T, return if they are equal when both are typed into empty text editors. # means a backspace character. For example:
 * "ab#c" = "ac"
 * "abb#c###" = ""
-* "ab###" = invalid string
+* "ab###" = ""，这个String其实backspace的个数过多了，就是说**String的左端的chars被删光了以后，backspaces的个数还没用完**。按照这题的要求，这种情况按照最终为 空String 处理。而不是按照 invalid String 来处理
 
 Note:
 * 1 <= S.length <= 200
 * 1 <= T.length <= 200
 * S and T only contain lowercase letters and '#' characters
-* 这些Strings **有可能 invalid！**
 
 Can you solve it in O(N) time **and O(1) space**?
 
@@ -28,73 +27,82 @@ Can you solve it in O(N) time **and O(1) space**?
   * Output: True
 * Input: S = "ab##cc#d", T = "cd"
   * Output: True
+* Input: S = "a#", T = "a##"
+  * Output: True
+  
+## Solution：双指针 从右往左！速度 前1%
+如果不要求in place解决，那么非常简单。如果要求in place，则费不少功夫，**窍门是 从右往左 撸String**。每个String各用一个index，就是说一共是2个指针。
 
-## Solution
-如果不要求in place解决，那么非常简单。如果要求in place，则费不少功夫，**窍门是 从右往左 撸string**
-
-注意如下的特殊情况（以下讨论都给予从后往前处理这两个string）：
-* 一个string分析完了，另一个string还没分析完，这二者已分析的部分都是相等的。到此不能断定这二者整体来说就不相等！因为后者从当前位置开始到最左端最后都能完全消掉的话，那么这两个string也是相等的
+注意：
+* 如果2个Strings的 指针 同时到达 -1，则返回 true
+* 如果一个指针到了-1，另一个还没到，也不能断定这二者就不相等！因为后者从当前位置开始到最左端最后都能完全消掉的话，那么这两个string也是相等的。比如：
+  * "a#bbb##" 和 "bbb##" 其实是相等的，但后者的指针会先到 -1。同理，"a#bbb##" 和 "bb#" 也是相等的
+  * 如果到最后，一个指针到了-1，另一个无法到达-1，则返回 false
+* 如果2个指针都 >= 0 的时候，就发现它们指向不相等的chars，则返回 false
 
 ### Complexity
 * Time: O(n)
 * Space: O(1)
 
 ### Java
+代码虽然看起来有点长，其实思路很简明。只是细节情况有点多，要分别处理好
 ```java
 class Solution {
     public boolean backspaceCompare(String S, String T) {
-        int iS = S.length() - 1;
-        int iT = T.length() - 1;
-        int stepBackS = 0;
-        int stepBackT = 0;
-
-        // iS和iT同步到达-1则2个string相同，但不同步到达-1也代表2个string相同！
-        // 要是一个到了-1，另一个永远到不了-1，则false；
-        // 或者两个都在>=0的时候就发现了不同的char，则false
-        while (iS >= 0 && iT >= 0) {
-            iS = getNextIndexForCompare(S, iS);
-            iT = getNextIndexForCompare(T, iT);
+        if ((S == null && T == null) || (S.length () == 0 && T.length() == 0)) {
+            return true;
+        }
+        
+        int is = S.length() - 1;
+        int it = T.length() - 1;
+        
+        while (is >= 0 && it >= 0) {
+            is = getNextIndex(S, is);
+            it = getNextIndex(T, it);
             
-            if (iS >= 0 && iT >= 0) {
-                if (S.charAt(iS) != T.charAt(iT)) {
-                    return false;
-                }
-                iS--;
-                iT--;
+            if (is == -1 && it == -1) {
+                return true;
+            } else if (is == -1 || it == -1) {
+                return false;
+            }
+            
+            if (S.charAt(is) == T.charAt(it)) {
+                is--;
+                it--;
+            } else {
+                return false;
             }
         }
         
-        if (iS == -1 && getNextIndexForCompare(T, iT) >= 0) {
-            return false;
+        if (is == -1 && it == -1) {
+            return true;
         }
-        if (iT == -1 && getNextIndexForCompare(S, iS) >= 0) {
-            return false;
+        if (is == -1 && getNextIndex(T, it) == -1) {
+            return true;
         }
-        // iT == -1 && iS == -1
-        return true;
+        if (it == -1 && getNextIndex(S, is) == -1) {
+            return true;
+        }
+        return false;
     }
     
-    private int getNextIndexForCompare(String str, int curIndex) {
-        // 如果当前已经超出了左界，则一直停在这里
-        if (curIndex == -1) {
-            return -1;
-        }
+    private int getNextIndex(String str, int i) {
+        int countOfBackspaces = 0;
         
-        int moveLeft = 0;
-        while (moveLeft > 0 || str.charAt(curIndex) == '#') {
-            if (str.charAt(curIndex) == '#') {
-                moveLeft++;
-            } else if (moveLeft > 0) { // 而且当前char不是'#'
-                moveLeft--;
-            }
-            
-            curIndex--;
-            
-            if (curIndex == -1) {
-                return -1;
+        while (i >= 0) {
+            if (str.charAt(i) == '#') {
+                countOfBackspaces++;
+                i--;
+            } else { // != '#'
+                if (countOfBackspaces == 0) {
+                    return i;
+                } else {
+                    countOfBackspaces--;
+                    i--;
+                }
             }
         }
-        return curIndex;
+        return -1;
     }
 }
 ```
