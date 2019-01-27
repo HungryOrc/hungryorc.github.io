@@ -106,6 +106,49 @@ public class Solution {
 }
 ```
 
+## Solution 2：代码更简单，速度更快的做法。理解上要多想下
+与上一个方法相比，这个方法相当于DFS，把不止一步流程连在一起做了
+
+### Complexity
+* Time: O(|V| + |E|) <=== 对么 ？？？？
+* Space: O(|V|) <=== 对么 ？？？？
+
+### Java
+```java
+public class Solution {
+    public List<GraphNode> copy(List<GraphNode> graph) {
+        List<GraphNode> graphCopy = new ArrayList<>();
+        Map<GraphNode, GraphNode> oldToNew = new HashMap<>();
+        
+        for (GraphNode node : graph) {
+            copy(node, graphCopy, oldToNew);
+        }
+        return graphCopy;
+    }
+    
+    private GraphNode copy(GraphNode node, List<GraphNode> graphCopy, Map<GraphNode, GraphNode> map) {
+        GraphNode nodeCopy = map.get(node);
+        
+        if (nodeCopy != null) {
+            return nodeCopy;
+        }
+        
+        // nodeCopy == null
+        nodeCopy = new GraphNode(node.label)
+        map.put(node, nodeCopy);
+        graphCopy.add(nodeCopy);
+        
+        // copy the neighborhood relationships
+        for (GraphNode nei : node.neighbors) {
+            // 注意！本算法的 精华 就是下面这句！
+            nodeCopy.neighbors.add(copy(nei, graphCopy, map));
+        }
+        
+        return nodeCopy;
+    }
+}
+```
+
 ## Reference
 * [Clone Graph [LeetCode]](https://leetcode.com/problems/clone-graph/description/)
 
