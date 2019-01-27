@@ -43,11 +43,13 @@ class UndirectedGraphNode {
 略
 
 ## Solution 1：最符合直觉的方法，一步一步来，容易理解，但速度较慢
-
+1. 题目只给了一个node，通过它，把所有的 old nodes 都得到
+2. 搞一个map，key是所有的old nodes，value是所有的new nodes，old和new nodes一一对应，后者的label和前者的一一相等。这时候都还没有添加neighbors的数据
+3. 对每个new node添加neighbors的数据，当然是根据它所对应的那个old node 的neighbors来添加
 
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(|V| + |E|) <=== 对么 ？？？？
+* Space: O(|V|) <=== 对么 ？？？？
 
 ### Java
 ```java
@@ -58,15 +60,20 @@ public class Solution {
             return null;
         }
         
+        // from the given node, get all the old nodes in the initial graph
         List<UndirectedGraphNode> oldNodes = getOldNodes(node);
         
-        // <old node, new node which is the deep copy of the old node>
+        // map each old node with a new node, whose label is the same to the old one
+        // 在这些一对一的mapping里，old nodes是key，new nodes是value
         Map<UndirectedGraphNode, UndirectedGraphNode> oldToNew = new HashMap<>();
         
         for (UndirectedGraphNode oldNode : oldNodes) {
+            // 到这里为止，new nodes都还没有添加neighbors的信息
             oldToNew.put(oldNode, new UndirectedGraphNode(oldNode.label));
         }
         
+        // 把neighbors关系也复制到new nodes里面去
+        // 注意，new nodes 的neighbors关系 是存在于 new nodes 和 new nodes 之间的
         for (UndirectedGraphNode oldNode : oldNodes) {
             UndirectedGraphNode newNode = oldToNew.get(oldNode);
             
@@ -74,7 +81,6 @@ public class Solution {
                 newNode.neighbors.add(oldToNew.get(nei));
             }
         }
-        
         return oldToNew.get(node);
     }
     
@@ -94,6 +100,7 @@ public class Solution {
                 }
             }
         }
+        // 注意这句语法：ArrayList 可以直接由 HashSet 来构造
         return new ArrayList<UndirectedGraphNode>(set);
     }
 }
