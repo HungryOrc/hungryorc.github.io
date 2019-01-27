@@ -50,6 +50,7 @@ The list of double linked nodes make the nodes adding/removal operations O(1)
 
 ### Java
 ```java
+// Node of doubly linked list
 class Node {
     // 容量超限的时候，要把HashMap里的相应node去掉，这时候就要在双向链表的尾部找到这个node并取得它所代表的key值，
     // 所以node里也要存key值
@@ -65,14 +66,12 @@ class Node {
 }
 
 public class LRUCache {
-
     HashMap<Integer, Node> map; // <key, Node>
     int capicity;
     Node dummyHead, dummyTail;
     
     public LRUCache(int capacity) {
         this.capicity = capacity;
-        
         map = new HashMap<>();
       
         dummyHead = new Node(0, 0);
@@ -82,58 +81,56 @@ public class LRUCache {
     }
     
     // delete a node in any place of the doubly-linked-list, in O(1) time
-    // 之所以能O(1)时间，关键在于，我们拿到的是要被删除的node的reference ！！！
+    // 之所以能O(1)时间完成删除，关键在于 我们拿到的是要被删除的node的reference
     public void deleteNode(Node node) {
-    	  node.pre.next = node.next;
-    	  node.next.pre = node.pre;
+        node.pre.next = node.next;
+        node.next.pre = node.pre;
     }
     
     // 最近被访问的node，都要先从list里删除，然后加到list的头部来
     // 其实是加到dummyHead的后面
     public void addToHead(Node node) {
-    	  node.next = dummyHead.next; // dummyHead.next 是原来的真实头部节点
-    	  node.next.pre = node;
-      
-    	  node.pre = dummyHead;
-    	  dummyHead.next = node;
+        node.next = dummyHead.next; // dummyHead.next 是原来的真实头部节点
+        node.next.pre = node;
+    
+        node.pre = dummyHead;
+        dummyHead.next = node;
     }
     
     public int get(int key) {
-    	  if (map.get(key) != null) {
-      		  Node node = map.get(key);
-      	  	int result = node.value;
+        Node node = map.get(key);
+        if (node != null) {
+            int result = node.value;
           
-    	    	deleteNode(node); // 从list删除此node
-    	    	addToHead(node); // 然后再把此node加到list的头部去
+    	    deleteNode(node); // 从list删除此node
+    	    addToHead(node); // 然后再把此node加到list的头部去
     	    	
             return result;
-        
       	} else {
       	    return -1;
         }
     }
     
     public void put(int key, int value) {
-      	if (map.get(key) != null) {
-      		  Node node = map.get(key);
-      		  node.value = value; // node的value要变，但key不变
+        Node node = map.get(key);
+      	if (node != null) {
+      	    node.value = value; // node的value要变，但key不变
           
-      		  deleteNode(node);
-      		  addToHead(node);
-        
+      	    deleteNode(node);
+      	    addToHead(node);
       	} else {
-      		  Node node = new Node(key, value);
-       	  	map.put(key, node);
+      	    node = new Node(key, value);
+       	    map.put(key, node);
           
-      	  	if (map.size() <= capacity) { // list 没满
-      		    	addToHead(node); 
-      		  } else { // list 满了
-    	  		    map.remove(dummyTail.pre.key);
+      	    if (map.size() <= capacity) { // list 没满
+      	        addToHead(node); 
+      	    } else { // list 满了
+    	  	    map.remove(dummyTail.pre.key);
               
-    	  		    deleteNode(dummyTail.pre);
-    	  		    addToHead(node);
-    	  	  }
-    	  }
+    	  	    deleteNode(dummyTail.pre);
+    	  	    addToHead(node);
+    	  	}
+        }
     }
 }
 ```
