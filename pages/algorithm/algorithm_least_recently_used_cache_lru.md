@@ -264,6 +264,6 @@ public class Solution<K, V> {
 ```
 
 ## Reference
-* [Least Recently Used Cache [LeetCode]]()
+* [LRU Cache [LeetCode]](https://leetcode.com/problems/lru-cache/description/)
 
 {% include links.html %}
