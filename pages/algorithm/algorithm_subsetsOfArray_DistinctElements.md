@@ -31,12 +31,22 @@ Note:
     ]
     ```
 
-## Solution
-哦也
+## Solution 1: DFS, 用 Recursive Searching Tree 做
+思路：看下一个位置可以放哪些数，而非某一个数是否出现在当前的subset里
+```       
+                   []
+                /   |   \
+            [1]    [2]    [3]
+         /   \     /
+    [1,2] [1,3]  [2,3]
+     /
+[1,2,3]
+```
 
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(答案的个数 * 得到每个答案所需的时间) = O(2^n * n)
+  * 得到每个答案所需的时间是 O(n)，是因为可能要把n个数都add到一个答案里去
+* Space: O(n)，DFS的 call stack的层数 <=== 对么 ？？？？
 
 ### Java
 ```java
