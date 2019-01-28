@@ -65,6 +65,7 @@ class Solution {
     // 这个函数是 把所有以curList 开头的组合 都放到result 里去
     private void dfs(int[] nums, int curIndex, List<Integer> curList, 
                      List<List<Integer>> result) {
+                     
         // 注意这题的一大特点！先什么都不管，先把curList扔到result里去！
         result.add(new ArrayList<Integer>(curList)); // 注意这里要new一个ArrayList
         
@@ -74,6 +75,47 @@ class Solution {
             dfs(nums, i + 1, curList, result); // 注意这里是 i+1，不要误用了 curIndex+1
             curList.remove(curList.size() - 1); // 复原
         }
+    }
+}
+```
+
+## Solution 2: 也是DFS：对于n个元素中的每一个来说，它都有2种命运：被采纳，和不被采纳
+
+### Complexity
+* Time: O(答案的个数 * 得到每个答案所需的时间) = O(2^n * n)
+  * 得到每个答案所需的时间是 O(n)，是因为可能要把n个数都add到一个答案里去
+* Space: O(n)，DFS的 call stack的层数 <=== 对么 ？？？？
+
+### Java
+```java
+class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+      List<List<Integer>> result = new ArrayList<>();
+      if (nums == null || nums.length == 0) {
+          return result;
+      }
+      
+      dfs(nums, 0, new ArrayList<Integer>(), result);
+      return result;
+    }
+
+    private void dfs(int[] nums, int curIndex, List<Integer> curList, 
+                     List<List<String>> result) {
+                     
+        if (curIndex == nums.length) {
+            result.add(new ArrayList<Intger>(curList));
+            return;
+        }
+
+        int curNum = nums[curIndex];
+
+        // case 1, the cur number will not be used in the cur list
+        dfs(nums, curIndex + 1, curList, result);
+
+        // case 2, the cur number will be used in the cur list
+        curList.add(curNum);
+        dfs(nums, curIndex + 1, curList, result);
+        curList.remove(curList.size() - 1); // 复原
     }
 }
 ```
