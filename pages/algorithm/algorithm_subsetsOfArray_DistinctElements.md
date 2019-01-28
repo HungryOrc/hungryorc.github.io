@@ -49,6 +49,7 @@ Note:
 * Space: O(n)，DFS的 call stack的层数 <=== 对么 ？？？？
 
 ### Java
+代码挺短的
 ```java
 class Solution {
     public List<List<Integer>> subsets(int[] nums) {
@@ -61,15 +62,17 @@ class Solution {
         return result;
     }
     
+    // 这个函数是 把所有以curList 开头的组合 都放到result 里去
     private void dfs(int[] nums, int curIndex, List<Integer> curList, 
                      List<List<Integer>> result) {
         // 注意这题的一大特点！先什么都不管，先把curList扔到result里去！
-        result.add(new ArrayList<Integer>(curList));
+        result.add(new ArrayList<Integer>(curList)); // 注意这里要new一个ArrayList
         
+        // 下一个位置可以放哪些数
         for (int i = curIndex; i < nums.length; i++) {
             curList.add(nums[i]);
-            dfs(nums, i + 1, curList, result);
-            curList.remove(curList.size() - 1);
+            dfs(nums, i + 1, curList, result); // 注意这里是 i+1，不要误用了 curIndex+1
+            curList.remove(curList.size() - 1); // 复原
         }
     }
 }
