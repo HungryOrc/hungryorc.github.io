@@ -67,6 +67,37 @@ class Solution {
 }
 ```
 
+## Solution 2: 逐步替换，速度前 1%
+
+### Complexity
+* Time: O(n)，这个方法的速度比上面的方法更快，虽然他们都是 n 的量级
+* Space: O(1)，这个方法只用 constant space，比上面的 n space 好很多
+
+### Java
+```java
+class Solution {
+    public int fib(int n) {
+        if (n < 0) {
+            return Integer.MIN_VALUE;
+        } else if (n == 0) {
+            return 0;
+        } else if (n <= 2) {
+            return 1;
+        }
+        
+        int prev = 1; // when n == 2
+        int prevPrev = 1; // when n == 1
+        int result = 0;
+        for (int i = 3; i <= n; i++) {
+            result = prev + prevPrev;
+            prevPrev = prev;
+            prev = result;
+        }
+        return result;
+    }
+}
+```
+
 ## Reference
 * [Fibonacci Number [LeetCode]](https://leetcode.com/problems/fibonacci-number/description/)
 
