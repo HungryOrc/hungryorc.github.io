@@ -64,19 +64,22 @@ class Solution {
         return result;
     }
     
+    // 这个函数是 把所有以curList 开头的组合 都放到result 里去
     private void dfs(int[] nums, int curIndex, List<Integer> curList,
                      List<List<Integer>> result) {
         
-        result.add(new ArrayList(curList));
+	// 注意这题的一大特点！先什么都不管，先把curList扔到result里去！
+        result.add(new ArrayList<Integer>(curList)); // 这里要new一个
         
+        // 下一个位置可以放哪些数
         for (int i = curIndex; i < nums.length; i++) {
             if (i > curIndex && nums[i] == nums[i - 1]) {
                 continue;
             }
             
             curList.add(nums[i]);
-            dfs(nums, i + 1, curList, result);
-            curList.remove(curList.size() - 1);
+            dfs(nums, i + 1, curList, result); // 注意 这里是 i+1 不是 curIndex+1
+            curList.remove(curList.size() - 1); // 复原
         }
     }
 }
