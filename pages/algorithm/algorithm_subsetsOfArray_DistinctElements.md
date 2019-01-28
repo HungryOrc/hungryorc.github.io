@@ -100,7 +100,7 @@ class Solution {
     }
 
     private void dfs(int[] nums, int curIndex, List<Integer> curList, 
-                     List<List<String>> result) {
+                     List<List<Integer>> result) {
                      
         if (curIndex == nums.length) {
             result.add(new ArrayList<Intger>(curList));
