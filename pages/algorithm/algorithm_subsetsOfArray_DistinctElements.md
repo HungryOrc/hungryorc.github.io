@@ -103,17 +103,15 @@ class Solution {
                      List<List<Integer>> result) {
                      
         if (curIndex == nums.length) {
-            result.add(new ArrayList<Intger>(curList));
+            result.add(new ArrayList<Integer>(curList));
             return;
         }
-
-        int curNum = nums[curIndex];
 
         // case 1, the cur number will not be used in the cur list
         dfs(nums, curIndex + 1, curList, result);
 
         // case 2, the cur number will be used in the cur list
-        curList.add(curNum);
+        curList.add(nums[curIndex]);
         dfs(nums, curIndex + 1, curList, result);
         curList.remove(curList.size() - 1); // 复原
     }
