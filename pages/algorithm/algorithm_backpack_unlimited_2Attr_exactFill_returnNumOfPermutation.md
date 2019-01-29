@@ -9,7 +9,7 @@ folder: algorithm
 toc: false
 ---
 
-## Description
+## Description：这题较难
 每个item可以被用 无限次。每个item有2个属性，size, value。每个item的size都是 > 0 的，且 **所有 item 的 size 不重复！这很重要！**。背包有 total size limit。
 求恰好装满背包的话，有多少种不同的 **permutation**，就是说 **items 的排列顺序 matters！**
 
@@ -39,7 +39,7 @@ toc: false
   ```
   * 这个做法的道理是：
     * 相当于bag的capacity从小到大，然后，对于一定的capacity，对所有的items loop一遍，cur item可以有用和不用 两种情况。相当于对于每个capacity，每个item都来试一下，**关键是这个试是相当于把这个item放到（或者不用）当前这个半成品的items的permutation的   最   右   边！！** 
-    * 然后对于每个capacity，每个item只能最多被装进去1次！虽然每个item都可以用无限次，但我们这么做就是为了 把permutation做出来。然后到了之后更大的capacity的时候，当前的这个item又会有一个机会，对于每次+1的capacity（所以总共来说每个item都有capacity次机会）。
+    * 在每一轮里，每个item只能最多被装进去1次！虽然每个item都可以用无限次，但我们这么做就是为了 把permutation做出来。然后到了之后更大的capacity的时候，当前的这个item又会有一个机会，对于每次+1的capacity（所以总共来说每个item都有capacity次机会）。
 * Return: `dp[n - 1][capacity]`
 
 ### Complexity
@@ -53,6 +53,7 @@ public class Solution {
         if (sizes == null || sizes.length == 0 || capacity < 0) {
             return 0;
         }
+        
         // 如果背包容量是0，则 *有一种permutation！就是什么item也不取*
         if (capacity == 0) {
             return 1;
@@ -67,6 +68,7 @@ public class Solution {
         }
         
         for (int s = 1; s <= capacity, s++) {
+            // 把每个物品逐个试一遍（从第二个物品开始）
             for (int i = 1; i < n; i++) {
                 dp[i][s] = dp[i - 1][s];
                 if (sizes[i] <= s) {
@@ -146,7 +148,8 @@ public class Solution {
         dp[0] = 1; // 一维，这里的dp[0]表示capacity为0的情况
         
         for (int s = 1; s <= capacity, s++) {
-            for (int i = 0; i <= n; i++) { // i <= n
+            // 从第一个物品开始，每个物品逐个试一遍
+            for (int i = 0; i < n; i++) {
                 // dp[s] = dp[s]; // 这一句在解法变成一维以后就没意义了
                 if (sizes[i] <= s) {
                     dp[s] += dp[s - sizes[i]]; // 一维
