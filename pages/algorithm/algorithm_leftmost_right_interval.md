@@ -41,7 +41,7 @@ Note:
   * Output: [-1, 2, -1]
     * There is no satisfied "right" interval for [1,4] and [3,4]. For [2,3], the interval [5,7] has minimum-"right" start point.
 
-## Solution 1: 我的朴素方法。速度慢。回头看下有没有更快的方法 ？！？
+## Solution 1: 我的朴素方法。速度慢。回头看下有没有 除了TreeMap 以外的更快的方法 ？！？
 * 要把所有interval根据他们的start point 进行从小到大的排序，这样才有利于之后的处理。但我们不能丢掉每个interval在初始数组里的位置即index，所以在排序
 之前，我们要先做下面这一步：
 * 用一个map记录每个interval和它们的初始indexes的对应关系
@@ -83,9 +83,6 @@ public class Solution {
                 return itv1.start > itv2.start ? 1 : -1;
             }
         });
-        for (Interval itv : intervals) {
-            System.out.println(itv.start + ", " + itv.end);
-        }
         
         for (int i = 0; i < n; i++) {
             int curStart = intervals[i].start;
@@ -132,7 +129,7 @@ public class Solution {
 }
 ```
 
-## Solution 2: 用TreeMap做，速度较快。学习一下别人对TreeMap的运用方式！
+## Solution 2: 用TreeMap做，速度 前20%。学习一下别人对TreeMap的运用方式！
 Ref: https://discuss.leetcode.com/topic/65817/java-clear-o-n-logn-solution-based-on-treemap
 
 TreeMap: A Red-Black tree based NavigableMap implementation. 
