@@ -132,6 +132,44 @@ public class Solution {
 }
 ```
 
+## Solution 2: 用TreeMap做，速度较快。学习一下别人对TreeMap的运用方式！
+Ref: https://discuss.leetcode.com/topic/65817/java-clear-o-n-logn-solution-based-on-treemap
+
+TreeMap: A Red-Black tree based NavigableMap implementation. 
+The map is sorted according to the natural ordering of its keys, or by a Comparator provided at map creation time, 
+depending on which constructor is used.
+
+### Complexity
+* Time: O(n logn)
+* Space: O(n)
+
+### Java
+```java
+public class Solution {
+    public int[] findRightInterval(Interval[] intervals) {
+        int len = intervals.length;
+        int[] result = new int[len];
+        TreeMap<Integer,Integer> intervalTreeMap = new TreeMap<>();
+        
+        for (int i = 0; i < len; i++)
+            intervalTreeMap.put(intervals[i].start, i);
+            
+        for (int i = 0; i < len; i++)
+        {
+            // ceilingEntry(K key)
+            // Returns a key-value mapping associated with the least key greater than or equal to 
+            // the given key, or null if there is no such key
+            Map.Entry<Integer,Integer> entry = intervalTreeMap.ceilingEntry(intervals[i].end);
+            if (entry != null)
+                result[i] = entry.getValue();
+            else // null
+                result[i] = -1;
+        }
+        return result;
+    }
+}
+```
+
 ## Reference
 * [Find Right Interval [LeetCode]](https://leetcode.com/problems/find-right-interval/description/)
 
