@@ -10,7 +10,13 @@ toc: false
 ---
 
 ## Description
-一个循环的 singly linked list，从head开始删，删除第1，3，5，7... 个node，只删一圈，不删第二圈。求剩下来的nodes。
+一个循环的 singly linked list，从head开始删，删除第1，3，5，7... 个node，只删一圈，不删第二圈。求剩下来的nodes，即要返回新的head node。
+```java
+class ListNode {
+    int val;
+    ListNode next;
+}
+```
 
 ### Example
 * Input: 1->2->3->4->5(->1)
@@ -27,15 +33,27 @@ toc: false
 ### Java
 ```java
 class Solution {
-    public void deleteNode(ListNode node) {
-        // 如果 node.next 为空，即 node 是list里的最后一个node，
-        // 则这一题做不了
-        if (nodeToDel == null || nodeToDel.next == null) {
-            return;
+    public ListNode deleteEveyOtherNode(ListNode head) {
+        // 注意，head的next不可能是null，其实这里任何node的next都不可能是null，因为是循环list
+        if (head == null || head.next == head) {
+            return null;
         }
         
-        node.val = node.next.val;
-        node.next = node.next.next;
+        ListNode dummyHead = new ListNode(-1);
+        
+        ListNode newHead = head.next;
+        dummyHead.next = newHead; // 这其实就是在 delete head node！
+        
+        ListNode cur = newHead;
+        // 注意这里的while loop都不是判断next是否为null了，而是判断next是否为原本的head
+        while (cur.next != head && cur.next.next != head) {
+            cur.next = cur.next.next; // 删除cur.next
+            cur = cur.next; // 挪动cur到原来的cur.next.nect
+        }
+        
+        cur.next = newHead; // 别忘了这个
+        
+        return newHead;
     }
 }
 ```
