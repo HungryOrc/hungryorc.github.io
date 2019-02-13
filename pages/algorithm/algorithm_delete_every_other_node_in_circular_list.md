@@ -38,11 +38,9 @@ class Solution {
         if (head == null || head.next == head) {
             return null;
         }
-        
-        ListNode dummyHead = new ListNode(-1);
-        
+
         ListNode newHead = head.next;
-        dummyHead.next = newHead; // 这其实就是在 delete head node！
+        // 原本的head node 在后面再删！后面很巧妙
         
         ListNode cur = newHead;
         // 注意这里的while loop都不是判断next是否为null了，而是判断next是否为原本的head
@@ -51,7 +49,7 @@ class Solution {
             cur = cur.next; // 挪动cur到原来的cur.next.nect
         }
         
-        cur.next = newHead; // 别忘了这个
+        cur.next = newHead; // 关键在这里！一是把新的尾巴接到新的头，二是删除原来的head node！
         
         return newHead;
     }
