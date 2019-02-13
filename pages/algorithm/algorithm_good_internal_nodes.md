@@ -39,7 +39,7 @@ toc: false
 
 ## Solution 1：我自己的解法，实测了一个case，感觉是正确的
 
-### 这题是(1/5/2019)周六mock题目，最后存档也没给答案，给Jennifer或Yan老师看下这么写是否ok ？？？
+### 这题是(1/5/2019)周六mock题目，最后存档也没给答案，给 Beiping 看下这么写是否ok ？？？
 
 从root往下dfs。
 
