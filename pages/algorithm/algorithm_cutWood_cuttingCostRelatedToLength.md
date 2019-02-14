@@ -31,12 +31,22 @@ Determine the minimum total cost to cut the stick into the defined pieces.
 
 ## Solution：2维DP
 思路：我们把题目给的数组做一个扩展，A = {2, 4, 7} --> {0, 2, 4, 7, 10}，即把开头和结尾的长度都包含进来了.
-DP数组M[i][j]表示 the min cost of cutting the wood between index i and index j in the input array A.
-So for this example, the sulution we are looking for is M[0][4]
+
+* DP数组 `M[i][j]` 表示 the min cost of cutting **EVERY POSITION** the wood between index i and index j in the input array A.
+So for this example, the sulution we are looking for is `M[0][4]`
+
+* Base Case: The adjacent cutting positions that cannot be cut any further: 
+  * M[0][1] = 0, M[1][2] = 0, M[2][3] = 0... M[i-1][i] = 0
+
+* Induction Rules
+  * Size = 1: Adjacent indexes: [left = i, right = i + 1]
+    M[0][1] = M[1][2] = M[2][3] = M[3][4] = 0
+
+
 
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(n^2)
+* Space: O(n^2)
 
 ### Java
 ```java
