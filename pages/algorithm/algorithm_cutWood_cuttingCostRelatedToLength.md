@@ -36,11 +36,25 @@ Determine the minimum total cost to cut the stick into the defined pieces.
 So for this example, the sulution we are looking for is `M[0][4]`
 
 * Base Case: The adjacent cutting positions that cannot be cut any further: 
-  * M[0][1] = 0, M[1][2] = 0, M[2][3] = 0... M[i-1][i] = 0
+  ```
+  M[0][1] = 0, M[1][2] = 0, M[2][3] = 0... M[i-1][i] = 0
+  ```
 
 * Induction Rules
   * Size = 1: Adjacent indexes: [left = i, right = i + 1]
+    ```
     M[0][1] = M[1][2] = M[2][3] = M[3][4] = 0
+    ```
+  * Size = 2: [left = i, right = i + 2]
+    ```
+    M[0][2] = M[0][1] + M[1][2] + (cutting cost of the wood from index 0 to index 2)
+            = M[0][1] + M[1][2] + (length from index 0 to index 2) 
+            = M[0][1] + M[1][2] + (A[2] - A[0]) = 0 + 0 + (4 - 0) = 4
+    M[1][3] = M[1][2] + M[2][3] + (A[3] - A[1]) = 0 + 0 + (7 - 2) = 5
+    M[2][4] = M[2][3] + M[3][4] + (A[4] - A[2]) = 0 + 0 + (10 - 4) = 6
+    ```
+  * Size = 3: [left = i, right = i + 3]
+      
 
 
 
@@ -54,6 +68,6 @@ So for this example, the sulution we are looking for is `M[0][4]`
 ```
 
 ## Reference
-* [文章标题 [LeetCode]](网址放在这里)
+* [应该有这题，只是我没找 [LeetCode]](网址放在这里)
 
 {% include links.html %}
