@@ -120,15 +120,20 @@ public class Solution {
         }
     
         // 填入右上方的其他cells的值
-        for (int startCol = 2; startCol < n; startCol++) {
-            for(int col = startCol, row = 0; col < n; col++, row ++) {
+        for (int end = 2; end < n; end++) {
         
-                M[row][col] = Integer.MAX_VALUE;
-                int cuttingCost = endpoints[col] - endpoints[row];
+            // 这个写法比较特殊，i和j都++，相当于是沿着对角线方向向右下角滑动
+            // 这题还有一种更直观的写法，就是外层循环用len=2,3,4... 我回头自己试一下，test一下
+            for(int j = end, i = 0; j < n; i++, j ++) {
         
-                for (int mid = row + 1; mid <= col - 1; mid++) {
-                    int curCost = M[row][mid] + M[mid][col] + cuttingCost;
-                    M[row][col] = Math.min(curCost, M[row][col]);
+                M[i][j] = Integer.MAX_VALUE;
+                
+                // 初始值
+                int cuttingCost = endpoints[j] - endpoints[i];
+        
+                for (int mid = i + 1; mid <= j - 1; mid++) {
+                    int curCost = M[i][mid] + M[mid][j] + cuttingCost;
+                    M[i][j] = Math.min(curCost, M[i][j]);
                 }
             }
         }
