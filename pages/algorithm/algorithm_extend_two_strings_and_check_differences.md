@@ -53,13 +53,9 @@ public class Solution {
             if (state1.curCount == 0) {
                 index1 = getNextIndexAndUpdateState(s1, index1, state1);
             }
-            System.out.println("index1: " + index1);
-            System.out.println("state1: " + state1.curChar + ", " + state1.curCount);
             if (state2.curCount == 0) {
                 index2 = getNextIndexAndUpdateState(s2, index2, state2);
             }
-            System.out.println("index2: " + index2);
-            System.out.println("state2: " + state2.curChar + ", " + state2.curCount);
             
             int minorCount = Math.min(state1.curCount, state2.curCount);
             
