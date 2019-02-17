@@ -15,7 +15,7 @@ Given 2 strings which has the same initial length, and they will also have the s
 
 Note:
 * The numbers can be more than 1 digit
-
+* Both Strings have valid format, namely numbers followed by smaller alphabet letters.
 
 ### Example
 * Input: "2a3b1c" and "1a2b3c"
@@ -31,7 +31,74 @@ Note:
 
 ### Java
 ```java
+// helper class。设置它的作用是为了方便在函数之间传递curCount和curChar。这样就不必设global var
+class State {
+    int curCount;
+    char curChar;
+}
 
+public class Solution {
+    public int countDiff(String s1, String s2) {
+        // ignore sanity checks
+        
+        State state1 = new State();
+        State state2 = new State();
+        
+        int len = s1.length(); // also = s2length()
+        int index1 = 0, index2 = 0;
+        int diffCount = 0;
+        
+        // index1 和 index2 未必 “同时” 到达终点，这没问题
+        while(index1 < len || index2 < len) {
+            if (state1.curCount == 0) {
+                index1 = getNextIndexAndUpdateState(s1, index1, state1);
+            }
+            System.out.println("index1: " + index1);
+            System.out.println("state1: " + state1.curChar + ", " + state1.curCount);
+            if (state2.curCount == 0) {
+                index2 = getNextIndexAndUpdateState(s2, index2, state2);
+            }
+            System.out.println("index2: " + index2);
+            System.out.println("state2: " + state2.curChar + ", " + state2.curCount);
+            
+            int minorCount = Math.min(state1.curCount, state2.curCount);
+            
+            if (state1.curChar != state2.curChar) {
+                diffCount += minorCount;
+            }
+            
+            state1.curCount -= minorCount;
+            state2.curCount -= minorCount;
+        }
+        return diffCount;
+    }
+    
+    private int getNextIndexAndUpdateState(String s, int index, State state) {
+        int count = 0;
+        char curChar = s.charAt(index);
+        
+        while (Character.isDigit(curChar)) {
+            count = count * 10 + (curChar - '0');
+            index++;
+            curChar = s.charAt(index);
+        }
+        
+        // 出了while循环的时候，curChar其实已经指向数字后面的那个字母了
+        state.curCount = count;
+        state.curChar = curChar;
+        
+        return index + 1; // 为下一个(int + char) 组合做准备
+    }
+    
+    // ------------------------------------------------------
+    // main
+    public static void main(String[] args) {
+
+        Solution solu = new Solution();
+        int result = solu.countDiff("2a3b1c", "1a2b3c");  // 3
+        System.out.println(result);
+    }
+}
 ```
 
 ## Reference
