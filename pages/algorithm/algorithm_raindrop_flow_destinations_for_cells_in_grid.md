@@ -35,7 +35,9 @@ toc: false
 代码虽然看起来不短，其实逻辑不复杂
 ```java
 public class Solution {
-    private static final int[][] DIRS = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    private static final int[][] DIRS = {
+        {0, 1}, {0, -1}, {1, 0}, {-1, 0}
+    };
     
     public Map<List<Integer>, List<Integer>> findDestinations(int[][] grid) {
         // ignore sanity checks
@@ -44,7 +46,7 @@ public class Solution {
         int n = grid.length, m = grid[0].length;
         
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
+            for (int j = 0; j < m; j++) {
                 findDest(grid, i, j, result);
             }
         }
@@ -85,9 +87,11 @@ public class Solution {
         // 如果当前cell的高度 <= 周围四个cells的高度，那么当前cell就是自己的destination cell
         if (destCell == curCell) {
             result.put(curCell, curCell);
-        } else {
-            System.out.println(destCell.get(0) + ", " + destCell.get(1));
+        } 
+        else {
+            // DFS 寻找下去
             destCell = findDest(grid, destCell.get(0), destCell.get(1), result);
+            
             result.put(curCell,  destCell);
         }
         return destCell;
