@@ -104,7 +104,11 @@ public class Solution {
     // ------------------------------------------------------
     // main
     public static void main(String[] args) {
-        int[][] grid = {{1, 2, 3}, {2, 5, 6}, {0, 8, 9}};
+        int[][] grid = {
+            {1, 2, 3}, 
+            {2, 5, 6}, 
+            {0, 8, 9}
+        };
         
         Solution solu = new Solution();
         Map<List<Integer>, List<Integer>> result = solu.findDestinations(grid);
