@@ -31,8 +31,69 @@ Note:
 * Space: O(n)
 
 ### Java
+代码看起来不很短，但核心逻辑其实很短，只在一个函数里
 ```java
-
+public class Solution {
+    public int minNumOfRescueBoats(int[] weights, int capacity) {
+        // ignore sanity checks
+        int[] minNumBoats = new int[] {Integer.MAX_VALUE};
+        
+        bfs(weights, 0, capacity, minNumBoats);
+        return minNumBoats[0];
+    }
+    
+    // 核心逻辑都在这个函数里
+    private void bfs(int[] weights, int index, int capacity, int[] minNumBoats) {
+        // 完成了所有位的swap(或不swap)，形成了一个新的独特的数组
+        if (index == weights.length) {
+            minNumBoats[0] = Math.min(minNumBoats[0], 
+                                      countMinRescueBoats(weights, capacity));
+            return;
+        }
+        
+        for (int i = index; i < weights.length; i++) {
+            swap(weights, index, i);
+            bfs(weights, index + 1, capacity, minNumBoats);
+            swap(weights, index, i); // 复原
+        }
+    }
+    
+    private int countMinRescueBoats(int[] weights, int capacity) {
+        int count = 0;
+        int sum = 0;
+        
+        for (int wei : weights) {
+            if (sum + wei > capacity) {
+                count++;
+                sum = wei;
+                continue;
+            }
+            sum += wei;
+        }
+        
+        if (sum > 0) { // 别疏漏了这种情况！
+            return count + 1;
+        }
+        return count;
+    }
+    
+    private void swap(int[] weights, int i, int j) {
+        int tmp = weights[i];
+        weights[i] = weights[j];
+        weights[j] = tmp;
+    }
+    
+    // ------------------------------------------------------
+    // main
+    public static void main(String[] args) {
+        int[] weights = {2, 2, 3, 5, 4};
+        int capacity = 5;
+        
+        Solution solu = new Solution();
+        int result = solu.minNumOfRescueBoats(weights, capacity);
+        System.out.println(result); // 4
+    }
+}
 ```
 
 ## Reference
