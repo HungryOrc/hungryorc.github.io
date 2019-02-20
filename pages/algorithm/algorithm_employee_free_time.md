@@ -21,6 +21,11 @@ toc: false
 ## Solution 1：用 PriorityQueue
 Ref: https://leetcode.com/problems/employee-free-time/discuss/113134/Simple-Java-Sort-Solution-Using-(Priority-Queue)-or-Just-ArrayList
 
+The idea is to just add all the intervals to the priority queue. (NOTE that it is not matter how many different people are there for the algorithm. becuase we just need to find a gap in the time line.
+* Priority queue - sorted by start time, and for same start time sort by either largest end time or smallest (it is not matter).
+* Everytime you poll from priority queue, just make sure it doesn't intersect with previous interval.
+This mean that there is no coomon interval. Everyone is free time.
+
 ### Complexity
 * Time: O(nlogn)
 * Space: O(n)
@@ -74,7 +79,7 @@ return result;
 **遇到 start 就 +1，遇到 end 就 -1，为 0 的时候就是所有人都 free 的时候！**
 
 ### Complexity
-* Time: O(nlogn)
+* Time: O(nlogn)，把所有东西都放到TreeMap里是 nlogn 的时间，扫一遍是 n 的时间
 * Space: O(n)
 
 ### Java
