@@ -89,7 +89,66 @@ return result;
 
 ### Java
 ```java
+Hongchen <== 看不懂就问她！
+public List<Interval> employeeFreeTime(List<List<Interval>> schedule) {
+	List<Interval> ans = new ArrayList<>();
+	if (schedule == null || schedule.size() == 0) {
+		return ans;
+}
+	TreeMap<Integer, Integer> treemap = new TreeMap<>();
+	for (List<Interval> list : schedule) {
+		if (list == null) {
+			continue;
+}
+		for (Interval i : list) {
+			treemap.put(i.start, treemap.getOrDefault(i.start, 0) + 1);
+			treemap.put(i.end, treemap.getOrDefault(i.end, 0) - 1);
+}
+}
+int count = 0;
+int start = 0, end = 0;//assuming 0 is not used in intervals
+for (Integer key: treemap.keySet()) {
+	count += treemap.get(key);
+	if (count == 0) {
+		start = key;
+} else if (start != 0) {
+	end = key;
+	ans.add(new Interval(start, end));
+	start = 0;
+}
+}
+return ans;
+}
+```
 
+```java
+zhuqing <=== 不懂就问她！
+public List<Interval> employeeFreeTime(List<List<Interval>> schedule) {
+	List<Interval> res = new ArrayList<>();
+	if (schedule == null || schedule.size() == 0) {
+	return res;
+}
+      List<Interval> list = new ArrayList<>();
+for (List<Interval> curr : schedule) {
+	for (Interval interval : curr) {
+	list.add(interval);
+}
+}
+// Collections
+Arrays.sort(list, (Interval l1, Interval l2) -> (l1.start - l2.start));
+int prevEndTime = list.get(0).end;
+
+for (int i = 1; i < list.size(); i++) {
+	Interval curr = list.get(i);
+	if (prevEndTime < curr.start) {
+	res.add(new Interval(prevEndTime, curr.start));
+prevEndTime = curr.end;
+} else {
+	prevEndTime = Math.max(curr.end, prevEndTime);
+}
+}
+return res;
+}
 ```
 
 ## Reference
