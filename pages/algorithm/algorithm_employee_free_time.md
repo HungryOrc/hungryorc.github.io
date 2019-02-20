@@ -42,6 +42,11 @@ public List<Interval> employeeFreeTime(List<List<Interval>> schedule) {
 				if (itv1.end == itv2.end) {
 	return 0;
 }
+
+lambda???? 表达式？？？
+PriorityQueue<Interval> pq = new PriorityQueue<>(10, (Interval i1, Interval i2) -> (i1.start - i2.start == 0 ? i1.end - i2.end : i1.start - i2.start));
+
+
 return itv1.end > itv2.end ? 1 : -1;
 }
 return itv1.start > itv2.start ? 1 : -1;
