@@ -30,7 +30,9 @@ Note:
 * Input: schedule = [[[1,2],[5,6]],[[1,3]],[[4,10]]]
   * Output: [[3,4]]. There are a total of three employees, and all common free time intervals would be [-inf, 1], [3, 4], [10, inf]. We discard any intervals that contain inf as they aren't finite.
 
-## Solution 1：用 PriorityQueue
+## Solution 1：用 PriorityQueue，速度前 10%（如果用lambda表达式反而更慢）
+这题既然要求所有人共有的 free time，则一段 working interval到底是谁的就没意义了，所有人的所有interval都可以并且都应该搞在一起
+
 Ref: https://leetcode.com/problems/employee-free-time/discuss/113134/Simple-Java-Sort-Solution-Using-(Priority-Queue)-or-Just-ArrayList
 
 The idea is to just add all the intervals to the priority queue. (NOTE that it is not matter how many different people are there for the algorithm. becuase we just need to find a gap in the time line.
@@ -43,52 +45,62 @@ This mean that there is no coomon interval. Everyone is free time.
 * Space: O(n)
 
 ### Java
+下面的代码里，写了 lambda 表达式，这是两层的判断嵌套，如果只有一层，那么这个lambda表达式还可以简略很多。
+
+lambda表达式比老老实实写 PQ 的 Comparator 会省很多代码。不过LC上实测运算速度，PQ Comparator 那么写反而会比lambda 快很多
 ```java
-public List<Interval> employeeFreeTime(List<List<Interval>> schedule) {
-	List<Interval> result = new ArrayList<>();
+class Solution {
+    public List<Interval> employeeFreeTime(List<List<Interval>> schedule) {
+    	List<Interval> result = new ArrayList<>();
 
+        /*
 	PriorityQueue<Interval> pq = new PriorityQueue(10, new Comparator<Interval>(){
-		@Override
-		public int compare(Interval itv1, Interval itv2) {
-			if (itv1.start == itv2.start) {
-				if (itv1.end == itv2.end) {
-	return 0;
-}
+	    @Override
+            public int compare(Interval itv1, Interval itv2) {
+                if (itv1.start == itv2.start) {
+                    if (itv1.end == itv2.end) {
+		        return 0;
+                    }
+                    return itv1.end > itv2.end ? 1 : -1;
+                }
+                return itv1.start > itv2.start ? 1 : -1;
+            }
+        }); */
+        
+        // lambda 表达式，可以取代上面整个 PQ Comparator 的写法，其意义是完全一样的
+        PriorityQueue<Interval> pq = new PriorityQueue<>(10, (Interval i1, Interval i2) -> 
+            (i1.start - i2.start == 0 ? i1.end - i2.end : i1.start - i2.start)
+        );
 
-lambda???? 表达式？？？
-PriorityQueue<Interval> pq = new PriorityQueue<>(10, (Interval i1, Interval i2) -> (i1.start - i2.start == 0 ? i1.end - i2.end : i1.start - i2.start));
+        // put all intervals into the priority queue
+        for (List<Interval> list : schedule) {
+            for (Interval interval : list) {
+                pq.add(interval);
+            }
+        }
 
-
-return itv1.end > itv2.end ? 1 : -1;
-}
-return itv1.start > itv2.start ? 1 : -1;
-}
-});
-
-	for (List<Interval> list : schedule) {
-		for (Interval interval : list) {
-			pq.add(interval);
-}
-}
-
-	Interval merged = pq.poll();
+	Interval merged = pq.poll(); // 先把第一个搞出来
 	while (!pq.isEmpty()) {
-		int curStart = pq.peek().start;
-		int curEnd = pq.peek().end;
+	    int curStart = pq.peek().start;
+	    int curEnd = pq.peek().end;
 
-		if (merged.end < curStart) {
-			Interval gap = new Interval(merged.end, curStart);
-			result.add(gap);
-			merged = pq.poll();
-			continue;
-}
+            // 出现了 common free time！
+            if (merged.end < curStart) {
+                Interval freeTime = new Interval(merged.end, curStart);
+                result.add(freeTime);
+                
+                merged = pq.poll(); // 别忘了这个
+                continue;
+            }
 
-	if (merged.end < curEnd) {
-		merged.end = curEnd;
-}
-pq.poll();
-}
-return result;
+            // merged.end >= curStart
+            if (merged.end < curEnd) {
+                merged.end = curEnd;
+            }
+            pq.poll(); // 当前pq顶部的interval已经完成了使命
+        }
+        return result;
+    }
 }
 ```
 
