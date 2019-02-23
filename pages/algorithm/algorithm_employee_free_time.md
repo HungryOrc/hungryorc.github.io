@@ -53,7 +53,7 @@ class Solution {
     public List<Interval> employeeFreeTime(List<List<Interval>> schedule) {
     	List<Interval> result = new ArrayList<>();
 	if (schedule == null || schedule.size() == 0) {
-	    return ans;
+	    return result;
         }
 	
         /*
