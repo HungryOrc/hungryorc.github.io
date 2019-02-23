@@ -36,7 +36,7 @@ Note:
 Ref: https://leetcode.com/problems/employee-free-time/discuss/113134/Simple-Java-Sort-Solution-Using-(Priority-Queue)-or-Just-ArrayList
 
 The idea is to just add all the intervals to the priority queue. (NOTE that it is not matter how many different people are there for the algorithm. becuase we just need to find a gap in the time line.
-* Priority queue - sorted by start time, and for same start time sort by either largest end time or smallest (it is not matter).
+* Priority queue - sorted by start time, 不必对end time 排序！实测ok！
 * Everytime you poll from priority queue, just make sure it doesn't intersect with previous interval.
 This mean that there is no coomon interval. Everyone is free time.
 
@@ -56,24 +56,20 @@ class Solution {
 	    return result;
         }
 	
-        /*
 	PriorityQueue<Interval> pq = new PriorityQueue(10, new Comparator<Interval>(){
 	    @Override
             public int compare(Interval itv1, Interval itv2) {
                 if (itv1.start == itv2.start) {
-                    if (itv1.end == itv2.end) {
-		        return 0;
-                    }
-                    return itv1.end > itv2.end ? 1 : -1;
+		    return 0;
                 }
                 return itv1.start > itv2.start ? 1 : -1;
             }
-        }); */
+        });
         
-        // lambda 表达式，可以取代上面整个 PQ Comparator 的写法，其意义是完全一样的
+        /* lambda 表达式，先升序排序start，再升序排序end的写法。其实不用排序end
         PriorityQueue<Interval> pq = new PriorityQueue<>(10, (Interval i1, Interval i2) -> 
             (i1.start - i2.start == 0 ? i1.end - i2.end : i1.start - i2.start)
-        );
+        ); */
 
         // put all intervals into the priority queue
         for (List<Interval> list : schedule) {
