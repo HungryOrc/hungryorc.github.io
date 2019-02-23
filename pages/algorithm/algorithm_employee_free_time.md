@@ -116,7 +116,51 @@ class Solution {
 
 ### Java
 ```java
+public class Solution {
+    public List<Interval> employeeFreeTime(List<List<Interval>> schedule) {
+        List<Interval> result = new ArrayList<>();
+        if (schedule == null || schedule.size() == 0) {
+            return result;
+        }
 
+        // TreeMap就是把BST和Map结合在一起，
+        // 所以一方面它可以秒search key，另一方面 它的 keys 有一定的顺序！(靠BST)
+        // 这个TreeMap里的key是位置点，可能是start也可能是end，一视同仁！value是出现的次数，
+        // 看下面代码就可知为何这么设置
+        TreeMap<Integer, Integer> tm = new TreeMap<>();
+
+        // 把所有的intervals都放到TreeMap里去
+        for (List<Interval> list : schedule) {
+            if (list == null) continue;
+
+            for (Interval itv : list) {
+                // 这一题的关键在此！遇到start则+1，遇到end则-1！
+                tm.put(itv.start, tm.getOrDefault(itv.start, 0) + 1);
+                tm.put(itv.end, tm.getOrDefault(itv.end, 0) - 1);
+            }
+        }
+
+        int freeCount = 0;
+        int freeStart = -1, freeEnd = -1;
+
+        for (Integer key: tm.keySet()) {
+            freeCount += tm.get(key);
+
+            if (freeCount == 0) {
+                freeStart = key;
+            } 
+            // freeCount > 0。注意 freeCount是不会 < 0 的
+            // freeStart != -1 意味着当前正有一段free time 在进行中
+            else if (freeStart != -1) { 
+                freeEnd = key;
+
+                result.add(new Interval(freeStart, freeEnd));
+                freeStart = -1;
+            }
+        }
+        return result;
+    }
+}
 ```
 
 ```java
