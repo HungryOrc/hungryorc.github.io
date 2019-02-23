@@ -107,7 +107,7 @@ class Solution {
 }
 ```
 
-## Solution 2: Sweep Line (扫描线) 很精妙的方法，再加上 TreeMap
+## Solution 2: Sweep Line (扫描线) 很精妙的方法，再加上 TreeMap。但LC实测速度反而比朴素的PQ还要慢点
 **遇到 start 就 +1，遇到 end 就 -1，为 0 的时候就是所有人都 free 的时候！**
 
 ### Complexity
