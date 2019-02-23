@@ -52,7 +52,10 @@ lambda表达式比老老实实写 PQ 的 Comparator 会省很多代码。不过L
 class Solution {
     public List<Interval> employeeFreeTime(List<List<Interval>> schedule) {
     	List<Interval> result = new ArrayList<>();
-
+	if (schedule == null || schedule.size() == 0) {
+	    return ans;
+        }
+	
         /*
 	PriorityQueue<Interval> pq = new PriorityQueue(10, new Comparator<Interval>(){
 	    @Override
@@ -104,7 +107,7 @@ class Solution {
 }
 ```
 
-## Solution 2: Sweep Line，扫描线！很精妙的方法
+## Solution 2: Sweep Line (扫描线) 很精妙的方法，再加上 TreeMap
 **遇到 start 就 +1，遇到 end 就 -1，为 0 的时候就是所有人都 free 的时候！**
 
 ### Complexity
@@ -113,36 +116,7 @@ class Solution {
 
 ### Java
 ```java
-Hongchen <== 看不懂就问她！
-public List<Interval> employeeFreeTime(List<List<Interval>> schedule) {
-	List<Interval> ans = new ArrayList<>();
-	if (schedule == null || schedule.size() == 0) {
-		return ans;
-}
-	TreeMap<Integer, Integer> treemap = new TreeMap<>();
-	for (List<Interval> list : schedule) {
-		if (list == null) {
-			continue;
-}
-		for (Interval i : list) {
-			treemap.put(i.start, treemap.getOrDefault(i.start, 0) + 1);
-			treemap.put(i.end, treemap.getOrDefault(i.end, 0) - 1);
-}
-}
-int count = 0;
-int start = 0, end = 0;//assuming 0 is not used in intervals
-for (Integer key: treemap.keySet()) {
-	count += treemap.get(key);
-	if (count == 0) {
-		start = key;
-} else if (start != 0) {
-	end = key;
-	ans.add(new Interval(start, end));
-	start = 0;
-}
-}
-return ans;
-}
+
 ```
 
 ```java
