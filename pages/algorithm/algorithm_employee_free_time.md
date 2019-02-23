@@ -10,13 +10,25 @@ toc: false
 ---
 
 ## Description
-哦也
+We are given a list schedule of employees, which represents the working time for each employee.
+Each employee has a list of non-overlapping Intervals, and these intervals are in sorted order.
+```java
+ class Interval {
+     int start;
+     int end;
+     Interval() { start = 0; end = 0; }
+     Interval(int s, int e) { start = s; end = e; }
+ }
+```
+Return the list of finite intervals representing **common, positive-length free time** for all employees, also in sorted order. 这题虽然被LC标为hard题，其实不难，应该说是median题
 
-这题虽然被LC标为hard题，其实不难，应该说是median题
+Note:
+* schedule and schedule[i] are lists with lengths in range [1, 50]. 0 <= schedule[i].start < schedule[i].end <= 10^8. All intervals have positive length
+* The length of each free time span must be positive, zero length is not accepted as a free time span
 
 ### Example
-* Input: 
-  * Output: 
+* Input: schedule = [[[1,2],[5,6]],[[1,3]],[[4,10]]]
+  * Output: [[3,4]]. There are a total of three employees, and all common free time intervals would be [-inf, 1], [3, 4], [10, inf]. We discard any intervals that contain inf as they aren't finite.
 
 ## Solution 1：用 PriorityQueue
 Ref: https://leetcode.com/problems/employee-free-time/discuss/113134/Simple-Java-Sort-Solution-Using-(Priority-Queue)-or-Just-ArrayList
