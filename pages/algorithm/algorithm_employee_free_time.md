@@ -103,6 +103,45 @@ class Solution {
 }
 ```
 
+如果不用PQ，用List也可以。代码看起来会更简明，但LC实测速度不如 PQ 快。虽然理论上它们都是 nlogn 的速度
+```java
+public class Solution {
+    public List<Interval> employeeFreeTime(List<List<Interval>> schedule) {
+        List<Interval> result = new ArrayList<>();
+        if (schedule == null || schedule.size() == 0) {
+            return result;
+        }
+
+        List<Interval> intervals = new ArrayList<>();
+        for (List<Interval> list : schedule) {
+            for (Interval itv : list) {
+                intervals.add(itv);
+            }
+        }
+        
+        // 用lambda表达式进行排序，逼格满满
+        Collections.sort(intervals, 
+                         (Interval itv1, Interval itv2) -> (itv1.start - itv2.start));
+        
+        Interval prev = intervals.get(0);
+        
+        for (int i = 1; i < intervals.size(); i++) {
+            Interval cur = intervals.get(i);
+            
+            if (prev.end >= cur.start) {
+                prev.end = Math.max(prev.end, cur.end);
+                continue;
+            }
+            
+            Interval freeTime = new Interval(prev.end, cur.start);
+            result.add(freeTime);
+            prev = cur;
+        }
+        return result;
+    }
+}
+```
+
 ## Solution 2: Sweep Line (扫描线) 很精妙的方法，再加上 TreeMap。但LC实测速度反而比朴素的PQ还要慢点
 **遇到 start 就 +1，遇到 end 就 -1，为 0 的时候就是所有人都 free 的时候！**
 
