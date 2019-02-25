@@ -198,36 +198,6 @@ public class Solution {
 }
 ```
 
-```java
-zhuqing <=== 不懂就问她！
-public List<Interval> employeeFreeTime(List<List<Interval>> schedule) {
-	List<Interval> res = new ArrayList<>();
-	if (schedule == null || schedule.size() == 0) {
-	return res;
-}
-      List<Interval> list = new ArrayList<>();
-for (List<Interval> curr : schedule) {
-	for (Interval interval : curr) {
-	list.add(interval);
-}
-}
-// Collections
-Arrays.sort(list, (Interval l1, Interval l2) -> (l1.start - l2.start));
-int prevEndTime = list.get(0).end;
-
-for (int i = 1; i < list.size(); i++) {
-	Interval curr = list.get(i);
-	if (prevEndTime < curr.start) {
-	res.add(new Interval(prevEndTime, curr.start));
-prevEndTime = curr.end;
-} else {
-	prevEndTime = Math.max(curr.end, prevEndTime);
-}
-}
-return res;
-}
-```
-
 ## Reference
 * [Employee Free Time [LeetCode]](https://leetcode.com/problems/employee-free-time/description/)
 
