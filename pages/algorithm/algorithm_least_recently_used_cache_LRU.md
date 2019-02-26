@@ -4,7 +4,7 @@ tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_least_recently_used_cache_lru.html
+permalink: algorithm_least_recently_used_cache_LRU.html
 folder: algorithm
 toc: false
 ---
