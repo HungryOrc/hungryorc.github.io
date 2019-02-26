@@ -4,7 +4,7 @@ tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_serialize_and_deserialize_n_ary_tree.html
+permalink: algorithm_serializeAndDeserialize_N-aryTree.html
 folder: algorithm
 toc: false
 ---
