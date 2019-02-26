@@ -87,7 +87,7 @@ class Codec {
         sb.append(root.children.size());
         sb.append(SPLITTER);
         
-        // 这个方法的精华 在这个 for loop 里
+        // 这个方法的灵魂 在这个 for loop 里
         for (Node child : root.children) {
             dfsSer(child, sb);
         }
@@ -110,12 +110,12 @@ class Codec {
     
     private Node dfsDeser(Queue<String> queue) {
         int val = Integer.parseInt(queue.poll());
-        int size = Integer.parseInt(queue.poll());
+        int childrenSize = Integer.parseInt(queue.poll());
         
         Node root = new Node(val, new ArrayList<Node>());
         
-        // 整个方法的灵魂在这一个 for loop！
-        for (int i = 0; i < size; i++) {
+        // 这个方法的灵魂 在这个 for loop 里
+        for (int i = 0; i < childrenSize; i++) {
             root.children.add(dfsDeser(queue));
         }
         
