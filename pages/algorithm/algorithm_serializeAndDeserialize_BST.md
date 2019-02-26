@@ -11,9 +11,21 @@ toc: false
 
 ## Description
 Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
+```java
+ class TreeNode {
+     int val;
+     TreeNode left;
+     TreeNode right;
+     TreeNode(int x) { val = x; }
+ }
+```
+Design an algorithm to serialize and deserialize a **Binary Search Tree (BST)。如果是一般的Binary Tree，会更难做**. There is no restriction on how your serialization/deserialization algorithm should work. You just need to ensure that a binary search tree can be serialized to a string and this string can be deserialized to the original tree structure.
 
-Design an algorithm to serialize and deserialize a **Binary Search Tree (BST)，一般的Binary Tree 不行**. There is no restriction on how your serialization/deserialization algorithm should work. You just need to ensure that a binary search tree can be serialized to a string and this string can be deserialized to the original tree structure.
-
+Your Codec object will be instantiated and called as such:
+```java
+Codec codec = new Codec();
+codec.deserialize(codec.serialize(root));
+```
 **The encoded string should be as compact as possible.**
 
 Note: Do not use class member/global/static variables to store states. Your serialize and deserialize algorithms should be **stateless**.
