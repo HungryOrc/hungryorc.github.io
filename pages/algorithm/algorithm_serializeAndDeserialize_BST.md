@@ -28,7 +28,9 @@ codec.deserialize(codec.serialize(root));
 ```
 **The encoded string should be as compact as possible.**
 
-Note: Do not use class member/global/static variables to store states. Your serialize and deserialize algorithms should be **stateless**.
+Note:
+* Do not use class member/global/static variables to store states. Your serialize and deserialize algorithms should be **stateless**.
+* Values (int) of TreeNodes can be more than one digit.
 
 ### Example
 无法举例
@@ -41,78 +43,70 @@ Note: Do not use class member/global/static variables to store states. Your seri
 
 ### Java
 ```java
-class Solution {
+class Codec {
+    
     // Serialize
     public String serialize(TreeNode root) {
         if (root == null) {
-            return "{}";
+            return "";
         }
 
-        ArrayList<TreeNode> queue = new ArrayList<TreeNode>();
-        queue.add(root);
-
-        // 把所有的左右children全部加上，不管这里面有没有null node
-        // 注意！这里的queue size是不断增加的！！
-        // 这里用while似乎更符合直觉，但其实更繁琐，还不如用for，习惯以后更好
-        for (int i = 0; i < queue.size(); i++) {
-            TreeNode node = queue.get(i);
-            if (node == null) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        StringBuilder sb = new StringBuilder();
+        
+        while (!queue.isEmpty()) {
+            TreeNode cur = queue.poll();
+            
+            if (cur == null) {
+                sb.append("#,");
                 continue;
             }
-            queue.add(node.left);
-            queue.add(node.right);
+            
+            sb.append(cur.val);
+            sb.append(",");
+            queue.offer(cur.left); // 是null也放进去
+            queue.offer(cur.right); // 是null也放进去
         }
 
-        // 把queue的结尾的那些null都去掉，一直到结尾不是null
-        while (queue.get(queue.size() - 1) == null) {
-            queue.remove(queue.size() - 1);
+        // 别忘了：把queue的结尾的那些null都去掉，一直到结尾不是null，很重要！
+        while (sb.charAt(sb.length() - 1) == '#' || sb.charAt(sb.length() - 1) == ',') {
+            System.out.println(sb.charAt(sb.length() - 1));
+            sb.deleteCharAt(sb.length() - 1);
         }
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("{");
-        sb.append(queue.get(0).val);
-        for (int i = 1; i < queue.size(); i++) {
-            if (queue.get(i) == null) {
-                sb.append(",#");
-            } else {
-                sb.append(",");
-                sb.append(queue.get(i).val);
-            }
-        }
-        sb.append("}");
+        System.out.println(sb);
         return sb.toString();
     }
     
     // Deserialize
     public TreeNode deserialize(String data) {
-        if (data.equals("{}")) {
+        if (data.equals("")) {
             return null;
         }
         
-        // substring 函数的第一个参数是 inclusive 的，第二个参数是 exclusive 的
-        // 所以下面这样写，就是把 String data 里的第一个和最后一个字符都去掉了，即花括号
-        String[] vals = data.substring(1, data.length() - 1).split(",");
-        ArrayList<TreeNode> queue = new ArrayList<TreeNode>();
+        String[] vals = data.split(",");
+        List<TreeNode> list = new ArrayList<>();
         
         TreeNode root = new TreeNode(Integer.parseInt(vals[0]));
-        queue.add(root);
+        list.add(root);
         
         int index = 0; // 这个参数指示：当前正在处理String数组里的第几个String
         boolean isLeftChild = true;
-        
-        // 注意！！index 和 i 不是一回事！！！
+
         // index表示当前的 parent node 是哪个，i 表示当前在查看第几个node的值
         for (int i = 1; i < vals.length; i++) {
+            String curVal = vals[i];
             
             // 如果第i个String不表示null node，就做以下的事。如果是null node，就什么也不做
-            if (!vals[i].equals("#")) {
-                TreeNode node = new TreeNode(Integer.parseInt(vals[i]));
+            if (!curVal.equals("#")) {
+                TreeNode node = new TreeNode(Integer.parseInt(curVal));
                 if (isLeftChild) {
-                    queue.get(index).left = node;
+                    list.get(index).left = node; // 注意index一开始是0！
                 } else {
-                    queue.get(index).right = node;
+                    list.get(index).right = node;
                 }
-                queue.add(node);
+                list.add(node);
             }
             
             // 当这个node的左右子节点都搞定了，就可以处理下一个node了
