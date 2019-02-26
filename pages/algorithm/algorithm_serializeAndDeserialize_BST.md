@@ -35,7 +35,7 @@ Note:
 ### Example
 无法举例
 
-## Solution
+## Solution：朴素方法
 
 ### Complexity
 * Time: O(n)
@@ -71,11 +71,8 @@ class Codec {
 
         // 别忘了：把queue的结尾的那些null都去掉，一直到结尾不是null，很重要！
         while (sb.charAt(sb.length() - 1) == '#' || sb.charAt(sb.length() - 1) == ',') {
-            System.out.println(sb.charAt(sb.length() - 1));
             sb.deleteCharAt(sb.length() - 1);
         }
-
-        System.out.println(sb);
         return sb.toString();
     }
     
