@@ -42,7 +42,7 @@ Note:
 
 ### Complexity
 * Time: O(n)
-* Space: Serialize: O(logn), Deserialize: O(n)
+* Space: Serialize: O(height of tree), Deserialize: O(n)
 
 ### Java
 ```java
