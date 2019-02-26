@@ -47,8 +47,8 @@ Generate the string in this way.
 To deserialized it, use a queue to recursively get root node, left subtree and right subtree.
 
 ### Complexity
-* Time: O(n)
-* Space: Serialize: O(logn), Deserialize: O(n)
+* Time: Serialize: O(n), Deserialize: O(n^2)，因为Deseriailze需要不断copy左子树和右子树 <=== 对么 ？？？
+* Space: Serialize: O(heigt of tree), Deserialize: O(n) <=== 对么 ？？？
 
 ### Java
 ```java
