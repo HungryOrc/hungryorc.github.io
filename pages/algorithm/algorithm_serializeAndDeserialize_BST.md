@@ -35,7 +35,18 @@ Note:
 ### Example
 无法举例
 
-## Solution：朴素方法，速度前 40%
+## Solution：Java PreOrder + Queue
+那些适用于所有Binary Tree的 serialize/deserialze 的方法，自然也适用于BST。但如果利用上BST的左小右大的属性，会更快，比如下面这个方法：
+
+Ref: https://leetcode.com/problems/serialize-and-deserialize-bst/
+
+My solution is pretty straightforward and easy to understand, not that efficient though. And the serialized tree is compact.
+Pre order traversal of BST will output root node first, then left children, then right.
+Pre order traversal is BST's serialized string. 
+
+To deserialized it, use a queue to recursively get root node, left subtree and right subtree.
+
+I think time complexity is O(NlogN), worst case complexity should be O(N^2), when the tree is really unbalanced.
 
 ### Complexity
 * Time: O(n)
@@ -43,75 +54,52 @@ Note:
 
 ### Java
 ```java
-class Codec {
-    
-    // Serialize
+public class Codec {
+    private static final String SEP = ",";
+    private static final String NULL = "null";
+    // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
-        if (root == null) {
-            return "";
-        }
-
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root);
         StringBuilder sb = new StringBuilder();
-        
-        while (!queue.isEmpty()) {
-            TreeNode cur = queue.poll();
-            
-            if (cur == null) {
-                sb.append("#,");
-                continue;
-            }
-            
-            sb.append(cur.val);
-            sb.append(",");
-            queue.offer(cur.left); // 是null也放进去
-            queue.offer(cur.right); // 是null也放进去
-        }
-
-        // 别忘了：把queue的结尾的那些null都去掉，一直到结尾不是null，很重要！
-        while (sb.charAt(sb.length() - 1) == '#' || sb.charAt(sb.length() - 1) == ',') {
-            sb.deleteCharAt(sb.length() - 1);
+        if (root == null) return NULL;
+        Stack<TreeNode> st = new Stack<>();
+        st.push(root);
+        while (!st.empty()) {
+            root = st.pop();
+            sb.append(root.val).append(SEP);
+            if (root.right != null) st.push(root.right);
+            if (root.left != null) st.push(root.left);
         }
         return sb.toString();
     }
-    
-    // Deserialize
-    public TreeNode deserialize(String data) {
-        if (data.equals("")) {
-            return null;
-        }
-        
-        String[] vals = data.split(",");
-        List<TreeNode> list = new ArrayList<>();
-        
-        TreeNode root = new TreeNode(Integer.parseInt(vals[0]));
-        list.add(root);
-        
-        int index = 0; // 这个参数指示：当前正在处理String数组里的第几个String
-        boolean isLeftChild = true;
 
-        // index表示当前的 parent node 是哪个，i 表示当前在查看第几个node的值
-        for (int i = 1; i < vals.length; i++) {
-            String curVal = vals[i];
-            
-            // 如果第i个String不表示null node，就做以下的事。如果是null node，就什么也不做
-            if (!curVal.equals("#")) {
-                TreeNode node = new TreeNode(Integer.parseInt(curVal));
-                if (isLeftChild) {
-                    list.get(index).left = node; // 注意index一开始是0！
-                } else {
-                    list.get(index).right = node;
-                }
-                list.add(node);
-            }
-            
-            // 当这个node的左右子节点都搞定了，就可以处理下一个node了
-            if (!isLeftChild) {
-                index++;
-            }
-            isLeftChild = !isLeftChild;
+    // Decodes your encoded data to tree.
+    // pre-order traversal
+    public TreeNode deserialize(String data) {
+        if (data.equals(NULL)) return null;
+        String[] strs = data.split(SEP);
+        Queue<Integer> q = new LinkedList<>();
+        for (String e : strs) {
+            q.offer(Integer.parseInt(e));
         }
+        return getNode(q);
+    }
+    
+    // some notes:
+    //   5
+    //  3 6
+    // 2   7
+    private TreeNode getNode(Queue<Integer> q) { //q: 5,3,2,6,7
+        if (q.isEmpty()) return null;
+        TreeNode root = new TreeNode(q.poll());//root (5)
+        Queue<Integer> samllerQueue = new LinkedList<>();
+        while (!q.isEmpty() && q.peek() < root.val) {
+            samllerQueue.offer(q.poll());
+        }
+        //smallerQueue : 3,2   storing elements smaller than 5 (root)
+        root.left = getNode(samllerQueue);
+        //q: 6,7   storing elements bigger than 5 (root)
+        // 目前q里只剩下比root大的元素了
+        root.right = getNode(q);
         return root;
     }
 }
