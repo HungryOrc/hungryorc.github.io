@@ -87,6 +87,7 @@ class Codec {
         sb.append(root.children.size());
         sb.append(SPLITTER);
         
+        // 这个方法的精华 在这个 for loop 里
         for (Node child : root.children) {
             dfsSer(child, sb);
         }
