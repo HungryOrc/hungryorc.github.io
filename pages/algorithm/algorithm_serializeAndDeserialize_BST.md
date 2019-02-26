@@ -35,7 +35,7 @@ Note:
 ### Example
 无法举例
 
-## Solution：朴素方法
+## Solution：朴素方法，速度前 40%
 
 ### Complexity
 * Time: O(n)
