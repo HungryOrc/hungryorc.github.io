@@ -31,6 +31,7 @@ codec.deserialize(codec.serialize(root));
 Note:
 * Do not use class member/global/static variables to store states. Your serialize and deserialize algorithms should be **stateless**.
 * Values (int) of TreeNodes can be more than one digit.
+
 这题被LC标注为Hard题，但其实只是 median 难度。
 
 ### Example
