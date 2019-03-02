@@ -266,15 +266,15 @@ class PathCompressionWeightedTreeUnionFind {
     }
 
     public boolean find(int a, int b) { // <=== this function unchanged
-        int groupIDA = getGroupID(a); // time: O(1)
-        int groupIDB = getGroupID(b); // time: O(1)
+        int groupIDA = getGroupID(a);
+        int groupIDB = getGroupID(b);
         
         return groupIDA == groupIDB;
     }
 
     public void union(int a, int b) { // <=== this function unchanged
-        int groupIDA = getGroupID(a); // time: O(1)
-        int groupIDB = getGroupID(b); // time: O(1)
+        int groupIDA = getGroupID(a);
+        int groupIDB = getGroupID(b);
         
         if (groupSizes[groupIDA] >= groupSizes[groupIDB]) {
             parentIDs[groupIDB] = groupIDA;
