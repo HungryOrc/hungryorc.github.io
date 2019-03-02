@@ -15,7 +15,7 @@ A set of objects, represented by integers 0 to n-1, without loss of generality. 
 * Query whether any two of them are in the same group, using `boolean find(int a, int b)`
 
 ## Implementation Stage 1: Union by an Int Array
-Maintain an int array of size n, array[i] is the group number of the i-th object, 
+Maintain an int array of size n, array[i] is the **group number (not parent id)** of the i-th object, 
 so if object a and object b are in the same group, then array[a] == array[b], vise versa.
 
 ### Java
