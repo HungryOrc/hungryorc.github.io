@@ -4,7 +4,7 @@ tags: [algorithm, union_find]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_number_of_islands.html
+permalink: algorithm_numberOfIslands.html
 folder: algorithm
 toc: false
 ---
