@@ -12,7 +12,12 @@ toc: false
 ## Description
 A 2d grid map of m rows and n columns is initially filled with water. We may perform an addLand operation which turns the water at position (row, col) into a land. Given a list of positions to operate, **count the number of islands after each addLand operation**. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
 
-这题是 Hard 难度
+这种不断往里加东西 还不断造成合并的题目，一看就要用 Union Find做。本题在LC里归为 Hard 难度
+
+### Follow Up
+Can you do it in time complexity `O(k log mn)`, where k is the length of the positions?
+* 我下面的树型Union Find 就能实现 `O(k log mn)` 的时间复杂度 <==== 对么 ？？？？
+  * 要求 `O(k log mn)`，就是每次插入新的land，时间消耗只能是 `O(log mn)`。其中 `mn` 是矩阵里所有元素的个数。这是ok的。因为树型Union Find 平均来说做一次 get group id 需要耗时就是 `O(log mn)`，继而每次 find/union 所需的时间也是 `O(log mn)`
 
 ### Example
 * Input: m = 3, n = 3, positions = [[0,0], [0,1], [1,2], [2,1]]
@@ -44,12 +49,14 @@ A 2d grid map of m rows and n columns is initially filled with water. We may per
   0 1 0
   ```
 
-## Solution：这题一看就要用 Union Find。我的做法。速度 前20%
-这题的主干逻辑都在第一个函数里，其实比较简明。其他的functions都是helpers，所以不要被代码长度吓到了
+## Solution：我用的Tree型Union Find。速度 前20%
+这题的主干逻辑都在第一个函数里，其实比较简明。其他的functions都是helpers，所以不要被代码长度吓到了。
+* 各个坐标元素在一个二维矩阵里，为了方便使用 Union Find，我们把这些矩阵坐标要一一对应成一个int ID，且要来回转换
+* 这里的 Union Find 的implementation 使用了 height compression，但是不彻底，没有做到确保每次union都是小group被合并到大group里去。要做的话也简单，就是记录每个现有group的size，然后union的时候确保小并大，并更新大group的size（小group的size就不用管了，因为不会再有代码去碰那个小group了）。
 
 ### Complexity
-* Time: O(？？？？？
-* Space: O(？？？？？
+* Time: O(k log mn), where k is the length of the positions，解释见上面的 Follow Up 部分 <=== 对么 ？？？？
+* Space: O(log mn)，average height of the Union Find Tree <=== 对么 ？？？？
 
 ### Java
 ```java
