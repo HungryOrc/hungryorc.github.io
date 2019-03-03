@@ -15,15 +15,15 @@ A set of objects, represented by integers 0 to n-1, without loss of generality. 
 * Query whether any two of them are in the same group, using `boolean find(int a, int b)`
 
 ## Implementation Stage 1: Union by an Int Array
-Maintain an int array of size n, array[i] is the **group number (not parent id)** of the i-th object, 
-so if object a and object b are in the same group, then array[a] == array[b], vise versa.
+Maintain an int array of size n, array[i] is the **Group Number (not Parent ID)** of the i-th object, 
+so if object A and object B are in the same group, then array[A] == array[B], vise versa.
 
 ### Java
 ```java
 class ArrayUnionFind {
     private int[] groupIDs;
     
-    // n is number of objects
+    // n is the number of objects
     public ArrayUnionFind(int n) {
         this.groupIDs = new int[n];
         for (int i = 0; i < n; i++) {
@@ -41,12 +41,12 @@ class ArrayUnionFind {
     }
     
     // merge a and b into the same group,
-    // ALSO merging the objects that are already in the same group as a or b!!
-    // this function costs O(n) time
+    // ALSO merging the objects that are already in the same group as a or b!
+    // O(n) time
     public void union(int a, int b) {
         int groupIDA = groupIDs[a];
         int groupIDB = groupIDs[b];
-        for (int i = 0; i < groupIDs.length; i++) {
+        for (int i = 0; i < groupIDs.length; i++) { // 一个一个查，一个一个写
             if (groupIDs[i] == groupIDB) {
                 groupIDs[i] = groupIDA;
             }
