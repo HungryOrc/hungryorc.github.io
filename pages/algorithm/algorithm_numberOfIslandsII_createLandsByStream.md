@@ -52,7 +52,7 @@ Can you do it in time complexity `O(k log mn)`, where k is the length of the pos
 ## Solution：我用的Tree型Union Find。速度 前20%
 这题的主干逻辑都在第一个函数里，其实比较简明。其他的functions都是helpers，所以不要被代码长度吓到了。
 * 各个坐标元素在一个二维矩阵里，为了方便使用 Union Find，我们把这些矩阵坐标要一一对应成一个int ID，且要来回转换
-* 这里的 Union Find 的implementation 使用了 height compression，但是不彻底，没有做到确保每次union都是小group被合并到大group里去。要做的话也简单，就是记录每个现有group的size，然后union的时候确保小并大，并更新大group的size（小group的size就不用管了，因为不会再有代码去碰那个小group了）。
+* 这里的 Union Find 的implementation 使用了 height compression，但是不彻底，没有做到确保每次union都是小group被合并到大group里去（因为现在的代码已经颇长了）。要做的话也简单，就是记录每个现有group的size，然后union的时候确保小并大，并更新大group的size（小group的size就不用管了，因为不会再有代码去碰那个小group了）。
 
 ### Complexity
 * Time: O(k log mn), where k is the length of the positions，解释见上面的 Follow Up 部分 <=== 对么 ？？？？
