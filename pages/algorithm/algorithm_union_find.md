@@ -65,10 +65,10 @@ class ArrayUnionFind {
 
 
 ## Implementation Stage 2: Tree Union Find
-Maintain an int array of size n, array[i] is the **PARENT** of the i-th object, **not the group-number** (namely the index of the "**root**" object of this group) of the i-th object!
+Maintain an int array of size n, array[i] is the **Parent ID** of the i-th object, **not the Group ID** (namely the index of the "**root**" object of this group) of the i-th object!
 * 如果一个object的parent等于它自己，那么意味着这个object就是一个group的root
 
-And when we meger two groups, we set either one group's root object to be the direct child of the other group's root object. We have an example below:
+And when we meger two groups, we set either one group's root to be the **DIRECT** child of the other group's root. We have an example below:
 
 ### Example
 ```
