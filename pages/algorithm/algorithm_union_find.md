@@ -155,7 +155,7 @@ class TreeUnionFind {
 
 ## Implementation Stage 3: Weighted Tree Union Find
 基于前述的 Tree Union Find 的改进。这里的weighted是指一个tree里面的元素的个数，即tree的size，size越大则这个所谓的weight越大。
-我们要union两个group即两个tree的时候，谁的size小，就把它的root设为另一个size更大的tree的root的direct child。这样做最终能减少(或者不变)union后所得到的tree的高度。
+我们要union两个group即两个tree的时候，谁的size小，就把它的root设为另一个size更大的tree的root的direct child。这样做最终能减少union后所得到的tree的高度。
 
 ### Java
 ```java
