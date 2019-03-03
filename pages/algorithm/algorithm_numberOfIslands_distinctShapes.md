@@ -4,7 +4,7 @@ tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_number_of_distinct_islands.html
+permalink: algorithm_numberOfIslands_distinctShapes.html
 folder: algorithm
 toc: false
 ---
