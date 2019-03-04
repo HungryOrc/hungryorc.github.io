@@ -21,7 +21,7 @@ The given array is not null and has length of at least 2.
   * Output: [[0, 3], [1, 2]]
 
 ## Solution
-和只用找一个pair的方法一样，用hashset来做
+和只用找一个pair的方法一样，用hashmap做
 
 ### Complexity
 * Time: O(n^2)    《====== 对么 ？？？？
