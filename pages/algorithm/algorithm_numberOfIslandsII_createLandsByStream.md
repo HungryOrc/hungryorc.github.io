@@ -121,7 +121,7 @@ class Solution {
         count[0]--;
         
         int[] coordOfRoot1 = parseID(parentIDs.length, groupID1);
-        matrix[coordOfRoot1[0]][coordOfRoot1[1]] = groupID2;
+        parentIDs[coordOfRoot1[0]][coordOfRoot1[1]] = groupID2;
     }
     
     private int getGroupID(int[][] parentIDs, int x, int y) {
@@ -142,7 +142,7 @@ class Solution {
         x = originX;
         y = originY;
         while (parentIDs[x][y] != groupID) {
-            parentID = matrix[x][y];
+            parentID = parentIDs[x][y];
             parentIDs[x][y] = groupID;
             
             int[] coord = parseID(m, parentID);
