@@ -61,7 +61,9 @@ Can you do it in time complexity `O(k log mn)`, where k is the length of the pos
 ### Java
 ```java
 class Solution {
-    private static final int[][] DIRS = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    private static final int[][] DIRS = {
+        {0, 1}, {0, -1}, {1, 0}, {-1, 0}
+    };
     private static final int MULTIPLIER = 100000;
     
     public List<Integer> numIslands2(int m, int n, int[][] positions) {
