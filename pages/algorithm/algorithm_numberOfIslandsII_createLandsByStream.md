@@ -73,20 +73,20 @@ class Solution {
             return result;
         }
         
-        int[][] matrix = new int[m][n];
+        int[][] parentIDs = new int[m][n];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                matrix[i][j] = -1;
+                parentIDs[i][j] = -1; // 不能是0，因为有的coord的parent的ID可能是0 (ID为0即左上角那个coord)
             }
         }
         
-        int[] count = {0};
+        int[] count = {0}; // 设为长度为1的数组，是为了方便携带
         
         for (int i = 0; i < positions.length; i++) {
             int curX = positions[i][0];
             int curY = positions[i][1];
             
-            matrix[curX][curY] = getID(m, curX, curY);
+            parentIDs[curX][curY] = getID(m, curX, curY);
             count[0]++;
             
             for (int[] dir : DIRS) {
@@ -97,12 +97,12 @@ class Solution {
                     continue;
                 }
                 
-                if (matrix[x][y] != -1) {
-                    union(matrix, curX, curY, x, y, count);
+                if (parentIDs[x][y] != -1) {
+                    union(parentIDs, curX, curY, x, y, count);
                 }
             }
             
-            int curCount = count[0];
+            int curCount = count[0]; // count[0]在后面还会变化，所以必须在这里固化下来，放入结果中
             result.add(curCount);
         }
         return result;
@@ -110,9 +110,9 @@ class Solution {
     
     // ---------------------------- 下面都是 helper functions 了 -------------------------------
     
-    private void union(int[][] matrix, int x1, int y1, int x2, int y2, int[] count) {
-        int groupID1 = getGroupID(matrix, x1, y1);
-        int groupID2 = getGroupID(matrix, x2, y2);
+    private void union(int[][] parentIDs, int x1, int y1, int x2, int y2, int[] count) {
+        int groupID1 = getGroupID(parentIDs, x1, y1);
+        int groupID2 = getGroupID(parentIDs, x2, y2);
         
         if (groupID1 == groupID2) {
             return;
@@ -120,30 +120,30 @@ class Solution {
         
         count[0]--;
         
-        int[] coordOfRoot1 = parseID(matrix.length, groupID1);
+        int[] coordOfRoot1 = parseID(parentIDs.length, groupID1);
         matrix[coordOfRoot1[0]][coordOfRoot1[1]] = groupID2;
     }
     
-    private int getGroupID(int[][] matrix, int x, int y) {
-        int m = matrix.length;
+    private int getGroupID(int[][] parentIDs, int x, int y) {
+        int m = parentIDs.length;
         int originX = x, originY = y;
         
         // find the group ID
-        int parentID = matrix[x][y];
+        int parentID = parentIDs[x][y];
         while (parentID != getID(m, x, y)) {
             int[] coord = parseID(m, parentID);
             x = coord[0];
             y = coord[1];
-            parentID = matrix[x][y];
+            parentID = parentIDs[x][y];
         }
         int groupID = parentID;
         
         // set the parent ID for (x, y) and (x, y)'s ancestors to be the group ID
         x = originX;
         y = originY;
-        while (matrix[x][y] != groupID) {
+        while (parentIDs[x][y] != groupID) {
             parentID = matrix[x][y];
-            matrix[x][y] = groupID;
+            parentIDs[x][y] = groupID;
             
             int[] coord = parseID(m, parentID);
             x = coord[0];
