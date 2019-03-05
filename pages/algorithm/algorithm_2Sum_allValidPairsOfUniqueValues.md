@@ -17,7 +17,7 @@ The given array is not null and has length of at least 2. **The order of the val
 
 * 数组里可能有重复的元素
 * 每个元素最多可以被使用1次。重复的元素也可以各自被最多使用1次
-* 返回的是一对一对的不同的values，而非indices，所以要去重，比如 **[2, 4] 和 [4, 2] 是一回事**。我们先把数组排个序就能避免这种情况
+* 返回的是一对一对的不同的values，而非indices，所以要去重，比如 [2, 4]和[2, 4]是一回事，[2, 4]和[4, 2]也是一回事
 
 ### Example
 * Input: A = {1,0,-1,0,-2,2}, target = 0
@@ -29,7 +29,7 @@ The given array is not null and has length of at least 2. **The order of the val
 和只用找一个pair的方法一样，用hashset来做
 
 ### Complexity
-* Time: O(n^2) <=== 对么 ？？？？
+* Time: O(n) <=== 对么 ？？？？
 * Space: O(n)，size of the Set
 
 ### Java
@@ -37,29 +37,33 @@ The given array is not null and has length of at least 2. **The order of the val
 public class Solution {
     public List<List<Integer>> allPairs(int[] nums, int target) {
         List<List<Integer>> result = new ArrayList<>();
-        Set<List<Integer>> dedupResult = new HashSet<>();
         
         if (nums == null || nums.length == 0) {
             return result;
         }
-        
-        Arrays.sort(nums);
+
         Set<Integer> visited = new HashSet<>();
+        boolean foundHalf = false;
         
         for (int num : nums) {
-            // 下面这代码也能解决 num * 2 == target 的情况
-            if (visited.contains(target - num)) {
-                List<Integer> pair = new ArrayList<>();
-                pair.add(target - num); // 这样能做到小在前，大在后
-                pair.add(num);
-                dedupResult.add(pair);
+            if (!visited.contains(target - num)) {
+                visited.add(num);
+                continue;
             }
-
-            visited.add(num);
-        }
-
-        for (List<Integer> pair : dedupResult) {
+            
+            if (num * 2 == target) { // 别忘了 正好一半 的情况
+                if (foundHalf) {
+                    continue;
+                }
+                foundHalf = true;
+            }
+            
+            List<Integer> pair = new ArrayList<>();
+            pair.add(target - num); // 这样能做到小在前，大在后
+            pair.add(num);
             result.add(pair);
+            
+            visited.add(num);
         }
         return result;
     }
