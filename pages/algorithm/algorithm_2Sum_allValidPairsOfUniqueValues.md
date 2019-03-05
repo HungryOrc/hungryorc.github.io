@@ -59,7 +59,7 @@ public class Solution {
             }
             
             List<Integer> pair = new ArrayList<>();
-            pair.add(target - num); // 这样能做到小在前，大在后
+            pair.add(target - num);
             pair.add(num);
             result.add(pair);
             
