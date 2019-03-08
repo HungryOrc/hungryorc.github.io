@@ -50,35 +50,35 @@ The maximum path sum in the above binary tree is 6 + 11 + (-1) + 2 = 18
 
 ### Java
 ```java
-
 public class Solution {
-  int maxPathSum;
-  
-  public int maxPathSum(TreeNode root) {
-    if (root == null) {
-      return Integer.MIN_VALUE;
+    public int maxPathSum(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+    
+        // 长度为1的数组，目的是方便进行reference的传递
+        // 这里不能设为0！因为可能整棵树都是负数！那么最后结果一定是负数！
+        int[] maxPathSum = { Integer.MIN_VALUE };
+        dfs(root, maxPathSum);
+        return maxPathSum[0];
     }
-    
-    maxPathSum = Integer.MIN_VALUE;
-    dfs(root);
-    return maxPathSum;
-  }
   
-  private int dfs(TreeNode node) {
-    if (node == null) {
-      return 0;
+    private int dfs(TreeNode node, int[] maxPathSum) {
+        if (node == null) {
+            return 0;
+        }
+    
+        // 要是小于0的话，还不如不加上它
+        int maxSinglePathSumL = Math.max(0, dfs(node.left, maxPathSum));
+        int maxSinglePathSumR = Math.max(0, dfs(node.right, maxPathSum));
+    
+        // 精华1！更新的是“人字形”的双路径之和，和下面的返回值不同
+        maxPathSum[0] = Math.max(maxPathSum[0],
+            node.val + maxSinglePathSumL + maxSinglePathSumR);
+    
+        // 精华2！返回的是“一条线”的单路径之和，和上面的更新值不同
+        return node.val + Math.max(maxSinglePathSumL, maxSinglePathSumR);
     }
-    
-    int maxSinglePathSum_Left = Math.max(0, dfs(node.left));
-    int maxSinglePathSum_Right = Math.max(0, dfs(node.right));
-    
-    // 更新的是“人字形”的双路径之和，和下面的返回值不同
-    maxPathSum = Math.max(maxPathSum,
-      node.key + maxSinglePathSum_Left + maxSinglePathSum_Right);
-    
-    // 返回的是“一条线”的单路径之和，和上面的更新值不同
-    return node.key + Math.max(maxSinglePathSum_Left, maxSinglePathSum_Right);
-  } 
 }
 ```
 
