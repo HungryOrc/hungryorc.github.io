@@ -113,14 +113,12 @@ class Solution {
 }
 ```
 
-## Solution 3: 九章的方法，搞一个return type class。看起来代码多点，其实速度很快
+## Solution 3: DFS，搞一个return type class。看起来代码多点，其实速度很快
 Ref: http://www.jiuzhang.com/solutions/balanced-binary-tree/
-
-这个方法是一种 BFS！不是 DFS。所以空间消耗不是 tree height，而是 n
 
 ### Complexity
 * Time: O(n)
-* Space: O(n)
+* Space: O(tree height)，因为本方法是 Recursive DFS，所以空间消耗就是 call stack的层数
 
 ### Java
 ```java
