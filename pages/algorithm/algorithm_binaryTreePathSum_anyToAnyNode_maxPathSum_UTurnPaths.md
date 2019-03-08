@@ -1,0 +1,88 @@
+---
+title: "Binary Tree Path Sum, from Any Node to Any Node, Max Path Sum, U Turn Paths"
+tags: [algorithm]
+keywords:
+summary:
+sidebar: mydoc_sidebar
+permalink: algorithm_binaryTreePathSum_anyToAnyNode_maxPathSum_UTurnPaths.html
+folder: algorithm
+toc: false
+---
+
+## Description
+Given a binary tree (不是 BST), in which each node contains an integer number.
+Find the maximum possible sum from any node to any node.
+
+Note: 
+* Start node and end node **can be the same node**!!
+* The root of the given binary tree is not null
+
+```java
+public class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode(int x) { val = x; }
+}
+```
+For example, given the below binary tree:
+```
+   -1
+  /    \
+2      11
+     /    \
+    6    -14
+```
+* One example of paths could be -14 -> 11 -> -1 -> 2
+* Another example could be the node 11 itself
+The maximum path sum in the above binary tree is 6 + 11 + (-1) + 2 = 18
+
+### Example
+略
+
+## Solution: DFS，精华在于：对于每个subtree的root，它要计算的东西，和它要往再上一层传递的东西，是不同的!
+* 本层要计算和更新的，是 **“人字形”** 的双路径之和
+* 本层要往上一层传递的，是 **“一条线”** 的单路径之和
+
+### Complexity
+* Time: O(n) <=== 对么 ？？？
+* Space: O(tree height), call stack的层数 <=== 对么 ？？？
+
+### Java
+```java
+
+public class Solution {
+  int maxPathSum;
+  
+  public int maxPathSum(TreeNode root) {
+    if (root == null) {
+      return Integer.MIN_VALUE;
+    }
+    
+    maxPathSum = Integer.MIN_VALUE;
+    dfs(root);
+    return maxPathSum;
+  }
+  
+  private int dfs(TreeNode node) {
+    if (node == null) {
+      return 0;
+    }
+    
+    int maxSinglePathSum_Left = Math.max(0, dfs(node.left));
+    int maxSinglePathSum_Right = Math.max(0, dfs(node.right));
+    
+    // 更新的是“人字形”的双路径之和，和下面的返回值不同
+    maxPathSum = Math.max(maxPathSum,
+      node.key + maxSinglePathSum_Left + maxSinglePathSum_Right);
+    
+    // 返回的是“一条线”的单路径之和，和上面的更新值不同
+    return node.key + Math.max(maxSinglePathSum_Left, maxSinglePathSum_Right);
+  } 
+}
+```
+
+## Reference
+* [Path Sum [LeetCode]]()
+
+{% include links.html %}
