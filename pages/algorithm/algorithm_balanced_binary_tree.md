@@ -65,6 +65,7 @@ class Solution {
         }
         
         // 2个字数都是平衡的，当前树也是平衡的
+        // 此时要返回的是 当前树的height！
         return 1 + Math.max(leftResult, rightResult);
     }
 }
@@ -112,12 +113,12 @@ class Solution {
 }
 ```
 
-## Solution 3: 九章的方法，搞一个return type class
+## Solution 3: 九章的方法，搞一个return type class。看起来代码多点，其实速度很快
 Ref: http://www.jiuzhang.com/solutions/balanced-binary-tree/
 
 ### Complexity
-* Time: 应该和方法1是一样的，O(n)  <=== 对么 ？？？
-* Space: 应该和方法1是一样的，O(height of tree) <=== 对么 ？？？
+* Time: 应该和方法1是一样的，O(n)
+* Space: 应该和方法1是一样的，O(height of tree)
 
 ### Java
 ```java
