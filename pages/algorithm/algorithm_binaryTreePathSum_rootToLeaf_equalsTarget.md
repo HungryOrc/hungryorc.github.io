@@ -39,14 +39,15 @@ return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
 
 ### Complexity
 * Time: O(n)
-* Space: O(n)
+* Space: O(tree height), call stack的层数
 
 ### Java
 ```java
 public class Solution {
     public boolean hasPathSum(TreeNode root, int sum) {
-        if (root == null)
+        if (root == null) {
             return false;
+        }
         
         // 到当前节点为止，正好加和为sum。而且当前节点正好是一个leaf
         if (root.val == sum && root.left == null && root.right == null) {
@@ -55,6 +56,46 @@ public class Solution {
 
         sum -= root.val;
         return (hasPathSum(root.left, sum) || hasPathSum(root.right, sum));
+    }
+}
+```
+
+## Solution 2: Iteration DFS，2个Stack。如果用2个Queue做BFS，也是大同小异
+
+### Complexity
+* Time: O(n)
+* Space: O(n)，stack size
+
+### Java
+```java
+public class Solution {
+    public boolean hasPathSum(TreeNode root, int sum) {
+        if (root == null)
+            return false;
+        
+        Stack<TreeNode> nodeStack = new Stack<>();
+        nodeStack.push(root);
+        Stack<Integer> sumStack = new Stack<>();
+        sumStack.push(0);
+        
+        while(!nodeStack.isEmpty()) {
+            TreeNode curNode = nodeStack.pop();
+            int curSum = sumStack.pop();
+            curSum += curNode.val;
+            
+            if (curSum == sum && curNode.left == null && curNode.right == null)
+                return true;
+            
+            if (curNode.left != null) {
+                nodeStack.push(curNode.left);
+                sumStack.push(curSum);
+            }
+            if (curNode.right != null) {
+                nodeStack.push(curNode.right);
+                sumStack.push(curSum);
+            }
+        }
+        return false;
     }
 }
 ```
