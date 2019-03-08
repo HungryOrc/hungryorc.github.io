@@ -33,8 +33,8 @@ public class TreeNode {
 * 如果不是balanced，则本函数返回 -1
     
 ### Complexity
-* Time: O(n)，n是tree node的个数 <==== 对么 ？？？
-* Space: O(height of tree)，即call stack的层数 <=== 对么 ？？？
+* Time: O(n)，n是tree node的个数
+* Space: O(height of tree)，即call stack的层数
 
 ### Java
 ```java
@@ -43,28 +43,28 @@ class Solution {
         return getHeightOrNegative(root) != -1;
     }
     
-    // 这个算法的关键 在于这个helper function！
+    // 精华在于这个helper function ！
     private int getHeightOrNegative(TreeNode node) {
         if (node == null) {
             return 0;
         }
         
         int leftResult = getHeightOrNegative(node.left);
-        // 提前返回 -1，减支提速
-        if (leftResult == -1) {
-            return -1;
+        if (leftResult == -1) { // 提前返回 -1，减支提速
+            return -1; 
         }
         
         int rightResult = getHeightOrNegative(node.right);
-        // 提前返回 -1，减支提速
-        if (rightResult == -1) {
+        if (rightResult == -1) { // 提前返回 -1，减支提速
             return -1;
         }
         
+        // 2个子树都是平衡的，但是当前树本身不平衡了
         if (Math.abs(leftResult - rightResult) > 1) {
             return -1;
         }
         
+        // 2个字数都是平衡的，当前树也是平衡的
         return 1 + Math.max(leftResult, rightResult);
     }
 }
