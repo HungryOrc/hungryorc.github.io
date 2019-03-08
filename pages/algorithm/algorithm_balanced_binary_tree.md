@@ -116,9 +116,11 @@ class Solution {
 ## Solution 3: 九章的方法，搞一个return type class。看起来代码多点，其实速度很快
 Ref: http://www.jiuzhang.com/solutions/balanced-binary-tree/
 
+这个方法是一种 BFS！不是 DFS。所以空间消耗不是 tree height，而是 n
+
 ### Complexity
 * Time: O(n)
-* Space: O(height of tree)
+* Space: O(n)
 
 ### Java
 ```java
