@@ -70,29 +70,30 @@ public class Solution {
 ```java
 public class Solution {
     public boolean hasPathSum(TreeNode root, int sum) {
-        if (root == null)
+        if (root == null) {
             return false;
+        }
         
-        Stack<TreeNode> nodeStack = new Stack<>();
+        Deque<TreeNode> nodeStack = new ArrayDeque<>();
         nodeStack.push(root);
-        Stack<Integer> sumStack = new Stack<>();
-        sumStack.push(0);
+        Deque<Integer> sumStack = new ArrayDeque<>();
+        sumStack.push(root.val);
         
         while(!nodeStack.isEmpty()) {
             TreeNode curNode = nodeStack.pop();
             int curSum = sumStack.pop();
-            curSum += curNode.val;
             
-            if (curSum == sum && curNode.left == null && curNode.right == null)
+            if (curSum == sum && curNode.left == null && curNode.right == null) {
                 return true;
+            }
             
             if (curNode.left != null) {
                 nodeStack.push(curNode.left);
-                sumStack.push(curSum);
+                sumStack.push(curSum + curNode.left.val);
             }
             if (curNode.right != null) {
                 nodeStack.push(curNode.right);
-                sumStack.push(curSum);
+                sumStack.push(curSum + curNode.right.val);
             }
         }
         return false;
