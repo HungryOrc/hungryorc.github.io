@@ -49,12 +49,12 @@ public class Solution {
             return false;
         
         // 到当前节点为止，正好加和为sum。而且当前节点正好是一个leaf
-        if (root.val == sum && root.left == null && root.right == null)
+        if (root.val == sum && root.left == null && root.right == null) {
             return true;
-        else {
-            sum -= root.val;
-            return (hasPathSum(root.left, sum) || hasPathSum(root.right, sum));
         }
+
+        sum -= root.val;
+        return (hasPathSum(root.left, sum) || hasPathSum(root.right, sum));
     }
 }
 ```
