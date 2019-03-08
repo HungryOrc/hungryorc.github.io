@@ -11,7 +11,7 @@ toc: false
 
 ## Description
 Given a binary tree (不是 BST), in which each node contains an integer number.
-Find the maximum possible sum from any node to any node.
+Find the maximum possible sum from any node to any node. 本题为LC hard 难度。
 
 Note: 
 * Start node and end node **can be the same node**!!
@@ -83,6 +83,6 @@ public class Solution {
 ```
 
 ## Reference
-* [Path Sum [LeetCode]]()
+* [Binary Tree Maximum Path Sum [LeetCode]](https://leetcode.com/problems/binary-tree-maximum-path-sum/description/)
 
 {% include links.html %}
