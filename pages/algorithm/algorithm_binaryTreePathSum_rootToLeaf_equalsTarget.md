@@ -36,7 +36,6 @@ return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
 略
 
 ## Solution 1: Recursion
-哦也
 
 ### Complexity
 * Time: O(n)
@@ -44,7 +43,20 @@ return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
 
 ### Java
 ```java
-
+public class Solution {
+    public boolean hasPathSum(TreeNode root, int sum) {
+        if (root == null)
+            return false;
+        
+        // 到当前节点为止，正好加和为sum。而且当前节点正好是一个leaf
+        if (root.val == sum && root.left == null && root.right == null)
+            return true;
+        else {
+            sum -= root.val;
+            return (hasPathSum(root.left, sum) || hasPathSum(root.right, sum));
+        }
+    }
+}
 ```
 
 ## Reference
