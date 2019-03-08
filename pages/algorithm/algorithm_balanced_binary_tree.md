@@ -117,8 +117,8 @@ class Solution {
 Ref: http://www.jiuzhang.com/solutions/balanced-binary-tree/
 
 ### Complexity
-* Time: 应该和方法1是一样的，O(n)
-* Space: 应该和方法1是一样的，O(height of tree)
+* Time: O(n)
+* Space: O(height of tree)
 
 ### Java
 ```java
