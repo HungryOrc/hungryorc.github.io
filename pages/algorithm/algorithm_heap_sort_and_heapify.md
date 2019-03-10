@@ -18,21 +18,20 @@ Heap Sort的步骤：
 * 要sort的array本身已经是一个array，即它已经满足heap必须是complete tree的性质（即tree nodes都要优先铺满左边）。现在这个没有sort的array可以说是一个乱序的heap，我们要把这个array从小到大sort的话，要借助max heap。从大到小排序的话，用min heap
 * 首先要把这个乱序heap变成一个max heap。具体来说，就是对数组里 index = n / 2 - 1（即heap里从下往上的倒数第二层）一直到 index = 0 的各个元素 进行 heapify。要建立min heap，就搞min heapify；要建立max heap，就搞max heapify
   * **Heapify procedure can be applied to a node only if its children nodes are already heapified.** That's why heapify must be performed in the bottom up order.
-  * 每次max heapify 的时间复杂度是 O(logn)。**但是build整个heap的时间是O(n)！不是O(nlogn)！** nlogn是对的，因为build一个heap就是做n次heapify，但**nlogn不够tight**。证明build heap只需要O(n)要用到一些数学，见此文：[Time Complexity of Building a Heap [GeeksforGeeks]](https://www.geeksforgeeks.org/time-complexity-of-building-a-heap/)
-* 搞完这些之后，max heap已经建好了。heap顶部元素即目前数组的第一个元素就是整个数组的最大元素了。
-* 把max heap顶部的元素swap到数组的尾部（index = n - 1），即heap的最下一层最靠右的元素。然后对新swap到顶部的元素进行max heapify，在0到n-2的index范围内。
+  * 每次max heapify 的时间复杂度是 O(logn)。**但是build整个heap的时间是O(n)，不是O(nlogn)。** nlogn也没有错，因为build一个heap就是做n次heapify，但**nlogn不够tight**。要证明build heap只需要O(n)的话，需要一些数学，见此文：[Time Complexity of Building a Heap [GeeksforGeeks]](https://www.geeksforgeeks.org/time-complexity-of-building-a-heap/)
+* 搞完这些之后，max heap已经建好了。heap顶部的元素，即目前数组的第一个元素，就是整个数组的最大元素
+* 把max heap顶部的元素swap到数组的尾部（index = n - 1），即heap的最下一层最靠右的元素。然后对新swap到顶部的元素进行max heapify，在0到n-2的index范围内。所以这个耗时是 O(logn)，因为heap的高度一定是logn，因为heap是铺满的
 * 再把新的max元素swap到heap末端，再重复上面的步骤
 
-## Implementation 1
+## Implementation 1: Space O(logn)，下面有Space O(1) 的做法
 Ref: https://www.geeksforgeeks.org/heap-sort/
 
 ### Complexity
 * Time: O(nlogn)
   * 每次 heapify 的时间是 O(logn)
   * 把乱序数组build成一个max heap需要 O(n)
-  * 对于 `int lastIndex = n - 1; lastIndex >= 1; lastIndex--`，每个lastIndex做一次heapify，共做O(n)次，时间消耗 O(nlogn)
-* Space: O(logn)，因为call stack的层数是height of tree，而heap的层数一定是logn <=== 对么 ？？？
-  * heap sort 如何做到 O(1) 的空间？？？ laicode上要求 O(1) !!!!!!
+  * 对于 `int lastIndex = n - 1; lastIndex >= 1; lastIndex --`，每个lastIndex做一次heapify，共做O(n)次，时间消耗 O(nlogn)
+* Space: O(logn)，因为call stack的层数是height of tree，而heap的层数一定是logn，因为heap是铺满的
 
 ### Java
 ```java
@@ -97,6 +96,17 @@ public class Solution {
         nums[j] = tmp;
     }
 }
+```
+
+## Implementation 2: Space O(1)
+
+### Complexity
+* Time: O(nlogn)，同上理
+* Space: O(1)
+
+### Java
+```java
+
 ```
 
 ## Reference
