@@ -129,7 +129,7 @@ public void heapSort(int[] array) {
 private void heapify(int[] array) {
     int n = array.length;
     for (int i = n / 2 - 1; i >= 0; i--) {
-        percolteDown(array, i, len);
+        percolateDown(array, i, n);
     }
 }
 
@@ -143,7 +143,7 @@ private void percolateDown(int[] array, int index, int len) {
         if (left < len && array[left] > array[max]) {
             max = left;
         }
-        if (rigjt < len && array[right] > array[max]) {
+        if (right < len && array[right] > array[max]) {
             max = right;
         }
         
@@ -154,6 +154,12 @@ private void percolateDown(int[] array, int index, int len) {
         swap(array, index, max);
         index = max;
     }
+}
+
+private void swap(int[] nums, int i, int j) {
+    int tmp = nums[i];
+    nums[i] = nums[j];
+    nums[j] = tmp;
 }
 ```
 
