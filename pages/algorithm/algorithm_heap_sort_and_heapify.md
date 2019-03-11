@@ -85,7 +85,7 @@ public class Solution {
         if (largest != start) {
             swap(nums, start, largest);
             
-            // recursively max heapify the AFFECTED subtree
+            // recursively max heapify the AFFECTED subtree，具体来说是 start后移，end不变
             maxHeapify(nums, largest, end);
         }
     }
