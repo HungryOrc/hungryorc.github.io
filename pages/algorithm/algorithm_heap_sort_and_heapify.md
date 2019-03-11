@@ -30,7 +30,7 @@ Ref: https://www.geeksforgeeks.org/heap-sort/
 * Time: O(nlogn)
   * 每次 heapify 的时间是 O(logn)
   * 把乱序数组build成一个max heap需要 O(n)
-  * 对于 `int lastIndex = n - 1; lastIndex >= 1; lastIndex --`，每个lastIndex做一次heapify，共做O(n)次，时间消耗 O(nlogn)
+  * 对于 `int lastIndex = n - 1; lastIndex >= 1; lastIndex --`，每个lastIndex做一次heapify，共做 n 次，时间消耗 O(nlogn)
 * Space: O(logn)，因为call stack的层数是height of tree，而heap的层数一定是logn，因为heap是铺满的
 
 ### Java
