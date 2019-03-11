@@ -99,6 +99,7 @@ public class Solution {
 ```
 
 ## Implementation 2: Space O(1)
+用左半边array来 maintain the max heap。过程用iteration，不用recursion，所以没有多层的call stack 的空间消耗
 
 ### Complexity
 * Time: O(nlogn)，同上理
@@ -106,7 +107,54 @@ public class Solution {
 
 ### Java
 ```java
+public void heapSort(int[] array) {
+    if (array == null || array.length <= 1) {
+        return;
+    }
+    
+    int n = array.length;
+    
+    // step 1, make a max heap in place
+    heapify(array);
+    
+    // step 2, poll one from top and push to the end
+    for (int i = n - 1; i >= 0; i--) {
+        // put the largest at the rigth end of the array
+        swap(array, 0, i);
+        
+        percolateDown(array, 0, i);
+    }
+}
 
+private void heapify(int[] array) {
+    int n = array.length;
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        percolteDown(array, i, len);
+    }
+}
+
+// iterative! not recursive!
+private void percolateDown(int[] array, int index, int len) {
+    while (index <= len / 2 - 1) {
+        int left = index * 2 + 1; // index of left child of cur index
+        int right = index * 2 + 2; // index of right child of cur index
+        int max = index;
+        
+        if (left < len && array[left] > array[max]) {
+            max = left;
+        }
+        if (rigjt < len && array[right] > array[max]) {
+            max = right;
+        }
+        
+        if (max == index) {
+            break;
+        }
+        
+        swap(array, index, max);
+        index = max;
+    }
+}
 ```
 
 ## Reference
