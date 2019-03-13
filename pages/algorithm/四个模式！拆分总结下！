@@ -261,7 +261,9 @@ public class ShapeFactory {
    public Shape getShape(String shapeType){
   	if(shapeType == null){
      	return null;
-  	}            	
+  	}       
+	
+	// 这里用case switch改良下，然后用enum来存这些shape name！
        if(shapeType.equalsIgnoreCase("CIRCLE")){
      	return new Circle();
   	} else if(shapeType.equalsIgnoreCase("RECTANGLE")){
