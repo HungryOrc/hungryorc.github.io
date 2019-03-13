@@ -1,0 +1,295 @@
+Singleton 
+public class Singleton {
+
+private static final Singleton INSTANCE = new Singleton();
+ 
+		private Singleton() {}
+ 
+		public static Singleton getInstance() {
+    			return INSTANCE;
+		}
+}
+
+Delegation 
+Example:
+interface I {
+		void f();
+		void g();
+}
+ 
+class A implements I {
+	public void f() { System.out.println("A: doing f()"); }
+	public void g() { System.out.println("A: doing g()"); }
+}
+ 
+class B implements I {
+	public void f() { System.out.println("B: doing f()"); }
+	public void g() { System.out.println("B: doing g()"); }
+}
+ 
+class C {  // 这里实际就是之前我们提到的 class composition
+	I i = null;
+	// delegation
+	public C(I i){ this.i = i; }
+	
+public void f() { i.f(); }
+	public void g() { i.g(); }
+ 
+	// normal attributes
+	public void to(I i) { 
+this.i = i; 
+}
+}
+ 
+public class Main {
+     public static void main(String[] args) {
+    	C c = new C(new A());
+    	c.f(); 	  // output: A: doing f()
+    	c.g();     // output: A: doing g()
+    	c.to(new B());
+    	c.f(); 	// output: B: doing f()
+    	c.g(); 	// output: B: doing g()
+     }
+}
+
+Builder 
+E.g.:
+class User中包括有很多个data fields
+ 
+public class User {
+  private String firstName;
+  private String lastName;
+  private int age;
+  private String phone;
+  private String address;
+  private Gender gender; // suppose we have defined enum Gender
+  private Date loginTime;
+  private Date registrationTime; 
+
+  // Q: how to define its constructor?
+  /* how about the following one?
+ 	public User(String f, String l, int a, String p, String a, Gender g, Date lt, Date rt) {
+     	//…...
+ 	}
+  */
+}
+The constructor has too many parameters….
+ 
+Another case: 有些fields可以不在constructor里初始化
+ 
+public class User {
+  private final String firstName;	//required
+  private final String lastName;	//required
+  private int age;               	//optional
+  private String phone;         //optional
+  private String address;  	//optional
+ 
+  public User(String firstName, String lastName) {
+	this(firstName, lastName, 0);
+  }
+
+  public User(String firstName, String lastName, int age) {
+	this(firstName, lastName, age, “”);
+  }
+
+  public User(String firstName, String lastName, int age, String phone) {
+	this(firstName, lastName, age, phone, “”);
+  }
+
+  public User(String firstName, String lastName, int age, String phone, String address) {
+	this.firstName = firstName;
+	this.lastName = lastName;
+	this.age = age;
+	this.phone = phone;
+	this.address = address;
+  }
+}
+ 
+Too many constructors! (need many constructors for possible attribute combinations)
+Very hard to use with a long parameter list
+ 
+Solution I: limited constructors, but use setter/getter
+public class User {
+  private final String firstName; // required
+  private final String lastName; // required
+  private int age; // optional
+  private String phone; // optional
+  private String address;  //optional
+ 
+  public User(String firstName, String lastName) {
+        	this.firstName = firstName;
+this.lastName = lastName;
+  }
+  public String getFirstName() {
+        	return firstName;
+  }
+  public String getLastName() {
+        	return lastName;
+  }
+  public int getAge() {
+        	return age;
+  }
+  public void setAge(int age) {
+        	this.age = age;
+  }
+  public String getPhone() {
+        	return phone;
+  }
+  public void setPhone(String phone) {
+        	this.phone = phone;
+  }
+  public String getAddress() {
+        	return address;
+  }
+  public void setAddress(String address) {
+        	this.address = address;
+  }
+}
+ 
+Limitation:
+需要多个调用才能完成object creation, 语义上无法确定一个User object什么时候构建完成
+What if we do not want to expose setters for some data fields?
+ 
+使用Builder Pattern:
+public class User {
+  private final String firstName; // required, and immutable
+  private final String lastName; // required
+  private int age;
+  private String phone;
+  private String address;
+ 
+  private User(UserBuilder builder) {
+        	this.firstName = builder.firstName;
+        	this.lastName = builder.lastName;
+        	this.age = builder.age;
+        	this.phone = builder.phone;
+        	this.address = builder.address;
+  }
+  public String getFirstName() {
+        	return firstName;
+  }
+  public String getLastName() {
+        	return lastName;
+  }
+  public int getAge() {
+        	return age;
+  }
+  public String getPhone() {
+        	return phone;
+  }
+  public String getAddress() {
+        	return address;
+  }
+ 
+  public static class UserBuilder {
+        	private final String firstName; // these two are required!
+        	private final String lastName;
+        	private int age = 0;  // default value is 0
+        	private String phone = “”; // default value is an empty string
+        	private String address; // default value is null
+ 
+        	public UserBuilder(String firstName, String lastName) {
+                    	this.firstName = firstName;
+                    	this.lastName = lastName;
+        	}
+ 
+        	// all the following methods are used to set values for optional fields
+        	public UserBuilder age(int age) {
+                    	this.age = age;
+                    	return this;
+        	}
+        	public UserBuilder phone(String phone) {
+                    	this.phone = phone;
+                    	return this;
+        	}
+        	public UserBuilder address(String address) {
+                    	this.address = address;
+                    	return this;
+        	}
+        	public User build() {
+                    	return new User(this);
+        	}
+  }
+ 
+  public static void main(String[] argv) {
+        User user = new User.UserBuilder(“San”, “Zhang”)
+                                	  	.age(25)
+                                	  	.phone(“1234567890”)
+                                	  	.address(“Fake address”)
+                                	  	.build();
+	// …..
+  }
+}
+ 
+Factory 
+	
+
+Example I
+public interface Shape {
+      void draw();
+}
+public class Rectangle implements Shape {
+     public Rectangle(......) {
+  	// ….
+     }
+
+   @Override
+   public void draw() {
+       //….
+      System.out.println("Inside Rectangle::draw() method.");
+   }
+}
+ 
+public class Square implements Shape {
+   // attributes, constructor method...
+   @Override
+   public void draw() {
+      System.out.println("Inside Square::draw() method.");
+   }
+}
+ 
+public class Circle implements Shape {
+   // attributes, constructor method...
+   @Override
+   public void draw() {
+      System.out.println("Inside Circle::draw() method.");
+   }
+}
+ 
+public class ShapeFactory {
+   // use getShape method to get object of type shape
+   public Shape getShape(String shapeType){
+  	if(shapeType == null){
+     	return null;
+  	}            	
+       if(shapeType.equalsIgnoreCase("CIRCLE")){
+     	return new Circle();
+  	} else if(shapeType.equalsIgnoreCase("RECTANGLE")){
+     	return new Rectangle();
+  	} else if(shapeType.equalsIgnoreCase("SQUARE")){
+     	return new Square();
+  	}
+  	return null;
+   }
+}
+ 
+public class FactoryPatternDemo {
+   private final ShapeFactory shapeFactory = new ShapeFactory();
+ 
+   public void demo(String[] args) {
+  	//get an object of Circle and call its draw method.
+  	Shape shape1 = shapeFactory.getShape("CIRCLE");
+  	//call draw method of Circle
+  	shape1.draw();
+ 
+  	//get an object of Rectangle and call its draw method.
+  	Shape shape2 = shapeFactory.getShape("RECTANGLE");
+  	//call draw method of Rectangle
+  	shape2.draw();
+ 
+  	//get an object of Square and call its draw method.
+  	Shape shape3 = shapeFactory.getShape("SQUARE");
+  	//call draw method of Square
+  	shape3.draw();
+   }
+}
