@@ -9,15 +9,6 @@ folder: algorithm
 toc: false
 ---
 
-## 大课讲义
-### Completed
-Until page 22 开头
-
-
-## 周三周日小班课讲义
-
-从8.28开始的都复习一下
-
 
 ### TODO
 
@@ -44,13 +35,11 @@ N-Queens - medium
 
 * 9.8 的 mock interview 的四道题！！！
 
-* Laicode for lecture 1
-* 看 heapify 的视频，看一两个短视频
-* 把我总结的几个 peak 题目，以前总结的，都归纳到新note里去
 
-* 小组课
-  * 路径那一题，用字母，自己做一次，在leetcode上自测。不要抄答案
-    * 不算字母，用数字搞，怎么搞，怎么回溯. 也在leetcode上自测
+* 看 heapify 的视频，看一两个短视频
+
+
+
   * 马往外跳那一题，leet code 也有
 
   * 复习 9.1 周六mock inter的那几题
@@ -59,9 +48,6 @@ N-Queens - medium
   * 这题为什么非要写 ////?//// 里的这一段？为什么要特殊处理 mid == 0 的情况？
     * https://github.com/HungryOrc/hungryorc.github.io/blob/master/pages/algorithm/algorithm_find_global_peak_in_A-shape_array_with_duplicates.md
 
-
-* Union Find 的终极全面讲义：很清楚也很简明
-  * 2018.10.6 的周日小班讲义
 
 
 {% include links.html %}
