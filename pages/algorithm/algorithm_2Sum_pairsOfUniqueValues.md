@@ -4,7 +4,7 @@ tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_2Sum_allValidPairsOfUniqueValues.html
+permalink: algorithm_2Sum_pairsOfUniqueValues.html
 folder: algorithm
 toc: false
 ---
