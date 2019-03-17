@@ -24,7 +24,7 @@ The given array is not null and has length of at least 2.
 和只用找一个pair的方法一样，用hashmap做
 
 ### Complexity
-* Time: O(n^2)    《====== 对么 ？？？？
+* Time: O(n^2)，最终答案的个数也是这个量级  <=== 对么 ？？？？
 * Space: O(n)，size of the Map
 
 ### Java
