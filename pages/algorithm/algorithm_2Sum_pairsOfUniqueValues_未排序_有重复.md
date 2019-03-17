@@ -4,7 +4,7 @@ tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_2Sum_pairsOfUniqueValues.html
+permalink: algorithm_2Sum_pairsOfUniqueValues_未排序_有重复.html
 folder: algorithm
 toc: false
 ---
