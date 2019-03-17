@@ -4,7 +4,7 @@ tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_2Sum_allValidPairsOfIndices.html
+permalink: algorithm_2Sum_pairsOfIndices.html
 folder: algorithm
 toc: false
 ---
