@@ -44,6 +44,7 @@ public class Solution {
                 List<Integer> pair = new ArrayList<>();
                 pair.add(nums[left]);
                 pair.add(nums[right]);
+                result.add(pair);
                 left++;
                 right--;
             } else if (sum < target) {
