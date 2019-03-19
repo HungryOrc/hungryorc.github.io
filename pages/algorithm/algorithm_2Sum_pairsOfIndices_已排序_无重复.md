@@ -10,7 +10,7 @@ toc: false
 ---
 
 ## Description
-Find all pairs of elements in a given array that sum to the given target number. Return all the pairs of indices.
+Find all pairs of elements in a sorted array that sum to the given target number. Return all the pairs of indices.
 The given array is not null and has length of at least 2.
 
 * 数组里没有重复的元素，**返回的是一对一对的indexes，所以重复元素但是index不同也算是不同的对象**
