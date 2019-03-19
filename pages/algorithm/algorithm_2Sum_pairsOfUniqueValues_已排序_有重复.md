@@ -60,7 +60,8 @@ public class Solution {
                 while (left < right && nums[right - 1] == nums[right]) {
                     right--;
                 }
-            } else if (sum > target) {
+            } 
+            else if (sum > target) {
                 right--;
             } else {
                 left++;
