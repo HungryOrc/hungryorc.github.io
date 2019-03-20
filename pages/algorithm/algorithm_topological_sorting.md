@@ -51,8 +51,8 @@ For graph as follow: <此处有配图>
 **特别注意！如果graph里有cycle，则要么所有的nodes一开始的入度都不为0，意味着所有nodes都在一个cycle上；要么部分nodes一开始的入度为0，但处理到一定时候以后，会发现剩下的nodes都无法装到while loop里去了，而这些无法进去的nodes此时的入度都 > 0，意味着剩下的这些nodes组成了一个cycle。所以，最后，在result里的nodes个数如果小于graph里的nodes个数，那么就意味着graph里一定有环！**
 
 ### Complexity
-* Time: O(n^2)，n是nodes的个数，边一共有n^2个，每一个边都要被处理
-* Space: O(n^2)，n^2 是 size of edges
+* Time: O(|V| + |E|)，**不要说n个node，n^2个边之类的东西！会被挂的！**
+* Space: O(|V| + |E|)
 
 ### Java
 ```java
