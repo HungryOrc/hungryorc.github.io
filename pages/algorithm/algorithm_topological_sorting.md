@@ -48,7 +48,7 @@ For graph as follow: <此处有配图>
 就是第2批应该放入 result 以及 queue 的nodes（因为这些nodes也将是第1批被转化为入度零的nodes）。
 * 对于天生都是入度为1的nodes，它们的“前置node”的天生入度有可能是0，也有可能大于0，而且它们有可能有不止一个前置nodes。这些因素就决定了，它们虽然都是天生入度为1，但它们进入result（以及queue）的排位可能会相差很远
 
-**特别注意！如果graph里有cycle，则要么所有的nodes一开始的入度都不为0，意味着所有nodes都在一个cycle上；要么部分nodes一开始的入度为0，但处理到一定时候以后，会发现剩下的nodes都无法装到while loop里去了，而这些无法进去的nodes此时的入度都 > 0，意味着剩下的这些nodes组成了一个cycle**
+**特别注意！如果graph里有cycle，则要么所有的nodes一开始的入度都不为0，意味着所有nodes都在一个cycle上；要么部分nodes一开始的入度为0，但处理到一定时候以后，会发现剩下的nodes都无法装到while loop里去了，而这些无法进去的nodes此时的入度都 > 0，意味着剩下的这些nodes组成了一个cycle。所以，最后，在result里的nodes个数如果小于graph里的nodes个数，那么就意味着graph里一定有环！**
 
 ### Complexity
 * Time: O(n) <==== 对么 ？？？？
