@@ -4,7 +4,7 @@ tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_2Sum2Array_numPairsOfIndices_未排序_有重复.html
+permalink: algorithm_2Sum2Array_小于target_index对数_未排序_有重复.html
 folder: algorithm
 toc: false
 ---
