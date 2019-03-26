@@ -39,7 +39,7 @@ public class Solution {
         for (; i1 >= 0; i1--) {
             int cur = nums[i1];
             
-            while (i2 < n && nums[i2] + cur <= target) {
+            while (i2 < i1 && nums[i2] + cur <= target) {
                 i2++;
             }
             i2--;
