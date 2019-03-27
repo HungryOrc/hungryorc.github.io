@@ -71,6 +71,7 @@ public class Solution {
         }
         return islands * 4 - neighbors * 2;
     }
+}
 ```
 
 ## Solution 2: 朴素的 O(nm) 算法
