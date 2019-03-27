@@ -17,10 +17,10 @@ The given array is not null and has length of at least 2.
 * 数组里没有重复的元素
 
 ### Example
-* Input: A = {1, 2, 3, 4}, target = 2
-  * Output: 2，因为有两对的差是2：[1, 3]和[2, 4]
+* Input: A = {1, 2, 3, 4, 5}, target = 2
+  * Output: 2，因为有两对的差大于2：[1, 4]和[2, 5]
 
-## Solution：快慢指针，都从左往右走，固定右边那个数，看左边有没有和它差为target的
+## Solution：快慢指针，都从左往右走，固定右边那个数，看左边有没有和它差 大于target的
 我们可以肯定：右指针向右走的时候，左指针一定不会向左走，所以这就可以用sliding window了！
 
 ### Complexity
@@ -39,13 +39,14 @@ public class Solution {
         
         // 根据fast来做while loop比较好！因为可以及时发现右出界。根据slow来做while loop就不方便
         while (fast < n) {
-            if (nums[slow] = nums[fast] - target) {
-                fast++;
+            if (nums[fast] - nums[slow] > target) {
                 slow++;
-                count++;
-            } else if (nums[slow] < nums[fast] - target) {
+                // 这样如果导致slow和fast重合，也没关系！后面的代码能正确处理这种情况！
+            } 
+            else { // nums[fast] - nums[slow] <= target
+                count += slow; // 这一句是整个算法的精华！
+                
                 slow++;
-            } else {
                 fast++;
             }
         }
