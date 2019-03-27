@@ -40,7 +40,7 @@ Ref: https://discuss.leetcode.com/topic/68786/clear-and-easy-java-solution
 所以最后 周长 = island cell个数 * 4 - 邻居个数 * 2
 
 ### Complexity
-* Time: O(n^2)
+* Time: O(n*m)
 * Space: O(1)
 
 ### Java
@@ -71,6 +71,56 @@ public class Solution {
         }
         return islands * 4 - neighbors * 2;
     }
+```
+
+## Solution 2: 朴素的 O(nm) 算法
+For each island cell, check if:
+* it is the first row or its upward neighbor is a water cell
+* it is the last row or its downward neighbor is a water cell
+* it is the first col or its leftward neighbor is a water cell
+* it is the last col or its rightward neighbor is a water cell
+
+### Complexity
+* Time: O(n*m)
+* Space: O(1)
+
+### Java
+```java
+public class Solution {
+    public int islandPerimeter(int[][] grid) {
+        if (grid == null)
+            return 0;
+        
+        int perimeter = 0;
+        int height = grid.length;
+        int width = grid[0].length;
+        
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (grid[i][j] != 1) {
+                    continue;
+                }
+                
+                if (i == 0 || grid[i-1][j] == 0) {
+                    perimeter ++;
+                }
+
+                if (i == height-1 || grid[i+1][j] == 0) {
+                    perimeter ++;
+                }
+                
+                if (j == 0 || grid[i][j-1] == 0) {
+                    perimeter ++;
+                }
+                    
+                if (j == width-1 || grid[i][j+1] == 0) {
+                    perimeter ++;
+                }
+            }
+        }
+        return perimeter;
+    }
+}
 ```
 
 ## Reference
