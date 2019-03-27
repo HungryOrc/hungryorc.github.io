@@ -39,7 +39,6 @@ public class Solution {
     public int twoDiff(int[] nums, int target) {
         // ignore sanity checks
         
-        int n = nums.length;
         int count = 0;
         
         // <value, number of occurance in the array of this value>
