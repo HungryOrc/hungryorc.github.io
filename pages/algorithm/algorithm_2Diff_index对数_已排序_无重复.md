@@ -10,11 +10,12 @@ toc: false
 ---
 
 ## Description
-Find all pairs of elements in a sorted array that their difference equals to the given target number. 
+Find all pairs of elements in a **sorted** array that their difference equals to the given **positive** target number. 
 Return the number of pairs of indices.
 The given array is not null and has length of at least 2.
 
 * 数组里没有重复的元素
+* 目标差值target > 0，所以不会出现一个数减去自己等于target(即0)然后满足题意的情况，所以**我们就不必追究在代码运行的过程里，slow和fast这两个指针重合的时候怎么办**
 
 ### Example
 * Input: A = {1, 2, 3, 4}, target = 2
