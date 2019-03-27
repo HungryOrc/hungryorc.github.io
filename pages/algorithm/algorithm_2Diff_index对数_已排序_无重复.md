@@ -11,7 +11,7 @@ toc: false
 
 ## Description
 Find all pairs of elements in a sorted array that their difference equals to the given target number. 
-Return all the pairs of indices.
+Return the number of pairs of indices.
 The given array is not null and has length of at least 2.
 
 * 数组里没有重复的元素
