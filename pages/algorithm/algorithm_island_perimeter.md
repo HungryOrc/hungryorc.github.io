@@ -27,7 +27,7 @@ Determine the perimeter of the island.
   ```
   * Output: 16
 
-## Solution 1: 很巧妙, for each island cell, -1 if it has a rightwards/downwards neighbor
+## Solution 1: Top 1% speed, 很巧妙, for each island cell, -1 if it has a rightwards/downwards neighbor
 Ref: https://discuss.leetcode.com/topic/68786/clear-and-easy-java-solution
 
 从左到右，从上到下，一格一格地看，记录下island cells（即等于1的cell）的个数，
@@ -74,7 +74,7 @@ public class Solution {
 }
 ```
 
-## Solution 2: 朴素的 O(nm) 算法
+## Solution 2: Top 2% speed, 朴素的 O(nm) 算法
 For each island cell, check if:
 * it is the first row or its upward neighbor is a water cell
 * it is the last row or its downward neighbor is a water cell
