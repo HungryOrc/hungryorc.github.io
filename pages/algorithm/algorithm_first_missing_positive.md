@@ -1,6 +1,6 @@
 ---
 title: "First Missing Positive"
-tags: [algorithm, 还有别的tag么]
+tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
