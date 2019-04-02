@@ -87,7 +87,7 @@ class Solution {
 }
 ```
 
-另一种和上面的思路一样的解法，只是dfs函数里的有些具体处理方式稍有不同，在下面的注释里标明了：
+另一种和上面的思路一样的解法，只是dfs函数里的有些具体处理方式稍有不同，在下面的注释里标明了。速度仍然是 前1%
 ```java
 class Solution {
     public List<List<Integer>> subsetsWithDup(int[] nums) {
