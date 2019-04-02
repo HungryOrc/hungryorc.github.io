@@ -38,7 +38,7 @@ The key here is to use swapping to keep constant space and also make use of the 
 
 ### Complexity
 * Time: O(n)
-* Space: O(n)
+* Space: O(1)
 
 ### Java
 ```java
