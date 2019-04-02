@@ -56,6 +56,7 @@ class Solution {
         
         int n = s.length();
         int minLen = Integer.MAX_VALUE;
+        int maxLen = Integer.MIN_VALUE;
         Set<String> set = new HashSet<>();
         
         for (String str : wordDict) {
@@ -63,6 +64,7 @@ class Solution {
             
             int len = str.length();
             minLen = Math.min(minLen, len);
+            maxLen = Math.max(maxLen, len);
         }
 
         // dp[i]是从index=0开始到index=i为止(包含i)，这段substring是否可以被break好
@@ -71,11 +73,10 @@ class Solution {
         // 只做一次遍历
         for (int end = 0; end < n; end++) {
             // substring作为一个整体，不切
-            if (set.contains(s.substring(0, end + 1))) {
+            if (end + 1 <= maxLen && set.contains(s.substring(0, end + 1))) {
                 dp[end] = true;
                 continue;
             }
-            
             
             for (int mid = 0; mid < end; mid++) { // middle index for dividing the substring
                 // substring的中间切一刀 
