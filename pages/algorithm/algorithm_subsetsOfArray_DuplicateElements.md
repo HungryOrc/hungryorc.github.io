@@ -87,6 +87,42 @@ class Solution {
 }
 ```
 
+另一种和上面的思路一样的解法，只是dfs函数里的有些具体处理方式稍有不同，在下面的注释里标明了：
+```java
+class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (nums == null || nums.length == 0) {
+            return result;
+        }
+        
+        Arrays.sort(nums);
+        
+        dfs(nums, 0, new ArrayList<Integer>(), result);
+        return result;
+    }
+    
+    private void dfs(int[] nums, int index, List<Integer> list, List<List<Integer>> result) {
+        if (index == nums.length) { // 这里还是用传统的结束条件
+            result.add(new ArrayList<Integer>(list));
+            return;
+        }
+        
+        for (int i = index; i < nums.length; i++) {
+            if (i > index && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            
+            list.add(nums[i]);
+            dfs(nums, i + 1, list, result);
+            list.remove(list.size() - 1);      
+        }
+        
+        dfs(nums, nums.length, list, result); // 这个是为了别忘记空的list的情况，注意这里index直接填nums.length了
+    }
+}
+```
+
 ## Reference
 * [Subsets II [LeetCode]](https://leetcode.com/problems/subsets-ii/description/)
 
