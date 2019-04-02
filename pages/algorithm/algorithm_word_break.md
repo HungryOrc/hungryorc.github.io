@@ -81,6 +81,7 @@ class Solution {
         
         boolean[][] dp = new boolean[n][n];
         
+        // 第一次遍历
         for (int len = minLen; len <= maxLen; len++) { // length of the substring
             for (int i = 0; i + len - 1 < n; i++) { // starting index of the substring
                 String substring = s.substring(i, i + len); // 光是取substring的时间消耗就有 O(n) 了
@@ -90,6 +91,7 @@ class Solution {
             }
         }
         
+        // 第二次遍历
         for (int len = minLen; len <= n; len++) { // 注意这里最大长度应该是n了！而非maxLen了
             for (int i = 0; i + len - 1 < n; i++) {
                 for (int j = i; j < i + len - 1; j++) {
