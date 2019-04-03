@@ -38,37 +38,36 @@ https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html
 ### Java
 ```java
 class PeekingIterator implements Iterator<Integer> {
-    Integer cache = null;
-    Iterator<Integer> it;
+    Integer nextVal = null;
+    Iterator<Integer> iter;
     
-	public PeekingIterator(Iterator<Integer> iterator) {
-	    this.it = iterator;
-	    cache = it.next();
-	}
+    public PeekingIterator(Iterator<Integer> iterator) {
+        this.iter = iterator;
+        this.nextVal = iter.next(); // 一开始就先点上
+    }
 
-  // Returns the next element in the iteration without advancing the iterator.
-	public Integer peek() {
-        return cache;
-	}
+    // Returns the next element in the iteration without advancing the iterator.
+    public Integer peek() {
+        return nextVal; // peek多少次，也不会真的往前走一步
+    }
 
-	// hasNext() and next() should behave the same as in the Iterator interface.
-	// Override them if needed.
-	@Override
-	public Integer next() {
-	    int ret = cache;
-	    if(it.hasNext()){
-	        cache = it.next();
-	    }
-	    else{
-	        cache = null;
-	    }
-	    return ret;
+    // hasNext() and next() should behave the same as in the Iterator interface.
+    // Override them if needed.
+    @Override
+    public Integer next() {
+        int result = nextVal;
+        if(it.hasNext()){
+            nextVal = iter.next();
+	} else {
+            nextVal = null;
 	}
+	    return result;
+    }
 
-	@Override
-	public boolean hasNext() {
-	    return (cache != null);
-	}
+    @Override
+    public boolean hasNext() {
+        return (nextVal != null);
+    }
 }
 ```
 
