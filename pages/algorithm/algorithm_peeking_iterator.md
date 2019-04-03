@@ -61,7 +61,7 @@ class PeekingIterator implements Iterator<Integer> {
 	} else {
             nextVal = null;
 	}
-	    return result;
+        return result;
     }
 
     @Override
