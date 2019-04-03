@@ -55,13 +55,16 @@ class PeekingIterator implements Iterator<Integer> {
     // Override them if needed.
     @Override
     public Integer next() {
-        int result = nextVal;
-        if(it.hasNext()){
+        int result = nextVal; // 先存起来
+	
+	// the next next one
+        if(iter.hasNext()){
             nextVal = iter.next();
 	} else {
             nextVal = null;
 	}
-        return result;
+	
+        return result; // 把存起来的拿出来
     }
 
     @Override
