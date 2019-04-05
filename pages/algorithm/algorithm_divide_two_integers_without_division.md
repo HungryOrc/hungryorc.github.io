@@ -30,7 +30,7 @@ For the purpose of this problem, assume that your function returns 2^31 − 1 wh
 * Input: dividend = -7, divisor = 3
   * Output: -2
 
-## Solution：我自己的方法，用减法来做除法
+## Solution：我的方法，用减法来做除法，速度 后20%
 
 ### Complexity
 * Time: O(n)，n是dividend的大小，这个速度确实是比较慢的
