@@ -110,6 +110,17 @@ class Solution {
 }
 ```
 
+## Solution 2：还是sliding window，但用Map记录每个元素最后(最右边)出现的位置(即index)，速度 ？？？？
+
+### Complexity
+* Time: O(n)
+* Space: O(1), map size 一直是 2
+
+### Java
+```java
+自己写一下实现 ！！！！！
+```
+
 ## Reference
 * [Fruit into Baskets [LeetCode]](https://leetcode.com/problems/fruit-into-baskets/description/)
 
