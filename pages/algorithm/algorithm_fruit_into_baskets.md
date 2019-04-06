@@ -51,8 +51,8 @@ Output: 5
 Explanation: We can collect [1,2,1,1,2].
 If we started at the first tree or the eighth tree, we would only collect 4 fruits.
 
-## Solution 1： 我的很直觉的方法，sliding window, 速度 前45%。后面有改进后更快的方法
-容易看出，这题就是 max length of sliding window which contains no more than 2 distinct values
+## Solution 1： 我的直觉方法，sliding window, 速度 前45%。后面有改进后更快的方法
+容易看出，这题就是 **max length of sliding window which contains NO MORE THAN 2 DISTINCT VALUES**
 
 ### Complexity
 * Time: O(n)
