@@ -42,6 +42,7 @@ Given a matrix of m x n elements (m rows, n columns), return all elements of the
 * Space: O(1)
 
 ### Java
+代码虽然看起来不短，其实逻辑挺简明的
 ```java
 class Solution {
     public List<Integer> spiralOrder(int[][] matrix) {
