@@ -47,10 +47,9 @@ class Solution {
                 return mid;
             }
             
-            // 注意！！！精华所在！！！
-            // 接下来就不直接比较mid和target的值了！！！
-            // 而是先要比较start和mid的值，以先确认start与mid所在的分段的情况！！！
-            // 然后才是比较start，mid，end与target的值！！！
+            // 接下来就不直接比较mid和target的值了！
+            // 而是先要比较start和mid的值，以先确认start与mid所在的分段的情况！
+            // 然后才是比较start，mid，end与target的值！
             
             // 第一种情况，start和mid在同一段上，这里又包含2种子情况：
             // 它们都在左半分段上，或者它们都在右半分段上
@@ -66,9 +65,7 @@ class Solution {
                 }
             
             // 第二种情况，start和mid不在同一段上；确切地说：
-            // start在左半分段上，mid在右半分段上
-            // 此时，可知 mid与end一定在同一个分段上！！！
-            // 这一点是我们继续做下去的支柱所在！！！
+            // start在左半分段上，mid, end 在右半分段上
             } else {
                 // 如果target处于mid与end之间
                 if (nums[mid] <= target && target <= nums[end]) {
