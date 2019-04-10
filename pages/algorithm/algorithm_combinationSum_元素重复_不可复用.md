@@ -38,9 +38,8 @@ Note:
 ```java
 public class Solution {
     public List<List<Integer>> combinationSum2(int[] num, int target) {
-        
         List<List<Integer>> result = new ArrayList<>();
-        if(num == null || num.length == 0 || target <= 0) {
+        if(num == null || num.length == 0) {
             return result;
         }
         
@@ -67,7 +66,7 @@ public class Solution {
                 return;
             }
             
-            // 精华所在！！！下面这个if语句是为了保证进入最终result的每个组合都是互不相同的！！！
+            // 精华所在！下面这个if语句是为了保证进入最终result的每个组合都是互不相同的！
             // 只有当数组里有重复元素时，才有这个if语句存在的必要！
             // 而这个if语句的存在，与数组里的每个元素能被使用一次还是无限次，无关！
             // 每个元素能被使用一次还是无限次，是靠下文的 startIndex 在下一轮dfs里
@@ -88,8 +87,7 @@ public class Solution {
             }
             
             combination.add(num[i]);
-            // 重要！一个元素最多只能用一次，
-            // 所以下一次 recursion 的 start index 就必须 +1
+            // 一个元素最多只能用一次，所以下一次 recursion 的 start index 就必须 +1
             dfs(num, i + 1, remainTarget - num[i], combination, result);
             combination.remove(combination.size() - 1);
         }
