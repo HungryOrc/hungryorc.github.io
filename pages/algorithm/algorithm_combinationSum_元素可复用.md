@@ -10,6 +10,11 @@ toc: false
 ---
 
 ## Description
+* 数组里的元素不重复（但就算有重复也无所谓，因为这一题允许元素复用）
+* 在一个组合里，元素可以复用
+* 在一个组合里，总的元素个数不限
+* 在一个组合里，每个元素的出现顺序如果改变，还算是同一个组合
+
 Given a set of candidate numbers (candidates) **without duplicates** and a target number (target), find all unique combinations in candidates where the candidate numbers sums to target.
 
 The same repeated number may be chosen from candidates unlimited number of times.
