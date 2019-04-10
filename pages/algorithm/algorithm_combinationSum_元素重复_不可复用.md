@@ -49,11 +49,8 @@ public class Solution {
         return result;
     }
   
-    private void dfs(int[] num,
-                int startIndex,
-                int remainTarget,
-                ArrayList<Integer> combination,
-                List<List<Integer>> result) {
+    private void dfs(int[] num, int startIndex, int remainTarget,
+        ArrayList<Integer> combination, List<List<Integer>> result) {
         
         if (remainTarget == 0) {
             result.add(new ArrayList<Integer>(combination));
@@ -61,7 +58,6 @@ public class Solution {
         }
         
         for (int i = startIndex; i < num.length; i++) {
-            
             if (num[i] > remainTarget) {
                 return;
             }
