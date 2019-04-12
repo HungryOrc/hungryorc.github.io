@@ -146,11 +146,31 @@ public class Solution {
 ### Java
 ```java
 
+...
+
+核心逻辑里UF的部分：
+
+public int numOfIslands(char[][] grid) {
+	if (grid == null || grid.length == 0 || grid[0].length == 0) return 0;
+	int m = grid.length, n = grid[0].length;
+	UnionFind uf = new UnionFind(m * n);
+
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			if (grid[i][j] == ‘0’) continue;
+			uf.count++;
+			int id = i * n + j;
+			// left: j != 0, up: i != 0
+			if (j > 0 && grid[i][j - 1] == ‘1’) uf.union(id, id - 1);
+			if (i > 0 && grid[i - 1][j] == ‘1’) uf.union(id, id - n);
+		}
+}
+
+	return uf.count;
+}
 
 
-
-
-
+...
 
 ```
 
