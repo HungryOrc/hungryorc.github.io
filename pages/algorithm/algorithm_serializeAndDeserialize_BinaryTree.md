@@ -105,8 +105,7 @@ class Codec {
         for (int i = 1; i < vals.length; i++) {
             String curVal = vals[i];
             
-            // 如果第i个String不表示null node，就做以下的事。如果是null node，就什么也不做
-            if (!curVal.equals("#")) {
+            if (!curVal.equals("#")) { // null node
                 TreeNode node = new TreeNode(Integer.parseInt(curVal));
                 if (isLeftChild) {
                     list.get(index).left = node; // 注意index一开始是0！
