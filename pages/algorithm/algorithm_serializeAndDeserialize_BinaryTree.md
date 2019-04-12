@@ -37,7 +37,14 @@ Note:
 ### Example
 无法举例
 
-## Solution：朴素方法，速度前 30%
+## Solution 2: Pre-order 的做法！找来练一下！面试可能会要求做两种方法！
+
+```java
+
+
+```
+
+## Solution 1：Level Order Traversal，速度前 30%
 这个方法适用于任何binary tree，自然也适用于BST。不过对于BST，如果利用它的左小右大的属性，可以有更高效的serialize/deserialize的方法
 
 ### Complexity
