@@ -127,7 +127,7 @@ class MedianFinder {
 上面用heap的话加一个或者删一个数都未必能做到logn的时间，但是用2个tree set的话就可以确保logn（疑问是，leetcode里实测的速度，这个方法反而比2个heap的方法要慢很多）
 
 TreeSet 是自动平衡的，且自动排序的。TreeSet.first()就是peek最小的那个数，TreeSet.last()就是peek最大的那个数。
-所以这种做法也就不用设置一个reverse order的TreeSet。两个TreeSet都用默认排序就行
+所以这种做法也就不用设置一个reverse order的TreeSet。两个TreeSet都用默认排序就行（如果真要设reverse order的TreeSet，语法如下，不需要输入默认size：`treeSet = new TreeSet<Integer>(Collections.reverseOrder())`）
     
 注意，stream里可能有重复的数！**重复的数对于2个heap的方法并没有影响，而对于2个tree set的方法影响就很大了**。为了往tree set里放入多个相同的数，我们**把所有的数出现的次序也都记录下来，这样所有的数就都不“重复”了**。具体见下面的代码
 
@@ -158,9 +158,6 @@ class ElementComparator implements Comparator<Element> {
 }
 
 class MedianFinder {
-
-    // 如果要设reverse order的TreeSet，语法如下，不需要输入默认size：
-    // treeSet = new TreeSet<Integer>(Collections.reverseOrder());
     private TreeSet<Element> smallerHalf;
     private TreeSet<Element> largerHalf;
     private int count;
