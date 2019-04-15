@@ -72,7 +72,7 @@ if value的值大于 max heap顶部的值，即大于较小的一半里的最大
 * 上面两个另外的follow up怎么办？？？？ <=== ？？？？
 
 ### Complexity
-* Time: O(logn)
+* Time: O(logn)，logn其实是平均速度，heap不能保证永远是logn
 * Space: O(n)
 
 ### Java
@@ -123,9 +123,91 @@ class MedianFinder {
 }
 ```
 
-## Solution 2：上面用heap的话加一个或者删一个数都未必能做到logn的时间，但是用2个tree set的话就可以确保logn！！
+## Solution 2：用2个TreeSet做
+上面用heap的话加一个或者删一个数都未必能做到logn的时间，但是用2个tree set的话就可以确保logn（疑问是，leetcode里实测的速度，这个方法反而比2个heap的方法要慢很多）
 
-做一下！！！ <====
+TreeSet 是自动平衡的，且自动排序的。TreeSet.first()就是peek最小的那个数，TreeSet.last()就是peek最大的那个数。
+所以这种做法也就不用设置一个reverse order的TreeSet。两个TreeSet都用默认排序就行
+    
+注意，stream里可能有重复的数！**重复的数对于2个heap的方法并没有影响，而对于2个tree set的方法影响就很大了**。为了往tree set里放入多个相同的数，我们**把所有的数出现的次序也都记录下来，这样所有的数就都不“重复”了**。具体见下面的代码
+
+### Complexity
+* Time: O(logn)，TreeSet 能保证各个操作永远是logn
+* Space: O(n)
+
+### Java
+```java
+class Element {
+    int value;
+    int index;
+    public Element(int v, int i) {
+        this.value = v;
+        this.index = i;
+    }
+}
+
+class ElementComparator implements Comparator<Element> {
+    @Override
+    public int compare(Element e1, Element e2) {
+        int result = Integer.compare(e1.value, e2.value);
+        if (result == 0) {
+            result = Integer.compare(e1.index, e2.index);
+        }
+        return result;
+    } 
+}
+
+class MedianFinder {
+
+    // 如果要设reverse order的TreeSet，语法如下，不需要输入默认size：
+    // treeSet = new TreeSet<Integer>(Collections.reverseOrder());
+    private TreeSet<Element> smallerHalf;
+    private TreeSet<Element> largerHalf;
+    private int count;
+
+    /** initialize your data structure here. */
+    public MedianFinder() {
+        largerHalf = new TreeSet<>(new ElementComparator());
+        // 如果一共有奇数个数的话，多出来的一个也放在这里
+        smallerHalf = new TreeSet<>(new ElementComparator());
+        count = 0;
+    }
+    
+    public void addNum(int num) {
+        Element curEle = new Element(num, this.count);
+        this.count++;
+        
+        if (smallerHalf.size() == largerHalf.size()) {
+            if (smallerHalf.isEmpty() || curEle.value <= smallerHalf.last().value) {
+                smallerHalf.add(curEle);
+            } 
+            else { 
+                largerHalf.add(curEle);
+                smallerHalf.add(largerHalf.pollFirst());
+            }
+        } 
+        else { // smallerHalf.size() == largerHalf.size() + 1
+            if (curEle.value <= smallerHalf.last().value) {
+                smallerHalf.add(curEle);
+                largerHalf.add(smallerHalf.pollLast());
+            } else { // value > smallerHalf.peek()
+                largerHalf.add(curEle);
+            }
+        }
+    }
+    
+    public double findMedian() {
+        if (smallerHalf.size() + largerHalf.size() == 0) {
+            return Integer.MIN_VALUE;
+        } else if (smallerHalf.size() == largerHalf.size()) {
+          return (smallerHalf.last().value + largerHalf.first().value) / 2.0;
+        } else { // smallerHalf.size() == largerHalf.size() + 1
+          return (double)smallerHalf.last().value;
+        }        
+    }
+}     
+```
+
 
 ## Solution 3: 只用一个tree set，加入数的不同大小情况，来决定median向左还是向右移动一位！用tree set的ceiling或floor来找下一个数！
 
