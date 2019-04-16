@@ -205,10 +205,85 @@ class MedianFinder {
 }     
 ```
 
+## Solution 3: 只用一个tree set，速度前35%
+根据新加入的数和当前median的大小关系，以及当前tree set里有偶数个还是奇数个数，来决定median向左还是向右移动一位或者半位
 
-## Solution 3: 只用一个tree set，加入数的不同大小情况，来决定median向左还是向右移动一位！用tree set的ceiling或floor来找下一个数！
+用tree set的lower或higher来找下一个数。不要用ceiling或者floor，因为它们是把等于的也算进去的
 
-做一下！！！ <====
+### Complexity
+* Time: O(logn)，TreeSet 能保证各个操作永远是logn
+* Space: O(n)
+
+### Java
+```java
+class Element implements Comparable<Element> {
+    double value; // 改为double！因为要在TreeSet里找当前median值的floor/ceiling值
+    double index; // 可能是几点五，所以要double
+
+    public Element(double v, double i) {
+        this.value = v;
+        this.index = i;
+    }
+
+    @Override
+    public int compareTo(Element e) {
+        int result = Double.compare(this.value, e.value);
+        if (result == 0) {
+            result = Double.compare(this.index, e.index);
+        }
+        return result;
+    }
+}
+    
+class MedianFinder {
+    private TreeSet<Element> ts;
+    private int count;
+    Element medianElement;
+
+    public MedianFinder() {
+        this.ts = new TreeSet<>();
+        this.count = 0;
+        this.medianElement = null; // 这个null值不会被用到
+    }
+    
+    public void addNum(int num) {
+        this.count++;
+        Element curEle = new Element(num, this.count);
+        ts.add(curEle);
+
+        if (count == 1) {
+            medianElement = new Element(num, 1);
+        }
+        // 如果加入 cur element 之前，tree set里有奇数个elements
+        else if (count % 2 == 0) {
+            if (curEle.compareTo(medianElement) > 0) {
+                Element higher = ts.higher(medianElement);
+                double newMedianValue = (medianElement.value + higher.value) / 2.0;
+                double newMedianIndex = (medianElement.index + higher.index) / 2.0;
+                medianElement = new Element(newMedianValue, newMedianIndex);
+            } else { // curEle.compareTo(medianElement) < 0，因为有index在，所以 curEle 永远不可能 == medianElement
+                Element lower = ts.lower(medianElement);
+                double newMedianValue = (medianElement.value + lower.value) / 2.0;
+                double newMedianIndex = (medianElement.index + lower.index) / 2.0;
+                medianElement = new Element(newMedianValue, newMedianIndex);
+            }
+        }
+        // 如果加入 cur element 之前，tree set里有偶数个elements
+        else { // count % 2 == 1
+            if (curEle.compareTo(medianElement) > 0) {
+                medianElement = ts.higher(medianElement);
+            } else { // curEle.compareTo(medianElement) < 0
+                medianElement = ts.lower(medianElement);
+            }
+        }        
+        
+    }
+    
+    public double findMedian() {
+        return medianElement.value;   
+    }
+}
+```
 
 ## Reference
 * [Find Median from Data Stream [LeetCode]](https://leetcode.com/problems/find-median-from-data-stream/description/)
