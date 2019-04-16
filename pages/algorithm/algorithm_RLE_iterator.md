@@ -52,18 +52,17 @@ but the second term did not exist.  Since the last term exhausted does not exist
 ```
 
 ## Solution
-哦也
 
 ### Complexity
 * Time: O(n)
-* Space: O(n)
+* Space: O(1)
 
 ### Java
 ```java
 class RLEIterator {
-	private int[] nums;
-	private int index;
-	private int count;
+    private int[] nums;
+    private int index;
+    private int count;
 
     // 我们的做法，不改变输入进来的数组 nums
     public RLEIterator(int[] nums) {
@@ -78,15 +77,15 @@ class RLEIterator {
             return -1;
         }
         
-		// proceed to the next number in the array
-		while (n > count && index < nums.length) {
-			n -= count;
-			index += 2;
+	// proceed to the next number in the array
+	while (n > count && index < nums.length) {
+	    n -= count;
+	    index += 2;
 
-			if (index == nums.length) {
-				return -1;
+	    if (index == nums.length) {
+		return -1;
             }
-			count = nums[index];
+	    count = nums[index];
         }
         
         // index < nums.length && n <= count
