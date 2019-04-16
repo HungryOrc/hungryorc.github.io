@@ -15,8 +15,8 @@ toc: false
 * 在一个组合里，总的元素个数限定为 k 个，不能多不能少！
 * 在一个组合里，每个元素的出现顺序如果改变，还算是同一个组合
 
-Find all possible combinations of k numbers that add up to a number n, 
-given that only numbers from 1 to 9 can be used and each combination should be a unique set of numbers.
+Find all possible combinations **of k numbers** that add up to a number n, 
+given that **only numbers from 1 to 9 can be used** and each combination should be a unique set of numbers.
 
 ### Example
 * Input: k = 3, target = 7
