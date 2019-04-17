@@ -4,7 +4,7 @@ tags: [algorithm]
 keywords: wall, obstacle, break
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_shortest_path_in_matrix_with_max_wall_breaking_counts.html
+permalink: algorithm_shortestPathInMatrix_MaxWallBreakingCounts.html
 folder: algorithm
 toc: false
 ---
