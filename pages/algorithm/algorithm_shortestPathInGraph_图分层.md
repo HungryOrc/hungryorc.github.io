@@ -30,28 +30,131 @@ node 有cost，edge 有cost，求第一层的任意点到最后一层的任意�
 * Space: O(n) <=== ？？？？
 
 ### Java
+逻辑并不算复杂。去掉2个helper classes和最后的main function之后，代码并不长
 ```java
+class Node {
+    char label;
+    int selfCost;
+    // 注意必须区分对待这两种costs！一个node出生时cost可能为5，但考察了从上面下来的到达它的所有paths以后，
+    // 这些paths到达它的时候的 path cost 也许分别是 15,25,50，那么这个node的path cost就是15
+    int pathCost; 
+    List<Edge> edges;
+    
+    public Node(char l, int sc, int pc) {
+        label = l;
+        selfCost = sc;
+        pathCost = pc;
+        edges = new ArrayList<Edge>();
+    }
+}
+
 class Edge {
-    int cost;
+    int selfCost;
     Node destiNode;
-    public Edge(int c, Node d) {
-        cost = c;
+    
+    public Edge(int sc, Node d) {
+        selfCost = sc;
         destiNode = d;
     }
 }
 
-class Node {
-    int cost;
-    List<Node> nextNodes;
-    public Node(int c) {
-        cost = c;
-        nextNodes = new ArrayList<Node>();
+public class Solution {
+    public int shortestPath(Map<Character, Node> layerOneNodes) {
+        if (layerOneNodes == null || layerOneNodes.size() == 0) {
+            return 0;
+        }
+        
+        // <label, node>，之所以要搞这么一个map，而不是直接把nodes放到一个set里，
+        // 是为了避免为 Node class 写 hashCode 和 equals 方法
+        Map<Character, Node> curLayerNodes = layerOneNodes;
+        Map<Character, Node> nextLayerNodes = new HashMap<>();
+        Map<Character, Node> prevLayerNodes = null;
+        
+        // 最后一层再往下就没有nodes了，所以到了最后一层的再下一层的时候，就会终止这个while loop
+        while (curLayerNodes.size() > 0) {
+            for (Node curNode : curLayerNodes.values()) {
+                // 对于第一层的nodes来说，它们的self cost和path cost必须是一样的，
+                // 这是在初始化这些第一层的nodes的时候保证的
+                int curNodeCost = curNode.pathCost;
+                
+                for (Edge edge : curNode.edges) {
+                    int curEdgeCost = edge.selfCost;
+                    
+                    Node destiNode = edge.destiNode;
+                    char destiNodeLabel = destiNode.label;
+                    
+                    Node existingNodeWithThisLabel = nextLayerNodes.get(destiNodeLabel);
+                    if (existingNodeWithThisLabel == null) {
+                        destiNode.pathCost = curNodeCost + curEdgeCost + destiNode.selfCost; // 别忘了这个
+                        nextLayerNodes.put(destiNodeLabel, destiNode);
+                    } else {
+                        existingNodeWithThisLabel.pathCost = Math.min(
+                            existingNodeWithThisLabel.pathCost, 
+                            curNodeCost + curEdgeCost + existingNodeWithThisLabel.selfCost);
+                    }
+                }
+            }
+            
+            prevLayerNodes = curLayerNodes;
+            curLayerNodes = nextLayerNodes;
+            nextLayerNodes = new HashMap<>();
+        }
+        
+        // 找最后一层nodes里，path cost 最小的一个
+        int minPathCost = Integer.MAX_VALUE;
+        for (Node node : prevLayerNodes.values()) {
+            minPathCost = Math.min(minPathCost, node.pathCost);
+        }
+        return minPathCost;
+    }
+
+    // ------------------------------------------------------
+    // main
+    // 
+    //   a     b
+    //    \   /
+    //      c
+    //    / | \
+    //   d  e  f
+    //
+    public static void main(String[] args) {
+        Node a = new Node('a', 10, 10); // 第一层的node，path cost和self cost必须相等
+        Node b = new Node('b', 20, 20); // 第一层的node，path cost和self cost必须相等
+        Node c = new Node('c', 30, Integer.MAX_VALUE);
+        Node d = new Node('d', 40, Integer.MAX_VALUE);
+        Node e = new Node('e', 50, Integer.MAX_VALUE);
+        Node f = new Node('f', 60, Integer.MAX_VALUE);
+        
+        Edge ac = new Edge(1, c);
+        Edge bc = new Edge(2, c);
+        Edge cd = new Edge(3, d);
+        Edge ce = new Edge(4, e);
+        Edge cf = new Edge(5, f);
+        
+        List<Edge> edges = new ArrayList<>();
+        // for Node a
+        edges.add(ac);
+        a.edges = new ArrayList<>(edges); // 新new一个list出来
+        // for Node b
+        edges = new ArrayList<>(); // 清空
+        edges.add(bc);
+        b.edges = new ArrayList<>(edges);
+        // for Node c
+        edges = new ArrayList<>();
+        edges.add(cd);
+        edges.add(ce);
+        edges.add(cf);
+        c.edges = edges; // 最后一层了，不需要再new一个list了，直接用这个list即可
+        
+        Map<Character, Node> layerOneNodes = new HashMap<>();
+        layerOneNodes.put('a', a);
+        layerOneNodes.put('b', b);
+        
+        Solution solu = new Solution();
+        int result = solu.shortestPath(layerOneNodes);
+        System.out.println(result); // 84 = 10(a) + 1(ac) + 30(c) + 3(cd) + 40(d)
     }
 }
-
-
-
-
 ```
 
 ## Reference
