@@ -31,6 +31,26 @@ node 有cost，edge 有cost，求第一层的任意点到最后一层的任意�
 
 ### Java
 ```java
+class Edge {
+    int cost;
+    Node destiNode;
+    public Edge(int c, Node d) {
+        cost = c;
+        destiNode = d;
+    }
+}
+
+class Node {
+    int cost;
+    List<Node> nextNodes;
+    public Node(int c) {
+        cost = c;
+        nextNodes = new ArrayList<Node>();
+    }
+}
+
+
+
 
 ```
 
