@@ -27,7 +27,7 @@ node 有cost，edge 有cost，求第一层的任意点到最后一层的任意�
 
 ### Complexity
 * Time: O(|V| + |E|)，因为每个点和每个边都要考察。然后本图的分层的情况不定，所以|V|和|E|的量级关系不定 <=== ？？？？
-* Space: O(n) <=== ？？？？
+* Space: O(|V| + |E|)，map里既要装nodes，又要装edges <=== ？？？？
 
 ### Java
 逻辑并不算复杂。去掉2个helper classes和最后的main function之后，代码并不长
@@ -85,7 +85,7 @@ public class Solution {
                     
                     Node existingNodeWithThisLabel = nextLayerNodes.get(destiNodeLabel);
                     if (existingNodeWithThisLabel == null) {
-                        destiNode.pathCost = curNodeCost + curEdgeCost + destiNode.selfCost; // 别忘了这个
+                        destiNode.pathCost = curNodeCost + curEdgeCost + destiNode.selfCost;
                         nextLayerNodes.put(destiNodeLabel, destiNode);
                     } else {
                         existingNodeWithThisLabel.pathCost = Math.min(
