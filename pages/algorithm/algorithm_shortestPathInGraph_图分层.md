@@ -9,7 +9,7 @@ folder: algorithm
 toc: false
 ---
 
-## Description：Google onsite 题
+## Description：Google Onsite 题
 给几层点，每两层之间fully connected (比如第一层的任意点和第二层的任意点都**直接**相连， 不相邻的层之间不相连)。
 node 有cost，edge 有cost，求第一层的任意点到最后一层的任意点的所有路径中，最小cost是多少
 
