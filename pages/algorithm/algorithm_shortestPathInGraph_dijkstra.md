@@ -4,7 +4,7 @@ tags: [algorithm, algorithm_overview]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_dijkstra_shortest_path.html
+permalink: algorithm_shortestPathInGraph_dijkstra.html
 folder: algorithm
 toc: false
 ---
