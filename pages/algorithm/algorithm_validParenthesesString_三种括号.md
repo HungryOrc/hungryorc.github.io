@@ -18,9 +18,9 @@ An input string is valid if:
 Note that an empty string is also considered valid.
 
 ### Example
-* Input: "([)]"
+* Input: `([)]`
   * Output: false
-* Input: "([)[]]((()))"
+* Input: `([)[]]((()))`
   * Output: true
 
 ## Solution：速度前1%
