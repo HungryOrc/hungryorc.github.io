@@ -55,15 +55,14 @@ class Solution {
     }
     
     private void dfs(TreeNode node, int curNum, int[] sum) {
+        curNum *= 10;
+        curNum += node.val;
+        
         if (node.left == null && node.right == null) {
-            curNum *= 10;
-            curNum += node.val;
             sum[0] += curNum;
             return;
         }
         
-        curNum *= 10;
-        curNum += node.val;
         if (node.left != null) {
             dfs(node.left, curNum, sum);
         }
