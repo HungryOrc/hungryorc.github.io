@@ -58,6 +58,8 @@ class Solution {
         curNum *= 10;
         curNum += node.val;
         
+        // 这里不要用 node == null 这样的结束条件！因为如果那样，就会导致
+        // 对于每个leaf node，它的左右children都是null，那么这个leaf node会被算两次
         if (node.left == null && node.right == null) {
             sum[0] += curNum;
             return;
@@ -69,6 +71,46 @@ class Solution {
         if (node.right != null) {
             dfs(node.right, curNum, sum);
         }
+    }
+}
+```
+
+## Solution 2：DFS iteration，一种思路很清奇的做法
+
+### Complexity
+* Time: O(n)，n是nodes的个数 <=== ？？？
+* Space: O(n)，stack size <=== ？？？
+
+### Java
+```java
+class Solution {
+    public int sumNumbers(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        
+        int sum = 0;
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        
+        while (!stack.isEmpty()) {
+            TreeNode curNode = stack.pop();
+            int curVal = curNode.val;
+            
+            if (curNode.left != null) {
+                curNode.left.val += curVal * 10;
+                stack.push(curNode.left);
+            }
+            if (curNode.right != null) {
+                curNode.right.val += curVal * 10;
+                stack.push(curNode.right);
+            }
+            
+            if (curNode.left == null && curNode.right == null) {
+                sum += curNode.val;
+            }
+        }
+        return sum;
     }
 }
 ```
