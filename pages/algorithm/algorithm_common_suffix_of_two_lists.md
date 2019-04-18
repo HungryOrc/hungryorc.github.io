@@ -87,30 +87,53 @@ a->b->c->b->c->d
 ```java
 public class Solution {
     public int longestCommonSuffix(ListNode head1, ListNode head2) {
-        ListNode tail1 = reverseList(head1);
-        ListNode tail2 = reverseList(head2);
+        int len1 = getListLength(head1);
+        int len2 = getListLength(head2);
         
-        int result = 0;
-        while (tail1 != null && tail2 != null && tail1.val == tail2.val) {
-            result++;
-            tail1 = tail1.next; // 这里的 next node其实就是反转前的previous node
-            tail2 = tail2.next;
+        if (len1 >= len2) {
+            head1 = proceedNSteps(head1, len1 - len2);
+        } else {
+            head2 = proceedNSteps(head2, len2 - len1);
         }
-        return result;
+        return getCommonSuffix(head1, head2, Math.min(len1, len2));
     }
 
-    private ListNode reverseList(ListNode node) {
-        if (node == null || node.next == null) {
-            return node;
+    private int getListLength(ListNode head) {
+        if (head == null) {
+            return 0;
         }
         
-        ListNode nextNode = node.next;
-        ListNode newHead = reverseList(nextNode);
+        int len = 0;
+        ListNode cur = head;
+        while (cur != null) {
+            len++;
+            cur = cur.next;
+        }
+        return len;
+    }
+    
+    private ListNode proceedNSteps(ListNode head, int step) {
+        for (int i = 1; i <= step; i++) {
+            head = head.next;
+        }
+        return head;
+    }
+    
+    // now we must have list1 and list2 have the same length
+    private int getCommonSuffix(ListNode head1, ListNode head2, int commonLength) {
+        int count = 0;
+        int result = 0;
         
-        nextNode.next = node;
-        node.next = null;
-        
-        return newHead;
+        while (head1 != null) { // head1 和 head2 必然是同时reach null
+            count++;
+            if (head1.val != head2.val) {
+                result = commonLength - count;
+            }
+            
+            head1 = head1.next;
+            head2 = head2.next;
+        }
+        return result;
     }
 }
 ```
