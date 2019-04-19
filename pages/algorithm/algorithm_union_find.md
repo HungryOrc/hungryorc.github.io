@@ -222,8 +222,8 @@ class WeightedTreeUnionFind {
 ## Implementation Stage 4: Path Compression Weighted Tree Union Find
 基于前述的 Tree Union Find 的改进。也是要降低树的高度，但是方式更猛：不断地把各个object直接接在当前group的root object的下面。
 
-但要特别注意：这种给root做儿子的操作不是无时无刻在进行的！只是在每次对一个object A 做getRoot即getGroupID操作的时候，才把A和A的各级 **直系** 祖宗的parent都设为这个root。
-* 这个压缩高度的操作**并不惠及兄弟和叔伯！**
+但要特别注意：这种给root做儿子的操作不是无时无刻在进行的！只是在每次对一个object A 做getRoot即getGroupID操作的时候，才把A和A的各级 **直系 parent** 都设为这个root。
+* 这个压缩高度的操作**并不惠及兄弟和叔伯！也不惠及所有直系和旁系的子孙！只惠及它自己本身以及它的各级直系父亲！**
 * 所以比如在做union(a, b)的时候，
   * 先分别对a和b做这种认root做父的操作
   * 然后把这两个tree连在一起，即把size较小的tree的root变成较大的tree的root的 direct child
