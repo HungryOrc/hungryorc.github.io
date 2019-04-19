@@ -246,13 +246,15 @@ class PathCompressionWeightedTreeUnionFind {
     
     public int getGroupID(int a) {
         int curIndex = a;
+        
+        // step 1, get group ID
         while (curIndex != parentIDs[curIndex]) {
             curIndex = parentIDs[curIndex];
         }
         int groupID = curIndex; // namely the index of root object
         
         // <=== this is the new stuff!!
-        // update the parent id of object a and a's every ancestor to be
+        // step 2, update the parent id of object a and a's every ancestor to be
         // the group id, namely the id of the root object
         curIndex = a;
         while (curIndex != groupID) {
