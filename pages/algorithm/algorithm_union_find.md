@@ -327,7 +327,7 @@ class PathCompressionWeightedTreeUnionFind {
   * 一个新来的比例关系可能会往现有的group里增加一个元素。还有可能把2个现有的group连接在一起。比如现有a,b,c 和d,e,f,g,h 这两个groups。如果来了一个比例关系是 e/b = 5.0，则a,b,c,d,e,f,g,h 就全连成一个group了。那么部分元素的ratio值就要调整。见下面的例子：
   * 已有的关系（数字表示本元素的值是本group的root元素的值的 多少倍）：
     ```
-    a(1.0, root of group one)         d(1.0, root of group two)
+    a(1.0, root of group a)         d(1.0, root of group d)
        |                                /       \
     b(0.5)                          e(0.33)     f(0.25)
        |                                        /    \
@@ -344,7 +344,27 @@ class PathCompressionWeightedTreeUnionFind {
     * **b的ratio要从0.5 变成 0.066，那么 b的所有直系父辈的ratio 都要按这个幅度变，即它们的ratio都要 除以0.5，再乘以0.066**
     * **同时，b和b的所有直系父辈的 parent id 都变为 d**
     * **其他的所有元素的ratio都不变，parent id 也不变**
-  
+  * 合并以后的group：
+    ```
+            d(1.0, root of group d)
+          /       |         |       \
+    b(0.066)   a(0.132)   e(0.33)   f(0.25)
+       |                             /    \
+    c(0.25)                       g(0.5)   h(2.0)
+    ```  
+* 对于一个元素a，getRoot(a) 的过程里，按照path compression的惯例，是要把a和a的所有直系父辈的parent id 都设为本group的group id。而现在我们对于每个元素都有ratio值，所以这个过程里也要把这些元素的ratio值都更新一下。举例如下图：
+  ```
+         f(1.0)                                                      f(1.0)
+      /    |    \                                      /    |     |           |        \
+  b(2.5)  c(2)   g(4.1)                            b(2.5)  c(2)  h(2*0.3)  a(2*0.3*7)  g(4.1)
+         /   \       |        get root for a 之后            |     |           |         |
+     h(0.3)  i(6)   k(0.66)    ===============>            i(6)  j(0.1)     t(9.2)     k(0.66)
+      /  \           |                                            |                      |
+   a(7)  j(0.1)     m(5)                                         p(3.4)                m(5)
+    |      |                                                      
+  t(9.2)  p(3.4)                                             
+  ```
+
 
 ### Java
 ```java
