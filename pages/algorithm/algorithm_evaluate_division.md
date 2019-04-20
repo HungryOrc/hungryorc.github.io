@@ -37,7 +37,7 @@ The input is always valid. You may assume that evaluating the queries will resul
 
 ## Solution 1：用 Union Find 来做。难度高。速度快(前5%)。我死磕了一天一夜
 这里用的 Union Find 是所有 UF 里比较高端第一种：用Tree的思想实现的，用group size做weight的，不断进行path compression的UF，而且还
-带上了各个element之间的ratio值。我在这个repo里专门有一篇md记录 UF，[在此]()。
+带上了各个element之间的ratio值。我在这个repo里专门有一篇md记录 UF [在此](https://github.com/HungryOrc/hungryorc.github.io/edit/master/pages/algorithm/algorithm_union_find.md)。
 
 ### Complexity
 * Time: 得到每一个新的 `x/y` 的耗时：armortized O(1) <=== 对么 ？？？
