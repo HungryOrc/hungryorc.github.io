@@ -48,10 +48,12 @@ The input is always valid. You may assume that evaluating the queries will resul
 public class Solution {
     
     // 这个函数里没什么特别的东西，逻辑简单，精华都在 class UnionFind 里
-    public double[] calcEquation(String[][] equations, double[] values, String[][] queries) {
+    public double[] calcEquation(String[][] equations, double[] values, 
+            String[][] queries) {
         
-        // 真正不重复的元素一定没有 equations.length * 2 那么多个，因为equations里有重复元素，但直接这么写简单，
-        // 这么写就不需要先找出一共有多少个不重复的元素，再设置UF，再从头捋一遍equations来实施各个unions
+        // 真正不重复的元素一定没有 equations.length * 2 那么多个，因为equations里有重复元素，
+        // 但直接这么写就不需要先找出一共有多少个不重复的元素，再设置UF，
+        // 再从头捋一遍equations来实施各个unions
         PathCompressionWeightedTreeUnionFind uf = 
             new PathCompressionWeightedTreeUnionFind(equations.length * 2);
         
