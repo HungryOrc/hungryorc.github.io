@@ -37,7 +37,7 @@ The input is always valid. You may assume that evaluating the queries will resul
 
 ## Solution 1：用 Union Find 来做。难度高。速度快(前5%)。我死磕了一天一夜
 这里用的 Union Find 是所有 UF 里比较高端第一种：用Tree的思想实现的，用group size做weight的，不断进行path compression的UF，而且还
-带上了各个element之间的ratio值。我在这个repo里专门有一篇md记录 UF [在此](https://github.com/HungryOrc/hungryorc.github.io/edit/master/pages/algorithm/algorithm_union_find.md)。
+带上了各个element之间的ratio值。我在这个repo里专门有一篇md记录 UF [在此](https://github.com/HungryOrc/hungryorc.github.io/edit/master/pages/algorithm/algorithm_union_find.md)，这个解法里用到的 helper class `PathCompressionWeightedTreeUnionFindWithRatiosBetweenElements` 就在上面这个文档里写了，是末尾的单独的一个小节。在这里就不重写这个 UF class 了
 
 ### Complexity
 * Time: 得到每一个新的 `x/y` 的耗时：armortized O(1) <=== 对么 ？？？
@@ -103,108 +103,6 @@ public class Solution {
             result[i] = uf.divideAByB(index1, index2);            
         }
         return result;
-    }
-}
-
-// With Ratios between elements
-class PathCompressionWeightedTreeUnionFind {
-    public int[] parentIDs;
-    private int[] groupSizes;
-    public double[] ratios; // 当前元素 除以 group root 元素，等于多少，就是这个ratio值
-
-    public PathCompressionWeightedTreeUnionFind(int n) {
-        this.parentIDs = new int[n];
-        this.groupSizes = new int[n];
-        this.ratios = new double[n];
-        
-        for (int i = 0; i < n; i++) {
-            parentIDs[i] = i;
-            groupSizes[i] = 1;
-            ratios[i] = 1.0; // 一开始对于每个元素来说，它的root就是它自己，所以ratio也都是 1.0（自己除以自己）
-        }
-    }
-    
-    public int getGroupID(int index) {
-        int curIndex = index;
-        List<Integer> list = new ArrayList<>();
-        
-        // step 1, get group ID, 顺便也把所有 直系父辈 的indexes都拿到，放到list里，
-        // list从左到右依次是：自己，老豆，爷爷，太爷...
-        while (curIndex != parentIDs[curIndex]) {
-            list.add(curIndex);
-            curIndex = parentIDs[curIndex];
-        }
-        int groupID = curIndex;
-        
-        // step 2, update the parent id of the object and all its direct ancestors to be the group id,
-        // and also update the ratios of the object and all its direct ancestors
-        int n = list.size();
-        // 从倒数第二个元素开始，因为倒数第一个元素的parent就是root，所以倒数第一个元素的ratio是不需要更改的
-        for (int i = n - 2; i >= 0; i--) {
-            // 更新ratio值
-            curIndex = list.get(i);
-            int parentIndex = list.get(i + 1);
-            ratios[curIndex] *= ratios[parentIndex];
-            // 更新parent id 为 root id 即 group id
-            parentIDs[curIndex] = groupID;
-        }
-        return groupID;
-    }
-
-    public boolean find(int a, int b) {
-        int groupIDA = getGroupID(a);
-        int groupIDB = getGroupID(b);
-        
-        return groupIDA == groupIDB;
-    }
-
-    public void union(int a, int b, double ratioADivideByB) {
-        int groupIDA = getGroupID(a);
-        int groupIDB = getGroupID(b);
-        
-        if (groupIDA == groupIDB) {
-            return;
-        }
-
-        if (groupSizes[groupIDA] >= groupSizes[groupIDB]) {
-            parentIDs[groupIDB] = groupIDA;
-            groupSizes[groupIDA] += groupSizes[groupIDB];
-            
-            // 更新 b 和 b的所有直系父辈 的ratio，以及group id
-            double ratioBDivideByA = 1.0 / ratioADivideByB;
-            int curIndex = b;
-            double ratioFactor = (ratioBDivideByA * ratios[a] / ratios[b]);
-            while (parentIDs[curIndex] != curIndex) {
-                int parentID = parentIDs[curIndex];
-                ratios[curIndex] *= ratioFactor;
-                parentIDs[curIndex] = groupIDA;
-                curIndex = parentID;
-            }
-        } 
-        else {
-            parentIDs[groupIDA] = groupIDB;
-            groupSizes[groupIDB] += groupSizes[groupIDA];
-            
-            // 更新 a 和 a的所有直系父辈 的ratio，以及group id
-            int curIndex = a;
-            double ratioFactor = ratioADivideByB * ratios[b] / ratios[a];
-            while (parentIDs[curIndex] != curIndex) {
-                int parentID = parentIDs[curIndex];
-                ratios[curIndex] *= ratioFactor;
-                parentIDs[curIndex] = groupIDB;
-                curIndex = parentID;
-            }
-        }
-    }
-    
-    public double divideAByB(int a, int b) {
-        // 如果a和b不在一个group里，则它们之间不可相除，因为它们之间根本毫无关联
-        if (!find(a, b)) {
-            return -1.0;
-        }
-        
-        // 到了这里的时候，a和b的ratio值必然都是它们相对于它们的(共同的)root element 的倍数值了
-        return ratios[a] / ratios[b];
     }
 }
 ```
