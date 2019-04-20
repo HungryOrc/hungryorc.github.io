@@ -391,7 +391,8 @@ class PathCompressionWeightedTreeUnionFindWithRatiosBetweenElements {
         for (int i = 0; i < n; i++) {
             parentIDs[i] = i;
             groupSizes[i] = 1;
-            ratios[i] = 1.0; // 一开始对于每个元素来说，它的root就是它自己，所以ratio也都是 1.0（自己除以自己）
+            // 一开始对于每个元素来说，它的root就是它自己，所以ratio也都是 1.0（自己除以自己）
+            ratios[i] = 1.0;
         }
     }
     
@@ -407,10 +408,11 @@ class PathCompressionWeightedTreeUnionFindWithRatiosBetweenElements {
         }
         int groupID = curIndex;
         
-        // step 2, update the parent id of the object and all its direct ancestors to be the group id,
-        // and also update the ratios of the object and all its direct ancestors
+        // step 2, update the parent id of the object and all its direct ancestors to be 
+        // the group id, and also update the ratios of them
         int n = list.size();
-        // 从倒数第二个元素开始，因为倒数第一个元素的parent就是root，所以倒数第一个元素的ratio是不需要更改的
+        // 从倒数第二个元素开始，因为倒数第一个元素的parent就是root，
+        // 所以倒数第一个元素的ratio是不需要更改的
         for (int i = n - 2; i >= 0; i--) {
             // 更新ratio值
             curIndex = list.get(i);
@@ -474,7 +476,7 @@ class PathCompressionWeightedTreeUnionFindWithRatiosBetweenElements {
             return -1.0;
         }
         
-        // 到了这里的时候，a和b的ratio值必然都是它们相对于它们的(共同的)root element 的倍数值了
+        // 到了这里的时候，a和b的ratio值必然都是它们相对于它们的(共同的)root element的倍数值了
         return ratios[a] / ratios[b];
     }
 }
