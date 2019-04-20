@@ -327,14 +327,23 @@ class PathCompressionWeightedTreeUnionFind {
   * 一个新来的比例关系可能会往现有的group里增加一个元素。还有可能把2个现有的group连接在一起。比如现有a,b,c 和d,e,f,g,h 这两个groups。如果来了一个比例关系是 e/b = 5.0，则a,b,c,d,e,f,g,h 就全连成一个group了。那么部分元素的ratio值就要调整。见下面的例子：
   * 已有的关系（数字表示本元素的值是本group的root元素的值的 多少倍）：
     ```
-    a(1, root of group one)         d(1, root of group two)
-    |                              /       \
-    b(0.5)                      e(0.33)     f(0.25)
-    |                                       /    \
-    c(0.25)                              g(0.5)   h(2.0)
+    a(1.0, root of group one)         d(1.0, root of group two)
+       |                                /       \
+    b(0.5)                          e(0.33)     f(0.25)
+       |                                        /    \
+    c(0.25)                                g(0.5)     h(2.0)
     ```
-  * 新加的关系：
-  
+  * 新加的关系：e 是 b 的5倍：
+    ```
+    e(1.0)
+       |
+    b(0.2)
+    ```
+  * 因为b所在的group的size是3，小于e所在的group的size(5)，所以要把b的root即a并到e的root即d的下面。a将成为d的一个新的直接儿子
+  * 难点在于，**b的ratio在新的以d为root的tree里要改变为 0.33(e在d树里的ratio) * 0.2(b/e的值) = 0.066**。还有哪些元素的ratio要改？怎么改？
+    * **b的ratio要从0.5 变成 0.066，那么 b的所有直系父辈的ratio 都要按这个幅度变，即它们的ratio都要 除以0.5，再乘以0.066**
+    * **同时，b和b的所有直系父辈的 parent id 都变为 d**
+    * **其他的所有元素的ratio都不变，parent id 也不变**
   
 
 ### Java
