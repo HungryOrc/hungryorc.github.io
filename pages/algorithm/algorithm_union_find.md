@@ -73,7 +73,11 @@ class ArrayUnionFind {
 Maintain an int array of size n, array[i] is the **Parent ID** of the i-th object, **not the Group ID** (namely the index of the "**root**" object of this group) of the i-th object!
 * 如果一个object的parent等于它自己，那么意味着这个object就是一个group的root
 
-And when we meger two groups, we set either one group's root to be the **DIRECT** child of the other group's root. We have an example below:
+And when we meger two groups, we set either one group's root to be the **DIRECT** child of the other group's root
+
+在这种实现方式里
+* 每次做 `find(int a, int b)`，**都要先找 a 和 b 的 root**
+* 每次做 `union(int a, int b)`，**也都要先找 a 和 b 的 root**
 
 ### Example
 ```
@@ -315,6 +319,23 @@ class PathCompressionWeightedTreeUnionFind {
 * 要求其他的元素之间的ratios（如果这个ratio不存在即这两个元素不属于同一个group，则返回 -1.0）
 * LeetCode上有一道题就是这种类型，叫[Eveluate Division](https://leetcode.com/problems/evaluate-division/description/)
 
+实施细节
+* 每个元素要带上一个double值，表达它的ratio。具体来说，这个ratio是这个元素所在的group的root元素的值 除以 这个元素的值 得到的商
+* 每次我们拿到一个新的比例关系的时候，比如 `a/b = 2.5`，我们要把它表达到UF里面去。方式就是用 `union` 来做。因为此时a和b算是在同一个group里了
+  * 同一个group里的元素之间都有ratio关系。不过如上一条所说，它们具体记录下来的ratio值规定为 它们与root元素的比值
+  * 在一个group里，任何新加入的元素比例关系不能破坏原有的关系，否则无效。比如我们已知 a/b=2.0，b/c=3.0，但如果再来一个 a/c=5.5，那么新来的这个是不可接受的。在这里我们假定所有新加入的比例关系都不破坏原有的所有关系
+  * 一个新来的比例关系可能会往现有的group里增加一个元素。还有可能把2个现有的group连接在一起。比如现有a,b,c 和d,e,f,g,h 这两个groups。如果来了一个比例关系是 e/b = 5.0，则a,b,c,d,e,f,g,h 就全连成一个group了。那么部分元素的ratio值就要调整。见下面的例子：
+  * 已有的关系（数字表示本元素的值是本group的root元素的值的 多少倍）：
+    ```
+    a(1, root of group one)         d(1, root of group two)
+    |                              /       \
+    b(0.5)                      e(0.33)     f(0.25)
+    |                                       /    \
+    c(0.25)                              g(0.5)   h(2.0)
+    ```
+  * 新加的关系：
+  
+  
 
 ### Java
 ```java
