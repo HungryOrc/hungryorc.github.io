@@ -408,8 +408,8 @@ class PathCompressionWeightedTreeUnionFindWithRatiosBetweenElements {
         }
         int groupID = curIndex;
         
-        // step 2, update the parent id of the object and all its direct ancestors to be 
-        // the group id, and also update the ratios of them
+        // step 2, update the parent id of the object and all its direct ancestors 
+        // to be the group id, and also update the ratios of them
         int n = list.size();
         // 从倒数第二个元素开始，因为倒数第一个元素的parent就是root，
         // 所以倒数第一个元素的ratio是不需要更改的
