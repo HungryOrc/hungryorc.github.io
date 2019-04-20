@@ -369,6 +369,12 @@ class PathCompressionWeightedTreeUnionFind {
   t(9.2)  p(3.4)                                             
   ```
 
+#### Find
+* 这种UF的`find(a, b)` 和一般的 Path Compression UF 没有区别。一样是先get root for a and b respectively（在这个过程里已经偷偷地做了上文提及的那些事），然后compare这两个root是否相等
+
+#### Get an Unknown Ratio of x/y
+* 先做 `find(x, y)`。如果x和y不在一个group里，则返回 -1.0
+* 再看a和b的ratio分别是多少，把它们相除就行了。因为刚才在find函数运行的时候，已经偷偷把它们两的ratio值都更新了，都是相对于同一个root的ratio
 
 ### Java
 ```java
