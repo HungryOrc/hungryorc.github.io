@@ -46,6 +46,11 @@ class ArrayUnionFind {
     public void union(int a, int b) {
         int groupIDA = groupIDs[a];
         int groupIDB = groupIDs[b];
+        
+        if (groupIDA == groupIDB) {
+            return;
+        }
+        
         for (int i = 0; i < groupIDs.length; i++) { // 一个一个查，一个一个写
             if (groupIDs[i] == groupIDB) {
                 groupIDs[i] = groupIDA;
@@ -195,6 +200,10 @@ class WeightedTreeUnionFind {
         int groupIDA = getGroupID(a); // time: O(n)
         int groupIDB = getGroupID(b); // time: O(n)
         
+        if (groupIDA == groupIDB) {
+            return;
+        }
+        
         if (groupSizes[groupIDA] >= groupSizes[groupIDB]) {
             parentIDs[groupIDB] = groupIDA;
             groupSizes[groupIDA] += groupSizes[groupIDB];
@@ -277,6 +286,10 @@ class PathCompressionWeightedTreeUnionFind {
     public void union(int a, int b) { // <=== this function unchanged
         int groupIDA = getGroupID(a);
         int groupIDB = getGroupID(b);
+        
+        if (groupIDA == groupIDB) {
+            return;
+        }
         
         if (groupSizes[groupIDA] >= groupSizes[groupIDB]) {
             parentIDs[groupIDB] = groupIDA;
