@@ -109,6 +109,104 @@ public class Solution {
 }
 ```
 
+## Solution 2：DFS，速度很慢
+
+### Complexity
+* Time: 得到每一个新的 `x/y` 的耗时：O(n)，n是元素的个数 <=== 对么 ？？？
+* Space: O(n) <=== 对么 ？？？
+
+### Java
+代码看起来长，其实就是普通的用stack做的DFS
+```java
+class Solution {
+    public double[] calcEquation(String[][] equations, double[] values, String[][] queries) {
+        // <string a, Map<string b, ratio a/b>>
+        Map<String, Map<String, Double>> ratios = new HashMap<>();
+        
+        // step 1
+        // 我们认为equations数组里没有重复的元素，也没有自相矛盾的元素
+        for (int i = 0; i < equations.length; i++) {
+            String[] pair = equations[i];
+            String a = pair[0];
+            String b = pair[1];
+            double ratio = values[i];
+            
+            Map<String, Double> mapA = ratios.get(a);
+            if (mapA == null) {
+                mapA = new HashMap<String, Double>();
+            }
+            mapA.put(b, ratio);
+            ratios.put(a, mapA);
+            
+            Map<String, Double> mapB = ratios.get(b);
+            if (mapB == null) {
+                mapB = new HashMap<String, Double>();
+            }
+            mapB.put(a, 1.0 / ratio);
+            ratios.put(b, mapB);
+        }
+        
+        int n = queries.length;
+        double[] results = new double[n];
+        
+        // step 2
+        for (int i = 0; i < n; i++) {
+            String[] pair = queries[i];
+            String a = pair[0];
+            String b = pair[1];
+            
+            if (!ratios.containsKey(a) || !ratios.containsKey(b)) {
+                results[i] = -1.0;
+                continue;
+            }
+            if (a.equals(b)) {
+                results[i] = 1.0;
+                continue;
+            }
+            
+            Set<String> visited = new HashSet<>();
+            visited.add(a);
+            
+            Stack<String> strStack = new Stack<>();
+            strStack.push(a);
+            Stack<Double> ratioStack = new Stack<>();
+            ratioStack.push(1.0);
+            double result = -1.0;
+            
+            while (!strStack.isEmpty()) {
+                String curStr = strStack.pop();
+                double curRatio = ratioStack.pop();
+                
+                Map<String, Double> map = ratios.get(curStr);
+                for (Map.Entry<String, Double> entry : map.entrySet()) {
+                    String s = entry.getKey();
+                    double ratio = entry.getValue();
+                    ratio *= curRatio;
+                    
+                    if (visited.contains(s)) {
+                        continue;
+                    }
+                    
+                    if (s.equals(b)) { // if found b
+                        result = ratio;
+                        break;
+                    }
+                    
+                    strStack.push(s);
+                    ratioStack.push(ratio);
+                }
+                
+                if (result != -1.0) { // if found b
+                    break;
+                }
+            }
+            results[i] = result;
+        }
+        return results;
+    }
+}
+```
+
 ## Reference
 * [Evaluate Division [LeetCode]](https://leetcode.com/problems/evaluate-division/description/)
 
