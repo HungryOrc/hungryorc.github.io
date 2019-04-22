@@ -16,7 +16,7 @@ KMP 是用 O(n + m) 时间完成在一个 String `source` (长度n) 里寻找一
 `word`里了。我们在`word`里的任何一个位置发生匹配失败的时候，都能在`word`里的某个位置重新开始比对，而未必需要总是回到`word`的第一个char，
 那么到底回到哪一位，我们是可以从`word`本身完全知道的，和任何`source`都没有关系
 
-那么对于`word`里的每一位，匹配失败后回到哪一位去继续找，这些信息我们用一个所谓的 Rollback Array `T` 来表示。举例：
+那么对于`word`里的每一位，匹配失败后回到哪一位去继续找，这些信息我们用一个所谓的 Rollback Array `T` 来表示，这个 T 就是 KMP 算法的核心。举例：
 ```java
 String source = "TRY PARTICIPATE IN PARACHUTE, IT WILL THROW THE GUT OUT OF YOU!";
 String word = "PARTICIPATE IN PARACHUTE"; // the String to find
@@ -26,7 +26,12 @@ index i   0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
 word[i]   P  A  R  T  I  C  I  P  A  T  E     I  N     P  A  R  A  C  H  U  T  E
 T[i]     -1  0  0  0  0  0  0  0  1  2  0  0  0  0  0  0  1  2  3  0  0  0  0  0
 ```
-
+在source里找word的过程，可以想象为word是一个短尺子，source是一个长的尺子。一开始两个尺子左端对齐。然后不断把短尺word往右边移动。
+我们逐位分析上面的array T 里各个元素的意思：
+* i = 0 时，word[i] = P，T[i] = -1。这个 -1 的意思是：如果在source里的某一位，和word里的第一位相比都不能匹配，即source里的这一位不是P，那么没办法，只能把整个word向右移动一位。这就是这个 -1 想要表达的意思。
+* i = 1 时，word里是A，T里是0。这个0的意思是：如果在source里的某一位，它不匹配word的里的第二位，即source里的这一位不是A。但source里紧邻这一位左边的一位是P，它已经吻合了word里的第一位。那么是否能有取巧的办法？抱歉在这个case里是没有的。但后面其他case里有。就这个case来说，只能回到word的第一位去重新开始比source里的这一位。这个“第一位”就用 0 来表示
+* i = 8 时，word里又是A，T里这下不是0了，是1。意思是如果source里的某一位之前的8位都各自符合了这个A前面的8个字母 PARTICIP，然后到了这个A的时候不匹配了，那么重新找匹配的时候，不必从word头部的第一个P开始找，而是从word头部第二位的A开始找就行了。原因是这个不匹配的A前面正好是一个P，那么这个PA和word头部的PA正好是吻合的
+* i= 18 时的A是一个更强的例子。它前面的3位 PAR 都和word的前三位PAR 相同，所以如果在这个index为18的A上发生了不匹配（前提是他前面的18个char都匹配了），那么再匹配的时候从word里的index为3的那个char开始check就好了
 
 ### Complexity
 * Time: 
@@ -38,8 +43,7 @@ T[i]     -1  0  0  0  0  0  0  0  1  2  0  0  0  0  0  0  1  2  3  0  0  0  0  0
 public class KMP_Algorithm {
 	// return: an integer, the zero-based position in source at which the word is found
 	// returning -1 means no occurrence of the word in the source
-	public static int KMP(String source, String word)
-	{
+	public static int KMP(String source, String word) {
 		int m = 0; // the beginning of the current match in source string
 	    int i = 0; // the position of the current character in the word
 	    int[] T = findRollbackArray(word); // the "rollback array" of the word
@@ -77,18 +81,15 @@ public class KMP_Algorithm {
 	    return -1; // -1 means failure
 	}
 	
-	// 计算任何一个给定的String: word 的 Rollback Array: T
-	public static int[] findRollbackArray(String word)
-	{
+	// 计算任何一个给定的String: word 的 Rollback Array T
+	public static int[] findRollbackArray(String word) {
 		int len = word.length();
 		int[] T = new int[len];
 		
-		/* 我们当前在 word 里处理的 char，再往前的一个 char 是与 index 为 cnd 的word里的char作比较
-		比如下面这个 Rollback Array:
-		i		00	01	02	03	04	05	06	07	08	09	10	11	12	13	14	15	16	17	18	19	20	21	22	23
-		W[i]	P	A	R	T	I	C	I	P	A	T	E		I	N		P	A	R	A	C	H	U	T	E
-		T[i]	-1	0	0	0	0	0	0	0	1	2	0	0	0	0	0	0	1	2	3	0	0	0	0	0
-		这里面的 17 号char为R，R的前一个char是A，A的T[i]等于1，这个 1 就是 R 的 cnd */
+		// 变量 cnd 的意义：
+		// 我们当前在 word 里处理的 char，再往前的一个 char 是与 index为cnd的 word里的char 作比较
+		// 比如上文举例的 Rollback Array T,  
+		// 它里面的 17 号char为R，R的前一个char是A，A的T[i]等于1，这个 1 就是 R 的 cnd
 		int cnd = 0; 
 		
 		if (len >= 1)
