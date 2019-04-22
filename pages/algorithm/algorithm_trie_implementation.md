@@ -11,7 +11,7 @@ toc: false
 
 ## Overview
 ### 这个 Trie 要实现的操作
-* 每个 TrieNode 里存的 value 是一个 char，从`a`到·`z`的小写字母，共26种可能的值
+* 每个 TrieNode 里存的 value 是一个 char，从`a`到`z`的小写字母，共26种可能的值
 * 在每个 TrieNode 上存一个 int size，记录从 Trie root 开始到本node为止组成的这个prefix，后面一共有多少个word
   * 如果到本 Node 为止，恰好形成一个完整的word，那么这个word也要算到这个 size 里去
 * 往Trie里插入一个 String
@@ -21,11 +21,11 @@ toc: false
 
 ### 实现方式
 #### 对于每个TrieNode的Children，可用以下方式中的一种
-* `Map<Character, TrieNode>`
-* `TrieNode[26]`，26的意思是26个小写字母。注意这里是array of TrieNode，不是array of char 或 int。这种方式也不存char，用数组里的相对位置就知道一个child node的val是哪个char了
+* 第一种方式：`Map<Character, TrieNode>`
+* 第二种方式：`TrieNode[26]`，26的意思是26个小写字母。注意这里是array of TrieNode，不是array of char 或 int。这种方式也不存char，用数组里的相对位置就知道一个child node的val是哪个char了
   * Trie的层数多了以后，这种方式比Map的方式要快很多，也要省很多空间
 
-#### 对于Trie class的member methods
+#### 对于Trie class 的 member methods
 * 可以用Recursive的方式来写
 * 也可以用Iterative的方式来写。下面分别用了这两种方式
 
