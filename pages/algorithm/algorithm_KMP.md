@@ -17,6 +17,10 @@ KMP 是用 O(n + m) 时间完成在一个 String `source` (长度n) 里寻找一
 那么到底回到哪一位，我们是可以从`word`本身完全知道的，和任何`source`都没有关系
 
 那么对于`word`里的每一位，匹配失败后回到哪一位去继续找，这些信息我们用一个所谓的 Rollback Array `T` 来表示。举例：
+```java
+String source = "TRY PARTICIPATE IN PARACHUTE, IT WILL THROW THE GUT OUT OF YOU!"; // find the String word in this String
+String word = "PARTICIPATE IN PARACHUTE"; // the String to find
+```
 ```
 index i   0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
 word[i]   P  A  R  T  I  C  I  P  A  T  E     I  N     P  A  R  A  C  H  U  T  E
