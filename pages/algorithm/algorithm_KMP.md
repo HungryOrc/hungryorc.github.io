@@ -18,9 +18,9 @@ KMP 是用 O(n + m) 时间完成在一个 String `source` (长度n) 里寻找一
 
 那么对于`word`里的每一位，匹配失败后回到哪一位去继续找，这些信息我们用一个所谓的 Rollback Array `T` 来表示。举例：
 ```
-index i   0	 1  2  3  4	05	06	07	08	09	10	11	12	13	14	15	16	17	18	19	20	21	22	23
-word[i]   P	 A  R  T  I	C	I	P	A	T	E		I	N		P	A	R	A	C	H	U	T	E
-T[i]     -1  0  0  0  0	0	0	0	1	2	0	0	0	0	0	0	1	2	3	0	0	0	0	0
+index i   0	 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+word[i]   P	 A  R  T  I  C  I  P  A  T  E     I  N     P  A  R  A  C  H  U  T  E
+T[i]     -1  0  0  0  0  0  0  0  1  2  0  0  0  0  0  0  1  2  3  0  0  0  0  0
 ```
 
 
