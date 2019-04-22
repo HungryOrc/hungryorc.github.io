@@ -106,18 +106,6 @@ public class Solution {
         }
         return result;
     }
-
-    public static void main(String[] args) {
-        int[][] matrix = {{1,2,3}, {1,3,5}, {2,4,6}};
-        Solution solu = new Solution();
-        int[][] result = solu.accumulation(matrix);
-        for (int[] array : result) {
-            for (int ele : array) {
-                System.out.print(ele + "  ");
-            }
-            System.out.println();
-        }
-    }
 }
 ```
 
