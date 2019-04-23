@@ -15,6 +15,9 @@ toc: false
 class ListNode {
     int val;
     ListNode next;
+    public ListNode(int v) {
+        this.val = v;
+    }
 }
 ```
 
@@ -56,6 +59,36 @@ class Solution {
         cur.next = newHead; // 关键在这里！一是把新的尾巴接到新的头，二是删除原来的head node！
         
         return newHead;
+    }
+}
+```
+
+## 近似题
+一个循环的 singly linked list，删除第2，4，6，8... 个node，只删一圈
+
+## Solution：和上面的删除第1，3，5... 个node的方法同理
+
+### Complexity
+* Time: O(n)
+* Space: O(1)
+
+### Java
+```java
+public class Solution {
+    public ListNode deleteEveyOtherNode(ListNode head) {
+        if (head == null || head.next == head) {
+            return head;
+        }
+
+        ListNode cur = head;
+        while (cur.next != head && cur.next.next != head) {
+            cur.next = cur.next.next;
+            cur = cur.next;
+        }
+        
+        cur.next = head; // 关键
+        
+        return head;
     }
 }
 ```
