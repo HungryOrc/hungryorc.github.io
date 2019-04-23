@@ -34,6 +34,7 @@ toc: false
 * Space: O(1)
 
 ### Java
+代码虽然看起来不短，其实逻辑很简单
 ```java
 public class Solution {
     public boolean swapToEqual(String s1, String s2) {
