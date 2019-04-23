@@ -144,6 +144,7 @@ public class Trie {
             return false;
         }
     
+        root.size--;
         return delete(root, word, 0);
     }
     
