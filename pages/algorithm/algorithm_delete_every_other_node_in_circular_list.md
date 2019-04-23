@@ -24,7 +24,7 @@ class ListNode {
 * Input: 1->2->3->4->5->6(->1)
   * Output: 2->4->6(->2)
 * Input: 1->2(->1)
-  * Output: 1(->1)
+  * Output: 2(->2)
 * Input: 1(->1)
   * Output: 1(->1)
   
@@ -40,17 +40,17 @@ class Solution {
     public ListNode deleteEveyOtherNode(ListNode head) {
         // 注意，head的next不可能是null，其实这里任何node的next都不可能是null，因为是循环list
         if (head == null || head.next == head) {
-            return null;
+            return head;
         }
 
         ListNode newHead = head.next;
-        // 原本的head node 在后面再删！后面很巧妙
+        // 原本的head node 是一定要删的，但我们在后面再删它，很巧妙
         
         ListNode cur = newHead;
-        // 注意这里的while loop都不是判断next是否为null了，而是判断next是否为原本的head
+        // 注意这里的while loop都不是判断next是否为null了，而是判断next和next.next是否为原本的head
         while (cur.next != head && cur.next.next != head) {
-            cur.next = cur.next.next; // 删除cur.next
-            cur = cur.next; // 挪动cur到原来的cur.next.nect
+            cur.next = cur.next.next; // 删除 cur.next
+            cur = cur.next; // 移动cur 到原来的 cur.next.next
         }
         
         cur.next = newHead; // 关键在这里！一是把新的尾巴接到新的头，二是删除原来的head node！
