@@ -23,8 +23,12 @@ class ListNode {
   * Output: 2->4(->2)
 * Input: 1->2->3->4->5->6(->1)
   * Output: 2->4->6(->2)
-
-## Solution：这题看起来简单，其实写起来好几个陷阱！要反复默写！
+* Input: 1->2(->1)
+  * Output: 1(->1)
+* Input: 1(->1)
+  * Output: 1(->1)
+  
+## Solution：这题看起来简单，其实写起来好几个陷阱！要反复默写
 
 ### Complexity
 * Time: O(n)
