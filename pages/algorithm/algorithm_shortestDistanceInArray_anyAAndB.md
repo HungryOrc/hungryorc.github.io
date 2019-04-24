@@ -4,7 +4,7 @@ tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_shortestDistanceInArray_betweenAnyAAndB.html
+permalink: algorithm_shortestDistanceInArray_anyAAndB.html
 folder: algorithm
 toc: false
 ---
