@@ -37,7 +37,9 @@ toc: false
 逻辑其实很简明。看起来代码不短
 ```java
 public class Solution {
-    private static final int[][] DIRS = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    private static final int[][] DIRS = {
+        {1, 0}, {-1, 0}, {0, 1}, {0, -1}
+    };
     
     public int shortestDist2D(char[][] matrix) {
         if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
