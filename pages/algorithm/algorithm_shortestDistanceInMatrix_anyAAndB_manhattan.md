@@ -114,9 +114,11 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-        char[][] matrix = {{'A', 'O', 'X'},
-                           {'X', 'L', 'B'},
-                           {'N', 'A', 'C'}};
+        char[][] matrix = {
+            {'A', 'O', 'X'},
+            {'X', 'L', 'B'},
+            {'N', 'A', 'C'}
+        };
         
         Solution solu = new Solution();
         int result = solu.shortestDist2D(matrix);
