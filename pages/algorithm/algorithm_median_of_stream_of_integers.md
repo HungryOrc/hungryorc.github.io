@@ -39,6 +39,7 @@ findMedian() -> 2
   * 用一个长度为100的array来记录每个数出现的count。再用一个treeset来记录一共出现过那些数值。这样手握当前的median（不管当前是奇数个还是偶数个数），再看新来的数比当前的median大还是小，就知道接下来median要在treeset里找 ceiling 还是 floor 了
   * **有了treeset，那个记录frequency的array还是不能少。我们要记录每个数的出现次数，是因为，如果当前median是4，然后我们已经有两个甚至更多个4了，那么移动median以后median还是4，还是说median不再是4了，就要考察4的count**
 * If 99% of all integer numbers from the stream are between 0 and 100, how would you optimize it?
+  * 我的想法：小于0的都算0？大于100的都算100？
 
 ### Example
 见上文
