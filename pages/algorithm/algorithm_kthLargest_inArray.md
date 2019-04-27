@@ -129,16 +129,15 @@ public class Solution {
         // Java的PQ默认是 min heap，
         // 要造 max heap 的话：new PriorityQueue<>(10, Collections.reverseOrder())
         PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-        int n = nums.length;
         
         for (int i = 0; i < k; i++) {
             minHeap.offer(nums[i]);
         }
         
-        for (int i = k; i < n; i++) {
-            if (nums[i] > minHeap.peek()) {
-                minHeap.poll();
-                minHeap.offer(nums[i]);
+        for (int num : nums) {
+            if (num > minHeap.peek()) {
+                minHeap.poll(); // 时间 logk
+                minHeap.offer(num); // 时间 logk
             }
         }
         
