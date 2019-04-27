@@ -46,26 +46,40 @@ class TreeNode {
 * Space: O(tree height)，call stack的层数
 
 ### Java
+逻辑很简明
 ```java
 public class Solution {
-  
   public TreeNode lowestCommonAncestor(TreeNode root, List<TreeNode> nodes) {
     if (root == null) {
       return null;
     }
-    if (nodes.contains(root)) {
+    
+    Set<TreeNode> set = new HashSet<>();
+    for (TreeNode node : nodes) {
+      set.add(node);
+    }
+    
+    return lca(root, set);
+  }
+  
+  private TreeNode lca(TreeNode root, Set<TreeNode> set) {
+    if (root == null) {
+      return null;
+    }
+    
+    if (set.contains(root)) { // 有意思！
       return root;
     }
     
-    TreeNode outcomeFromLeftSubtree = lowestCommonAncestor(root.left, nodes);
-    TreeNode outcomeFromRightSubtree = lowestCommonAncestor(root.right, nodes);
+    TreeNode outcomeFromLeftSubtree = lca(root.left, set);
+    TreeNode outcomeFromRightSubtree = lca(root.right, set);
     
     if (outcomeFromLeftSubtree != null && outcomeFromRightSubtree != null) {
       return root;
     }
-    if (outcomeFromLeftSubtree != null) { // && outcomeFromRightSubtree == null
+    if (outcomeFromLeftSubtree != null) { // right == null
       return outcomeFromLeftSubtree;
-    } else { // outcomeFromLeftSubtree == null) && outcomeFromRightSubtree != null
+    } else { // left == null；right 可能为null 也可能不为 null
       return outcomeFromRightSubtree;
     }
   }
