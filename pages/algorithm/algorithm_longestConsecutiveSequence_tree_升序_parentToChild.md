@@ -4,12 +4,15 @@ tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_longestConsecutiveSequence_tree_parentToChild.html
+permalink: algorithm_longestConsecutiveSequence_tree_升序_parentToChild.html
 folder: algorithm
 toc: false
 ---
 
 ## Description
+* tree里的 consecutive sequence 的意思是 **位置相邻** 且 **value连续变化(只差1)** 的nodes
+  * 这和 array 里的 consecutive sequence 的意思是不一样的，array里是要求 **位置不一定相邻**，**value连续变化(只差1)** 的elements
+  * “升序”的意思是这里的 consecutive sequence 里的值必须是后一个比前一个大1
 * parent to child 即必须是从上往下的顺序，不能从下往上，也不能上上下下来回起伏
 
 Given a binary tree, find the length of the longest consecutive sequence path.
