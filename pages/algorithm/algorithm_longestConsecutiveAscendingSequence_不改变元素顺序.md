@@ -45,21 +45,19 @@ class Solution {
             Integer lenSelf = map.get(num);
             Integer lenMinusOne = map.get(num - 1);
 
-            if (lenSelf == null && lenMinusOne == null) {
+            // 如果num-1之前没出现过，那么不管num之前出现过几次，现在都只能给num记长度为 1
+            if (lenMinusOne == null) { 
                 map.put(num, 1);
-            } else if (lenSelf == null) {
+            } else if (lenSelf == null) { // and lenMinusOne != null
                 lenSelf = lenMinusOne + 1;
                 map.put(num, lenSelf);
                 maxLen = Math.max(maxLen, lenSelf);
-            } else if (lenMinusOne == null) {
-                // do nothing
             } else { // 上面两个len都不为null
                 lenSelf = Math.max(lenSelf, lenMinusOne + 1);
                 map.put(num, lenSelf);
                 maxLen = Math.max(maxLen, lenSelf);
             }
         }
-
         return maxLen;
     }
 }
