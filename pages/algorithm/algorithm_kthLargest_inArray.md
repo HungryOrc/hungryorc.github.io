@@ -36,12 +36,14 @@ public class Solution {
             return Integer.MIN_VALUE;
         }
         
-        // 找第k个最大，就是找第length-k+1个最小
-        // quick select原本是用来找第k个最小，所以在这里转化一下
-        return quickSelect(nums, 0, nums.length - 1, nums.length - k + 1);
+        int n = nums.length;
+        
+        // 找 第k大，就是找 第length-k+1小
+        // Quick Select 算法 原本是用来找 第k小，所以在这里转化一下
+        return quickSelect(nums, 0, n - 1, n - k + 1);
     }
     
-    // quick select 这个算法的定义就是 “找第 k 小的数”，k 也就是下面的最后一个参数
+    // 找第 k 小的数
     private int quickSelect(int[] nums, int start, int end, int k) {
         int chosenIndex = partition(nums, start, end);
         
