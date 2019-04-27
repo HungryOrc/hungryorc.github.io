@@ -4,7 +4,7 @@ tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_longestConsecutiveAscendingSequence_不改变元素顺序.html
+permalink: algorithm_longestConsecutiveSequence_array_升序.html
 folder: algorithm
 toc: false
 ---
