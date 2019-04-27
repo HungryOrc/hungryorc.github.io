@@ -115,6 +115,64 @@ public class Solution {
 }
 ```
 
+## Solution 2：Recursion + 自定义一个 result class
+
+### Complexity
+* Time: O(tree height)
+* Space: O(tree height)，call stack的层数
+
+### Java
+```java
+class ResultType {
+    public boolean aExist, bExist;
+    public TreeNode node;
+    ResultType (boolean a, boolean b, TreeNode n) {
+        aExist = a;
+        bExist = b;
+        node = n;
+    }
+}
+
+public class Solution {
+    public TreeNode lowestCommonAncestor3(TreeNode root, TreeNode A, TreeNode B) {
+        ResultType result = checkLCA(root, A, B);
+        if (result.aExist && result.bExist) {
+            return result.node;
+        } else {
+            return null;
+        }
+    }
+    
+    private ResultType checkLCA(TreeNode root, TreeNode A, TreeNode B) {
+        if (root == null) {
+            return new ResultType(false, false, null);
+        }
+        
+        // 考察左右子树的情况
+        ResultType leftResult = checkLCA(root.left, A, B);
+        ResultType rightResult = checkLCA(root.right, A, B);
+        
+        // 综合得到当前root以下(包含root本身)的整个树的情况
+        boolean aExist = leftResult.aExist || rightResult.aExist || root == A;
+        boolean bExist = leftResult.bExist || rightResult.bExist || root == B;
+        
+        if (root == A || root == B) {
+            return new ResultType(aExist, bExist, root);
+        }
+        
+        if (leftResult.node != null && rightResult.node != null) {
+            return new ResultType(aExist, bExist, root);
+        } else if (leftResult.node != null && rightResult.node == null) {
+            return new ResultType(aExist, bExist, leftResult.node);
+        } else if (leftResult.node == null && rightResult.node != null) {
+            return new ResultType(aExist, bExist, rightResult.node);
+        } else { // left.node == null && right.node == null
+            return new ResultType(aExist, bExist, null);
+        }    
+    }
+}
+```
+
 ## Reference
 没找这题
 
