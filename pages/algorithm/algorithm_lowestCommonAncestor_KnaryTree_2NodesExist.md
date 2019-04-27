@@ -41,7 +41,7 @@ public class Solution {
         if (root == null) {
             return null;
         }
-        if (root == one || root == two) {
+        if (root == one || root == two) { // 不用再往下看了
             return root;
         }
     
