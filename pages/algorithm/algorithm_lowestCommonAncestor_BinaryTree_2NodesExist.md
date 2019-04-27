@@ -58,7 +58,7 @@ public class Solution {
             return null;
         }
         
-        // 以下这个if语句 + 后面的conquer部分，这两者共同作用，导致了：
+        // 以下这个if语句 + 后面的部分，共同作用，导致了：
         // node1及其以上的各级父node，作为root被本函数作用时，会返回node1
         // node2及其以上的各级父node，作为root被本函数作用时，会返回node2
         // 但是：情况在此时会发生变化：如果一个node，其左/右子树内
@@ -66,15 +66,14 @@ public class Solution {
         // 然后此node以上的各级父node被本函数作用时还是会一直返回此node
         // 另外，如果一个node以下的子树不含node1或node2中的任一个，
         // 则此node被本函数作用时会返回null
-        if (root == node1 || root == node2) {
+        
+        if (root == node1 || root == node2) { // 不用往下再看了！
             return root;
         }
-        
-        // Divide
+
         TreeNode left = lowestCommonAncestor(root.left, node1, node2);
         TreeNode right = lowestCommonAncestor(root.right, node1, node2);
-        
-        // Conquer
+
         if (left != null && right != null) {
             return root;
         } else if (left != null) { // && right == null
