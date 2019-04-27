@@ -38,8 +38,7 @@ class TreeNode {
 ### Example
 见上文
 
-## Solution
-哦也
+## Solution 1：Recursion
 
 ### Complexity
 * Time: O(tree height)
@@ -47,7 +46,20 @@ class TreeNode {
 
 ### Java
 ```java
-
+public class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {        
+        if ((p.val <= root.val && q.val >= root.val) || 
+            (p.val >= root.val && q.val <= root.val) {
+            return root;
+        }
+        else if (p.val >= root.val && q.val >= root.val) {
+            return lowestCommonAncestor(root.right, p, q);
+        }
+        else { // if (p.val <= root.val && q.val <= root.val)
+            return lowestCommonAncestor(root.left, p, q);
+        }
+    }
+}
 ```
 
 ## Reference
