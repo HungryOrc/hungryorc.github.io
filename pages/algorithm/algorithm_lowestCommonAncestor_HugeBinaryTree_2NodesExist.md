@@ -42,7 +42,7 @@ Since 2^5 = 32, so we have 32 nodes in the 5th level.
   * Assume A is in the top 5 layers, B is not. Then we 
   * Call Find(M1, B), Find(M2, B)... Find(M32, B)
   * For example, if we found node B in the subtree that is managed by the machine M7, then we call LCA(root, A, M7, level_limit = 5).
-Case 3: Neither node A or B is within the top 5 layers. Then we 
+* Case 3: Neither node A or B is within the top 5 layers. Then we 
   * Call LCA(M1, A, B), LCA(M2, A, B)... LCA(M32, A, B)
   * Case 3.1: A and B are in different machines
     * In this case, there must be exactly 2 machines that find non-null, say they are M3 and M7.
