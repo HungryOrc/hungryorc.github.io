@@ -30,7 +30,7 @@ It is related to the "Quick Sort" sorting algorithm.
 ## Implementation
 ```java
 // quick select 这个算法的定义就是 “找第 k 小的数”，k 也就是下面的最后一个参数
-public int quickSelect(int[] nums, int start, int end, int k) {
+private int quickSelect(int[] nums, int start, int end, int k) {
     int chosenIndex = partition(nums, start, end);
 
     if (chosenIndex < k - 1) { // 第 k 小的数的 index 是 k - 1
