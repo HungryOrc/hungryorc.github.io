@@ -32,7 +32,7 @@ Note that **it is the kth largest element in the sorted order, not the kth disti
 ```java
 public class Solution {
     public int findKthLargest(int[] nums, int k) {
-        if (nums == null || nums.length == 0) {
+        if (nums == null || nums.length < k) {
             return Integer.MIN_VALUE;
         }
         
@@ -122,7 +122,7 @@ public class Solution {
 ```java
 public class Solution {
     public int findKthLargest(int[] nums, int k) {
-        if (nums == null || nums.length == 0) {
+        if (nums == null || nums.length < k) {
             return Integer.MIN_VALUE;
         }
         
