@@ -44,14 +44,14 @@ Since 2^5 = 32, so we have 32 nodes in the 5th level.
   * For example, if we found node B in the subtree that is managed by the machine M7, then we call LCA(root, A, M7, level_limit = 5).
 * Case 3: Neither node A or B is within the top 5 layers. Then we 
   * Call LCA(M1, A, B), LCA(M2, A, B)... LCA(M32, A, B)
+  * 这些结果里，只要出现了2个不是null的结果，则后面的都不用做了。当然也有可能最后都只有1个不是null
   * Case 3.1: A and B are in different machines
     * In this case, there must be exactly 2 machines that find non-null, say they are M3 and M7.
     * Then we call LCA(root, M3, M7, level_limit = 5)
   * Case 3.2: A and B are in the same machine
-    * In this case, only ONE machine returns non-null, say it's machine M7,
-    * that means both A and B are in the subtree managed by machine M7.
-      * Case 3.2.1: If M7 returns A or B, then it means one node is the ancestor of the other node
-      * Case 3.2.2: If M7 returns another node C other than A or B, then it means C is the LCA of A and B
+    * In this case, only ONE machine returns non-null, say it's machine M7, that means both A and B are in the subtree managed by machine M7.
+    * Case 3.2.1: If M7 returns A or B, then it means one node is the ancestor of the other node
+    * Case 3.2.2: If M7 returns another node C other than A or B, then it means C is the LCA of A and B
 
 ### Complexity
 * Time: O(tree height) <=== ？？？？
