@@ -66,7 +66,7 @@ class Solution {
         }
         
         int[] maxLen = {0};
-        dfs(root, root.val - 1, 0, maxLen);
+        dfs(root, Integer.MIN_VALUE, 0, maxLen);
         return maxLen[0];
     }
     
@@ -95,17 +95,17 @@ class Solution {
         if (root == null) {
             return 0;
         }
-        return dfs(root, root.val, 1);
+        return dfs(root, Integer.MIN_VALUE, 0);
     }
 
-    private int dfs(TreeNode node, int parentVal, int prevLen) {
+    private int dfs(TreeNode node, int prevVal, int prevLen) {
         if (node == null) {
             return prevLen;
         }
         
         int curLen = 1;
-        if (parentVal + 1 == node.val) {
-	         curLen = prevLen + 1;
+        if (prevVal + 1 == node.val) {
+            curLen = prevLen + 1;
         }
 
         int leftLen = dfs(node.left, node.val, curLen);
@@ -116,6 +116,62 @@ class Solution {
 }
 ```
 
+## Solution 2：DFS recursion，用了自定义的 result class，思路晦涩，速度很慢，后20%
+
+### Complexity
+* Time: O(n), n 是tree里nodes的个数
+* Space: O(tree height), call stack size 
+
+### Java
+```java
+class ResultType {
+    int maxInSubtree;
+    int maxFromRoot;
+    public ResultType(int maxS, int maxR) {
+        this.maxInSubtree = maxS;
+        this.maxFromRoot = maxR;
+    }
+}
+
+public class Solution {
+    public int longestConsecutive(TreeNode root) {
+        return dfs(root).maxInSubtree;
+    }
+    
+    private ResultType dfs(TreeNode root) {
+        if (root == null) {
+            return new ResultType(0, 0);
+        }
+        
+        ResultType left = dfs(root.left);
+        ResultType right = dfs(root.right);
+        
+        // 1 stands for the root itself.
+        ResultType result = new ResultType(0, 1);
+        
+        if (root.left != null && root.val + 1 == root.left.val) {
+            result.maxFromRoot = Math.max(
+                result.maxFromRoot,
+                left.maxFromRoot + 1
+            );
+        }
+        
+        if (root.right != null && root.val + 1 == root.right.val) {
+            result.maxFromRoot = Math.max(
+                result.maxFromRoot,
+                right.maxFromRoot + 1
+            );
+        }
+        
+        result.maxInSubtree = Math.max(
+            result.maxFromRoot,
+            Math.max(left.maxInSubtree, right.maxInSubtree)
+        );
+        
+        return result;
+    }
+}
+```
 
 ## Reference
 * [Binary Tree Longest Consecutive Sequence
