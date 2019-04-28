@@ -51,17 +51,71 @@ public class TreeNode {
   ```
   * Output: 2, Longest consecutive sequence path is 2-3, not 3-2-1, so return 2.
   
-## Solution
-哦也
+## Solution 1：DFS recursion，速度前5%
 
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(n), n 是tree里nodes的个数
+* Space: O(tree height), call stack size 
 
 ### Java
 ```java
-
+class Solution {
+    public int longestConsecutive(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        
+        int[] maxLen = {0};
+        dfs(root, root.val - 1, 0, maxLen);
+        return maxLen[0];
+    }
+    
+    private void dfs(TreeNode node, int prevVal, int prevLen, int[] maxLen) {
+        if (node == null) {
+            return;
+        }
+        
+        int curLen = 1;
+        int curVal = node.val;
+        if (prevVal + 1 == curVal) {
+            curLen = prevLen + 1;
+        }
+        maxLen[0] = Math.max(curLen, maxLen[0]);
+        
+        dfs(node.left, curVal, curLen, maxLen);
+        dfs(node.right, curVal, curLen, maxLen);
+    }
+}
 ```
+
+另一种非常相似的实现方式，也是 DFS recursion：
+```java
+class Solution {
+    public int longestConsecutive(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return dfs(root, root.val, 1);
+    }
+
+    private int dfs(TreeNode node, int parentVal, int prevLen) {
+        if (node == null) {
+            return prevLen;
+        }
+        
+        int curLen = 1;
+        if (parentVal + 1 == node.val) {
+	         curLen = prevLen + 1;
+        }
+
+        int leftLen = dfs(node.left, node.val, curLen);
+        int rightLen = dfs(node.right, node.val, curLen);
+       
+        return Math.max(curLen, Math.max(leftLen, rightLen));
+    }
+}
+```
+
 
 ## Reference
 * [Binary Tree Longest Consecutive Sequence
