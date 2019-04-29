@@ -29,8 +29,8 @@ public class TreeNode {
 ## Solution: Recursion
 对于BST，我们知道通过 in-order traversal 可以获得所有节点从小到大的排布。那我们就从这里入手，
 做一个 “每一步都经过判断的 in-order traversal”：
-* 只有当 root.val > lowerBoundOfRange 的时候，我们才需要深入左子树
-* 只有当 root.val < upperBoundOfRange 的时候，我们才需要深入右子树
+* 只有当 root.val > lowerBoundOfRange 的时候，我们才有必要 深入左子树
+* 只有当 root.val < upperBoundOfRange 的时候，我们才有必要 深入右子树
 * 深入任何子树都有可能最后是一无所获
 
 ### Complexity
@@ -61,14 +61,13 @@ public class Solution {
       return;
     }
     
+    // 特别注意！下面的3个if之间不是互斥关系！而是顺序关系！它们三个都要做的！
     if (node.key > min) {
       rangedInorderTraversal(node.left, min, max, result);
     }
-
     if (node.key >= min && node.key <= max) {
       result.add(node.key);
     }
-
     if (node.key < max) {
       rangedInorderTraversal(node.right, min, max, result);
     }
