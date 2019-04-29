@@ -45,11 +45,13 @@ public class TreeNode {
   ```
   * Output: 3, The longest consecutive path is [1, 2, 3] or [3, 2, 1].
 
-## Solution 1：DFS recursion，速度前5%
+## Solution 2：我自己的方法，用2个method，一个查parent->child型路径，一个查child->parent->child型路径，速度意外地也挺快
+这个方法里有大量的重复计算，特别是用于 “查child->parent->child型路径” 的那个method，是严重的重复，在第一层要算2到h层，在第二层要算3到h层，
+在第三层要算4到h层......
 
 ### Complexity
-* Time: O(n), n 是tree里nodes的个数
-* Space: O(tree height), call stack size 
+* Time: <=== ？？？
+* Space: <=== ？？？ 
 
 ### Java
 ```java
@@ -59,116 +61,80 @@ class Solution {
             return 0;
         }
         
-        int[] maxLen = {0};
-        dfs(root, Integer.MIN_VALUE, 0, maxLen);
-        return maxLen[0];
+        int[] max = {1};
+        dfs(root, Integer.MIN_VALUE, false, 0, max);
+        return max[0];
     }
     
-    private void dfs(TreeNode node, int prevVal, int prevLen, int[] maxLen) {
-        if (node == null) {
+    // 检查 parent->child 形状的path
+    private void dfs(TreeNode curNode, int prevVal, boolean ascending, 
+                     int prevLen, int[] max) {
+        if (curNode == null) {
             return;
         }
         
-        int curLen = 1;
-        int curVal = node.val;
+        // step 1，看从parent node到cur node是否能延续 升序或降序
+        int curVal = curNode.val;
+        
         if (prevVal + 1 == curVal) {
-            curLen = prevLen + 1;
+            int curLen = 2; // prevNode 和 curNode 算是 len为2
+            if (ascending) {
+                curLen = prevLen + 1;
+            }
+            max[0] = Math.max(max[0], curLen);
+            
+            // 继续往下查 升序
+            dfs(curNode.left, curVal, true, curLen, max);
+            dfs(curNode.right, curVal, true, curLen, max);
         }
-        maxLen[0] = Math.max(curLen, maxLen[0]);
+        else if (prevVal - 1 == curVal) {
+            int curLen = 2; // prevNode 和 curNode 算是 len为2
+            if (!ascending) {
+                curLen = prevLen + 1;
+            }
+            max[0] = Math.max(max[0], curLen);
+
+            // 继续往下查 降序
+            dfs(curNode.left, curVal, false, curLen, max);
+            dfs(curNode.right, curVal, false, curLen, max);
+        }
+        else { // 如果没有形成任何连续关系，但是当前node本身就构成了 curLen = 1
+            dfs(curNode.left, curVal, false, 1, max);
+            dfs(curNode.right, curVal, false, 1, max);            
+        }
         
-        dfs(node.left, curVal, curLen, maxLen);
-        dfs(node.right, curVal, curLen, maxLen);
-    }
-}
-```
-
-另一种非常相似的实现方式，也是 DFS recursion：
-```java
-class Solution {
-    public int longestConsecutive(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-        return dfs(root, Integer.MIN_VALUE, 0);
-    }
-
-    private int dfs(TreeNode node, int prevVal, int prevLen) {
-        if (node == null) {
-            return prevLen;
-        }
         
-        int curLen = 1;
-        if (prevVal + 1 == node.val) {
-            curLen = prevLen + 1;
-        }
-
-        int leftLen = dfs(node.left, node.val, curLen);
-        int rightLen = dfs(node.right, node.val, curLen);
-       
-        return Math.max(curLen, Math.max(leftLen, rightLen));
-    }
-}
-```
-
-## Solution 2：DFS recursion，用了自定义的 result class，思路晦涩，速度很慢，后20%
-
-### Complexity
-* Time: O(n), n 是tree里nodes的个数
-* Space: O(tree height), call stack size 
-
-### Java
-```java
-class ResultType {
-    int maxInSubtree;
-    int maxFromRoot;
-    public ResultType(int maxS, int maxR) {
-        this.maxInSubtree = maxS;
-        this.maxFromRoot = maxR;
-    }
-}
-
-public class Solution {
-    public int longestConsecutive(TreeNode root) {
-        return dfs(root).maxInSubtree;
+        // step 2, 当前node为顶点，左降右升，或者左升右降
+        int leftAscendRightDescend = getSingleLen(curNode.left, curVal, true) + 
+                                     getSingleLen(curNode.right, curVal, false);
+        int leftDescendRightAscend = getSingleLen(curNode.right, curVal, true) + 
+                                     getSingleLen(curNode.left, curVal, false);
+        max[0] = Math.max(max[0], 1 + Math.max(leftAscendRightDescend, 
+                                               leftDescendRightAscend));
     }
     
-    private ResultType dfs(TreeNode root) {
-        if (root == null) {
-            return new ResultType(0, 0);
+    // 检查 child->parent->child 形状的path
+    private int getSingleLen(TreeNode node, int prevVal, boolean ascending) {
+        if (node == null) {
+            return 0;
         }
         
-        ResultType left = dfs(root.left);
-        ResultType right = dfs(root.right);
-        
-        // 1 stands for the root itself.
-        ResultType result = new ResultType(0, 1);
-        
-        if (root.left != null && root.val + 1 == root.left.val) {
-            result.maxFromRoot = Math.max(
-                result.maxFromRoot,
-                left.maxFromRoot + 1
-            );
+        int diff = 1;
+        if (!ascending) {
+            diff = -1;
+        }
+        if (prevVal != node.val + diff) {
+            return 0;
         }
         
-        if (root.right != null && root.val + 1 == root.right.val) {
-            result.maxFromRoot = Math.max(
-                result.maxFromRoot,
-                right.maxFromRoot + 1
-            );
-        }
-        
-        result.maxInSubtree = Math.max(
-            result.maxFromRoot,
-            Math.max(left.maxInSubtree, right.maxInSubtree)
-        );
-        
-        return result;
+        return 1 + Math.max(getSingleLen(node.left, node.val, ascending), 
+                            getSingleLen(node.right, node.val,ascending));
     }
 }
 ```
 
 ## Reference
-* [Binary Tree Longest Consecutive Sequence
- [LeetCode]](https://leetcode.com/problems/binary-tree-longest-consecutive-sequence/description/)
+* [Binary Tree Longest Consecutive Sequence II
+ [LeetCode]](https://leetcode.com/problems/binary-tree-longest-consecutive-sequence-ii/description/)
 
 {% include links.html %}
