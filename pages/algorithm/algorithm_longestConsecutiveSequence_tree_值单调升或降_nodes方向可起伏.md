@@ -134,6 +134,12 @@ class Solution {
 ```
 
 ## Solution 2：很巧妙的方法！最终的最长sequence一定有一个最高点，不管这个sequence是一条直线还是一条A型线，所以对于tree里的每个node我们都考察它作为最高点的话最长的sequence是多长就行了
+以cur node 为顶点的2种类型的path都可以用一种方式来算，就是：
+```
+以cur node为顶点的最长的向下递增序列的长度 + 以cur node为顶点的最长的向下递减序列的长度 - 1
+```
+要注意，以cur node为顶点的递增和递减序列不可能重合，即cur node的左/右 children要么是递增的一员，要么是递减的一员！所以 **计算的时候不必区分
+左边递增/递减 还是右边递增/递减，直接对左右child都计算递增/递减序列的长度就行了，具体见下面的code**
 
 ### Complexity
 * Time: O(n) <=== ？？？
@@ -141,7 +147,50 @@ class Solution {
 
 ### Java
 ```java
-
+class Solution {
+    public int longestConsecutive(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        
+        int[] max = {1};
+        dfs(root, max);
+        return max[0];
+    }
+    
+    // 返回的数组长度为2，里面的
+    // 第一个int是以cur node 为顶点，包括它在内，最长的向下递增序列的长度
+    // 第二个int是....................................递减........
+    private int[] dfs(TreeNode curNode, int[] max) {
+        if (curNode == null) {
+            return new int[]{0, 0};
+        }
+        
+        int curVal = curNode.val;
+        int[] result = {1, 1};
+        
+        if (curNode.left != null) {
+            int[] resultL = dfs(curNode.left, max);
+            if (curVal + 1 == curNode.left.val) {
+                result[0] = Math.max(result[0], resultL[0] + 1);
+            } else if (curVal - 1 == curNode.left.val) {
+                result[1] = Math.max(result[1], resultL[1] + 1);
+            }
+        }
+        if (curNode.right != null) {
+            int[] resultR = dfs(curNode.right, max);
+            if (curVal + 1 == curNode.right.val) {
+                result[0] = Math.max(result[0], resultR[0] + 1);
+            } else if (curVal - 1 == curNode.right.val) {
+                result[1] = Math.max(result[1], resultR[1] + 1);
+            }
+        }
+        
+        max[0] = Math.max(max[0], result[0] + result[1] - 1);
+        
+        return result;
+    }
+}
 ```
 
 ## Reference
