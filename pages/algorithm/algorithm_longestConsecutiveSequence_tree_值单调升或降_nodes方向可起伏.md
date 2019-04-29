@@ -45,7 +45,7 @@ public class TreeNode {
   ```
   * Output: 3, The longest consecutive path is [1, 2, 3] or [3, 2, 1].
 
-## Solution 1：我自己的方法，用2个method，一个查进过cur node的 parent->child型路径，一个查以cur node为最高点的 child->parent->child型路径，速度意外地也挺快。后面有更好的方法
+## Solution 1：我自己的方法，用2个method，一个查进过cur node的 parent->child型路径，一个查以cur node为最高点的 child->parent->child型路径，速度意外地也不慢。后面有更好的方法
 这个方法里有大量的重复计算，特别是用于 “查child->parent->child型路径” 的那个method，是严重的重复，在第一层要算2到h层，在第二层要算3到h层，
 在第三层要算4到h层......
 
@@ -133,7 +133,7 @@ class Solution {
 }
 ```
 
-## Solution 2：很巧妙的方法！最终的最长sequence一定有一个最高点，不管这个sequence是一条直线还是一条A型线，所以对于tree里的每个node我们都考察它作为最高点的话最长的sequence是多长就行了
+## Solution 2：很巧妙的方法！速度前1%。最终的最长sequence一定有一个最高点，不管这个sequence是一条直线还是一条A型线，所以对于tree里的每个node我们都考察它作为最高点的话最长的sequence是多长就行了
 以cur node 为顶点的2种类型的path都可以用一种方式来算，就是：
 ```
 以cur node为顶点的最长的向下递增序列的长度 + 以cur node为顶点的最长的向下递减序列的长度 - 1
@@ -162,10 +162,6 @@ class Solution {
     // 第一个int是以cur node 为顶点，包括它在内，最长的向下递增序列的长度
     // 第二个int是....................................递减........
     private int[] dfs(TreeNode curNode, int[] max) {
-        if (curNode == null) {
-            return new int[]{0, 0};
-        }
-        
         int curVal = curNode.val;
         int[] result = {1, 1};
         
