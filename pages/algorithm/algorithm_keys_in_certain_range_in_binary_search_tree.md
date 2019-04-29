@@ -43,7 +43,7 @@ public class TreeNode {
     * 比如刚好 k2 - k1 的部分没有任何一个node，这个时候前面的logn会dominate
     * 如果刚好k2 - k1的部分包含了所有的node，那么这部分会dominate
     * 所以正确的复杂度是 logn + |k2 - k1|
-* Space: O(logn), call stack的层数
+* Space: O(tree height), call stack的层数
 
 ### Java
 ```java
