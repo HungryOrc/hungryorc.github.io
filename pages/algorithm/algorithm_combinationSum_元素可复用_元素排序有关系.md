@@ -18,6 +18,9 @@ toc: false
 Given an integer array with all positive numbers and no duplicates, 
 find the number of possible combinations that add up to a positive integer target.
 
+### Follow up
+* What if negative numbers are allowed in the given array? How does it change the problem? What limitation we need to add to the question to allow negative numbers?
+
 ### Example
 * Input: candidates = [1, 2, 3], target = 4,
   * Output: all the possible combinations (actually permuations) are as follows:
@@ -32,49 +35,41 @@ find the number of possible combinations that add up to a positive integer targe
   (3, 1)
   ```
 
-## Solution: DFS，速度 前1%
+## Solution 1: Pure DFS Recursion, 太慢了, so only passes some of the test cases, the others are timed out
+每当要加入一个新的数的时候，都是把数组 nums 里的每一个数都拿出来试一下，每一个数都有平等的在这一位出场的权力
 
 ### Complexity
-* Time: O(2^n) <=== 对么？？？
+* Time: O(n^n) <=== 对么？？？
 * Space: O(n)，每个list的可能size
 
 ### Java
 ```java
 class Solution {
-    public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        List<List<Integer>> result = new ArrayList<>();
-        if (candidates == null || candidates.length == 0) {
-            return result;
-        }
-        
-        // 这题元素可以复用，所以排序不是非做不可。但做了能加速后面的dfs！因为排序以后，
-        // dfs的时候，来了一个元素，如果比remain sum to meet 还大，则后面的都可放弃
-        Arrays.sort(candidates);
-        
-        dfs(candidates, 0, target, new ArrayList<Integer>(), result);
-        return result;
+    public int combinationSum4(int[] nums, int target) {
+    	if (nums == null || nums.length == 0) {
+    		return 0;
+    	}
+    	
+    	int[] result = {0};
+    	Arrays.sort(nums);
+        dfs(nums, target, result);
+        return result[0];
     }
-    
-    private void dfs(int[] candidates, int startIndex, int remainTarget,
-        ArrayList<Integer> combination, List<List<Integer>> result) {
-        
-        if (remainTarget == 0) {
-            result.add(new ArrayList<Integer>(combination)); // 要new一个
-            return;
-        }
-        
-        for (int i = startIndex; i < candidates.length; i++) {
-            if (candidates[i] > remainTarget) {
-                return;
-            }
-        
-            combination.add(candidates[i]);
-            // 一个元素要无限次复用，
-            // 下一次 recursion 的 start index 就必须与这一次的相同
-            dfs(candidates, i, remainTarget - candidates[i], combination, result);
-            combination.remove(combination.size() - 1);
-        }
-    }
+
+	private void dfs(int[] nums, int remain, int[] result) {
+		if (remain == 0) {
+			result[0]++;
+			return;
+		}
+		
+		for (int num : nums) {
+			if (num > remain) {
+				return;
+			}
+			
+			dfs(nums, remain - num, result);
+		}
+	}
 }
 ```
 
