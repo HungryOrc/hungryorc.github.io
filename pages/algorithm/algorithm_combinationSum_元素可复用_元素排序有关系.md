@@ -106,7 +106,51 @@ class Solution {
 }
 ```
 
+## Solution 3: 一种非常奇葩的DP做法，从大到小算，tricky。看下就好，不便运用。speed top 15%
 
+### Complexity
+* Time: ????
+* Space: O(target), size of the dp array
+
+### Java
+```java
+class Solution {
+    public int combinationSum4(int[] nums, int target) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        
+        Arrays.sort(nums);
+        
+        int[] dp = new int[target + 1]; // from 0 to target
+        Arrays.fill(dp, -1); // -1 means un-touched, 0 means no way
+        dp[0] = 1; // this means put nothing into the combination, it's still one solution
+        
+        return dfs(nums, target, dp);
+    }
+    
+    private int dfs(int[] nums, int target, int[] dp) {
+        if (dp[target] != -1) { // reuse the memorized data
+            return dp[target];
+        }
+        
+        int result = 0;
+        
+        for (int num : nums) {
+            if (num > target) {
+                break;
+            }
+            
+            // dp[target] might interfere with others in the process,
+            // so it is safe to set a result variable during the process
+            result += dfs(nums, target - num, dp);
+        }
+        
+        dp[target] = result;
+        return result; 
+    }
+}
+```
 
 ## Reference
 * [Combination Sum IV [LeetCode]](https://leetcode.com/problems/combination-sum-iv/)
