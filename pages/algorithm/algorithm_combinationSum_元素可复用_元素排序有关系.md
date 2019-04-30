@@ -73,6 +73,41 @@ class Solution {
 }
 ```
 
+## Solution 2: DP, adding from smaller sum to bigger sum, speed top 15%
+
+### Complexity
+* Time: O(target * n), n is the number of elements in the `nums` array. We are also doing a sorting for the `nums` array, so if nlogn > target x n, then the time complexity is nlogn
+* Space: O(target), size of the dp array
+
+### Java
+```java
+class Solution {
+    public int combinationSum4(int[] nums, int target) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        
+        Arrays.sort(nums);
+        int[] dp = new int[target + 1]; // from 0 to target
+        dp[0] = 1; // this means put nothing into the combination, it's still one solution
+        
+        for (int sum = 1; sum <= target; sum++) {
+            for (int num : nums) {
+                
+                if (num > sum) {
+                    break;
+                }
+                
+                dp[sum] += dp[sum - num];
+            }
+        }
+        return dp[target];
+    }
+}
+```
+
+
+
 ## Reference
 * [Combination Sum IV [LeetCode]](https://leetcode.com/problems/combination-sum-iv/)
 
