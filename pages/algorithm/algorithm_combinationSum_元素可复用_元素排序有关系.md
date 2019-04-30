@@ -46,30 +46,30 @@ find the number of possible combinations that add up to a positive integer targe
 ```java
 class Solution {
     public int combinationSum4(int[] nums, int target) {
-    	if (nums == null || nums.length == 0) {
-    		return 0;
-    	}
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
     	
-    	int[] result = {0};
-    	Arrays.sort(nums);
+        int[] result = {0};
+        Arrays.sort(nums);
         dfs(nums, target, result);
         return result[0];
     }
 
-	private void dfs(int[] nums, int remain, int[] result) {
-		if (remain == 0) {
-			result[0]++;
-			return;
-		}
-		
-		for (int num : nums) {
-			if (num > remain) {
-				return;
-			}
-			
-			dfs(nums, remain - num, result);
-		}
-	}
+    private void dfs(int[] nums, int remain, int[] result) {
+        if (remain == 0) {
+            result[0]++;
+            return;
+        }
+
+        for (int num : nums) {
+            if (num > remain) {
+                return;
+            }
+	
+            dfs(nums, remain - num, result);
+        }
+    }
 }
 ```
 
