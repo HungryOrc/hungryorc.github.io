@@ -358,6 +358,7 @@ public class Solution {
 ```
 
 ## Reference
+* [Implement Trie (Prefix Tree) [LeetCode]](https://leetcode.com/problems/implement-trie-prefix-tree/description/)
 * [Trie | Insert and Search [GeeksforGeeks]](https://www.geeksforgeeks.org/trie-insert-and-search/)
 * [Trie | Delete [GeeksforGeeks]](https://www.geeksforgeeks.org/trie-delete/)
 
