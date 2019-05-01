@@ -51,11 +51,14 @@ class Hanoi {
 	    System.out.println("Dish 1: " + from + " -> " + to);
 	    return;
 	}
-		
+	
+	// step 1: 把从最小到倒数第二大的dishes 从初始柱子 挪到中间的柱子上去
 	hanoiMove(dishNum - 1, from, intermediate, to);
-		
+	
+	// step 2: 把最大的dish 从初始柱子 挪到最后的柱子上去
 	System.out.println("Dish " + dishNum + ": " + from + " -> " + to);
-		
+	
+	// step 3：把从最小到倒数第二大的dishes 从中间的柱子 挪到最后的柱子上去
 	hanoiMove(dishNum - 1, intermediate, to, from);
     }
 	
