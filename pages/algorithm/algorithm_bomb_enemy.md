@@ -27,7 +27,7 @@ Note:
   * Output: 3, when placing the bomb at (1, 1)
 
 ## Solution：我自己的DP类方法，速度不算快，但思路简明漂亮
-具体思路见代码里的注释
+Use 4 dp matrix to represent 4 directions of the bomb explosion killing effects.
 
 ### Complexity
 * Time: O(n * m)
@@ -44,7 +44,7 @@ class Solution {
         
         int n = grid.length, m = grid[0].length;
         
-        // 从当前位置 往上/往下/往左/往右 炸，能炸死多少人，不包括当前位置！这么做的因为，
+        // dp[i][j]: 从当前位置 往上/往下/往左/往右 炸，能炸死多少人，不包括当前位置！这么做的因为，
         // 虽然只能往0处投弹，不能往E处投弹，但我们还是要记录投在每个E处时，往上下左右能炸死多少人，
         // 否则，遇到连续多个E的情况，就会丢记录，造成结果偏少
         // 当然每个0处自然也是要记录的
