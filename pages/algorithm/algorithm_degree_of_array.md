@@ -10,7 +10,8 @@ toc: false
 ---
 
 ## Description
-一个数组的"度(Degree)"等于它里面出现最多的元素的次数。非空数组nums的元素都是非负整数，找到具有和 nums 相同 degree 的连续 subarray 的最小长度。
+一个数组的"度(Degree)"等于它里面出现最多的元素的次数。非空数组nums的元素都是非负整数。
+如果整个数组 nums 的 degree 为n，找到degree 也为 n 的连续 subarray 的最小长度。
 
 ### Example
 * Input: [1, 2, 2, 3, 1]
