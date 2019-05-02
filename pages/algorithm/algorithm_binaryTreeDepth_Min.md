@@ -24,7 +24,7 @@ public class TreeNode {
 ### Example
 略
 
-## Solution 1: 一种Recursion，base case写在 null node（leaf node再往下一层）上
+## Solution 1: 一种 DFS Recursion，base case写在 null node（leaf node再往下一层）上
 
 ### Complexity
 * Time: O(n)
@@ -62,7 +62,7 @@ public class Solution {
 }
 ```
 
-## Solution 2: 另一种Recursion，base case写在 leaf node上
+## Solution 2: 另一种 DFS Recursion，base case写在 leaf node上
 
 ### Complexity
 * Time: O(n)
@@ -76,6 +76,7 @@ public class Solution {
             return 1;
         }
         
+        // 下面这些代码和上面的base case写在leaf node上的方法是一样的
         if (root.left == null) {
             return minDepth(root.right) + 1;
         } else if (root.right == null) {
@@ -86,7 +87,7 @@ public class Solution {
 }
 ```
 
-## Solution 3: Iteration
+## Solution 3: BFS Iteration
 
 ### Complexity
 * Time: O(n)
@@ -96,31 +97,32 @@ public class Solution {
 ```java
 public class Solution {
     public int minDepth(TreeNode root) {
-        if (root == null)
+        if (root == null) {
             return 0;
+        }
         
         int curDepth = 0;
         Queue<TreeNode> nodeQueue = new LinkedList<TreeNode>();
         nodeQueue.offer(root);
         
         while (!nodeQueue.isEmpty()) {
-            // 当前level内的node的个数
-            int numOfNodesInCurLevel = nodeQueue.size();
+            int size = nodeQueue.size();
             curDepth ++;
             
-            while (numOfNodesInCurLevel > 0) {
+            for (int i = 0; i < size; i++) {
                 TreeNode curNode = nodeQueue.poll();
                 
                 // 找到一个leaf，那么此时找 min depth 的工作就可以结束了
-                if (curNode.left == null && curNode.right == null)
+                if (curNode.left == null && curNode.right == null) {
                     return curDepth;
+                }
                 
-                if (curNode.left != null)
+                if (curNode.left != null) {
                     nodeQueue.offer(curNode.left);
-                if (curNode.right != null)
+                }
+                if (curNode.right != null) {
                     nodeQueue.offer(curNode.right);
-                
-                numOfNodesInCurLevel --;
+                }
             }
         }
         return -1; // actually we will never reach here
