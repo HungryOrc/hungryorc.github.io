@@ -32,19 +32,18 @@ public class TreeNode {
 
 ### Java
 ```java
-public class Solution {
+class Solution {
     public int minDepth(TreeNode root) {
         if (root == null) {
             return 0;
         }
         
-        if (root.left != null && root.right != null) {
-            return Math.min(minDepth(root.left), minDepth(root.right)) + 1;
-        } else if (root.left != null) {
-            return minDepth(root.left) + 1;
-        } else { // root.right != null
+        if (root.left == null) {
             return minDepth(root.right) + 1;
+        } else if (root.right == null) {
+            return minDepth(root.left) + 1;
         }
+        return Math.min(minDepth(root.left), minDepth(root.right)) + 1;
     }
 }
 ```
@@ -63,44 +62,31 @@ public class Solution {
 }
 ```
 
-## Solution 2: 另一种 Recursion
+## Solution 2: 另一种Recursion，base case写在 leaf node上
 
 ### Complexity
 * Time: O(n)
-* Space: O(n)，queue size
+* Space: O(tree height)，即 call stack 的层数
 
 ### Java
 ```java
 public class Solution {
-    public int maxDepth(TreeNode root) {
-        if (root == null) return 0;
-        
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root);
-        
-        int curDepth = 0;
-        
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            curDepth++;
-            
-            for (int i = 0; i < size; i++) {
-                TreeNode cur = queue.poll();
-                if (cur.left != null) {
-                    queue.offer(cur.left);
-                }
-                if (cur.right != null) {
-                    queue.offer(cur.right);
-                }
-            }
+    public int minDepth(TreeNode root) {
+        if (root.left == null && root.right == null) { // 前提：整个树的root不是null
+            return 1;
         }
-        return curDepth;
+        
+        if (root.left == null) {
+            return minDepth(root.right) + 1;
+        } else if (root.right == null) {
+            return minDepth(root.left) + 1;
+        }
+        return Math.min(minDepth(root.left), minDepth(root.right)) + 1;
     }
 }
 ```
 
-## Solution 3: DFS，用2个Stack，一个存Node，一个存对应于当前Node的Depth。这个方法看看就好
-
+## Solution 3: Iteration
 
 ### Complexity
 * Time: O(n)
@@ -109,35 +95,35 @@ public class Solution {
 ### Java
 ```java
 public class Solution {
-    public int maxDepth(TreeNode root) {
-        if (root == null) {
+    public int minDepth(TreeNode root) {
+        if (root == null)
             return 0;
-        }
-
-        Deque<TreeNode> nodeStack = new ArrayDeque<>();
-        Deque<Integer> depthStack = new ArrayDeque<>();
         
-        // 初始
-        int maxDepth = 1;
-        nodeStack.push(root);
-        depthStack.push(1);
+        int curDepth = 0;
+        Queue<TreeNode> nodeQueue = new LinkedList<TreeNode>();
+        nodeQueue.offer(root);
         
-        while (!nodeStack.isEmpty()) {
-            TreeNode curNode = nodeStack.pop();
-            int curDepth = depthStack.pop();
+        while (!nodeQueue.isEmpty()) {
+            // 当前level内的node的个数
+            int numOfNodesInCurLevel = nodeQueue.size();
+            curDepth ++;
             
-            maxDepth = Math.max(maxDepth, curDepth);
-        
-            if (curNode.left != null) {
-                nodeStack.push(curNode.left);
-                depthStack.push(curDepth + 1); // 比较有趣的处理方式
-            }
-            if (curNode.right != null) {
-                nodeStack.push(curNode.right);
-                depthStack.push(curDepth + 1);
+            while (numOfNodesInCurLevel > 0) {
+                TreeNode curNode = nodeQueue.poll();
+                
+                // 找到一个leaf，那么此时找 min depth 的工作就可以结束了
+                if (curNode.left == null && curNode.right == null)
+                    return curDepth;
+                
+                if (curNode.left != null)
+                    nodeQueue.offer(curNode.left);
+                if (curNode.right != null)
+                    nodeQueue.offer(curNode.right);
+                
+                numOfNodesInCurLevel --;
             }
         }
-        return maxDepth;
+        return -1; // actually we will never reach here
     }
 }
 ```
