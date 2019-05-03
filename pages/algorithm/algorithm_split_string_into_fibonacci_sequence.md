@@ -19,8 +19,12 @@ Formally, a Fibonacci-like sequence is a list F of non-negative integers such th
 * F.length >= 3;
 * and F[i] + F[i+1] = F[i+2] for all 0 <= i < F.length - 2.
 
-Also, note that when splitting the string into pieces, **each piece must not have extra leading zeroes, 
-except if the piece is the number 0 itself**，这个含“零”的规则要注意。
+注意：
+* 没有非法字符。只有0-9。也没有负号
+* when splitting the string into pieces, **each piece must not have extra leading zeroes, except if the piece is the number 0 itself**，这个含“零”的规则要注意
+* 不能把几个0放到一起，比如00或者000是不行的。拆成几个连续的单个0是可以的，因为 0 + 0 = 0 也是ok的
+* 这些int相加不会超过int型变量的上限
+* 给的String的长度的长度不超过int变量的上限（自然也就能放到memory里面了）
 
 Return any Fibonacci-like sequence split from S, or return [] if it cannot be done.
 
