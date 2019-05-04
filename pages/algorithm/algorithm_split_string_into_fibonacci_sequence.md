@@ -108,6 +108,121 @@ class Solution {
 }
 ```
 
+## Solution 2: 改进上面的Backtracking，前两个数确定以后，后面的都可以确定了，所以就不用再dfs下去了，就直接算各个和，看是否吻合就行了。理论上应该比前面的方法快，但实测反而要慢一些，前30%
+
+特别注意！取前两个数的方式，可以用2层for loop，但那样就low了！因为如果fibo的要求是前k个数加在一起等于第k+1个数，那么k层for loop就SB了。
+所以NB闪闪的方法是 **把“取多少次数”这个事情作为一个参数，放到处理取数的function里去，每取了一个数就减一，减到0为止**
+
+### Complexity
+* Time: O(n^3)
+* Space: O(n^2)
+
+### Java
+代码虽然看起来长，但是想法并不复杂，如上文所述
+```java
+class Result {
+    List<Integer> nums;
+    int startIndex;
+    public Result(int si, List<Integer> list) {
+        startIndex = si;
+        nums = list;
+    }
+}
+
+public class Solution {
+    public List<Integer> splitIntoFibonacci(String s) {
+	    List<Integer> fiboList = new ArrayList<>();
+	    if (s == null || s.length() == 0) {
+		    return fiboList;
+        }
+
+        // 找到所有可能的前两个数的组合。这里参数2表示(前)两个数
+        List<Result> results = new ArrayList<>();
+        List<Integer> nums = new ArrayList<>();
+        getAllListsOfLeadingNumbers(s, 0, 2, nums, results);
+        
+        fiboList = furtherSplit(s, results);
+        return fiboList;
+    }
+    
+    // 这里面只用一层for loop。比在main function里 用2层for loop 更有扩展性
+    private void getAllListsOfLeadingNumbers(String s, int startIndex,
+            int count, List<Integer> nums, List<Result> results) {
+        if (count == 0) {
+            List<Integer> list = new ArrayList<>(nums);
+            Result result = new Result(startIndex, list);
+            results.add(result);
+            return;
+        }
+        
+        // int型最多是10位数
+        for (int len = 1; len <= 10 && len <= (s.length() - startIndex) / 2; len++) {
+            if (s.charAt(startIndex) == '0' && len > 1) {
+                break;
+            }
+            
+            int endIndex = startIndex + len - 1;
+            if (endIndex >= s.length()) {
+                return;
+            }
+            
+            int num = 0;
+            try { // 避免int太大越界
+                num = Integer.parseInt(s.substring(startIndex, endIndex + 1));
+            } catch (Exception e) {
+                continue;
+            }
+            
+            nums.add(num);
+            getAllListsOfLeadingNumbers(s, endIndex + 1, count - 1, nums, results);
+            nums.remove(nums.size() - 1);
+        }
+    }
+
+    private List<Integer> furtherSplit(String s, List<Result> results) {
+        for (Result result : results) {
+            int startIndex = result.startIndex;
+            List<Integer> fibos = result.nums;
+            
+            if (split(s, fibos.get(0), fibos.get(1), startIndex, fibos)) {
+                return fibos;
+            }
+        }
+        return new ArrayList<Integer>();
+    }
+     
+    private boolean split(String s, int num1, int num2, 
+            int startIndex, List<Integer> fibos) {
+        if (startIndex == s.length()) {
+            return true;
+        }
+        
+        int sum = 0;
+        String sumStr = "";
+        
+        try { // 避免int太大越界
+            sum = num1 + num2;
+            sumStr = Integer.toString(sum);
+        } catch (Exception e) {
+            return false;
+        }
+
+        for (int i = 0; i < sumStr.length(); i++) {
+            int j = startIndex + i;
+            if (j == s.length()) {
+                return false;
+            }
+            if (s.charAt(j) != sumStr.charAt(i)) {
+                return false;
+            }
+        }
+
+        fibos.add(sum);
+        return split(s, num2, sum, startIndex + sumStr.length(), fibos);
+    }
+}
+```
+
 ## Solution 2: 我的DP解法，这一题DP反而不如backtracking快
 * 这题有点DP的范儿，也确实可以用DP类型的思路来做，但具体落实到做法其实不算是真正的DP
 * 为了快速得到任何起始位置任何终止位置的数的值，可以做一个辅助的二维数组，先把所有数都算好存在这里
