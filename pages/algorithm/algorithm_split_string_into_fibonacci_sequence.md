@@ -23,8 +23,7 @@ Formally, a Fibonacci-like sequence is a list F of non-negative integers such th
 * 没有非法字符。只有0-9。也没有负号
 * when splitting the string into pieces, **each piece must not have extra leading zeroes, except if the piece is the number 0 itself**，这个含“零”的规则要注意
 * 不能把几个0放到一起，比如00或者000是不行的。拆成几个连续的单个0是可以的，因为 0 + 0 = 0 也是ok的
-* 这些int相加不会超过int型变量的上限
-* 给的String的长度的长度不超过int变量的上限（自然也就能放到memory里面了）
+* **给的String的长度可能会超过int型变量的上限**(10位十进制数)，但**每个切分下来的数不能超过int型上限**，也就是说初始的2个数，以及后面各个被加出来的数，都不可以超过10位十进制数（而且如果是十位，它的首位也不能超过2）。这个在我们做切分判断的时候要格外注意
 
 Return any Fibonacci-like sequence split from S, or return [] if it cannot be done.
 
