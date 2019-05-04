@@ -54,14 +54,17 @@ Ref: https://leetcode.com/problems/split-array-into-fibonacci-sequence/discuss/1
 ### Java
 ```java
 class Solution {
-    public List<Integer> splitIntoFibonacci(String S) {
-        // ignore sanity checks
+    public List<Integer> splitIntoFibonacci(String s) {
         List<Integer> result = new ArrayList<>();
-        helper(S, result, 0);
+        if (s == null || s.length() == 0) {
+            return result;
+        }
+        
+        dfs(s, result, 0);
         return result;
     }
 
-    public boolean helper(String str, List<Integer> result, int idx) {
+    public boolean dfs(String str, List<Integer> result, int idx) {
         if (idx == str.length() && result.size() >= 3) {
             return true;
         }
@@ -93,7 +96,7 @@ class Solution {
                 
                 // 如果任何一个分支ok了，就把true往上一层传递！作用是结束上面的每一层！
                 // 后面的复原也不用做了
-                if (helper(str, result, i + 1)) {
+                if (dfs(str, result, i + 1)) {
                     return true;
                 }
                 
