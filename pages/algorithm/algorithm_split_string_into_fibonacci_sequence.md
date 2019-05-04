@@ -131,10 +131,10 @@ class Result {
 
 public class Solution {
     public List<Integer> splitIntoFibonacci(String s) {
-	    List<Integer> fiboList = new ArrayList<>();
-	    if (s == null || s.length() == 0) {
-		    return fiboList;
-        }
+	List<Integer> fiboList = new ArrayList<>();
+        if (s == null || s.length() == 0) {
+            return fiboList;
+	}
 
         // 找到所有可能的前两个数的组合。这里参数2表示(前)两个数
         List<Result> results = new ArrayList<>();
