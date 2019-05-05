@@ -64,29 +64,29 @@ class Solution {
         return result;
     }
 
-    public boolean dfs(String str, List<Integer> result, int idx) {
-        if (idx == str.length() && result.size() >= 3) {
+    public boolean dfs(String s, List<Integer> result, int startIndex) {
+        if (startIndex == s.length() && result.size() >= 3) {
             return true;
         }
         
-        for (int i = idx; i < str.length(); i++) {
+        for (int i = startIndex; i < s.length(); i++) {
             // 开头为0且长度大于1的数，不要
-            if (str.charAt(idx) == '0' && i > idx) {
+            if (s.charAt(startIndex) == '0' && i > startIndex) {
                 break;
             }
             
-            long num = Long.parseLong(str.substring(idx, i + 1));
-            
+            // 这也是一种检查int型是否越界的方法：先弄成long型，再看这个long型数是否大于了int的上限
+            long num = Long.parseLong(s.substring(startIndex, i + 1));
             if (num > Integer.MAX_VALUE) {
                 break;
             }
             
             int size = result.size();
 
-            // 如果当前尝试的序列里已经有2个或更多的数字，而且现在接龙搞不下去了，
+            // 如果当前尝试的序列里已经有>=2个数字（不包括cur num），而且现在接龙搞不下去了，
             // 则放弃这个序列
-            if (size >= 2 && num > result.get(size - 1) + result.get(size - 2)) {
-                break;
+            if (size >= 2 && num != result.get(size - 1) + result.get(size - 2)) {
+                continue;
             }
             
             // 如果当前尝试的序列里还不到2个数字，或者序列里到目前为止接龙还ok，
@@ -96,7 +96,7 @@ class Solution {
                 
                 // 如果任何一个分支ok了，就把true往上一层传递！作用是结束上面的每一层！
                 // 后面的复原也不用做了
-                if (dfs(str, result, i + 1)) {
+                if (dfs(s, result, i + 1)) {
                     return true;
                 }
                 
