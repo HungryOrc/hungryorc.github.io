@@ -108,9 +108,91 @@ class Solution {
 }
 ```
 
-## Solution 2: 改进上面的Backtracking，前两个数确定以后，后面的都可以确定了，所以就不用再dfs下去了，就直接算逐个sum，看是否吻合后面的string就行了。理论上应该比前面的方法快，但实测反而要慢一些，前30%
+## Solution 2: 改进上面的Backtracking，速度 前3%：前两个数确定以后，后面的都可以确定了，所以就不用再dfs下去了，就直接算逐个sum，看是否吻合后面的string就行了
 
-特别注意！取前两个数的方式，可以用2层for loop，但那样就low了！因为如果fibo的要求是前k个数加在一起等于第k+1个数，那么k层for loop就SB了。
+### Complexity
+* Time: O(n^3)
+* Space: O(n^2)
+
+### Java
+```java
+class Solution {
+    public List<Integer> splitIntoFibonacci(String s) {
+        List<Integer> result = new ArrayList<>();
+        if (s == null || s.length() == 0) {
+            return result;
+        }
+        
+        int n = s.length();
+        for (int end1 = 0; end1 <= 10 && end1 < n / 2; end1++) {
+            int num1 = processNum(s, 0, end1);
+            if (num1 == Integer.MIN_VALUE) {
+                break;
+            }
+            
+            for (int len2 = 1; len2 <= 10 && len2 <= (n - end1) / 2; len2++) {
+                int num2 = processNum(s, end1 + 1, end1 + len2);
+                if (num2 == Integer.MIN_VALUE) {
+                    break;
+                }
+                
+                result.add(num1);
+                result.add(num2);
+                if (match(s, num1, num2, end1 + len2 + 1, result)) {
+                    return result;
+                }
+                result.remove(result.size() - 1);
+                result.remove(result.size() - 1);
+            }
+        }
+        return result;
+    }
+    
+    private int processNum(String s, int startIndex, int endIndex) {
+        long num = Long.parseLong(s.substring(startIndex, endIndex + 1));
+        if (num > Integer.MAX_VALUE) {
+            return Integer.MIN_VALUE;
+        }
+        if (s.charAt(startIndex) == '0' && endIndex - startIndex > 0) {
+            return Integer.MIN_VALUE;
+        }
+        return (int)num;
+    }
+    
+    private boolean match(String s, int num1, int num2, int startIndex, List<Integer> result) {
+        if (startIndex == s.length()) {
+            return true;
+        }
+        
+        long sum = num1 + num2;
+        if (sum > Integer.MAX_VALUE) {
+            return false;
+        }
+        
+        String sumStr = Long.toString(sum);
+        for (int i = 0; i < sumStr.length(); i++) {
+            if (i + startIndex == s.length()) {
+                return false;
+            }
+        
+            if (sumStr.charAt(i) != s.charAt(i + startIndex)) {
+                return false;
+            }
+        }
+        
+        result.add((int)sum);
+        boolean match = match(s, num2, (int)sum, startIndex + sumStr.length(), result);
+        if (match) {
+            return true;
+        }
+        result.remove(result.size() - 1);
+        return false;
+    }
+}
+```
+
+## Solution 2.1: 对Solution 2 的代码的风格的优化。速度上反而下降了，降到了 前30%
+取前2个数的方式，可以用2层for loop，但那样就low了。因为如果fibo的要求是前k个数加在一起等于第k+1个数，那么k层for loop就SB了。
 所以NB闪闪的方法是 **把“取多少次数”这个事情作为一个参数，放到处理取数的function里去，每取了一个数就减一，减到0为止**
 
 ### Complexity
@@ -223,7 +305,7 @@ public class Solution {
 }
 ```
 
-## Solution 2: 我的DP解法，这一题DP反而不如backtracking快
+## Solution 3: 我的DP解法，这一题DP反而不如backtracking快
 * 这题有点DP的范儿，也确实可以用DP类型的思路来做，但具体落实到做法其实不算是真正的DP
 * 为了快速得到任何起始位置任何终止位置的数的值，可以做一个辅助的二维数组，先把所有数都算好存在这里
   * 算这个数组的时候也有技巧，为了不用O(n)的时间长度，可以也用DP的思路来算各个分段的值：一个长度为m的分段的值等于前m-1位的值乘以10加上第m位的值
