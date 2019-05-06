@@ -26,7 +26,7 @@ count the number of such uni-value subtress in it.
   ```
   * Output: 6。其中：4个leaves都算是。然后还有2个nodes：2个2里上面的那个2，以及3个1里上面的那个1
 
-## Solution：DFS Recursion
+## Solution：DFS Recursion，速度 前1%
 
 ### Complexity
 * Time: O(n)
@@ -35,7 +35,7 @@ count the number of such uni-value subtress in it.
 ### Java
 ```java
 class Solution {
-    public int countUni(TreeNode root) {
+    public int countUnivalSubtrees(TreeNode root) {
         if (root == null) {
             return 0;
         }
@@ -46,16 +46,16 @@ class Solution {
     }
     
     private boolean countUni(TreeNode node, int[] count) {
-        if (root == null) {
+        if (node == null) {
             return true;
         }
         
-        boolean left = CountUni(node.left, count);
-        if (!left) {
-            return false;
-        }
-        boolean right = CountUni(node.right, count);
-        if (!right) {
+        boolean left = countUni(node.left, count);
+        boolean right = countUni(node.right, count);
+        // 先做完left和right，再做下面的判断！不能反过来！这里不是要减支的时候！因为
+        // 就算当前node不是univalue subtree的root，那么cur node下面的任何node
+        // 都还是可能是univalue subtree的root的，所以左右都要保证往下走下去
+        if (!left || !right) {
             return false;
         }
         
@@ -67,12 +67,12 @@ class Solution {
         }
         
         count[0]++;
-        return true;
+        return true;   
     }
 }
 ```
 
 ## Reference
-网上没找到这题
+* [Count Univalue Subtrees [LeetCode]](https://leetcode.com/problems/count-univalue-subtrees/description/)
 
 {% include links.html %}
