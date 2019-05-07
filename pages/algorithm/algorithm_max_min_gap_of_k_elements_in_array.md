@@ -10,7 +10,7 @@ toc: false
 ---
 
 ## Description
-一个int array，每两个element之间的距离 定义为 它们两的值之差。那么k个element之间的最短间距，就是看这k个里面逐个的距离哪个最小了。
+一个int array，里面的元素都是正整数，从小到大排列好的。每两个element之间的距离 定义为 它们两的值之差。那么k个element之间的最短间距，就是看这k个里面逐个的距离哪个最小了。
 问：在array里随便找k个元素，它们的最短间距的最大值是多少
 
 ### 我自己想到的 Follow up
@@ -26,15 +26,40 @@ toc: false
 相当于在数组里随便pick k 个点，这k个点两两之间要尽量隔开得越远越好。那么自然数组的两个端点是要选的。然后中间再选 k - 2 个点。
 到了这里就和锯木头的那题基本一样了：**一个长木头上有一些分段标记，必须锯在这些分段标记上**。
 
-关键点：用二分法来不断接近和摸索最小间距的最大值
+关键点：**用二分法来不断接近和摸索最小间距的最大值**
 
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(nlogn) <=== ？？？
+* Space: O(n)，worst case of call stacks <=== ？？？
 
 ### Java
 ```java
-
+public class Solution {
+    public int maxMinDist(int[] nums, int k) {
+        if (nums == null || nums.length == 0 || k <= 1) {
+            return 0;
+        }
+        int n = nums.length;
+        if (k > n) {
+            return 0;
+        }
+        if (k == 2) {
+            return nums[n - 1] - nums[0];
+        }
+        
+        int maxDist =  nums[n - 1] - nums[0];
+        int minDist = Integer.MAX_VALUE;
+        for (int i = 0; i < n - 1; i++) {
+            minDist = Math.min(minDist, nums[i + 1] - nums[i]);
+        }
+        
+        return getMaxMin(nums, k, minDist, maxDist);
+    }
+    
+    private int getMaxMin(int[] nums, int k, int low, int hight) {
+        
+    }
+}
 ```
 
 ## Reference
