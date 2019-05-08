@@ -82,6 +82,45 @@ public class Solution {
 }
 ```
 
+## Solution 2: 还是求每个path上的 max subarray sum. But 不用 prefix sum，而是用 DP 的思想做
+DP数组的每一位，表示以当前位为结束点的最大的 max subarray sum. 所以如果以前一位 为结束点的 max subarray sum < 0 的话，这一位就放弃前面的所有东西，从这一位开始，重新开始. 
+
+### Complexity
+* Time: O(n) <=== 对么 ？？？
+* Space: O(tree height), call stack的层数 <=== 对么 ？？？
+
+### Java
+```java
+public class Solution {
+    public int maxPathSum(TreeNode root) {
+        if (root == null) {
+            return Integer.MIN_VALUE;
+        }
+    
+        int[] maxPathSum = {Integer.MIN_VALUE};
+        findMaxPathSum(root, 0, maxPathSum);
+        return maxPathSum[0];
+    }
+  
+    private void findMaxPathSum(TreeNode node, int maxSubarrayPathSum, int[] maxPathSum) {
+        if (node == null) {
+            return;
+        }
+    
+        if (maxSubarrayPathSum < 0) {
+            maxSubarrayPathSum = node.val;
+        } else {
+            maxSubarrayPathSum += node.val;
+        }
+    
+        maxPathSum = Math.max(maxPathSum[0], maxSubarrayPathSum);
+
+        findMaxPathSum(node.left, maxSubarrayPathSum, maxPathSum);
+        findMaxPathSum(node.right, maxSubarrayPathSum, maxPathSum);
+    }
+}
+```
+
 ## Reference
 Didn't go to find this question on the web yet
 
