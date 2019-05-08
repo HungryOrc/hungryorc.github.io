@@ -1,10 +1,10 @@
 ---
-title: "Binary Tree Path Sum, from Any Node to Any Node, Max Path Sum, U Turn Paths"
+title: "Binary Tree Max Path Sum, from Any Node to Any Node, U Turn Paths"
 tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_binaryTreePathSum_anyToAnyNode_maxPathSum_UTurnPaths.html
+permalink: algorithm_binaryTreeMaxPathSum_anyToAny_UTurnPaths.html
 folder: algorithm
 toc: false
 ---
