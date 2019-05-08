@@ -1,10 +1,10 @@
 ---
-title: "Binary Tree Path Sum, from Root to Leaf, Equals to Target"
+title: "Binary Tree Target Path Sum, from Root to Leaf"
 tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_binaryTreePathSum_rootToLeaf_equalsTarget.html
+permalink: algorithm_binaryTreeTargetPathSum_rootToLeaf.html
 folder: algorithm
 toc: false
 ---
