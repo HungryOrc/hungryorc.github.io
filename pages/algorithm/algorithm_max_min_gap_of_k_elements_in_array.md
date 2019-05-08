@@ -88,8 +88,9 @@ public class Solution {
             if (curLen < len) {
                 curLen += num;
             } else {
-                actualMin[0] = Math.max(actualMin[0], curLen);
+                actualMin[0] = Math.min(actualMin[0], curLen);
                 count++;
+                curLen = 0;
             }
         }
         return count;
