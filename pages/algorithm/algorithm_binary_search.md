@@ -12,7 +12,7 @@ toc: false
 ## Overview
 
 ### Complexity
-* Time: 平均情况下 O(logn)
+* Time: 平均情况下 O(logn), worst case O(n^2)
 * Space: 平均情况下 O(1)
 
 ## Implementation
