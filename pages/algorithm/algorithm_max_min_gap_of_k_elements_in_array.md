@@ -66,15 +66,18 @@ public class Solution {
             int cuts = getNumOfCuts(nums, mid, actualMin);
             
             // 如果切出来的块多于k，那么就需要切割间距加大，
-            // 要特别注意！如果切出来的块正好等于k，也要再把切割间距扩大试试看！看能否还是正好切出k块！！
             if (cuts > k) {
                 low = mid + 1;
+            // 要特别注意！如果切出来的块正好等于k，也要再把切割间距缩小试试看！看能否还是正好切出k块！！
+            // 间距之所以要变小，而非变大，是因为一共有k个元素被选出来的话，很可能最后一个是不足长度的，
+            // 那么这个最后一节所导致的 min sit 就会很小
+            // 那么把前面的那些段都缩小的话，可能就会把最后一个扩大，这样总体来说就是加大了 min dist！！
             } else if (cuts == k) {
-                low = mid + 1;
+                high = mid - 1;
                 // 只有在切割数正好等于k的时候，此时的actual min 间隔值 才有资格和 maxMin 相比较！
                 maxMin[0] = Math.max(maxMin[0], actualMin[0]);
             } else {
-                hight = mid - 1;
+                high = mid - 1;
             }
         }
     }
@@ -92,6 +95,12 @@ public class Solution {
                 count++;
                 curLen = 0;
             }
+        }
+        
+        if (curLen < len) { // 如果最后一刀没有正好切到数组的右端点上
+            // 最后一段很可能会小于len！
+            actualMin[0] = Math.min(actualMin[0], curLen);
+            count++;
         }
         return count;
     }
