@@ -14,7 +14,8 @@ Given a binary tree (不是 BST), in which each node contains an integer number.
 Find the maximum possible sum from any node to any node. 本题为LC hard 难度。
 
 Note: 
-* Start node and end node **can be the same node**!!
+* The nodes' values can be **NEGATIVE integers**
+* Start node and end node **can be the SAME node**
 * The root of the given binary tree is not null
 
 ```java
