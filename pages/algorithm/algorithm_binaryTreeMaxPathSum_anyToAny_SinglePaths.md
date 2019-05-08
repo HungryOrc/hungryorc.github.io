@@ -19,7 +19,8 @@ should be on the same path from root to one of the leaf nodes, and the subpath i
 Assumptions: The root of given binary tree is not null
 
 Note: 
-* Start node and end node **can be the same node**!
+* The nodes' values can be **NEGATIVE integers**
+* Start node and end node **can be the SAME node**
 * The root of the given binary tree is not null
 
 ```java
@@ -56,32 +57,28 @@ See above
 ### Java
 ```java
 public class Solution {
-  int maxPathSum;
+    public int maxPathSum(TreeNode root) {
+        if (root == null) {
+            return Integer.MIN_VALUE;
+        }
+    
+        int[] maxPathSum = {Integer.MIN_VALUE};
+        findMaxPathSum(root, root.val, 0, maxPathSum);
+        return maxPathSum[0];
+    }
   
-  public int maxPathSum(TreeNode root) {
-    if (root == null) {
-      return Integer.MIN_VALUE;
+    private void findMaxPathSum(TreeNode node, int curPrefixSum, int minPrefixSum, 
+            int[] maxPathSum) {
+        maxPathSum[0] = Math.max(maxPathSum[0], curPrefixSum - minPrefixSum);
+        minPrefixSum = Math.min(curPrefixSum, minPrefixSum);
+    
+        if (node.left != null) {
+            findMaxPathSum(node.left, curPrefixSum + node.left.val, minPrefixSum, maxPathSum);
+        }
+        if (node.right != null) {
+            findMaxPathSum(node.right, curPrefixSum + node.right.val, minPrefixSum, maxPathSum);
+        }  
     }
-    
-    maxPathSum = Integer.MIN_VALUE;
-    
-    findMaxPathSum(root, root.key, 0);
-    return maxPathSum;
-  }
-  
-  private void findMaxPathSum(TreeNode node, int curPrefixSum, int minPrefixSum) {
-
-    maxPathSum = Math.max(maxPathSum, curPrefixSum - minPrefixSum);
-    
-    minPrefixSum = Math.min(curPrefixSum, minPrefixSum);
-    
-    if (node.left != null) {
-      findMaxPathSum(node.left, curPrefixSum + node.left.key, minPrefixSum);
-    }
-    if (node.right != null) {
-      findMaxPathSum(node.right, curPrefixSum + node.right.key, minPrefixSum);
-    }
-  }
 }
 ```
 
