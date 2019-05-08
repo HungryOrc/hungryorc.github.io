@@ -4,7 +4,7 @@ tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_pathSum_asDigits_leafToRoot.html
+permalink: algorithm_binaryTreePathSum_asDigits_leafToRoot.html
 folder: algorithm
 toc: false
 ---
