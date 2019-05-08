@@ -33,6 +33,7 @@ toc: false
 * Space: O(n)，worst case of call stacks <=== ？？？
 
 ### Java
+代码对么 ？？？
 ```java
 public class Solution {
     public int maxMinDist(int[] nums, int k) {
@@ -53,11 +54,45 @@ public class Solution {
             minDist = Math.min(minDist, nums[i + 1] - nums[i]);
         }
         
-        return getMaxMin(nums, k, minDist, maxDist);
+        int[] maxMin = {0};
+        getMaxMin(nums, k, minDist, maxDist, maxMin);
+        return maxMin[0];
     }
     
-    private int getMaxMin(int[] nums, int k, int low, int hight) {
+    private void getMaxMin(int[] nums, int k, int low, int high, int[] maxMin) {
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            int[] actualMin = {Integer.MAX_VALUE};
+            int cuts = getNumOfCuts(nums, mid, actualMin);
+            
+            // 如果切出来的块多于k，那么就需要切割间距加大，
+            // 要特别注意！如果切出来的块正好等于k，也要再把切割间距扩大试试看！看能否还是正好切出k块！！
+            if (cuts > k) {
+                low = mid + 1;
+            } else if (cuts == k) {
+                low = mid + 1;
+                // 只有在切割数正好等于k的时候，此时的actual min 间隔值 才有资格和 maxMin 相比较！
+                maxMin[0] = Math.max(maxMin[0], actualMin[0]);
+            } else {
+                hight = mid - 1;
+            }
+        }
+    }
+    
+    // 这里的参数len的意思是：切出来的每一段的长度都要 >= len
+    private int getNumOfCuts(int[] nums, int len, int[] actualMin) {
+        int count = 1; // 一开始就是1，意思是最左端的那个点也是“切了一下”
+        int curLen = 0;
         
+        for (int num : nums) {
+            if (curLen < len) {
+                curLen += num;
+            } else {
+                actualMin[0] = Math.max(actualMin[0], curLen);
+                count++;
+            }
+        }
+        return count;
     }
 }
 ```
