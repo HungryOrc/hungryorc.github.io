@@ -71,7 +71,7 @@ public int binarySearch(int[] A, int target) {
     }
 
     // 到了这里意味着没有找到target
-    // 此时 start + 1 = end
+    // 此时 right + 1 = left
     return -1;
 }
 ```
