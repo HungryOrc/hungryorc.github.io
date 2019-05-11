@@ -143,6 +143,7 @@ class Solution {
             dp[sizes[0]] = 1;
         }
         
+        // 先loop items！再从大到小 loop 总size！
         for (int i = 1; i < n; i++) {
             int curItemSize = sizes[i];
             
