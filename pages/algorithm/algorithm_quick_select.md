@@ -23,7 +23,14 @@ It is related to the "Quick Sort" sorting algorithm.
 ### Complexity
 * Time: 
   * Best: O(n)
-  * Average: O(n)，因为quick select可以理解为 **“每次扔掉一半”**，所以总的时间消耗是 O(n) + O(n/2) + O(n/4) + O(n/8) + ... + 1 = O(n)
+  * Average: O(n)，因为quick select可以理解为 **“每次扔掉一半”**，所以总的时间消耗是 O(n) + O(n/2) + O(n/4) + O(n/8) + ... + 1 = O(n)。更详细一些，但还是不严格的证明：
+    ```
+    T(n) = (n - 1 次 compare) + avg(之后的所有步骤的时间成本，从最好到最坏的各种情况下的值)
+         = O(n - 1) + avg(T(n/2), T(n/2+1), T(n/2+2), ... , T(n))
+         = O(n - 1) + T(n * 3/4) = O(n) + T(n * 3/4)
+         = O(n) + O(3/4 * n) + O((3/4)^2 * n) + O((3/4)^3 * n) + ...
+         = O(n)
+    ```
   * Worst: O(n^2)，当每次pivot都选到min或max
 * Space: O(1) <=== 对么 ？？？
   
