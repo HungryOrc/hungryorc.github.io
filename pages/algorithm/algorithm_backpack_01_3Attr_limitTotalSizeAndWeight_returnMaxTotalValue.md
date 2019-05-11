@@ -218,10 +218,10 @@ public class Solution {
             int remainSize, int remainWeight, int curTotalVal) {
         if (remainSize < 0 || remainWeight < 0) {
             return 0; // 表示失败
-        } else if (remainSize == 0 || remainWeight == 0) {
+        }
+        if (remainSize == 0 || remainWeight == 0) {
             return curTotalVal;
         }
-        
         if (curInd == sizes.length) {
             return curTotalVal;
         }
@@ -233,11 +233,12 @@ public class Solution {
         
         // 不用 cur item
         totalVal = Math.max(totalVal, 
-            dfs(sizes, weights, values, curInd + 1, remainSize, remainWeight, curTotalVal));
+            dfs(sizes, weights, values, curInd + 1, 
+                remainSize, remainWeight, curTotalVal));
         // 用 cur item
         totalVal = Math.max(totalVal,
             dfs(sizes, weights, values, curInd + 1, 
-            remainSize - curSize, remainWeight - curWeight, curTotalVal + curVal));
+                remainSize - curSize, remainWeight - curWeight, curTotalVal + curVal));
         return totalVal;
     }
 }
