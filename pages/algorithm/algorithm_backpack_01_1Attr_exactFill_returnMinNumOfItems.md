@@ -57,8 +57,10 @@ class Solution {
             
             for (int sum = 1; sum <= capacity; sum++) {
                 // case 1: item i 不参与
-                // 下面这一句，以及前面的 dp[0][0] = 0，二者一起保证了对所有的i，永远有 dp[i][0] = 0 ！
-                // 那么下面case 2 的 dp[i - 1][sum - curItemSize] + 1 在 sum == curItemSize 的时候也就会等于 1 ！
+                // 下面这一句，以及前面的 dp[0][0] = 0，二者一起保证了 对所有的 i： 
+                // (1) dp[i][0] = 0
+                // (2) dp[i - 1][sum - curItemSize] + 1 = 1, when sum == curItemSize
+                // (3) dp[i][不能实现的sum] = -1
                 dp[i][sum] = dp[i - 1][sum];
                 
                 // case 2: item i 参与
