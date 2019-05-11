@@ -136,7 +136,7 @@ class Solution {
         // base case 1，去掉了第一维
         dp[0] = 0;
         for (int i = 1; i < n; i++) {
-            dp[i] = -1;
+            dp[i] = Integer.MAX_VALUE;
         }
         if (sizes[0] <= capacity) {
             dp[sizes[0]] = 1;
@@ -148,7 +148,7 @@ class Solution {
             for (int sum = capacity; sum >= 0; sum--) { // 这里要变成从大往小循环！！
                 // dp[sum] = dp[sum]; // 去掉了第一维。然后剩下的这一行也没意义了
                 
-                if (sum >= curItemSize && dp[sum - curItemSize] != -1) {
+                if (sum >= curItemSize && dp[sum - curItemSize] != Integer.MAX_VALUE) {
                     dp[sum] = Math.min(dp[sum], dp[sum - curItemSize] + 1); // 去掉了第一维
                 }
             }
