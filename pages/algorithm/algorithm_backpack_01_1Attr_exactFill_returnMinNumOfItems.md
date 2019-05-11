@@ -103,7 +103,8 @@ class Solution {
             for (int sum = 1; sum <= capacity; sum++) {
                 dp[i][sum] = dp[i - 1][sum];
                 
-                if (sum >= curItemSize && dp[i - 1][sum - curItemSize] != -1) {
+                // <== 这里code不对吧？之前根本没设过 MAX 给任何位置！？？？？？
+                if (sum >= curItemSize && dp[i - 1][sum - curItemSize] != Integer.MAX_VALUE) {
                     dp[i][sum] = Math.min(dp[i][sum], dp[i - 1][sum - curItemSize] + 1);
                 }
             }
