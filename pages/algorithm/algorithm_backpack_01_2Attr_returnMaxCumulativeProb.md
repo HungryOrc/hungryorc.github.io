@@ -20,7 +20,7 @@ toc: false
 略
 
 ## Solution 1: 二维DP
-* `double dp[i][money]`：申请数组里 index为0到i 的schools中的任意个school，每个school最多被申请一次。在总花费 <= money 的前提下，
+* `double dp[i][money]`：申请数组里 index为0到i 的schools中的任意个school，每个school最多被申请一次。在总花费 **正好等于** money 的前提下，
 **被所有申请的学校都拒绝 的最小概率是多少**
 * `double dp[][] = new int[number of schools][money limit + 1]`
 * Base Cases：见下面代码
