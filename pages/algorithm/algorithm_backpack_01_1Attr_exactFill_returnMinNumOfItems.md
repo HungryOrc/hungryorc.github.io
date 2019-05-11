@@ -20,7 +20,7 @@ toc: false
 * `int dp[i][s]`：使用数组里 index为0到i 的items中的任意几个，最少用多少个item，能正好组成总 size = s。
 * `int dp[][] = new int[number of items][capacity of backpack + 1]`
 * Base Cases
-  * 对于数组里的第一个item，if(sizes[0] <= capacity)，dp[0][sizes[0]] = 1; 其他的 dp[0][s != sizes[0]] 都 = -1，用-1来表示不可能（也可以用Integer.MAX_VALUE）
+  * 对于数组里的第一个item，if(sizes[0] <= capacity)，dp[0][sizes[0]] = 1; 其他的 dp[0][s != sizes[0]] 都 = Integer.MAX_VALUE，用来表示不可能
   * size和为0的情况，对于任何多个items，都是可以的，即什么都不放，即0个item。所以 `dp[i][0]` = 0, for 0 <= i < n。因为是0，所以也可以不写了
 * Induction Rule
   * `dp[i][s] = min(dp[i - 1][s], dp[i - 1][s - sizes[i]] + 1)`
@@ -44,9 +44,10 @@ class Solution {
         int[][] dp = new int[n][capacity + 1];
         
         // base case 1
-        dp[0][0] = 0; // 这里要写0！因为要避免成为-1！这里是因为总size为0，那么当然只要0个item
+        dp[0][0] = 0; // 这里要写0, 因为总size为0，那么当然只要0个item
         for (int i = 1; i < n; i++) {
-            dp[0][i] = -1; // -1 表示不可能实现；但下面有个例外，见紧邻的下面那个if语句
+            // 这里不要用 -1 或 MIN，因为后面要取 min，所以用 MAX 才好
+            dp[0][i] = Integer.MAX_VALUE;
         }
         if (sizes[0] <= capacity) {
             dp[0][sizes[0]] = 1;
@@ -60,7 +61,7 @@ class Solution {
                 // 下面这一句，以及前面的 dp[0][0] = 0，二者一起保证了 对所有的 i： 
                 // (1) dp[i][0] = 0
                 // (2) dp[i - 1][sum - curItemSize] + 1 = 1, when sum == curItemSize
-                // (3) dp[i][不能实现的sum] = -1
+                // (3) dp[i][不能实现的sum] = Integer.MAX_VALUE
                 dp[i][sum] = dp[i - 1][sum];
                 
                 // case 2: item i 参与
