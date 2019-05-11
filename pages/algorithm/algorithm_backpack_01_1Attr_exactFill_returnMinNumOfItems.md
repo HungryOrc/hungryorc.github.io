@@ -65,7 +65,7 @@ class Solution {
                 dp[i][sum] = dp[i - 1][sum];
                 
                 // case 2: item i 参与
-                if (sum >= curItemSize && dp[i - 1][sum - curItemSize] != -1) { // 别忘了检查是否是 -1 ！
+                if (sum >= curItemSize && dp[i - 1][sum - curItemSize] != Integer.MAX_VALUE) { // 别忘了检查
                     dp[i][sum] = Math.min(dp[i][sum], dp[i - 1][sum - curItemSize] + 1);
                 }
             }
