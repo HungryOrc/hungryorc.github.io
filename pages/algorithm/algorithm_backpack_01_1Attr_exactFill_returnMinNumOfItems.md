@@ -180,10 +180,10 @@ class Solution {
     private int minNumOfItems(int[] sizes, int curIndex, int curNumItems, int remain) {
         if (remain == 0) { // 这个条件要写在 curIndex == sizes.length 之前！否则会漏解！
             return curNumOfItems;
-        } else if (remain < 0) {
+        }
+        if (remain < 0) {
             return Integer.MAX_VALUE; // 表示未能正好装满，以失败结束
         }
-        
         if (curIndex == sizes.length) {
             return Integer.MAX_VALUE; // 表示未能正好装满，以失败结束
         }
