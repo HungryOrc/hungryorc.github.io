@@ -167,7 +167,10 @@ public class Solution {
             for (int j = 1; j <= curMaxAmount && j <= capacity / curSize; j++) {
                 
                 // 从大到小铺，以避免重叠计算的错误
-                for (int k = capacity; k >= j * curSize; k--) {
+                for (int k = capacity; k >= 1; k--) {
+                    if (k < j * curSize) {
+                        break;
+                    }
                     if (dp[k - curSize]) { // 一维
                         dp[k] = true;
                     }
