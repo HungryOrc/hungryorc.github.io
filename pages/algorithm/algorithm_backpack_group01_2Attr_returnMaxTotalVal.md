@@ -41,9 +41,11 @@ Group 0/1 是指：每个group里的items 最多取 1个1次，最少取 0次。
 public class Solution {
 
     // In the array named "sizes", each element is a list of Integer,
-    // each list represents a group, the elements in each list represent the sizes of the items in that group.
+    // each list represents a group, the elements in each list represent 
+    // the sizes of the items in that group.
     // Same for the array named "values"
-    public int backPack_unkownProblemNumber(int capacity, List<Integer>[] sizes, List<Integer>[] values) {
+    public int backPack_unkownProblemNumber(int capacity, 
+            List<Integer>[] sizes, List<Integer>[] values) {
         if (capacity <= 0 || sizes == null || values == null ||
             sizes.length == 0 || values.length == 0 || sizes.length != values.length) {
             return 0;        
@@ -55,7 +57,7 @@ public class Solution {
         
         // base case 1, for group 0
         List<Integer> sizesForGroup0 = sizes[0];
-        List<Integer> valuesForGroup0 = values.get[0];
+        List<Integer> valuesForGroup0 = values[0];
 
         for (int i = 0; i < sizesForGroup0.size(); i++) {
             int curSize = sizesForGroup0.get(i);
