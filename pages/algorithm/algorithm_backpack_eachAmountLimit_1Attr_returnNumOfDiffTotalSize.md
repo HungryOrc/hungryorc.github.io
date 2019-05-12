@@ -164,7 +164,7 @@ public class Solution {
             int curMaxAmount = amounts[i];
             
             // 一次一次地铺cur item，每次铺一个，一共铺 curMaxAmount 次
-            for (int j = 1; j <= curMaxAmount; j++) {
+            for (int j = 1; j <= curMaxAmount && j <= capacity / curSize; j++) {
                 
                 // 从大到小铺，以避免重叠计算的错误
                 for (int k = capacity; k >= j * curSize; k--) {
