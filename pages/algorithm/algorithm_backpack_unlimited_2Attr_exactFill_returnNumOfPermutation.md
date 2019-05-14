@@ -38,8 +38,8 @@ toc: false
   }
   ```
   * 这个做法的道理是：
-    * 相当于bag的capacity从小到大，然后，对于一定的capacity，对所有的items loop一遍，cur item可以有用和不用 两种情况。相当于对于每个capacity，每个item都来试一下，**关键是这个试是相当于把这个item放到（或者不用）当前这个半成品的items的permutation的   最   右   边！！** 
-    * 在每一轮里，每个item只能最多被装进去1次！虽然每个item都可以用无限次，但我们这么做就是为了 把permutation做出来。然后到了之后更大的capacity的时候，当前的这个item又会有一个机会，对于每次+1的capacity（所以总共来说每个item都有capacity次机会）。
+    * 相当于bag的capacity从小到大，然后，对于一定的capacity，对所有的items loop一遍，cur item可以有用和不用 两种情况。相当于对于每个capacity，每个item都来试一下 
+    * 在每一轮里，每个item只能最多被装进去1次！虽然每个item都可以用无限次，但我们这么做就是为了 把permutation做出来。然后到了之后每次 capacity + 1 的时候，当前的这个item又会有一个机会
 * Return: `dp[n - 1][capacity]`
 
 ### Complexity
@@ -63,6 +63,7 @@ public class Solution {
         int[][] dp = new int[n][capacity + 1];
         
         // base case
+        dp[0][0] = 1; // 什么都不放也是 1种 permutation
         for(int i = 1; i <= capacity / sizes[0]; i++) {
             dp[0][sizes[0] * i] = 1;
         }
@@ -124,7 +125,7 @@ public class Solution {
 
 ## Solution 1.2：基于Solution 1，dp矩阵降维
 
-### 只要是DP矩阵降维，就要考虑从大往小填写（矩阵里的一个或多个维度）！但这一题和大部分背包都不是一个类型。它的填写方式不典型，可以算是一种从小到大填
+### 只要是DP矩阵降维，就要考虑从大往小填写（矩阵里的一个或多个维度）。但这一题和大部分背包都不是一个类型。它的填写方式不典型，可以算是一种 从小到大填
 
 ### Complexity
 * Time: 与Solution 1 相同
