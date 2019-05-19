@@ -70,26 +70,31 @@ Note:
 
 ### Complexity
 * Time: O(n)
-* Space: O(n)
+* Space: O(1)
 
 ### Java
 ```java
-public class Solution {
+class Solution {
     public int numWays(int n, int k) {
-        if(n == 0) return 0;
-        else if(n == 1) return k;
-        
-        // When the number of posts is less than 2, there's no such concept as diffColorCount or sameColorCount 
-        // because there's not enough to establish the rules.
-        int diffColorCounts = k*(k-1);
-        int sameColorCounts = k;
-        
-        for(int curPost=3; curPost<=n; curPost++) {
-            int temp = diffColorCounts;
-            diffColorCounts = (diffColorCounts + sameColorCounts) * (k-1);
-            sameColorCounts = temp;
+        if (n <= 0) {
+            return 0;
         }
-        return diffColorCounts + sameColorCounts;
+        if (n == 1) {
+            return k;
+        }
+        if (n == 2) {
+            return k * k;
+        }
+        
+        int preTwoAreSame = k;
+        int preTwoAreDiff = k * (k - 1);
+        
+        for (int i = 3; i <= n; i++) {
+            int tmp = preTwoAreDiff;
+            preTwoAreDiff = (preTwoAreDiff + preTwoAreSame) * (k - 1);
+            preTwoAreSame = tmp;
+        }
+        return preTwoAreSame + preTwoAreDiff;
     }
 }
 ```
