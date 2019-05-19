@@ -22,8 +22,7 @@ Note:
 * Input: n = 3, k = 2
   * Output: 6
   ```
-              post1  post2  post3      
- -----      -----  -----  -----       
+           post1  post2  post3           
    1         c1     c1     c2 
    2         c1     c2     c1 
    3         c1     c2     c2 
@@ -33,10 +32,10 @@ Note:
   ```
 
 ## Solution: DP
-    // 不过似乎没有考虑如果fence是围成一圈，最后的posts和最开头的posts之间的重色问题
+不过似乎没有考虑如果fence是围成一圈，最后的posts和最开头的posts之间的重色问题
     
     // 以下是上述算法的作者的解释：
-    /* We divided it into two cases:
+    We divided it into two cases:
        1. 最近的两个柱子(the last two posts) have the same color, 
           the number of ways to paint in this case is sameColorCounts.
        2. 最近的两个柱子(the last two posts) have different colors, 
