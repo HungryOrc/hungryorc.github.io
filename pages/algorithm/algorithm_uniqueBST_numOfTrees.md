@@ -46,8 +46,8 @@ class Solution {
             dp[2] = 2;
         }
         
-        for (int i = 3; i <= n; i++) {
-            for (int j = 0; j <= i - 1; j++) {
+        for (int i = 3; i <= n; i++) { // i表示当前root的value是多少
+            for (int j = 0; j <= i - 1; j++) { // j表示当前root的左子树里一共有多少个nodes
                 dp[i] += dp[j] * dp[i - 1 - j];
             }
         }
