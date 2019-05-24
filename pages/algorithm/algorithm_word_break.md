@@ -81,9 +81,8 @@ class Solution {
                 // 光是取substring的时间消耗就有 O(n) 了
                 if (dp[mid] && set.contains(s.substring(mid + 1, end + 1))) {
                     dp[end] = true;
-                    continue;
+                    break;
                 }
-                
             }
         }
         return dp[n - 1];
