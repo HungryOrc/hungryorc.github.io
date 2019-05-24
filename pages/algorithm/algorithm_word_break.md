@@ -47,7 +47,7 @@ Ref: https://leetcode.com/problems/word-break/discuss/43790/Java-implementation-
 ```java
 class Solution {
     public boolean wordBreak(String s, List<String> wordDict) {
-        if (wordDict == null || wordDict.size() == 0) {
+        if (s == null || wordDict == null || wordDict.size() == 0) {
             return false;
         }
         if (s.length() == 0) {
@@ -55,23 +55,17 @@ class Solution {
         }
         
         int n = s.length();
-        int maxLen = Integer.MIN_VALUE;
         Set<String> set = new HashSet<>();
-        
         for (String str : wordDict) {
             set.add(str);
-            
-            int len = str.length();
-            maxLen = Math.max(maxLen, len);
         }
 
         // dp[i]是从index=0开始到index=i为止(包含i)，这段substring是否可以被break好
         boolean[] dp = new boolean[n];
         
-        // 只做一次遍历
         for (int end = 0; end < n; end++) {
             // substring作为一个整体，不切
-            if (end + 1 <= maxLen && set.contains(s.substring(0, end + 1))) {
+            if (set.contains(s.substring(0, end + 1))) {
                 dp[end] = true;
                 continue;
             }
