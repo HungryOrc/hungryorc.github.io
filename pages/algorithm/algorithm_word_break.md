@@ -55,7 +55,6 @@ class Solution {
         }
         
         int n = s.length();
-        int minLen = Integer.MAX_VALUE;
         int maxLen = Integer.MIN_VALUE;
         Set<String> set = new HashSet<>();
         
@@ -63,7 +62,6 @@ class Solution {
             set.add(str);
             
             int len = str.length();
-            minLen = Math.min(minLen, len);
             maxLen = Math.max(maxLen, len);
         }
 
