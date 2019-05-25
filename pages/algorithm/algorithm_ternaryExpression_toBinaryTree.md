@@ -15,7 +15,16 @@ toc: false
 Convert a ternary expression to a binary tree.
 Assume that all these ternary expression are valid, 
 connamely they won't cause any error or conflict when building the binary trees accordingly.
-          
+```java
+class TreeNode {
+    String val;
+    TreeNode left, right;
+    public TreeNode(String v) {
+        this.val = v;
+    }
+}
+```
+
 ### Example
 * Input: `a ? b ? c : d : e`，其实就是 `a ? (b ? c : d) : e`
   * Output: 
@@ -48,10 +57,38 @@ connamely they won't cause any error or conflict when building the binary trees 
 
 ### Java
 ```java
-
+public class Solution {
+    public TreeNode ternaryToTree(String ternary) {
+        if (ternary == null || ternary.length() == 0) {
+            return null;
+        }
+        
+        String[] strs = ternary.split(" ");
+        return dfs(strs, new int[1]);
+    }
+    
+    private TreeNode dfs(String[] strs, int[] curIndex) {
+        String s = strs[curIndex[0]];
+        TreeNode root = new TreeNode(s);
+        
+        curIndex[0]++;
+        
+        // 下面if里的后半句是全题的关键！即：
+        // cur string等于问号的时候，才设置当前root的左右child node，
+        // 否则cur string等于冒号的时候，就直接什么都不做了！
+        if (curIndex[0] < strs.length && strs[curIndex[0]].equals("?")) {
+            curIndex[0]++;
+            root.left = dfs(strs, curIndex);
+            
+            curIndex[0]++;
+            root.right = dfs(strs, curIndex);            
+        }
+        return root;
+    }
+}
 ```
 
 ## Reference
-* [文章标题 [LeetCode]](网址放在这里)
+在网上没找到这题。只有leetcode上有一个关于这题的讨论话题，但没有这题可以做
 
 {% include links.html %}
