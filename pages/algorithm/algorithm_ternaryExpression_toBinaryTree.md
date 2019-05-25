@@ -53,7 +53,7 @@ class TreeNode {
 
 ### Complexity
 * Time: O(n)
-* Space: O(n)
+* Space: O(tree height), 即 call stack's depth
 
 ### Java
 ```java
