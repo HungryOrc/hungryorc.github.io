@@ -4,7 +4,7 @@ tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_parse_valid_ternary_expression.html
+permalink: algorithm_ternaryExpression_parse.html
 folder: algorithm
 toc: false
 ---
