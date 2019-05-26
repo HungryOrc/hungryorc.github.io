@@ -12,7 +12,7 @@ toc: false
 ## Description
 Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
 
-Design an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserialization algorithm should work. You just need to ensure that a binary tree can be serialized to a string and this string can be deserialized to the original tree structure.
+Design an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserialization algorithm should work. You just need to ensure that a binary tree can be serialized to a string and this string can be deserialized to the original tree structure. **The encoded string should be as compact as possible.**
 ```java
  class TreeNode {
      int val;
@@ -26,13 +26,12 @@ Your Codec object will be instantiated and called as such:
 Codec codec = new Codec();
 codec.deserialize(codec.serialize(root));
 ```
-**The encoded string should be as compact as possible.**
 
 Note:
 * Do not use class member/global/static variables to store states. Your serialize and deserialize algorithms should be **stateless**.
 * Values (int) of TreeNodes can be more than one digit.
 
-这题被LC标注为Hard题，但其实只是 median 难度。**这一题 特别 特别 热门！很多公司都喜欢考**
+这题被LC标注为Hard题，但其实只是 median 难度。**这一题 特别 特别 热门！很多公司都喜欢考！**
 
 这题的解法适用于任何binary tree，自然也适用于BST。不过对于BST，如果利用它的左小右大的属性，可以有更高效的serialize/deserialize的方法
 
@@ -47,7 +46,106 @@ Note:
 
 ### Java
 ```java
+public class Solution {
+    private static final String SPLITTER = ",";
+    private static final String NN = "#";
+    
+    // encode a binary tree to a string
+    public String serialize(TreeNode root) {
+        StringBuilder sb = new StringBuilder();
+        buildString(root, sb);
+        return sb.toString();
+    }
+    
+    private boid buildString(TreeNode node, StringBuilder sb) {
+        if (node == null) {
+            sb.append(NN).append(SPLITTER);
+            return;
+        }
+        
+        sb.append(node.val).append(SPLITTER);
+        
+        buildString(node.left, sb);
+        buildString(node.right, sb);
+    }
+    
+    // decode the string back to tree, return the root node
+    public TreeNode deserialize(String str) {
+        String[] arr = str.split(SPLITTER);
+        
+        // 为了可以从前面把数拿走！
+        Deque<String> preorder = new ArrayDeque<>();
+        preorder.addAll(arr);
+        return reconstruct(preorder);
+    }
+    
+    private TreeNode reconstruct(Deque<String> preorder) {
+        String cur = preorder.pollFirst();
+        
+        // base case
+        if (cur.equals(NN)) return null;
+        
+        TreeNode root = new TreeNode(Integer.valueOf(cur));
+        root.left = reconstruct(preorder);
+        root.right = reconstruct(preorder);
+        return root;
+    }
+}
+```
 
+## Solution 1: Pre-order 来进行 serialize 和 deserialize
+
+### Complexity
+* Time: O(n)
+* Space: Serialize: O(height of tree), Deserialize: O(n)
+
+### Java
+```java
+public class Solution {
+    private static final String SPLITTER = ",";
+    private static final String NN = "#";
+    
+    // encode a binary tree to a string
+    public String serialize(TreeNode root) {
+        StringBuilder sb = new StringBuilder();
+        buildString(root, sb);
+        return sb.toString();
+    }
+    
+    private boid buildString(TreeNode node, StringBuilder sb) {
+        if (node == null) {
+            sb.append(NN).append(SPLITTER);
+            return;
+        }
+        
+        sb.append(node.val).append(SPLITTER);
+        
+        buildString(node.left, sb);
+        buildString(node.right, sb);
+    }
+    
+    // decode the string back to tree, return the root node
+    public TreeNode deserialize(String str) {
+        String[] arr = str.split(SPLITTER);
+        
+        // 为了可以从前面把数拿走！
+        Deque<String> preorder = new ArrayDeque<>();
+        preorder.addAll(arr);
+        return reconstruct(preorder);
+    }
+    
+    private TreeNode reconstruct(Deque<String> preorder) {
+        String cur = preorder.pollFirst();
+        
+        // base case
+        if (cur.equals(NN)) return null;
+        
+        TreeNode root = new TreeNode(Integer.valueOf(cur));
+        root.left = reconstruct(preorder);
+        root.right = reconstruct(preorder);
+        return root;
+    }
+}
 ```
 
 ## Solution 3：Level Order Traversal，速度前 30%
