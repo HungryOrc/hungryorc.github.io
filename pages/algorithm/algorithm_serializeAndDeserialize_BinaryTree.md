@@ -144,6 +144,10 @@ class Solution {
             TreeNode parent = queue.poll();
             
             // generate 2 children
+            // 如果当前value不是#，那么就把它弄成当前parent的left child！
+            // 如果是#，就不管它，那么当前parent的left child自然而然就会是 null。
+            // 最后，不管是不是#，后面都要继续下去！因为还要看当前parent的right child是怎么回事，它是不是null，
+            // 以下以此类推
             if (!vals[i].equals(NN)) {
                 parent.left = new TreeNode(Integer.valueOf(vals[i]));
                 queue.offer(parent.left);
