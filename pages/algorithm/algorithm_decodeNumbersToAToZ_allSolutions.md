@@ -25,7 +25,7 @@ toc: false
 
 ### Complexity
 * Time: O(n)
-* Space: O(n), dp 数组
+* Space: O(n^2), dp 数组
 
 ### Java
 代码看起来不很短，其实逻辑很简明
