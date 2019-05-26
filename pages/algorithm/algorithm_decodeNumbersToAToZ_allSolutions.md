@@ -47,10 +47,17 @@ public class Solution {
         int n = chars.length;
         List<List<String>> dp = new ArrayList<>();
 
-        // 相当于 dp[0]
+        // base case 1, dp[0]
         List<String> dp0 = new ArrayList<>();
         dp0.add(numToLetter(chars[0]) + "");		
         dp.add(dp0);
+	
+	// base case 2
+        if (n >= 2) {
+	    List<String> dp1 = new ArrayList<>();
+	    dp1.add(lastTwoDigitsConvertToChar + "");
+	    dp.add(dp1);
+        }
 
         for (int i = 1; i < n; i++) {
             char curChar = numToLetter(chars[i]);
@@ -71,12 +78,8 @@ public class Solution {
             }
 	    
 	    char lastTwoDigitsConvertToChar = numToLetter(lastTwoDigits);
-            if (i == 1) {
-                dpi.add(lastTwoDigitsConvertToChar + "");			
-            } else {
-                for (String s : dp.get(i - 2)) {
-                    dpi.add(s + lastTwoDigitsConvertToChar);
-                }
+            for (String s : dp.get(i - 2)) {
+                dpi.add(s + lastTwoDigitsConvertToChar);
             }
             dp.add(dpi);
         }
