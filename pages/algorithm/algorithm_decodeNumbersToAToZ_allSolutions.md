@@ -43,32 +43,34 @@ public class Solution {
                 return result;
             }
         }
-		
-		int n = chars.length;
-		List<List<String>> dp = new ArrayList<>();
-		
-		// 相当于 dp[0]
-		List<String> dp0 = new ArrayList<>();
-		dp0.add(numToLetter(chars[0]) + "");		
-		dp.add(dp0);
-		
-		for (int i = 1; i < n; i++) {
-			char curChar = numToLetter(chars[i]);
-			
-			List<String> dpi = new ArrayList<>();
-			
-			// Case 1: 如果当前的最后一位即index=i处的数字被一个字母代表
-			for (String s : dp.get(i - 1)) {
-				dpi.add(s + curChar);
-			}
-			
-			// Case 2: 如果当前的最后两位即index=i-1和i处的数字，作为一个两位数，被一个字母代表
-			int lastDigit = chars[i] - '0';
-			int secondLastDigit = chars[i - 1] - '0';
-			int lastTwoDigits = secondLastDigit * 10 + lastDigit;
-			if (lastTwoDigits <= 26) {
-				char lastTwoDigitsConvertToChar = numToLetter(lastTwoDigits);
-				if (i == 1) {
+
+        int n = chars.length;
+        List<List<String>> dp = new ArrayList<>();
+
+        // 相当于 dp[0]
+        List<String> dp0 = new ArrayList<>();
+        dp0.add(numToLetter(chars[0]) + "");		
+        dp.add(dp0);
+
+        for (int i = 1; i < n; i++) {
+            char curChar = numToLetter(chars[i]);
+            List<String> dpi = new ArrayList<>();
+
+            // Case 1: 如果当前的最后一位即index=i处的数字被一个字母代表
+            for (String s : dp.get(i - 1)) {
+                dpi.add(s + curChar);
+            }
+
+            // Case 2: 如果当前的最后两位即index=i-1和i处的数字，作为一个整体(两位数)，被一个字母代表
+            int lastDigit = chars[i] - '0';
+            int secondLastDigit = chars[i - 1] - '0';
+            int lastTwoDigits = secondLastDigit * 10 + lastDigit;
+
+            if (lastTwoDigits > 26) {
+                continue;
+
+                char lastTwoDigitsConvertToChar = numToLetter(lastTwoDigits);
+                if (i == 1) {
 					dpi.add(lastTwoDigitsConvertToChar + "");			
 				} else {
 					for (String s : dp.get(i - 2)) {
@@ -82,10 +84,10 @@ public class Solution {
 		return dp.get(n - 1);
 	}
 	
-	// helper method，把一个数字（1到26之间）转化为大写字母 'A'到'Z'
-	private char numToLetter(int num) {
-		return (char)('A' + num - 1);
-	}
+    // 把一个数字（1到26之间）转化为大写字母 'A'到'Z'
+    private char numToLetter(int num) {
+        return (char)('A' + num - 1);
+    }
 }
 ```
 
