@@ -82,7 +82,7 @@ class Solution {
     }
     
     private int suffixWays(char c) {
-        if (c == '0') return 0;
+        if (c == '0') return 0; // 单独的一个0 不可以表示成A~Z中的任何东西
         if (c == '*') return 9; // 1 ~ 9
         return 1;
     }
