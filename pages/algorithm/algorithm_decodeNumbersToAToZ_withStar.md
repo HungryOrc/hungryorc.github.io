@@ -34,12 +34,14 @@ Also, since the answer may be very large, you should return the output mod 10^9 
 ## Solution: DP
 和 Decode Numbers to A ~ Z 且不含 '*' 那题的思路是一脉相承的。那题在leetcode里叫 Decode Ways I
 
-dp[i] 表示 给的String里从 index=0 开始，到 index=i 为止，这一段chars(可能有'*')，一共有多少种decode成 A ~ Z 的方法。递推方式是：
+dp[i] 表示 给的String里从 index=0 开始，到 index=i 为止，这一段chars(可能有`*`)，一共有多少种decode成 A ~ Z 的方法。递推方式是：
 ```java
 dp[i] = dp[i - 1] * 一位后缀有多少种decode方式 + dp[i - 2] * 两位后缀有多少种decode方式
       = dp[i - 1] * (index为i的char有多少种decode方式) + 
         dp[i - 2] * (index分别为i-1和i的chars结为一个整体不可分割,这个整体有多少种decode方式)
 ```
+其中后缀有两大类：一位和两位。细分是4种情况：`**`，`*X`(`X`不等于`*`)，`X*`, `XY`(X和Y也有可能是相同的)
+
 这题并不很难，关键在于，在分析 后缀有多少种decode方式 的时候，要心细！
 
 ### Complexity
