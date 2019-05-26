@@ -66,23 +66,22 @@ public class Solution {
             int secondLastDigit = chars[i - 1] - '0';
             int lastTwoDigits = secondLastDigit * 10 + lastDigit;
 
-            if (lastTwoDigits > 26) {
+            if (lastTwoDigits > 26 || lastTwoDigits == 0) {
                 continue;
-
-                char lastTwoDigitsConvertToChar = numToLetter(lastTwoDigits);
-                if (i == 1) {
-					dpi.add(lastTwoDigitsConvertToChar + "");			
-				} else {
-					for (String s : dp.get(i - 2)) {
-						dpi.add(s + lastTwoDigitsConvertToChar);
-					}
-				}
-			}
-			
-			dp.add(dpi);
-		}
-		return dp.get(n - 1);
-	}
+            }
+	    
+	    char lastTwoDigitsConvertToChar = numToLetter(lastTwoDigits);
+            if (i == 1) {
+                dpi.add(lastTwoDigitsConvertToChar + "");			
+            } else {
+                for (String s : dp.get(i - 2)) {
+                    dpi.add(s + lastTwoDigitsConvertToChar);
+                }
+            }
+            dp.add(dpi);
+        }
+        return dp.get(n - 1);
+    }
 	
     // 把一个数字（1到26之间）转化为大写字母 'A'到'Z'
     private char numToLetter(int num) {
