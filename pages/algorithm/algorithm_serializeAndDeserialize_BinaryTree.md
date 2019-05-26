@@ -153,7 +153,8 @@ class Solution {
                 queue.offer(parent.left);
             }
             
-            i++;
+            i++; // 无论如何，这个都要执行！不要忘了它！
+            
             if (!vals[i].equals(NN)) {
                 parent.right = new TreeNode(Integer.valueOf(vals[i]));
                 queue.offer(parent.right);
