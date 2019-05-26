@@ -38,7 +38,7 @@ Note:
 ### Example
 略
 
-## Solution 1: Pre-order 来进行 serialize 和 deserialize
+## Solution 1: Pre-order 来进行 serialize 和 deserialize。这种做法对tree来说是最简单最直观的，比level order 还简明易写
 
 ### Complexity
 * Time: O(n)
@@ -68,7 +68,9 @@ public class Solution {
         buildString(node.left, sb);
         buildString(node.right, sb);
         
-        // 这样做的话最后会有一串 null 的字符，即一串 ",#,#,#,#..."，但留着也没关系
+        // 这样做的话最后会有一串 null 的字符，即一串 ",#,#,#,#..."，留着的话也不会导致错误，
+        // 就是说在后面deserialize 的时候，末尾的这些# 也会被正确地处理的
+        // 如果想在这里就去掉这些没用的尾巴的话，也是一种优化。用一个while loop 就行了
     }
     
     // decode the string back to tree, return the root node
@@ -129,40 +131,29 @@ class Solution {
         return sb.toString();
     }
     
-    // Deserialize
+    // Deserialize string back to tree, return the root node
     public TreeNode deserialize(String data) {
-        if (data.equals("")) {
-            return null;
-        }
+        String[] vals = data.split(SPLITTER);
+        if (vals[0].equals(NN)) return null;
         
-        String[] vals = data.split(",");
-        List<TreeNode> list = new ArrayList<>();
-        
+        Queue<TreeNode> queue = new LinkedList<>();
         TreeNode root = new TreeNode(Integer.parseInt(vals[0]));
-        list.add(root);
-        
-        int index = 0; // 这个参数指示：当前正在处理String数组里的第几个String
-        boolean isLeftChild = true;
-
-        // index表示当前的 parent node 是哪个，i 表示当前在查看第几个node的值
+        queue.offer(root);
+  
         for (int i = 1; i < vals.length; i++) {
-            String curVal = vals[i];
+            TreeNode parent = queue.poll();
             
-            if (!curVal.equals("#")) { // not a null node
-                TreeNode node = new TreeNode(Integer.parseInt(curVal));
-                if (isLeftChild) {
-                    list.get(index).left = node; // 注意index一开始是0！
-                } else {
-                    list.get(index).right = node;
-                }
-                list.add(node);
+            // generate 2 children
+            if (!vals[i].equals(NN)) {
+                parent.left = new TreeNode(Integer.valueOf(vals[i]));
+                queue.offer(parent.left);
             }
             
-            // 当这个node的左右子节点都搞定了，就可以处理下一个node了
-            if (!isLeftChild) {
-                index++;
+            i++;
+            if (!vals[i].equals(NN)) {
+                parent.right = new TreeNode(Integer.valueOf(vals[i]));
+                queue.offer(parent.right);
             }
-            isLeftChild = !isLeftChild;
         }
         return root;
     }
