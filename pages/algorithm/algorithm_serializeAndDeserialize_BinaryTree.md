@@ -67,6 +67,8 @@ public class Solution {
         
         buildString(node.left, sb);
         buildString(node.right, sb);
+        
+        // 这样做的话最后会有一串 null 的字符，即一串 ",#,#,#,#..."，但留着也没关系
     }
     
     // decode the string back to tree, return the root node
