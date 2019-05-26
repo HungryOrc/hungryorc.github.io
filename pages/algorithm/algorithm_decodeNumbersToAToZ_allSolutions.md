@@ -30,118 +30,63 @@ toc: false
 ### Java
 代码看起来不很短，其实逻辑很简明
 ```java
-class Solution {
-    public int numDecodings(String s) {
-        if (s == null || s.length() == 0) {
-            return 0;
-        }
-        
-        char[] cArray = s.toCharArray();
-        int len = cArray.length;
-        int[] dp = new int[len];
-        
-        // we do have len >= 1
-        if (isValidOneDigit(cArray[0])) {
-            dp[0] = 1;
-        } else {
-            return 0;
-        }
-        
-        if (len >= 2) {
-            if (isValidOneDigit(cArray[1])) {
-                dp[1] ++;
-            }
-            if (isValidTwoDigits(cArray[0], cArray[1])) {
-                dp[1] ++;
-            }            
-        }
-        
-        // if len >= 3
-        for (int i = 2; i < len; i++) {
-            if (isValidOneDigit(cArray[i])) {
-                dp[i] += dp[i - 1];
-            }
-            if (isValidTwoDigits(cArray[i - 1], cArray[i])) {
-                dp[i] += dp[i - 2];
-            }
-        }
-        
-        return dp[len - 1];
-    }
-    
-    private boolean isValidOneDigit(char c) {
-        return (c - '0' >= 1) && (c - '0' <= 9);
-    }
-    
-    private boolean isValidTwoDigits(char c1, char c2) {        
-        int num = 0;
-        num += (c1 - '0') * 10;
-        num += c2 - '0';
-        
-        return num >= 10 && num <= 26;
-    }
-}
-```
+public class Solution {
 
-## Solution 2: Recursion，很慢！几乎是倒数 1%，不要用这个方法
-这题用 Recursive way 慢的原因是：比如数组中间的一个两位数，每次别人经过它的时候都要判断一次它是否valid，如果它左边一共有x位，一共有了y种valid way，那么在它这里就要搞y次验证
-
-### Complexity
-* Time: O(2^n)  <=== 对么？
-* Space: O(n)，call stack应该是n层
-
-### Java
-```java
-class Solution {
-    int numOfWays = 0;
-    
-    public int numDecodings(String s) {
-        if (s == null || s.length() == 0) {
-            return 0;
-        }
-        
-        char[] cArray = s.toCharArray();
-        dfs(cArray, 0);
-        return numOfWays;
-    }
-    
-    private void dfs(char[] cArray, int curIndex) {
-        if (curIndex == cArray.length) {
-            numOfWays++;
-            return;
-        }
-        
-        if (validSingleDigit(cArray, curIndex)) {
-            dfs(cArray, curIndex + 1);
-        }
-        if (validDoubleDigits(cArray, curIndex)) {
-            dfs(cArray, curIndex + 2);
-        }
-    }
-    
-    private boolean validSingleDigit(char[] cArray, int curIndex) {
-        char curChar = cArray[curIndex];
-        
-        // 'A' was marked as 1 in this question, not 0,
-        // so only 9 chars starting with 'A' are represented by one digit number
-        return (curChar - '0' >= 1) && (curChar - '0' <= 9);
-    }
-    
-    private boolean validDoubleDigits(char[] cArray, int curIndex) {
-        if (curIndex > cArray.length - 2) {
-            return false;
-        }
-        
-        // 两位里的十位不能是0！是0就是invalid的两位数
-        if (cArray[curIndex] == '0') {
-            return false;
-        }
-        
-        int number = 0;
-        number += (cArray[curIndex + 1] - '0');
-        number += (cArray[curIndex] - '0') * 10;
-        return (number >= 10) && (number <= 26);
-    }
+	public List<String> numbersToLetters(char[] chars){
+		List<String> result = new ArrayList<>();
+		
+		if (chars == null || chars.length == 0) {
+			return result;
+		}
+		// 如果有任何char不是数字，或者是'0'，都违规，立刻 out
+		for (char num : chars) {
+			if (num - '0' <= 0 || num - '0' > 9) {
+				return result;
+			}
+		}
+		
+		int n = chars.length;
+		List<List<String>> dp = new ArrayList<>();
+		
+		// 相当于 dp[0]
+		List<String> dp0 = new ArrayList<>();
+		dp0.add(numToLetter(chars[0]) + "");		
+		dp.add(dp0);
+		
+		for (int i = 1; i < n; i++) {
+			char curChar = numToLetter(chars[i]);
+			
+			List<String> dpi = new ArrayList<>();
+			
+			// Case 1: 如果当前的最后一位即index=i处的数字被一个字母代表
+			for (String s : dp.get(i - 1)) {
+				dpi.add(s + curChar);
+			}
+			
+			// Case 2: 如果当前的最后两位即index=i-1和i处的数字，作为一个两位数，被一个字母代表
+			int lastDigit = chars[i] - '0';
+			int secondLastDigit = chars[i - 1] - '0';
+			int lastTwoDigits = secondLastDigit * 10 + lastDigit;
+			if (lastTwoDigits <= 26) {
+				char lastTwoDigitsConvertToChar = numToLetter(lastTwoDigits);
+				if (i == 1) {
+					dpi.add(lastTwoDigitsConvertToChar + "");			
+				} else {
+					for (String s : dp.get(i - 2)) {
+						dpi.add(s + lastTwoDigitsConvertToChar);
+					}
+				}
+			}
+			
+			dp.add(dpi);
+		}
+		return dp.get(n - 1);
+	}
+	
+	// helper method，把一个数字（1到26之间）转化为大写字母 'A'到'Z'
+	private char numToLetter(int num) {
+		return (char)('A' + num - 1);
+	}
 }
 ```
 
