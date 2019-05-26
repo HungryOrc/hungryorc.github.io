@@ -15,7 +15,7 @@ toc: false
 本题的DP思想的超凡之处在于：**dp数组里的每个元素 不再是一个数字或者boolean，而是一个 List of String！**
 
 因为 Java 里面不能定义 Array of Generic Type，所以也就不能定义 Array of (List of String)，
-所以最后我们定义的整个 dp“数组” 是一个 List<List<String>>
+所以最后我们定义的整个 dp“数组” 是一个 `List<List<String>>`
 
 ### Example
 略
@@ -31,19 +31,18 @@ toc: false
 代码看起来不很短，其实逻辑很简明
 ```java
 public class Solution {
+    public List<String> numbersToLetters(char[] chars){
+        List<String> result = new ArrayList<>();	
+        if (chars == null || chars.length == 0) {
+            return result;
+        }
 
-	public List<String> numbersToLetters(char[] chars){
-		List<String> result = new ArrayList<>();
-		
-		if (chars == null || chars.length == 0) {
-			return result;
-		}
-		// 如果有任何char不是数字，或者是'0'，都违规，立刻 out
-		for (char num : chars) {
-			if (num - '0' <= 0 || num - '0' > 9) {
-				return result;
-			}
-		}
+        // 如果有任何char不是数字，或者是'0'，都违规，立刻 out
+        for (char num : chars) {
+            if (num - '0' <= 0 || num - '0' > 9) {
+                return result;
+            }
+        }
 		
 		int n = chars.length;
 		List<List<String>> dp = new ArrayList<>();
