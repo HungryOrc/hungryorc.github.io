@@ -95,7 +95,7 @@ public class Solution {
 }
 ```
 
-## Solution 1: Pre-order 来进行 serialize 和 deserialize
+## Solution 2：Level Order Traversal
 
 ### Complexity
 * Time: O(n)
@@ -103,69 +103,12 @@ public class Solution {
 
 ### Java
 ```java
-public class Solution {
+class Solution {
     private static final String SPLITTER = ",";
     private static final String NN = "#";
-    
-    // encode a binary tree to a string
+
+    // Serialize a tree to a string
     public String serialize(TreeNode root) {
-        StringBuilder sb = new StringBuilder();
-        buildString(root, sb);
-        return sb.toString();
-    }
-    
-    private boid buildString(TreeNode node, StringBuilder sb) {
-        if (node == null) {
-            sb.append(NN).append(SPLITTER);
-            return;
-        }
-        
-        sb.append(node.val).append(SPLITTER);
-        
-        buildString(node.left, sb);
-        buildString(node.right, sb);
-    }
-    
-    // decode the string back to tree, return the root node
-    public TreeNode deserialize(String str) {
-        String[] arr = str.split(SPLITTER);
-        
-        // 为了可以从前面把数拿走！
-        Deque<String> preorder = new ArrayDeque<>();
-        preorder.addAll(arr);
-        return reconstruct(preorder);
-    }
-    
-    private TreeNode reconstruct(Deque<String> preorder) {
-        String cur = preorder.pollFirst();
-        
-        // base case
-        if (cur.equals(NN)) return null;
-        
-        TreeNode root = new TreeNode(Integer.valueOf(cur));
-        root.left = reconstruct(preorder);
-        root.right = reconstruct(preorder);
-        return root;
-    }
-}
-```
-
-## Solution 3：Level Order Traversal，速度前 30%
-
-### Complexity
-* Time: O(n)
-* Space: Serialize: O(height of tree), Deserialize: O(n)
-
-### Java
-```java
-class Codec {
-    
-    // Serialize
-    public String serialize(TreeNode root) {
-        if (root == null) {
-            return "";
-        }
-
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
         StringBuilder sb = new StringBuilder();
@@ -174,19 +117,14 @@ class Codec {
             TreeNode cur = queue.poll();
             
             if (cur == null) {
-                sb.append("#,");
+                sb.append(NN).append(SPLITTER);
                 continue;
             }
             
-            sb.append(cur.val);
-            sb.append(",");
+            sb.append(cur.val).append(SPLITTER);
+
             queue.offer(cur.left); // 是null也放进去
             queue.offer(cur.right); // 是null也放进去
-        }
-
-        // 别忘了：把queue的结尾的那些null都去掉，一直到结尾不是null，很重要！
-        while (sb.charAt(sb.length() - 1) == '#' || sb.charAt(sb.length() - 1) == ',') {
-            sb.deleteCharAt(sb.length() - 1);
         }
         return sb.toString();
     }
