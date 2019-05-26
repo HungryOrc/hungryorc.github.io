@@ -49,7 +49,7 @@ dp[i] = dp[i - 1] * 一位后缀有多少种decode方式 + dp[i - 2] * 两位后
 ### Java
 ```java
 class Solution {
-    private static final int MOD = 1000000007;
+    private static final int MOD = 1_000_000_007;
     
     public int numDecodings(String s) {
         if (s == null || s.length() == 0) {
