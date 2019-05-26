@@ -87,6 +87,7 @@ class Solution {
         return 1;
     }
     
+    // 这个helper function 返回的是 c1和c2 作为一个不可分割的整体 的情况
     private int suffixWays(char c1, char c2) {
         if (c1 == '*' && c2 == '*') { // "**"
             return 15; // 11 ~ 19 and 21 ~ 26
