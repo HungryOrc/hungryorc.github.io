@@ -1,10 +1,10 @@
 ---
-title: "Decode Numbers to Letters: Number of Ways"
+title: "Decode Numbers to A ~ Z: Number of Ways"
 tags: [algorithm, dynamic_programming]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_decode_numbers_to_letters_number_of_ways.html
+permalink: algorithm_decodeNumbersToAToZ.html
 folder: algorithm
 toc: false
 ---
