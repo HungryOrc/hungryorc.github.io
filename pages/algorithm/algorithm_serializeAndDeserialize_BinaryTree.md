@@ -32,20 +32,25 @@ Note:
 * Do not use class member/global/static variables to store states. Your serialize and deserialize algorithms should be **stateless**.
 * Values (int) of TreeNodes can be more than one digit.
 
-这题被LC标注为Hard题，但其实只是 median 难度。
+这题被LC标注为Hard题，但其实只是 median 难度。**这一题 特别 特别 热门！很多公司都喜欢考**
+
+这题的解法适用于任何binary tree，自然也适用于BST。不过对于BST，如果利用它的左小右大的属性，可以有更高效的serialize/deserialize的方法
 
 ### Example
-无法举例
+略
 
-## Solution 2: Pre-order 的做法！找来练一下！面试可能会要求做两种方法！
+## Solution 1: Pre-order 来进行 serialize 和 deserialize
 
+### Complexity
+* Time: O(n)
+* Space: Serialize: O(height of tree), Deserialize: O(n)
+
+### Java
 ```java
-
 
 ```
 
-## Solution 1：Level Order Traversal，速度前 30%
-这个方法适用于任何binary tree，自然也适用于BST。不过对于BST，如果利用它的左小右大的属性，可以有更高效的serialize/deserialize的方法
+## Solution 3：Level Order Traversal，速度前 30%
 
 ### Complexity
 * Time: O(n)
