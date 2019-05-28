@@ -52,7 +52,7 @@ codec.deserialize(codec.serialize(root));
 ### Example
 略
 
-## Solution 1，LeetCode的方法，速度前10%，DFS Recursion，记录各个node的val和children size
+## Solution 1，DFS Recursion，速度前10%，记录各个node的val和children size
 Ref: https://leetcode.com/problems/serialize-and-deserialize-n-ary-tree/discuss/151421/Java-preorder-recursive-solution-using-queue
 
 对于原题中举例的那个树，serialize成这样：`1,3,3,2,5,0,6,0,2,0,4,0`
@@ -124,7 +124,7 @@ class Codec {
 }
 ```
 
-## Solution 2，我自己的方法，速度较快，BFS Iteration，记录各个node的val和children size
+## Solution 2，BFS Iteration，速度比上面的DFS稍微慢一点，记录各个node的val和children size
 这个方法是我根据上面的leetcode的DFS方法想出来的BFS方法。因为用到多个Queue，速度会比前一个方法慢一些。
 
 对于原题中举例的那个树，serialize成这样：`1,3,3,2,2,0,4,0,5,0,6,0`
@@ -217,7 +217,7 @@ class Codec {
 }
 ```
 
-## Solution 3，我自己的方法，速度慢，把树弄成 [1[3[5 6] 2 4]]
+## Solution 3，速度慢，把树弄成 [1[3[5 6] 2 4]]
 对于原题中举例的那个树，serialize成这样：`[1[3[5 6] 2 4]]`，对于每个node，它的所有children放在一对`[...]`里面，`[`紧贴着parent node的val，`[...]`里面的相邻child之间用一个空格 ' ' 分开。
 
 ### Complexity
