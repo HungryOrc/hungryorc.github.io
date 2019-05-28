@@ -36,9 +36,9 @@ class Node {
 
     public Node() {}
 
-    public Node(int _val, List<Node> _children) {
-        val = _val;
-        children = _children;
+    public Node(int val, List<Node> children) {
+        this.val = val;
+        this.children = children;
     }
 }
 ```
@@ -77,15 +77,12 @@ class Codec {
         
         StringBuilder sb = new StringBuilder();
         dfsSer(root, sb);
-        
         return sb.toString();
     }
     
     private void dfsSer(Node root, StringBuilder sb) {
-        sb.append(root.val);
-        sb.append(SPLITTER);
-        sb.append(root.children.size());
-        sb.append(SPLITTER);
+        sb.append(root.val).append(SPLITTER);
+        sb.append(root.children.size()).append(SPLITTER);
         
         // 这个方法的灵魂 在这个 for loop 里
         for (Node child : root.children) {
@@ -150,20 +147,19 @@ class Codec {
         StringBuilder sb = new StringBuilder();
         Queue<Node> queue = new LinkedList<>();
         queue.offer(root);
+        
         bfsSer(sb, queue);
-
         return sb.toString();
     }
     
     private void bfsSer(StringBuilder sb, Queue<Node> queue) {
-        while(!queue.isEmpty()) { // 不要用 data == ""
+        while(!queue.isEmpty()) {
             Node cur = queue.poll();
             
-            sb.append(cur.val);
-            sb.append(SPLITTER);
-            sb.append(cur.children.size());
-            sb.append(SPLITTER);
+            sb.append(cur.val).append(SPLITTER);
+            sb.append(cur.children.size()).append(SPLITTER);
             
+            // 本serialize的
             for (Node child : cur.children) {
                 queue.offer(child);
             }
