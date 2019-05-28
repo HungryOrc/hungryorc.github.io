@@ -52,7 +52,7 @@ codec.deserialize(codec.serialize(root));
 ### Example
 略
 
-## Solution 1，DFS Recursion，速度前10%，记录各个node的val和children size
+## Solution 1，DFS Recursion，速度前10%，记录各个node的val和children size。这个方法是目前 最简明的，应试就用这个方法！
 Ref: https://leetcode.com/problems/serialize-and-deserialize-n-ary-tree/discuss/151421/Java-preorder-recursive-solution-using-queue
 
 对于原题中举例的那个树，serialize成这样：`1,3,3,2,5,0,6,0,2,0,4,0`
@@ -159,7 +159,7 @@ class Codec {
             sb.append(cur.val).append(SPLITTER);
             sb.append(cur.children.size()).append(SPLITTER);
             
-            // 本serialize的
+            // 本serialize的关键就在这个for loop！
             for (Node child : cur.children) {
                 queue.offer(child);
             }
