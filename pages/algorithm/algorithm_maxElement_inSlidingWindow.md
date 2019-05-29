@@ -59,7 +59,8 @@ public class Solution {
             elements[i] = ele;
         }
 
-        Deque<Element> deque = new LinkedList<>();
+        Deque<Element> deque = new LinkedList<>(); 
+	// deque是空的，把element array 里的东西一个一个往里面加
 
         for (int i = 0; i < n; i++) {
             Element cur = elements[i];
@@ -67,6 +68,8 @@ public class Solution {
 	    while (!deque.isEmpty() && cur.val > deque.peekLast().val) {
                 deque.pollLast();
             }
+	    
+	    // 无论怎样，都要把cur加到deque的右端
             deque.offerLast(cur);
 	
             if (i >= k - 1) { // 足够长了才会开始扔走左边头部的元素
