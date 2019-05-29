@@ -32,7 +32,7 @@ Assumptions:
   * 它们如果超越了window的界限，自然不可能留下
 * 遮掩就构成了一个 **单调下降栈！**
 * 然后把当前deque的头部的元素的value放到result list里去
-这一步必须在 当前cur的 index >= k - 1 的时候才能做！ 比如k=3，则到了元素index至少为2的时候，才能凑成长度为k=3的window
+  * 这一步必须在 当前cur的 index >= k - 1 的时候才能做！ 比如 k=3，则到了元素index至少为2 的时候，才能凑成长度为 k=3 的window
 
 ### Complexity
 * Time: O(n)
@@ -40,7 +40,47 @@ Assumptions:
 
 ### Java
 ```java
+class Element {
+	int val;
+	int index;
+	public Element(int val, int index) {
+		this.val = val;
+		this.index = index;
+	}
+}
 
+public class Solution {
+	  
+	  public List<Integer> maxWindows(int[] array, int k) {
+	    List<Integer> result = new ArrayList<>();
+	    int n = array.length;
+	    
+	    Element[] elements = new Element[n];
+	    for (int i = 0; i < n; i++) {
+	    	Element ele = new Element(array[i], i);
+	    	elements[i] = ele;
+	    }
+	    
+	    Deque<Element> deque = new LinkedList<>();
+	    
+	    for (int i = 0; i < n; i++) {
+	    	
+	    	Element cur = elements[i];
+	    	while (!deque.isEmpty() && cur.val > deque.peekLast().val) {
+	    		deque.pollLast();
+	    	}
+	    	deque.offerLast(cur);
+	    	
+	    	if (i >= k - 1) {
+	    		while (!deque.isEmpty() && deque.peekFirst().index <= i - k) {
+	    			deque.pollFirst();
+	    		}
+	    		result.add(deque.peekFirst().val);
+	    	}
+	    }
+	    return result;
+	  }
+  }
 ```
 
 ## Reference
