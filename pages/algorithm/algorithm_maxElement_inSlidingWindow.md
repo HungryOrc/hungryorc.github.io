@@ -73,6 +73,8 @@ public class Solution {
                 while (!deque.isEmpty() && deque.peekFirst().index <= i - k) {
                     deque.pollFirst();
                 }
+		
+		// 这里只是peek而已！不是pop
                 result.add(deque.peekFirst().val);
             }
         }
