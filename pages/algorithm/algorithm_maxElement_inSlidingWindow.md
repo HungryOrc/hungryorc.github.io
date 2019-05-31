@@ -19,7 +19,7 @@ Assumptions:
 
 ### Example
 * Input: A = {1, 2, 3, 2, 4, 2, 1}, K = 3
-  * Output: the windows are `{{1,2,3}, {2,3,2}, {3,2,4}, {2,4,2}, {4,2,1}}`, so the maximum values of each K-sized sliding window are [3, 3, 4, 4, 4]
+  * Output: the windows are `{1,2,3}, {2,3,2}, {3,2,4}, {2,4,2}, {4,2,1}`, so the maximum values of each K-sized sliding window are [3, 3, 4, 4, 4]
 
 ## Solution: 单调栈(单调下降)。两头读写，用Deque实现
 自定义一个 element class，每个element包括原数组里的 int element的value，以及原int在int array里的index。对照着原int数组搞一个element数组
