@@ -35,9 +35,11 @@ induction rule:
 
 result: max element in dp matrix
 
+这题空间也可以优化，但得按照斜的对角线来优化，比较蛋疼，所以面试的时候不写也罢。可以提一句。
+
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(n * m)
+* Space: O(n * m)
 
 ### Java
 ```java
