@@ -42,28 +42,28 @@ result: max element in dp matrix
 ### Java
 ```java
 public int findLength(int[] A, int[] B) {
-	// A and B are guaranteed to be valid arrays with length > 0
+    // A and B are guaranteed to be valid arrays with length > 0
 
-	int n = A.length, m = B.length;
-	int[][] dp = new int[n][m];
+    int n = A.length, m = B.length;
+    int[][] dp = new int[n][m];
 
-	for (int i = 0; i < n; i++) {
-		if (A[i] == B[0]) dp[i][0] = 1;
-}
-for (int j = 0; j < m; j++) {
-	if (B[j] == A[0]) dp[0][j] = 1;
-}
+    for (int i = 0; i < n; i++) {
+        if (A[i] == B[0]) dp[i][0] = 1;
+    }
+    for (int j = 0; j < m; j++) {
+        if (B[j] == A[0]) dp[0][j] = 1;
+    }
 
-int result = 0;
-for (int i = 1; i < n; i++) {
-	for (int j = 1; j < m; j++) {
-		if (A[i] == B[j]) {
-dp[i][j] = 1 + dp[i - 1][j - 1];
-			result = Math.max(result, dp[i][j]);
-		}
-}
-}
-return result;
+    int result = 0;
+    for (int i = 1; i < n; i++) {
+        for (int j = 1; j < m; j++) {
+            if (A[i] == B[j]) {
+                dp[i][j] = 1 + dp[i - 1][j - 1];
+                result = Math.max(result, dp[i][j]);
+            }
+        }
+    }
+    return result;
 }
 ```
 
