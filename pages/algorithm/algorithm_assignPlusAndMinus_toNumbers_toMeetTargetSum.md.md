@@ -42,11 +42,35 @@ Find out how many ways to assign symbols to make sum of integers equal to target
 ## Solution 1：DP
 这题一看就是DP的感觉。但是难点在于，induction rule不好写，
 因为`dp[i][target]`和`dp[i - 1][target]`没有直接关系，
-`dp[i][target]`是和`dp[i - 1][target - nums[i]]`以及`dp[i - 1][target + nums[i]]`有直接关系。
-而各个数逐个加减的过程中，可能得出的不同的中间结果是 O(2^n)的量级，太大了。不仅用DP做不容易，用DFS做更是时间消耗巨大。
+`dp[i][target]`是和`dp[i - 1][target - nums[i]]`以及`dp[i - 1][target + nums[i]]`有直接关系
 
-正在此危难之时，题目给了个hint，说所有数字加在一起不会超过1000，我们可以认为如果把所有数都取abs，再加起来，也不会很大。
-这样就可以用DP来做了！如下
+突破口在于：题目给了个hint，说所有数字加在一起不会超过1000，我们可以认为如果把所有数都取abs，再加起来，也不会很大。
+这样就可以用DP来做了：**把各种sum都 + 1000**
+
+// definition
+// dp[i][1000 + j]
+// how many ways to assign symbols from a sublist from 0 and ending at i-th element of non-negative integers, a1, a2, ..., an, to make sum of integers equal to target j. For each integer, you should choose one from + and - as its new symbol.
+
+// base case
+// 
+// dp[0][1000 + nums[0]] = 1
+// dp[0][1000 -nums[0]] = 1
+// else 
+// dp[0][x] = 0
+
+// dp[i][j]     nums[i]
+// case1: dp[i - 1][1000 + j - nums[i]]   : +
+// case2: dp[i - 1][1000 + j + nums[i]]  :  -
+// dp[i][1000 + j] = case1 + case2
+
+// result
+// dp[n - 1][1000 + S]
+
+
+下面这种做法比较反直觉，不要采用，只做备案：
+
+
+如下
 * State: dp[i][j]：用index从0到i的num，任意加减组成j，共有多少种方式
   * int[][] dp = new int[n][maxSum * 2 + 1]，其中 maxSum 是数组nums里的所有数都取绝对值以后的和
   * 第二维要用 maxSum * 2 + 1，是为了能表达负数，即从 -maxSum 到 0 到 maxSum 的所有可能值，这些值都是数组里的数有可能组合成的
