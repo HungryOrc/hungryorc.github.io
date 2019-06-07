@@ -4,7 +4,7 @@ tags: [algorithm, dynamic_programming]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_assign_plus_and_minus_symbols_to_intergers_to_meet_target_sum.html
+permalink: algorithm_assignPlusAndMinus_toNumbers_toMeetTargetSum.html
 folder: algorithm
 toc: false
 ---
