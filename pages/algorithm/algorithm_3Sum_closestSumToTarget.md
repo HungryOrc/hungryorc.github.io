@@ -12,7 +12,7 @@ toc: false
 ## Description
 Given an array nums of n integers and an integer target, find three integers in nums such that the sum is closest to target. Return the sum of the three integers. You may assume that each input **would have exactly one solution**.
 
-注意，比target大或者比target小都是可能的，所以比较 min diff 的时候要取绝对值，但是最后返回 closest three sum 的时候是比target大还是比taget小要区分。任何时候如果找到正好等于target 的 3sum，则立刻返回target值即可。
+注意，比target大或者比target小都是可能的，所以比较 min diff 的时候要取绝对值。任何时候如果找到正好等于target 的 3sum，则立刻返回target值即可。
 
 Note:
 * 数组里可能有重复的元素
@@ -22,7 +22,7 @@ Note:
 * Input: nums = [-1, 2, 1, -4], and target = 1
   * Output: The sum that is closest to the target is 2. (-1 + 2 + 1 = 2)
 
-## Solution，先排序数组，然后选第一个数，然后对于后两个数，两边向中间逼近
+## Solution，先排序数组，然后选第一个数，然后对于后两个数，两边向中间逼近。速度 前5%
 
 ### Complexity
 * Time: O(n^2) <=== 对么 ？？？？
@@ -37,8 +37,8 @@ class Solution {
         }
         
         Arrays.sort(nums);
-        int closest = nums[0] + nums[1] + nums[2] - target;
         int n = nums.length;
+        int closest = nums[0] + nums[1] + nums[n - 1];
         
         for (int i = 0; i < n - 2; i++) {
             int first = nums[i];
@@ -54,22 +54,17 @@ class Solution {
             while (start + 1 <= end) {
                 int sum = nums[start] + nums[end];
                 if (sum > remain) {
-                    closest = updateClosest(first + sum, closest, target);
                     end--;
                 } else if (sum < remain) {
-                    closest = updateClosest(first + sum, closest, target);
                     start++;
                 } else { // == remain
                     return target; // exact match
                 }
+                
+                if (Math.abs(sum + first - target) < Math.abs(closest - target)) {
+                    closest = sum + first;
+                }
             }
-        }
-        return closest;
-    }
-    
-    private int updateClosest(int threeSum, int closest, int target) {
-        if (Math.abs(threeSum - target) < Math.abs(closest - target)) {
-            return threeSum;
         }
         return closest;
     }
