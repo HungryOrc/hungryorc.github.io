@@ -38,7 +38,7 @@ Note:
   * 首先这样加一个x得到的strings不可能和list a 里的任何string相同，因为list b 里的每一个string都一定比list a 里的每一个string要长
   * 然后，这些得到的strings也不可能和list b 里的任何string相同。就是说list b 里不可能有任何sting是在尾部加了一个x之后能等于list b 里的任何一个别的string。因为如果可以，比如说list b 里有一个 abx，还有一个 abxx，那么list a 里就一定有 ab 和 abx，那么list a 里的abx和list b 里的abx就重复了。而按照题意，list a和b在任何时候都是不可能有任何元素重复的。
 * 综上所述，我们才能有这个题的至尊无敌公式：
-```
+```java
 // assume s.charAt(i) == 'x'
 // and `int lastX` means the index of the latest occurence position of char x in string s 
 dp[i] = 2 * dp[i - 1] - (dp[lastX - 1]);
