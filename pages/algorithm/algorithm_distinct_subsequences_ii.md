@@ -47,7 +47,7 @@ class Solution {
         int[] dp = new int[n]; // 从index=0到index=i这一段（未必在i处结尾）共有多少种不同的sub sequences
         Map<Character, Integer> lastOccurIndex = new HashMap<>();
         
-        dp[0] = 2;
+        dp[0] = 2; // 什么都没有，以及放一个首字母，这两种
         lastOccurIndex.put(s.charAt(0), 0);
         
         for (int i = 1; i < n; i++) {
@@ -57,8 +57,8 @@ class Solution {
             int duplicateCount = 0;
             if (lastOccurIndexOfC == null) { // c 之前没出现过
                 duplicateCount = 0;
-            } else if (lastOccurIndexOfC == 0) {
-                duplicateCount = 1; // 这个1是指什么都没有的时候的那个空sub sequence
+            } else if (lastOccurIndexOfC == 0) { // c 上一次出现是在s的头部第一个字母处
+                duplicateCount = 1; // 这个1是指什么都没有的时候的那个空sub sequence。或者说是用 2 * 2 - 3 = 1 反推得来的
             } else {
                 duplicateCount = dp[lastOccurIndexOfC - 1];
             }
