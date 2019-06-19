@@ -17,22 +17,22 @@ A message containing letters from A-Z is being encoded to numbers using the foll
 ...
 'Z' -> 26
 ```
-Beyond that, now the encoded string can also contain the character '*', which can be treated as one of the numbers from 1 to 9.
+Beyond that, now the encoded string can also contain the character `*`, which can be treated as one of the numbers from 1 to 9.
 
-Given the encoded message containing digits and the character '*', return the total number of ways to decode it.
+Given the encoded message containing digits and the character `*`, return the total number of ways to decode it.
 
 Also, since the answer may be very large, you should return the output mod 10^9 + 7.
 
 这题标的是hard，但其实难度差不多是median。
 
 ### Example
-* Input: "1*"
+* Input: `1*`
   * Output: 9 + 9 = 18
     * The first 9 means "1 and 1", "1 and 2", "1 and 3"... "1 and 9"
     * The second 9 means "11", "12", "13"... "19"
 
 ## Solution: DP
-和 Decode Numbers to A ~ Z 且不含 '*' 那题的思路是一脉相承的。那题在leetcode里叫 Decode Ways I
+和 Decode Numbers to A ~ Z 且不含 `*` 那题的思路是一脉相承的。那题在leetcode里叫 Decode Ways I
 
 dp[i] 表示 给的String里从 index=0 开始，到 index=i 为止，这一段chars(可能有`*`)，一共有多少种decode成 A ~ Z 的方法。递推方式是：
 ```java
