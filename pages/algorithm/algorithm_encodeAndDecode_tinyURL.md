@@ -21,6 +21,7 @@ Your Codec object will be instantiated and called as such:
 Codec codec = new Codec();
 codec.decode(codec.encode(url));
 ```
+这题其实算是 easy 题。
 
 ### Example
 略
@@ -28,16 +29,39 @@ codec.decode(codec.encode(url));
 ## Solution
 用2个Map 倒来倒去
 
+下面的做法是比较学院派的做法，做出来的short url是这种样子：`http://hello.com/x6yZ8`。如果不把 int count 转成 `x6yZ8` 这样的形式，则可以快一些。这样出来的结果像 `http://hello.com/2416780`。还可以更精简，比如 `http://2416780.com`
+
+如果用62位来缩短int count，即转成 `x6yZ8` 这样的形式，则6位62位数就够了。因为 人类迄今为止的url的个数 << 62^6
+
+这题可以问的clarification questions:
+* `https` 的网站是否需要转成https，还是都转成http就行
+* 会不会出现 `ftp://` 之类的东西
+
 ### Complexity
 * Time: O(n)，n是给的string的长度
 * Space: O(n)
 
 ### Java
+代码看着不短，其实思路很简单
 ```java
 public class Codec {
     Map<String, String> longAsKey = new HashMap<>();
     Map<String, String> shortAsKey = new HashMap<>();
     int count = 0;
+    char[] chars;
+    
+    public Codec() {
+        this.chars = new char[62]; // 62 = 26 * 2 + 10
+        for (int i = 0; i < 10; i++) {
+            chars[i] = (char)('0' + i);
+        }
+        for (int i = 0; i < 26; i++) {
+            chars[i + 10] = (char)('a' + i);
+        }
+        for (int i = 0; i < 26; i++) {
+            chars[i + 36] = (char)('A' + i);
+        }
+    }
     
     // Encodes a URL to a shortened URL.
     public String encode(String longUrl) {
@@ -56,9 +80,9 @@ public class Codec {
         for (int i = lastChars.size() - 1; i >= 0; i--) {
             sb.append(lastChars.get(i));
         }
-        sb.append(".com");
+        sb.append(".com/");
         count++;
-        sb.append(String.valueOf(count));
+        sb.append(convertCountToStr(count));
         
         String shortUrl = sb.toString();
         
@@ -71,6 +95,20 @@ public class Codec {
     // Decodes a shortened URL to its original URL.
     public String decode(String shortUrl) {
         return shortAsKey.get(shortUrl);
+    }
+    
+    private String convertCountToStr(int count) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(chars[count % 62]);
+        count /= 62;
+        
+        while (count >= 62) {
+            sb.append(chars[count % 62]);
+            count /= 62;
+        }
+        if (count > 0) sb.append(chars[count]); 
+
+        return sb.toString();
     }
 }
 ```
