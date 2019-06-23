@@ -58,11 +58,8 @@ class NodeDist implements Comparable<NodeDist> {
     }
     
     @Override
-    public int compareTo(NodeDist nd) {
-        if (this.distFromSource == nd.distFromSource) {
-            return 0;
-        }
-        return this.distFromSource > nd.distFromSource ? 1 : -1;
+    public int compareTo(NodeDist n2) {
+        return Integer.compare(this.distFromSource, n2.distFromSource);
     }
 }
 
@@ -86,7 +83,8 @@ public class Solution {
             int curNode = cur.nodeId;
             int curDist = cur.distFromSource;
             
-            // 注意！如果当前这个node之前已经被PQ pop过了，那么现在再被pop出来，
+            // 这题的关键所在！！我曾经错在这里很久！
+            // 如果当前这个node之前已经被PQ pop过了，那么现在再被pop出来，
             // 一定是距离source node 比之前的那次pop的更远，所以本次pop没有意义，直接抛弃
             if (result.containsKey(curNode)) {
                 continue;
