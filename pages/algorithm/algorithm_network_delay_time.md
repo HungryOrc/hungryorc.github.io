@@ -27,7 +27,7 @@ Now, we send a signal from a certain node K. How long will it take for all nodes
 * Space: O(|E| + |V|) <=== 对么？？
 
 ### Java
-代码
+代码看起来长，其实思路不复杂
 
 ```java
 class Node implements Comparable<Node> {
