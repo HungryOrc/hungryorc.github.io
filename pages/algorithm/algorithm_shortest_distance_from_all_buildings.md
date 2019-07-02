@@ -36,7 +36,9 @@ class Solution {
     private final static int BUILDING = 1;
     private final static int OBSTACLE = 2;
     
-    private final static int[][] DIRS = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    private final static int[][] DIRS = {
+        {1, 0}, {-1, 0}, {0, 1}, {0, -1}
+    };
     
     public int shortestDistance(int[][] grid) {
         if (grid == null || grid.length == 0 || grid[0].length == 0) {
