@@ -23,13 +23,14 @@ There will be at least one building. If it is not possible to build such house a
 * Input: [[1,0,2,0,1],[0,0,0,0,0],[0,0,1,0,0]]
   * Output: 7. Given three buildings at (0,0), (0,4), (2,2), and an obstacle at (0,2), the point (1,2) is an ideal empty land to build a house, as the total travel distance of 3+3+1=7 is minimal. So return 7.
 
-## Solution 1: 从空地出发，找各个房子
+## Solution 1: 从空地出发，找各个房子。这个方法速度非常慢！因为空地很多
 
 ### Complexity
 * Time: O(空地的个数 x n x m)
 * Space: O(n x m)
 
 ### Java
+代码看起来不短，思路其实很简明
 ```java
 class Solution {
     private final static int EMPTY = 0;
@@ -48,21 +49,15 @@ class Solution {
         int n = grid.length;
         int m = grid[0].length;
         int countBldg = 0;
-        int countEmpty = 0;
         
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                if (grid[i][j] == EMPTY) {
-                    countEmpty++;
-                } else if (grid[i][j] == BUILDING) {
+                if (grid[i][j] == BUILDING) {
                     countBldg++;
                 }
             }
         }
-        
-        if (countEmpty == 0 || countBldg == 0) {
-            return -1;
-        }
+        if (countBldg == 0) return -1;
         
         int minDists = Integer.MAX_VALUE;
         
