@@ -26,8 +26,8 @@ There will be at least one building. If it is not possible to build such house a
 ## Solution 1: 从空地出发，找各个房子
 
 ### Complexity
-* Time: O(n) ？？？
-* Space: O(n) ？？？
+* Time: O(空地的个数 x n x m)
+* Space: O(n x m)
 
 ### Java
 ```java
