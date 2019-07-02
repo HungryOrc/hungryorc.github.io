@@ -127,7 +127,7 @@ class Solution {
 ```
 
 ## Solution 2: 从房子出发，找各个空地。这个方法比上面的方法快很多，因为一般来说房子少空地多
-代码
+代码也比上面的稍微短一点
 
 ### Complexity
 * Time: O(房子的个数 x n x m)
