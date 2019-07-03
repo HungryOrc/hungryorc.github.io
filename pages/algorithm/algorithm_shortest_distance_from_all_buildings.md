@@ -72,7 +72,10 @@ class Solution {
                 int reached = 0;
                 
                 Integer[] original = new Integer[]{i, j};
+                
                 boolean[][] visited = new boolean[n][m];
+                visited[i][j] = true;
+                
                 Queue<Integer[]> queue = new LinkedList<>();
                 queue.offer(original);
                 
