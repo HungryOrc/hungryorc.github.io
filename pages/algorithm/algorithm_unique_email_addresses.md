@@ -62,19 +62,17 @@ class Solution {
             boolean foundFirstPlus = false;
                 
             for (char c : s.toCharArray()) {
-                if (!foundAtMark && !foundFirstPlus) {
+                if (!foundAtMark) {
                     if (c == '@') {
                         foundAtMark = true;
                         sb.append('@');
-                    } else if (c == '+') {
-                        foundFirstPlus = true;
-                    } else if (c != '.') {
-                        sb.append(c);
-                    }
-                } else if (!foundAtMark && foundFirstPlus) {
-                    if (c == '@') {
-                        foundAtMark = true;
-                        sb.append('@');
+                        
+                    if (!foundFirstPlus) {
+                        if (c == '+') {
+                            foundFirstPlus = true;
+                        } else if (c != '.') {
+                            sb.append(c);
+                        }
                     }
                 } else { // foundAtMark
                     sb.append(c);
