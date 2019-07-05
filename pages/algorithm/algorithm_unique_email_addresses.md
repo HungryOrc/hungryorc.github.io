@@ -63,10 +63,6 @@ class Solution {
                 
             for (char c : s.toCharArray()) {
                 if (!foundAtMark) {
-                    if (c == '@') {
-                        foundAtMark = true;
-                        sb.append('@');
-                        
                     if (!foundFirstPlus) {
                         if (c == '+') {
                             foundFirstPlus = true;
@@ -74,7 +70,13 @@ class Solution {
                             sb.append(c);
                         }
                     }
-                } else { // foundAtMark
+                    
+                    if (c == '@') {
+                        foundAtMark = true;
+                        sb.append('@');
+                    } 
+                } 
+                else { // foundAtMark
                     sb.append(c);
                 }
             }
