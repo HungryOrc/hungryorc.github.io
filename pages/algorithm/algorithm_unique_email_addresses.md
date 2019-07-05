@@ -66,7 +66,7 @@ class Solution {
                     if (!foundFirstPlus) {
                         if (c == '+') {
                             foundFirstPlus = true;
-                        } else if (c != '.') {
+                        } else if (c != '.' && c != '@') {
                             sb.append(c);
                         }
                     }
