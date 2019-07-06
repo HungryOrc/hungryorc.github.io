@@ -92,15 +92,18 @@ class Solution {
 ```java
 class Solution {
     public int splitArray(int[] nums, int m) {
-        long min = 0, max = 0;
+        long maxElement = Integer.MIN_VALUE;
+        long totalSum = 0;
         int n = nums.length;
         
         for (int num : nums) {
-            max += num;
-            min = Math.max(min, num);
+            totalSum += num;
+            maxElement = Math.max(maxElement, num);
         }
         
-        long result = max;
+        long min = maxElement;
+        long max = totalSum;
+        long result = totalSum;
         
         while (min <= max) {
             long mid = min + (max - min) / 2;
@@ -111,21 +114,28 @@ class Solution {
             for (int num : nums) {
                 if (sum + num > mid) {
                     count++;
-                    maxSum = Math.max(maxSum, sum);
                     sum = num;
                 } else {
                     sum += num;
-                    maxSum = Math.max(maxSum, sum);
                 }
+                
+                maxSum = Math.max(maxSum, sum);
             }
-            count++;
+            count++; // 别忘了这个
             
             if (count < m) {
+                // 特别注意！这里也要更新result
+                // 因为我们选取的min group sum是数组里最大的element的值，
+                // 但其实那些更小的elements是可能单独成为一个group的
                 result = Math.min(result, maxSum);
                 max = mid - 1;
-            } else if (count > m) {
+            } 
+            else if (count > m) {
                 min = mid + 1;
-            } else {
+            } 
+            // 如果count正好等于m，也还是要继续缩小每个group的sum的上限！
+            // 不能就此return！因为可能有多个上限都能实现 count == m
+            else {
                 result = Math.min(result, maxSum);
                 max = mid - 1;
             }
