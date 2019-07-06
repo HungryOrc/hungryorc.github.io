@@ -21,7 +21,9 @@ Note:
 * Input: nums = [7,2,5,10,8], m = 2
   * Output: 18. There are four ways to split nums into two subarrays. The best way is to split it into [7,2,5] and [10,8], where the largest sum among the two subarrays is only 18.
 
-## Solution：DP
+## Solution 1：DP，速度不算快，后面的binary search的方法更快
+这题所用的2个方法的解释，都可以在这里看到：https://www.youtube.com/watch?v=_k-Jb4b7b_0
+
 dp[i][j]：数组里 从index 0 到 index i（两端都inclusive）的这些数，正好分成j个groups，那么最大的group sum 的最小值是多少
 
 ### Complexity
@@ -75,6 +77,60 @@ class Solution {
             }
         }
         return dp[n - 1][m];
+    }
+}
+```
+
+## Solution 2：高阶的binary search 技巧
+
+### Complexity
+* Time: O(log(sum of all numbers in the array) * n)
+* Space: O(1)
+
+### Java
+代码不长，思路很巧妙，还有些比较深的地方我还没有悟透，还需要反复看
+```java
+class Solution {
+    public int splitArray(int[] nums, int m) {
+        long min = 0, max = 0;
+        int n = nums.length;
+        
+        for (int num : nums) {
+            max += num;
+            min = Math.max(min, num);
+        }
+        
+        long result = max;
+        
+        while (min <= max) {
+            long mid = min + (max - min) / 2;
+            long sum = 0;
+            long maxSum = min;
+            int count = 0;
+            
+            for (int num : nums) {
+                if (sum + num > mid) {
+                    count++;
+                    maxSum = Math.max(maxSum, sum);
+                    sum = num;
+                } else {
+                    sum += num;
+                    maxSum = Math.max(maxSum, sum);
+                }
+            }
+            count++;
+            
+            if (count < m) {
+                result = Math.min(result, maxSum);
+                max = mid - 1;
+            } else if (count > m) {
+                min = mid + 1;
+            } else {
+                result = Math.min(result, maxSum);
+                max = mid - 1;
+            }
+        }
+        return (int)result;
     }
 }
 ```
