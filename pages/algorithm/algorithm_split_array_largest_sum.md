@@ -25,8 +25,8 @@ Note:
 dp[i][j]：数组里 从index 0 到 index i（两端都inclusive）的这些数，正好分成j个groups，那么最大的group sum 的最小值是多少
 
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(m n^2)，n是数组里有多少个数，m是groups的个数
+* Space: O(m n)
 
 ### Java
 代码不很长，但思路比较巧妙，也很典型，值得反复品味
