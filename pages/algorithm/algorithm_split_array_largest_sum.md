@@ -81,7 +81,7 @@ class Solution {
 }
 ```
 
-## Solution 2：高阶的binary search 技巧
+## Solution 2：高阶的binary search 技巧，速度很快
 
 ### Complexity
 * Time: O(log(sum of all numbers in the array) * n)
