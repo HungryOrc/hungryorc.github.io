@@ -96,13 +96,11 @@ class Solution {
                 int slowCount = map.get(slowVal);
                 if (slowCount == 1) {
                     map.remove(slowVal);
-                    slow++;
-                    fruitCount--;
                 } else {
                     map.put(slowVal, slowCount - 1);
-                    slow++;
-                    fruitCount--;
                 }
+                slow++;
+                fruitCount--;
             }
         }
         return maxFruitCount;
