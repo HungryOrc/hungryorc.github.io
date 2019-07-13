@@ -70,6 +70,36 @@ class Solution {
 }
 ```
 
+## Solution 2: DP，和上面的思路的内核是一样的，只是外在形式的code上看起来简洁一些
+时间和空间效率也是一样的
+
+### Complexity
+* Time: O(n)
+* Space: O(1)
+
+### Java
+```java
+class Solution {
+    public int maxProduct(int[] nums) {
+        if (nums == null || nums.length == 0) return Integer.MIN_VALUE;
+	
+	int max = nums[0];
+	int prevMax = nums[0], prevMin = nums[0];
+	
+	for (int i = 1; i < nums.length; i++) {
+	    int cur = nums[i];
+	    
+	    int tmp = Math.max(cur, Math.max(cur * prevMax, cur * prevMin));
+	    prevMin = Math.min(cur, Math.min(cur * prevMax, cur * prevMin));
+	    prevMax = tmp;
+	    
+	    max = Math.max(max, prevMax);
+	}
+	return max;
+    }
+}
+```
+
 ## Reference
 * [Maximum Product Subarray [LeetCode]](https://leetcode.com/problems/maximum-product-subarray/description/)
 
