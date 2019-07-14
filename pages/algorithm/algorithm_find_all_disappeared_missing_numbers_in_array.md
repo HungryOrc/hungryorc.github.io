@@ -27,7 +27,7 @@ You may assume the returned list does not count as extra space.
 ## Solution 1: array类问题的典型常用方法："如果是正数，就将它变为负数"，必须记住！
 Ref: https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/discuss/92956/Java-accepted-simple-solution
 
-我们到了 nums[i] 的时候，如果 nums[i] = m，然后 nums[m - 1] > 0，则让 nums[m - 1] 的数 自己乘以自己 -1，即正数变负数。
+我们到了 nums[i] 的时候，如果 nums[i] = m，然后 nums[m - 1] > 0，则让 nums[m - 1] 的数乘以 -1，即正数变负数。
 这么一变符号，意义在于：我们知道 m 出现过在数组里了。
 
 ### Complexity
