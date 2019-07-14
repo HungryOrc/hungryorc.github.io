@@ -60,7 +60,7 @@ class Solution {
     }
     
     private Integer getNextIndex(int[] nums, int direction, Integer index) {
-        if (index == null) return null;
+        if (index == null) return null; // 这是为了fast pointer 一次跳两步 的情况
         
         Integer result = null;
         int n = nums.length;
@@ -75,7 +75,7 @@ class Solution {
         next %= n;
         
         if (cur > 0) {
-            if (next > n - 1) result = next - n + 1;
+            if (next > n - 1) result = next - n;
             else result = next;
         } else { // cur < 0
             if (next < 0) result = n + next;
