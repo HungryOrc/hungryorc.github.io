@@ -43,8 +43,6 @@ class Solution {
         }
         
         for (int i = 0; i < nums.length; i++) {
-            if (nums[i] == 0) continue;
-            
             // indexes of fast and slow pointer
             Integer slow = i;
             int direction = nums[i] > 0 ? 1 : -1;
@@ -84,7 +82,7 @@ class Solution {
         }
         
         // 如果出现自循环，即一个元素自己loop到自己，则按题意这种情况不算circular
-        if (result == index) { nums[index] = 0; return null; }
+        if (result == index) return null;
         
         return result;
     }
