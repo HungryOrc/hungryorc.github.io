@@ -50,7 +50,8 @@ class Solution {
             
             while (slow != null && fast != null && slow != fast) {
                 slow = getNextIndex(nums, direction, slow);
-                fast = getNextIndex(nums, direction, getNext(nums, direction, fast));
+                fast = getNextIndex(nums, direction, 
+                                    getNextIndex(nums, direction, fast));
             }
             
             if (slow == fast) return true;
