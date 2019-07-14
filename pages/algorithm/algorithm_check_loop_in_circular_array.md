@@ -27,11 +27,10 @@ Could you solve it in **O(n) time and O(1) extra space**?
 * Input: [-1,2]
   * Output: False. The movement from index 1 -> 2 -> 1 -> ... is not a cycle, because movement from index 1 -> 2 is a forward movement, but movement from index 2 -> 1 is a backward movement. All movements in a cycle must follow a single direction.
 
-## Solution 1: 快慢指针。参考了下面的链接以后，我自己的方法，速度较慢。回头再看下下面的链接，看如何优化我的code
-Ref: https://leetcode.com/problems/circular-array-loop/discuss/94187/Java-solution-easy-to-follow
+## Solution 1: 我自己的方法，快慢指针。速度较慢，不符合 O(1) 时间的要求
 
 ### Complexity
-* Time: O(n)
+* Time: O(n^2)
 * Space: O(1)
 
 ### Java
