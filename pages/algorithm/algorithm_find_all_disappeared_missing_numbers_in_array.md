@@ -79,7 +79,10 @@ class Solution {
             while(nums[i] != nums[nums[i] - 1]){
                 swap(nums, i , nums[i] - 1);
             }
-        }
+            // 这个while loop 完成后，有两种后果：
+            // 要么 nums[i] = i + 1 了，即这一次为了i的调动最终成功了、
+            // 要么 nums[i] == nums[nums[i] - 1]，所以也没有意义再loop下去了
+         }
         
         List<Integer> result = new ArrayList<>();
         for(int i = 0; i < n; i++) {
