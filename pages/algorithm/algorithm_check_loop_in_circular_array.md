@@ -1,10 +1,10 @@
 ---
-title: "Circular Array Loop"
+title: "Check if there is any Loop in a Circular Array"
 tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_circular_array_loop.html
+permalink: algorithm_check_loop_in_circular_array.html
 folder: algorithm
 toc: false
 ---
@@ -19,7 +19,7 @@ Note:
 * nums[i] ≠ 0
 * 1 ≤ nums.length ≤ 5000
 
-Could you solve it in O(n) time complexity and O(1) extra space complexity?
+Could you solve it in **O(n) time and O(1) extra space**?
 
 ### Example
 * Input: [2,-1,1,2,2]
