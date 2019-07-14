@@ -32,7 +32,7 @@ Ref: https://leetcode.com/problems/circular-array-loop/discuss/94187/Java-soluti
 
 ### Complexity
 * Time: O(n)
-* Space: O(n)
+* Space: O(1)
 
 ### Java
 ```java
