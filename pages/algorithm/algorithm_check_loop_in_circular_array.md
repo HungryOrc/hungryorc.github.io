@@ -54,7 +54,7 @@ class Solution {
                                     getNextIndex(nums, direction, fast));
             }
             
-            if (slow == fast) return true;
+            if (slow == fast) return true; // 发现了loop
         }
         return false;
     }
