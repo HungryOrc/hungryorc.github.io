@@ -46,11 +46,11 @@ class Solution {
             // indexes of fast and slow pointer
             Integer slow = i;
             int direction = nums[i] > 0 ? 1 : -1;
-            Integer fast = getNext(nums, direction, i);
+            Integer fast = getNextIndex(nums, direction, i);
             
             while (slow != null && fast != null && slow != fast) {
-                slow = getNext(nums, direction, slow);
-                fast = getNext(nums, direction, getNext(nums, direction, fast));
+                slow = getNextIndex(nums, direction, slow);
+                fast = getNextIndex(nums, direction, getNext(nums, direction, fast));
             }
             
             if (slow == fast) return true;
@@ -58,7 +58,7 @@ class Solution {
         return false;
     }
     
-    private Integer getNext(int[] nums, int direction, Integer index) {
+    private Integer getNextIndex(int[] nums, int direction, Integer index) {
         if (index == null) return null;
         
         Integer result = null;
