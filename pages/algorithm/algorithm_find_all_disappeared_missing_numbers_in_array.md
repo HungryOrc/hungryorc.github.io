@@ -4,7 +4,7 @@ tags: [algorithm]
 keywords:
 summary:
 sidebar: mydoc_sidebar
-permalink: algorithm_find_all_disappeared_numbers_in_array.html
+permalink: algorithm_find_all_disappeared_missing_numbers_in_array.html
 folder: algorithm
 toc: false
 ---
