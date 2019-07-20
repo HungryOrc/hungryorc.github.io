@@ -57,7 +57,7 @@ class Solution {
         }
         
         // find the last position
-        left = 0;
+        left = first; // 设为first，不设为0，会快一丢丢
         right = n - 1;
         while (left + 1 < right) {
             int mid = left + (right - left) / 2;
