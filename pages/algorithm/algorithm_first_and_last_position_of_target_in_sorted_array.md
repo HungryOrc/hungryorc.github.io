@@ -14,6 +14,8 @@ Given an array of integers nums sorted in ascending order, find the starting and
 
 If the target is not found in the array, return [-1, -1].
 
+这一题虽说不难，但据说很多公司都很高频考！包括 GG，FB 等
+
 ### Example
 * Input: nums = [5,7,7,8,8,10], target = 8
   * Output: [3,4]
@@ -39,7 +41,7 @@ class Solution {
         int first = -1, last = -1;
         int left = 0, right = n - 1;
         
-        // find first position
+        // find the first position
         while (left + 1 < right) {
             int mid = left + (right - left) / 2;
             if (nums[mid] >= target) { // 注意这里和下面 find last 处的区别
@@ -56,7 +58,7 @@ class Solution {
             return new int[]{-1, -1};
         }
         
-        // find last position
+        // find the last position
         left = 0;
         right = n - 1;
         while (left + 1 < right) {
@@ -71,7 +73,7 @@ class Solution {
             last = right;
         } else { // nums[left] == target
             last = left;
-        }
+        } // 都到这里了，就不可能不存在target了
         
         return new int[]{first, last};
     }
