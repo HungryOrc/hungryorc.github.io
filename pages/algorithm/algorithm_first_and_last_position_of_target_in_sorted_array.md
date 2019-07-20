@@ -20,9 +20,7 @@ If the target is not found in the array, return [-1, -1].
 * Input: nums = [5,7,7,8,8,10], target = 8
   * Output: [3,4]
 
-## Solution
-Binary Search, 九章style
-
+## Solution: Binary Search, 九章style，速度 前1%
 注意，如果找不到target的第一个position，那么意思就是找不到target，那么就不用再找所谓的最后一个target了，直接返回 [-1, -1] 就行了
 
 ### Complexity
