@@ -110,12 +110,14 @@ class Solution {
                 // 刚到(x-1,y)的时候，它的脸必然还是向北的。那么它就要以向北为初始条件，转动四次，走四个方向。
                 dfs(robot, visited, nextX, nextY, direction);
             
+                // 从 (nextX, nextY) 坐标 回到 (x, y) 坐标
                 robot.turnRight();
                 robot.turnRight();
                 robot.move();
                 robot.turnLeft();
                 robot.turnLeft();
             }
+            
             // 别忘了这里要转头。这是机器人的模拟移动，不是空虚的数学的移动
             robot.turnLeft();
             
