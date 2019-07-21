@@ -60,8 +60,8 @@ Note:
 ## Solution 1: DFS，速度较慢，回头我看下有没有更快的方法
 
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(n * m) <==== 对么 ？？？？
+* Space: O(n * m) <==== 对么 ？？？？
 
 ### Java
 ```java
