@@ -10,7 +10,7 @@ toc: false
 ---
 
 ## Description
-这题LeetCode标的是easy，但其实 median+
+这题LeetCode标的是easy，但其实 median+。
 
 You have N gardens, labelled 1 to N.  In each garden, you want to plant one of 4 types of flowers.
 
@@ -25,7 +25,7 @@ Return any such a choice as an array answer, where answer[i] is the type of flow
 Note:
 * 1 <= N <= 10000
 * 0 <= paths.size <= 20000
-* No garden has 4 or more paths coming into or leaving it.
+* No garden has 4 or more paths coming into or leaving it. 就是说对于每个花园，与之连接的paths的个数 小于等于3，这题里的paths都是双向的，所以不存在 入度 和 出度 的说法
 * It is guaranteed an answer exists.
 
 ### Example
@@ -36,12 +36,12 @@ Note:
 * Input: N = 4, paths = [[1,2],[2,3],[3,4],[4,1],[1,3],[2,4]]
   * Output: [1,2,3,4]
 
-## Solution 1: Greedy
-
+## Solution 1: Greedy，速度前 50%
+颜色一共有四种，但每一个花园即每一个vertex的edge的个数最多是三。所以，**其实无论怎么涂色，都不会撞车，即要涂某一个花园的时候，看它周围的所有与之相连的花园（个数 <= 3），选一个它们都没有用到的颜色，给自己涂色就行了。而因为 4 > 3 所以我们永远可以找到这样的颜色。这种可行性，与之前的涂色顺序无关，与之前的选用颜色无关，与当前为自己的选用颜色也无关！这就是这题可以用Greedy的元气所在。哦也**
 
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(|E|)，要考察每一条边 <==== 对么 ？？？？
+* Space: O(|E|)，map的size <==== 对么 ？？？？
 
 ### Java
 ```java
