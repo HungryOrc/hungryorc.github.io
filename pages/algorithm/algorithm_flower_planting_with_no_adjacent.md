@@ -53,7 +53,7 @@ class Solution {
         int[] result = new int[n];	
 
         for (int i = 0; i < n; i++) {
-            map.put(i, new HashSet<>());
+            map.put(i, new HashSet<>()); // 这样能大幅地方便以后
         }
 
         for (int[] path : paths) {
