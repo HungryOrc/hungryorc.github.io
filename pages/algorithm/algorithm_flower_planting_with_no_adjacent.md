@@ -84,6 +84,64 @@ class Solution {
 }
 ```
 
+## Solution 2: DFS，就是把上面的Greedy方法的后半部稍微改了一点点，速度 更慢了
+注意，这里这个dfs，其实不是真正的完整的dfs：我们的每次涂色，之后都没有褪色这一步，所以一直都是一个闷头向前的一锤子买卖。之所以这么做还过了，就是因为我们作弊了，我们知道这题的这个情况是一定可以涂出来的，而且涂的过程无所谓，中间随便涂，最后也必胜
+
+### Complexity
+* Time: O(|E|)，要考察每一条边 <==== 对么 ？？？？
+* Space: O(|E|)，map的size <==== 对么 ？？？？
+
+### Java
+```java
+class Solution {
+    public int[] gardenNoAdj(int n, int[][] paths) {
+        Map<Integer, Set<Integer>> map = new HashMap<>();
+        int[] result = new int[n]; // 用0表示没涂色，用1-4表示涂了某种色
+
+        for (int i = 0; i < n; i++) {
+            map.put(i, new HashSet<>()); // 这样能大幅地方便以后
+        }
+
+        for (int[] path : paths) {
+            // gardens是从1开始编号的，按照题意
+            int v1 = path[0] - 1;
+            int v2 = path[1] - 1;
+            
+            map.get(v1).add(v2);
+            map.get(v2).add(v1);
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (result[i] != 0) continue;
+            dfs(map, i, result);
+        }
+        return result;
+    }
+    
+    private void dfs(Map<Integer, Set<Integer>> map, int cur, int[] result) {
+        boolean[] usedColors = new boolean[5];
+        
+        Set<Integer> neighbors = map.get(cur);
+        for (int nei : neighbors) {
+            usedColors[result[nei]] = true;
+        }
+
+        for (int color = 1; color <= 4; color++) {
+            if (usedColors[color]) continue;
+
+            result[cur] = color;
+
+            for (int nei : neighbors) {
+                if (result[nei] == 0) {
+                    dfs(map, nei, result);
+                }
+            }
+            break;
+        }
+    }
+}
+```
+
 ## Reference
 * [Flower Planting With No Adjacent [LeetCode]](https://leetcode.com/problems/flower-planting-with-no-adjacent/description/)
 
