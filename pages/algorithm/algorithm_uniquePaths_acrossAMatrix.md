@@ -21,8 +21,7 @@ Note: m and n will be at most 100.
 ### Example
 略
 
-## Solution
-哦也
+## Solution 1: DP，速去 前1%
 
 ### Complexity
 * Time: O(n * m)
