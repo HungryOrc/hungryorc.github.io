@@ -19,10 +19,11 @@ toc: false
 ## Solution：注意把握好4个方向，本题里的这些方向的概念 是符合小学数学二维坐标的概念，而非编程的惯例，即：向北即向上走是y+1而非x-1，向右走是x+1而非y+1
 
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(number of commands * avg length of each command)，比如转向的length为1，走5步的length为5
+* Space: O(number of obstacles)，因为我们弄了个set
 
 ### Java
+思路非常简单。代码看起来有点长
 ```java
 class Solution {
     public int robotSim(int[] commands, int[][] obstacles) {
