@@ -208,7 +208,7 @@ class WeightedTreeUnionFind {
             return;
         }
         
-        if (groupSizes[groupIDA] >= groupSizes[groupIDB]) {
+        if (groupSizes[groupIDA] >= groupSizes[groupIDB]) { // <=== new stuff
             parentIDs[groupIDB] = groupIDA;
             groupSizes[groupIDA] += groupSizes[groupIDB]; // <=== new stuff
             // since groupIDB will no longer be a root for any group,
