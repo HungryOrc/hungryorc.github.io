@@ -52,29 +52,29 @@ class Solution {
     public int[] findRedundantConnection(int[][] edges) {
         int n = edges.length;
         
-        int[] parents = new int[n];
+        int[] roots = new int[n];
         for (int i = 0; i < n; i++) {
-            parents[i] = i;
+            roots[i] = i;
         }
         
         for (int[] edge : edges) {
             int from = edge[0] - 1, to = edge[1] - 1;
             
-            int parentF = findParent(from, parents);
-            int parentT = findParent(to, parents);
+            int rootF = findRoot(from, roots);
+            int rootT = findRoot(to, roots);
             
-            if (parentF == parentT) {
+            if (rootF == rootT) {
                 return new int[]{from + 1, to + 1};
             }
             
-            parents[parentF] = to; // 这一句是关键
+            roots[rootF] = to; // 这一句是关键
         }
         return null;
     }
     
-    private int findParent(int node, int[] parents) {
-        while(parents[node] != node) {
-            node = parents[node];
+    private int findRoot(int node, int[] roots) {
+        while(roots[node] != node) {
+            node = roots[node];
         }
         return node;
     }
