@@ -40,10 +40,10 @@ Note:
         4 - 3
     ```
 
-## Solution 1: Union Find，速度
+## Solution 1: Union Find，速度 前1%
 
 ### Complexity
-* Time: O(n)
+* Time: O(n) <==== 因该是多少？？？？
 * Space: O(n)
 
 ### Java
@@ -82,6 +82,6 @@ class Solution {
 ```
 
 ## Reference
-* [文章标题 [LeetCode]](网址放在这里)
+* [Redundant Connection I [LeetCode]](https://leetcode.com/problems/redundant-connection/description/)
 
 {% include links.html %}
