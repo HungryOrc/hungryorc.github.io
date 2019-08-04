@@ -374,14 +374,14 @@ class PathCompressionWeightedTreeUnionFind {
 
 #### Get an Unknown Ratio of x/y
 * 先做 `find(x, y)`。如果x和y不在一个group里，则返回 -1.0
-* 再看a和b的ratio分别是多少，把它们相除就行了。因为刚才在find函数运行的时候，已经偷偷把它们两的ratio值都更新了，它们已经都成为了同一个root的direct children，它们的ratio值也都是相对于同一个parent (同时也就是root) 的ratio
+* 再看a和b的ratio分别是多少，**把它们直接相除就行了**。因为刚才在find函数运行的时候，已经偷偷把它们两的ratio值都更新了，**它们已经都成为了同一个root的direct children，它们的ratio值也都是相对于同一个parent (同时也就是root) 的ratio**
 
 ### Java
 ```java
 class PathCompressionWeightedTreeUnionFindWithRatiosBetweenElements {
     public int[] parentIDs;
     private int[] groupSizes;
-    public double[] ratios; // 当前元素 除以 group root 元素，等于多少，就是这个ratio值
+    public double[] ratios; <=== new stuff!
 
     public PathCompressionWeightedTreeUnionFindWithRatiosBetweenElements(int n) {
         this.parentIDs = new int[n];
@@ -391,8 +391,8 @@ class PathCompressionWeightedTreeUnionFindWithRatiosBetweenElements {
         for (int i = 0; i < n; i++) {
             parentIDs[i] = i;
             groupSizes[i] = 1;
-            // 一开始对于每个元素来说，它的root就是它自己，所以ratio也都是 1.0（自己除以自己）
-            ratios[i] = 1.0;
+            // 一开始对于每个元素来说，它的parent就是它自己，所以ratio也都是 1.0（自己除以自己）
+            ratios[i] = 1.0; // <=== new stuff!
         }
     }
     
@@ -403,20 +403,20 @@ class PathCompressionWeightedTreeUnionFindWithRatiosBetweenElements {
         // step 1, get group ID, 顺便也把所有 直系父辈 的indexes都拿到，放到list里，
         // list从左到右依次是：自己，老豆，爷爷，太爷...
         while (curIndex != parentIDs[curIndex]) {
-            list.add(curIndex);
+            list.add(curIndex); // <=== new stuff!
             curIndex = parentIDs[curIndex];
         }
         int groupID = curIndex;
         
-        // step 2, update the parent id of the object and all its direct ancestors 
+        // step 2, update the parent id of the node and all its direct ancestors 
         // to be the group id, and also update the ratios of them
         int n = list.size();
         // 从倒数第二个元素开始，因为倒数第一个元素的parent就是root，
         // 所以倒数第一个元素的ratio是不需要更改的
         for (int i = n - 2; i >= 0; i--) {
-            // 更新ratio值
             curIndex = list.get(i);
             int parentIndex = list.get(i + 1);
+            // 更新ratio值
             ratios[curIndex] *= ratios[parentIndex];
             // 更新parent id 为 root id 即 group id
             parentIDs[curIndex] = groupID;
@@ -431,7 +431,7 @@ class PathCompressionWeightedTreeUnionFindWithRatiosBetweenElements {
         return groupIDA == groupIDB;
     }
 
-    public void union(int a, int b, double ratioADivideByB) {
+    public void union(int a, int b, double ratioADivideByB) { // <=== 带着ratio的union！厉害了！
         int groupIDA = getGroupID(a);
         int groupIDB = getGroupID(b);
         
@@ -446,7 +446,7 @@ class PathCompressionWeightedTreeUnionFindWithRatiosBetweenElements {
             // 更新 b 和 b的所有直系父辈 的ratio，以及group id
             double ratioBDivideByA = 1.0 / ratioADivideByB;
             int curIndex = b;
-            double ratioFactor = (ratioBDivideByA * ratios[a] / ratios[b]);
+            double ratioFactor = ratioBDivideByA * ratios[a] / ratios[b];
             while (parentIDs[curIndex] != curIndex) {
                 int parentID = parentIDs[curIndex];
                 ratios[curIndex] *= ratioFactor;
