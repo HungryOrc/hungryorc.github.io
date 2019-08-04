@@ -200,7 +200,7 @@ class WeightedTreeUnionFind {
         return groupIDA == groupIDB;
     }
 
-    public void union(int a, int b) { // <=== this function changed!
+    public void union(int a, int b) {
         int groupIDA = getGroupID(a); // time: O(n)
         int groupIDB = getGroupID(b); // time: O(n)
         
@@ -210,12 +210,12 @@ class WeightedTreeUnionFind {
         
         if (groupSizes[groupIDA] >= groupSizes[groupIDB]) {
             parentIDs[groupIDB] = groupIDA;
-            groupSizes[groupIDA] += groupSizes[groupIDB];
+            groupSizes[groupIDA] += groupSizes[groupIDB]; // <=== new stuff
             // since groupIDB will no longer be a root for any group,
             // so no body will care about its size, so we don't need to update it
         } else {
             parentIDs[groupIDA] = groupIDB;
-            groupSizes[groupIDB] += groupSizes[groupIDA];
+            groupSizes[groupIDB] += groupSizes[groupIDA]; // <=== new stuff
         }
     }
 }
