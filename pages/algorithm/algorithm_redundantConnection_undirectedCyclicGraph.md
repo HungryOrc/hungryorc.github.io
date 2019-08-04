@@ -81,6 +81,104 @@ class Solution {
 }
 ```
 
+## Solution 2: 用 Path Compression Weighted Tree 改良过的 Union Find，速度理论上来说应该比上面的大白菜UF要快很多。但是做题的时候用上面的大白菜UF就够了
+
+### Complexity
+* Time: O(n) <==== 因该是多少？？？？
+* Space: O(n)
+
+### Java
+把UF的代码都提出来，放到主体的后面去了。代码看起来有点长，其实不复杂
+
+```java
+public class Solution {
+    public int[] findRedundantConnection(int[][] edges) {
+        int n = edges.length;
+        PathCompressionWeightedTreeUnionFind uf = new PathCompressionWeightedTreeUnionFind(n);
+        
+        for (int[] edge : edges) {
+            int from = edge[0] - 1, to = edge[1] - 1;
+            
+            int rootF = uf.getGroupID(from);
+            int rootT = uf.getGroupID(to);
+            
+            if (rootF == rootT) {
+                return new int[]{from + 1, to + 1};
+            }
+            
+            uf.union(from, to);
+        }
+        return null;
+    }
+    
+    private int findRoot(int node, int[] roots) {
+        while(roots[node] != node) {
+            node = roots[node];
+        }
+        return node;
+    }
+}
+
+class PathCompressionWeightedTreeUnionFind {
+    private int[] parentIDs;
+    private int[] groupSizes;
+
+    public PathCompressionWeightedTreeUnionFind(int n) {
+        this.parentIDs = new int[n];
+        this.groupSizes = new int[n];
+        
+        for (int i = 0; i < n; i++) {
+            parentIDs[i] = i;
+            groupSizes[i] = 1;
+        }
+    }
+    
+    public int getGroupID(int index) {
+        int curIndex = index;
+        
+        // step 1, get group ID
+        while (curIndex != parentIDs[curIndex]) {
+            curIndex = parentIDs[curIndex];
+        }
+        int groupID = curIndex; // namely the index of root object
+        
+        // step 2, update the parent id of the object and all its direct ancestors to be
+        // the group id, namely the id of the root object
+        curIndex = index;
+        while (curIndex != groupID) {
+            int parentID = parentIDs[curIndex];
+            parentIDs[curIndex] = groupID;
+            curIndex = parentID;
+        }
+        return groupID;
+    }
+
+    public boolean find(int a, int b) {
+        int groupIDA = getGroupID(a);
+        int groupIDB = getGroupID(b);
+        
+        return groupIDA == groupIDB;
+    }
+
+    public void union(int a, int b) {
+        int groupIDA = getGroupID(a);
+        int groupIDB = getGroupID(b);
+        
+        if (groupIDA == groupIDB) {
+            return;
+        }
+        
+        if (groupSizes[groupIDA] >= groupSizes[groupIDB]) {
+            parentIDs[groupIDB] = groupIDA;
+            groupSizes[groupIDA] += groupSizes[groupIDB];
+        } else {
+            parentIDs[groupIDA] = groupIDB;
+            groupSizes[groupIDB] += groupSizes[groupIDA];
+        }
+    }
+}
+```
+
 ## Reference
 * [Redundant Connection I [LeetCode]](https://leetcode.com/problems/redundant-connection/description/)
 
