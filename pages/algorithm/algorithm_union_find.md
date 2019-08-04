@@ -320,7 +320,7 @@ class PathCompressionWeightedTreeUnionFind {
 * LeetCode上有一道题就是这种类型，叫[Eveluate Division](https://leetcode.com/problems/evaluate-division/description/)
 
 ### 实施细节
-每个元素要带上一个double值，表达它的ratio。具体来说，这个ratio是这个元素所在的group的root元素的值 除以 这个元素的值 得到的商
+每个元素要带上一个double值，表达它的ratio。具体来说，这个ratio表示：这个元素的值 是 它所在的group的root元素的值 的多少倍
 
 #### Union
 * 每次我们拿到一个新的比例关系的时候，比如 `a/b = 2.5`，我们要把它表达到UF里面去。方式就是用 `union` 来做。因为此时a和b算是在同一个group里了
