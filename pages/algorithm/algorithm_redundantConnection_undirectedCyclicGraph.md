@@ -82,6 +82,7 @@ class Solution {
 ```
 
 ## Solution 2: 用 Path Compression Weighted Tree 改良过的 Union Find，速度理论上来说应该比上面的大白菜UF要快很多。但是做题的时候用上面的大白菜UF就够了
+我对所有的 Union Find 的实现方式的总结在此：https://github.com/HungryOrc/hungryorc.github.io/blob/master/pages/algorithm/algorithm_union_find.md
 
 ### Complexity
 * Time: O(n) <==== 因该是多少？？？？
