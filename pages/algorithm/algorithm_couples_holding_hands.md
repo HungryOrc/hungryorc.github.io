@@ -20,6 +20,10 @@ Notes:
 * len(row) is even and in the range of [4, 60].
 * row is guaranteed to be a permutation of 0...len(row)-1.
 
+注意：
+* 在最后的结果里，每一个pair可以是比如 `{2, 3}`，也可以是 `{3, 2}`
+* 在最后的结果里，pair与pair之间的顺序完全无所谓。但既然我们要用最少的swap次数，那么我们就要尽量多地利用原数组里现有的elements。更进一步说，就是要原数组里的处在 index 为 0、2、4、6..... 的数都不动，奇数位的elements做出调整以与它之前紧贴的偶数位的element组成配对
+
 ### Example
 * Input: row = [0, 2, 1, 3]
   * Output: 1. We only need to swap the second (row[1]) and third (row[2]) person.
@@ -27,6 +31,10 @@ Notes:
   * Output: 0. All couples are already seated side by side.
 
 ## Solution：思路很巧妙：用一个数组（map也行）来记录每个数字i在原数组里处于哪个index处。速度 前1%
+比如一开始数组是 `{0, 2, 4, 6, 7, 1, 3, 5}`，
+* 那么第一步，我们要把0后面的2 与 1 swap，得到：`{0, 1, 4, 6, 7, 2, 3, 5}`
+* 然后看第三位的4，它的炮友是5（注意每一个pair里都必然是偶数小奇数大的模式），所以我们要把4后面的6 与5 swap，得到：`{0, 1, 4, 5, 7, 2, 3, 6}`
+* 以此类推。可以想到，处理后面的时候，绝不会影像前面
 
 ### Complexity
 * Time: O(n)
