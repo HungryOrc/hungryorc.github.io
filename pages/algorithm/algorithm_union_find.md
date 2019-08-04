@@ -374,7 +374,7 @@ class PathCompressionWeightedTreeUnionFind {
 
 #### Get an Unknown Ratio of x/y
 * 先做 `find(x, y)`。如果x和y不在一个group里，则返回 -1.0
-* 再看a和b的ratio分别是多少，把它们相除就行了。因为刚才在find函数运行的时候，已经偷偷把它们两的ratio值都更新了，都是相对于同一个root的ratio
+* 再看a和b的ratio分别是多少，把它们相除就行了。因为刚才在find函数运行的时候，已经偷偷把它们两的ratio值都更新了，它们已经都成为了同一个root的direct children，它们的ratio值也都是相对于同一个parent (同时也就是root) 的ratio
 
 ### Java
 ```java
