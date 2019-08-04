@@ -111,13 +111,6 @@ public class Solution {
         }
         return null;
     }
-    
-    private int findRoot(int node, int[] roots) {
-        while(roots[node] != node) {
-            node = roots[node];
-        }
-        return node;
-    }
 }
 
 class PathCompressionWeightedTreeUnionFind {
