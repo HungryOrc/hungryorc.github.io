@@ -91,7 +91,7 @@ class Solution {
         // 扫描所有edges第二次，
         /* If both issues present, then the answer should be the first edge which results in "2 parents" issue
         The reason is, when an issue happens, we skip the "union" process.
-		Therefore, if both issues happen, it means the incorrent edge which results in "2 parents" was ignored. */
+	Therefore, if both issues happen, it means the incorrent edge which results in "2 parents" was ignored. */
         for (int[] edge : edges) {
             int to = edge[1];
             if (to == candidate1[1]) return edge;
