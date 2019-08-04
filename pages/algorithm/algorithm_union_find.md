@@ -247,7 +247,7 @@ class PathCompressionWeightedTreeUnionFind {
     private int[] parentIDs;
     private int[] groupSizes;
 
-    public PathCompressionWeightedTreeUnionFind(int n) { // <=== this function unchanged
+    public PathCompressionWeightedTreeUnionFind(int n) { // <=== Unchanged
         this.parentIDs = new int[n];
         this.groupSizes = new int[n];
         
@@ -280,14 +280,14 @@ class PathCompressionWeightedTreeUnionFind {
         return groupID;
     }
 
-    public boolean find(int a, int b) { // <=== this function unchanged
+    public boolean find(int a, int b) { // <=== Unchanged
         int groupIDA = getGroupID(a);
         int groupIDB = getGroupID(b);
         
         return groupIDA == groupIDB;
     }
 
-    public void union(int a, int b) { // <=== this function unchanged
+    public void union(int a, int b) { // <=== Unchanged
         int groupIDA = getGroupID(a);
         int groupIDB = getGroupID(b);
         
