@@ -38,6 +38,9 @@ Note:
   * 当前这题：
     * **如果当前node是一个circle里的一员，则当前node是unsafe的**
     * **如果当前node的任何一个next node 是unsafe的，则当前node也是unsafe的**。普通的拓扑排序并没有这个要求。这里出现这个要求，是因为本题的特殊要求：在（可以任意放宽的）K 步以内，无论怎么走，都一定能走到safe点。那么如果有的分支是进入了cycle即unsafe，那么当前node也就有可能进入cycle，那么当前node就不是safe node
+* 所以这题的做法是：
+  * 把最终的即天生就没有outbound edges 的nodes找出来，它们就是safe nodes 以及其他所有safe nodes 的最终归宿，把它们放到queue里去，也放到result里去
+  * 从它们开始，反向往前找它们的所有 prev nodes。这些prev nodes 的outbound edges 如果在减去前述的 safe nodes 以后，它们的出度变为0了，则它们也就成为新的safe nodes；如果未能变成0，则再也无法变成0了，因为这意味着它们总会因为这样那样的原因而走上unsafe的道路，它们就是unsafe的
 
 ### Complexity
 * Time: O(|V| + |E| + |V|*log(|V|))，其中 `|V|*log(|V|)` 是按题目要求的最后的排序
