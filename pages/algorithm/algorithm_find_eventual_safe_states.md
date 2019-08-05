@@ -27,10 +27,19 @@ Note:
 * Input: graph = [[1,2],[2,3],[5],[0],[5],[],[]]
   * Output: [2,4,5,6]. [Here](https://leetcode.com/problems/find-eventual-safe-states/description/) is a diagram of the above graph.
 
-## Solution：很明显就用 topological order 来做。
+## Solution：很明显就用 topological order 来做
+
+拓扑排序类问题的共性是：
+* **如果前缀或者后缀降低到0了，那么当前的object就可以加入到result list 里去**
+  * 修前序课程的那题，就是要把前缀降到0。当前这题，就是要把后缀（即从本node出发的下一步到达的nodes）降到0
+* **如果形成圈了，则当前object就不可能出现在result里面**
+  * 修课的时候，如果两门课互为前序课，则进入了死循环，这两门课都不可能修得了了
+  * 当前这题：
+    * **如果当前node是一个circle里的一员，则当前node是unsafe的**
+    * **如果当前node的任何一个next node 是unsafe的，则当前node也是unsafe的**。普通的拓扑排序并没有这个要求。这里出现这个要求，是因为本题的特殊要求：在（可以任意放宽的）K 步以内，无论怎么走，都一定能走到safe点。那么如果有的分支是进入了cycle即unsafe，那么当前node也就有可能进入cycle，那么当前node就不是safe node
 
 ### Complexity
-* Time: O(|V| + |E| + |V|*log(|V|))，其中 |V|*log(|V|) 是按题目要求的最后的排序
+* Time: O(|V| + |E| + |V|*log(|V|))，其中 `|V|*log(|V|)` 是按题目要求的最后的排序
 * Space: O(|V| + |E|)
 
 ### Java
