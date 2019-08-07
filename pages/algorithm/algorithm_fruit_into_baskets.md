@@ -108,15 +108,73 @@ class Solution {
 }
 ```
 
-## Solution 2：还是sliding window，但用Map记录每个元素最后(最右边)出现的位置(即index)，速度 ？？？？
+## Solution 2：我的方法，还是sliding window，但要记录两个元素最后(最右边)出现的位置(即index)，而且要记录这两个元素里哪个出现的最后一次更靠左，而且这个靠左和不靠左会不断交替 或者被第三者改变。速度 前10%
+
+这个思路很符合直觉，不管程序实现，在脑子里用脑子想清楚过程并不难。实现代码的时候要细心一点，把各个情况都掰开掰碎，逐个写清楚就ok了。水到渠成。
 
 ### Complexity
 * Time: O(n)
-* Space: O(1), map size 一直是 2
+* Space: O(1)
 
 ### Java
 ```java
-自己写一下实现 ！！！！！
+class Solution {
+    public int totalFruit(int[] tree) {
+        int n = tree.length;
+        
+        int former = tree[0];
+        int lastIndexOfFormer = 0;
+        int latter = Integer.MAX_VALUE;
+        int lastIndexOfLatter = -1;
+        
+        int startOfCurSubarray = 0;
+        
+        int maxLen = 1;
+        
+        for (int i = 1; i < n; i++) {
+            int cur = tree[i];
+            
+            // 如果第二个数还没出现，即 整个数组到现在为止 都只出现过一个数
+            if (latter == Integer.MAX_VALUE) { 
+                if (cur == former) {
+                    lastIndexOfFormer = i;
+                    maxLen = i + 1;
+                } else {
+                    latter = cur;
+                    lastIndexOfLatter = i;
+                    maxLen = i + 1;
+                }
+                continue;
+            }
+            
+            // 下面都是数组里迄今为止 已经出现过至少2种不同的值 的情况了
+            
+            if (cur == latter) {
+                lastIndexOfLatter = i;
+                maxLen = Math.max(maxLen, i - startOfCurSubarray + 1);
+            } else if (cur == former) {
+                former = latter;
+                latter = cur;
+                
+                lastIndexOfLatter = i;
+                lastIndexOfFormer = i - 1;
+                
+                maxLen = Math.max(maxLen, i - startOfCurSubarray + 1);
+            } else { // cur 是不同于当前篮子里的2种水果的 第3种水果
+                former = latter;
+                latter = cur;
+                
+                startOfCurSubarray = lastIndexOfFormer + 1;
+                
+                lastIndexOfFormer = i - 1;
+                lastIndexOfLatter = i;
+                
+                maxLen = Math.max(maxLen, i - startOfCurSubarray + 1);
+            }
+        }
+        return maxLen;
+    }
+}
 ```
 
 ## Reference
