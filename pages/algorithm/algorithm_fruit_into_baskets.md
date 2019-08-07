@@ -152,7 +152,8 @@ class Solution {
             if (cur == latter) {
                 lastIndexOfLatter = i;
                 maxLen = Math.max(maxLen, i - startOfCurSubarray + 1);
-            } else if (cur == former) {
+            }
+            else if (cur == former) {
                 former = latter;
                 latter = cur;
                 
@@ -160,7 +161,8 @@ class Solution {
                 lastIndexOfFormer = i - 1;
                 
                 maxLen = Math.max(maxLen, i - startOfCurSubarray + 1);
-            } else { // cur 是不同于当前篮子里的2种水果的 第3种水果
+            }
+            else { // cur 是不同于当前篮子里的2种水果的 第3种水果
                 former = latter;
                 latter = cur;
                 
