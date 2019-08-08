@@ -213,8 +213,8 @@ public class Solution {
         for (int i = nums.length - 1; i >= 0; i--) {
             int cur = nums[i];
             
-            // "smaller than self" means the value can be at most self-1, 
-            // and also at least equals min of the array
+            // "smaller than self" means the value must <= cur-1, 
+            // and also must >= the min of the array
             int countOfSmaller = query(root, min, cur - 1);
       
             result.add(0, countOfSmaller); // add at head of result
@@ -241,9 +241,9 @@ public class Solution {
         // `[start, mid]` 和 `[mid+1, end]`
         // 其实采用怎样的划分方式都可以，关键是 query 函数的划分方式和 update 函数的划分方式 要一致
     
-        if (start >= mid + 1) { // 需要query的range在 右半段
+        if (start >= mid + 1) { // 需要query的range 全部都在 右半段
             return query(node.right, start, end);
-        } else if (end <= mid) { // 需要query的range在 左半段
+        } else if (end <= mid) { // 需要query的range 全部都在 左半段
             return query(node.left, start, end);
         }
         
