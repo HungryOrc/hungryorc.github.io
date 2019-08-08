@@ -207,6 +207,8 @@ public class Solution {
         SegmentTreeNode root = new SegmentTreeNode(min, max);
     
         List<Integer> result = new LinkedList<>();
+        
+        // 从右到左，这也是本题最关键之一！
         // 从右往左，把逐个数 放到 segment tree 里去
         for (int i = nums.length - 1; i >= 0; i--) {
             int cur = nums[i];
