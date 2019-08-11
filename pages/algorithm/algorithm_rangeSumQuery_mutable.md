@@ -59,14 +59,10 @@ class SegTree {
     
     public SegTree(int[] nums) {
         this.nums = nums;
-        
         int n = nums.length;
-        int sum = 0;
-        for (int num : nums) {
-            sum += num;
-        }
         
         this.root = new SegTreeNode(0, n - 1, 0);
+        
         initialPopulateTree(this.root, this.nums);
     }
     
