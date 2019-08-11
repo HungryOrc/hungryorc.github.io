@@ -59,7 +59,7 @@ class H2O {
 
     // 这个函数的意思是 来了一个H，我们该怎么办老板
     public void hydrogen(Runnable releaseHydrogen) throws InterruptedException {
-		synchronized (lock) {
+        synchronized (lock) {
             while (counter == 2) {
                 if (oxy) {
                     reset();
