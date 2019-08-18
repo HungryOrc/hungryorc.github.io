@@ -43,13 +43,10 @@ public class Solution {
     };
     
     public List<String> findWords(char[][] matrix, String[] words) {
-        Set<String> dict = new HashSet<>();
-        for (String w : words) dict.add(w);
-        
         Set<String> tmpResult = new HashSet<>(); // 在matrix里找到的stings要去重！
         
         Trie trie = new Trie();
-        for (String word : dict) {
+        for (String word : words) {
             trie.insertWord(word);
         }
         
