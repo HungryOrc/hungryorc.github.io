@@ -81,9 +81,13 @@ To keep track of which player, I add one for Player1 and -1 for Player2.
 There are two additional variables to keep track of the count of the diagonals. 8
 Each time a player places a piece we just need to check the count of that row, column, diagonal and anti-diagonal.
 
+注意！如果这题是一个 OOD 的设计题，那么要注意以下的 和玩家落子即move函数相关的 特殊情况：
+* 最后可能无子可落，即 **棋盘已经落满** 的情况
+* 还没落满，但 **每个行列和两个对角线都已经没有任何一方赢的可能性了**。即 每一行，每一列，以及2个对角线，都已经有了两个玩家的落子
+
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(1)，这是 任何一个玩家落子一次以及判断输赢 的时间复杂度。即move函数run一次的TC
+* Space: O(n)，n是矩阵的行数和列数里更大的那一个
 
 ### Java
 ```java
@@ -117,27 +121,31 @@ public class TicTacToe
         
         // manage rows and columns
         rows[row] += toAdd;
-        if (Math.abs(rows[row]) == size)
+        if (Math.abs(rows[row]) == size) {
             return player;
+        }
+        
         cols[col] += toAdd;
-        if (Math.abs(cols[col]) == size)
+        if (Math.abs(cols[col]) == size) {
             return player;
+        }
         
         // manage diagonal and antiDiagonal
-        if (row == col)
-        {
+        if (row == col) {
             diagonal += toAdd;
-            if (Math.abs(diagonal) == size)
+            if (Math.abs(diagonal) == size) {
                 return player;
-        }
-        if (row + col == size-1)
-        {
-            antiDiagonal += toAdd;
-            if (Math.abs(antiDiagonal) == size)
-                return player;
+            }
         }
         
-        return 0;
+        if (row + col == size - 1) {
+            antiDiagonal += toAdd;
+            if (Math.abs(antiDiagonal) == size) {
+                return player;
+            }
+        }
+        
+        return 0; // no one won
     }
 }
 ```
