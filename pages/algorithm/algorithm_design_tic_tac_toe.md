@@ -16,6 +16,7 @@ You may assume the following rules:
 1. A move is guaranteed to be valid and is placed on an empty block.
 2. Once a winning condition is reached, no more moves is allowed.
 3. A player who succeeds in placing n of their marks in a horizontal, vertical, or diagonal row wins the game.
+
 我们默认每次每个玩家落子的地方都是valid的，即我们不必操心玩家怎么落子，他想落在哪里，他选择落子位置的时间复杂度算法等等。
 
 Your TicTacToe object will be instantiated and called as such:
