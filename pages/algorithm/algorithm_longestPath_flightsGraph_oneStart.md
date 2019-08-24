@@ -30,6 +30,8 @@ class Solution {
         // ignore sanity checks
         
         // these 2 sets are used for finding the global starting city
+        // end set 是永远只加不减
+        // start set 是有加有减
         Set<String> starts = new HashSet<>();
         Set<String> ends = new HashSet<>();
         
