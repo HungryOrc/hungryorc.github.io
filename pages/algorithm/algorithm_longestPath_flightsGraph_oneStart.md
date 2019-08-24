@@ -10,9 +10,7 @@ toc: false
 ---
 
 ## Description
-全图有且只有一个初始点，除了他以外的点都有previous city。每个city只能有一个previous city。每个city可以有0到多个next cities。
-
-全图没有cycle。综上所述，这就是一个树。
+全图有且只有一个初始点，除了他以外的点都有previous city。每个city只能有一个previous city。每个city可以有0到多个next cities。全图没有cycle。综上所述，这就是一个树。
 
 求最长的path的具体沿线cities。
 
@@ -27,8 +25,6 @@ toc: false
 
 ### Java
 ```java
-// 一个初始点的树状flights，每个city可能有0到多个next city，
-// 每个city只能有一个previous city。全图无圈
 class Solution {
     public List<String> getLongestPath(String[][] flights) {
         // ignore sanity checks
