@@ -115,14 +115,14 @@ class Solution {
                 robot.turnRight();
                 robot.turnRight();
                 robot.move();
-                robot.turnLeft();
-                robot.turnLeft();
+                robot.turnRight();
+                robot.turnRight();
             }
             
-            // 别忘了这里要转头。这是机器人的模拟移动，不是空虚的数学的移动
+            // 别忘了这里要真的向左转一次（转4次就是试过了4个方向），
+            // 不是光把direction加加就行了的，因为这是机器人的模拟移动，不是空虚的数学的移动
             robot.turnLeft();
-            
-            direction ++;
+            direction++;
             if (direction == 4) { direction = 0; }
         }
     }
