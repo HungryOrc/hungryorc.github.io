@@ -47,9 +47,8 @@ class Solution {
             
             if (starts.contains(end)) {
                 starts.remove(end);
-            } else {
-                ends.add(end);
             }
+            ends.add(end);
             
             List<String> nextCities = nexts.get(start);
             if (nextCities == null) {
