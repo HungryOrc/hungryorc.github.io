@@ -86,6 +86,18 @@ class Solution {
 }
 ```
 
+## Solution 2: 数学的方法。非常巧妙。很难想到。要透彻理解
+这个视频讲解得很清楚：https://www.youtube.com/watch?v=gi2maECPOB0
+
+### Complexity
+* Time: O(|V| + |E|) <==== ？？？？
+* Space: O(|V| + |E|)，map 的 size <==== ？？？？
+
+### Java
+```java
+
+```
+
 ## Reference
 * [Sum of Distances in Tree [LeetCode]](https://leetcode.com/problems/sum-of-distances-in-tree/description/)
 
