@@ -95,7 +95,96 @@ class Solution {
 
 ### Java
 ```java
+class Solution {
+    public int[] sumOfDistancesInTree(int n, int[][] edges) {
+        int[] result = new int[n];
+        
+        int[] sizeOfSubtree = new int[n];
+        // 我们把node 0 设为整棵树的root。其实设谁都可以，但得先设一个
+        sizeOfSubtree[0] = n;
+        
+        // construct the graph (namely a tree)
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            map.put(i, new ArrayList<>());
+        }
+        for (int[] edge : edges) {
+            int start = edge[0], end = edge[1];
+            List<Integer> sList = map.get(start);
+            sList.add(end);
+            List<Integer> eList = map.get(end);
+            eList.add(start);
+        }
+        
+        // get the subtree size of all the subtrees in this tree
+        boolean[] visited = new boolean[n];
+        visited[0] = true;
+        getSubtreeSizeDfs(map, 0, visited, sizeOfSubtree);
+        
+        // get the sum of distances from node 0 (universal root) to all other nodes
+        int sumOfDistsFromNodeZero = 0;
+        int dist = 0;
+        
+        visited = new boolean[n];
+        visited[0] = true;
+        Queue<Integer> queue  = new LinkedList<>();
+        queue.offer(0);
+        
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int cur = queue.poll();
+                sumOfDistsFromNodeZero += dist;
+                
+                for (int next : map.get(cur)) {
+                    if (visited[next]) continue;
+                    visited[next] = true;
+                    queue.offer(next);
+                }
+            }
+            dist++;
+        }
+        
+        // get the answer array
+        result[0] = sumOfDistsFromNodeZero;
+        visited = new boolean[n];
+        visited[0] = true;
+        queue  = new LinkedList<>();
+        queue.offer(0);
+        
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
 
+            for (int next : map.get(cur)) {
+                if (visited[next]) continue;
+                visited[next] = true;
+                
+                // 这个算法的最核心的一句！
+                result[next] = 
+                    result[cur] + (n - sizeOfSubtree[next]) - sizeOfSubtree[next];
+                
+                queue.offer(next);
+            }
+        }
+        
+        return result;
+    }
+    
+    private int getSubtreeSizeDfs(Map<Integer, List<Integer>> map, int node,
+                                   boolean[] visited, int[] sizeOfSubtree) {
+        int size = 1; // cur node as the root of the subtree
+        
+        for (int next : map.get(node)) {
+            if (visited[next]) continue;
+            
+            visited[next] = true;
+            size += getSubtreeSizeDfs(map, next, visited, sizeOfSubtree);
+        }
+        
+        sizeOfSubtree[node] = size;
+        return size;
+    }
+}
 ```
 
 ## Reference
