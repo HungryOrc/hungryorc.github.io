@@ -10,9 +10,7 @@ toc: false
 ---
 
 ## Description: Hard，但也不是那么难
-An undirected, connected tree with N nodes labelled 0...N-1 and N-1 edges are given.
-
-The ith edge connects nodes edges[i][0] and edges[i][1] together.
+An undirected, connected tree with N nodes labelled 0...N-1 and N-1 edges are given. The ith edge connects nodes edges[i][0] and edges[i][1] together.
 
 Return a list ans, where ans[i] is the sum of the distances between node i and all other nodes.
 
