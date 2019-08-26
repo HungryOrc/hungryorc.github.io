@@ -47,8 +47,8 @@ Note: The given binary tree has not more than 10000 nodes. The height of the tre
 ## Solution: 我的实现，速度前1%，关键在于：每一个node往上一层传递的信息，和在本一层更新到glocal variable 里的信息，是两类东西！
 
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(n)，n是nodes的个数
+* Space: O(height of tree)，因为是dfs，所以要考虑stack的层数。还要考虑stack overflow的可能性
 
 ### Java
 ```java
@@ -58,7 +58,7 @@ public class Solution {
         int[] maxLen = new int[]{1};
         
         dfs(root, maxLen);
-        return maxLen[0] - 1;
+        return maxLen[0] - 1; // 减1是因为本题的特殊要求而已，我求的maxLen是nodes的个数，题目要求的是edges的个数
     }
     
     private int dfs(TreeNode node, int[] maxLen) {
