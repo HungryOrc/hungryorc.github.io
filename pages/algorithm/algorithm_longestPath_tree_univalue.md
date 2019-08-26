@@ -62,8 +62,6 @@ public class Solution {
     }
     
     private int dfs(TreeNode node, int[] maxLen) {
-        if (node == null) return 0; // 显然这种情况下不需要更新maxLen了
-        
         int leftOutcome = 0;
         if (node.left != null) {
             if (node.left.val == node.val) {
