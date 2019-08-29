@@ -32,7 +32,7 @@ class ArrayUnionFind {
     }
     
     public int getGroupId(int a) {
-        return groupIDs(a);
+        return groupIDs[a];
     }
     
     // "find" means to check if two objects belong to the same group
