@@ -29,6 +29,7 @@ Note:
 见上文中的链接
 
 ## Solution：我自己的实现，用 Minimum Spanning Tree，Kruskal方法（Union Find实现），速度 前5%
+一个很好的 MST Kruskal方法 的解说视频：https://www.youtube.com/watch?v=5xosHRdxqHA
 
 ### Complexity
 * Time: O(n) <==== ？？？？是n的平方么
