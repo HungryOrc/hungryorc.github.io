@@ -22,19 +22,20 @@ Note:
 * The return answers should be in the same order as the original array.
 
 ### Example
-* Input: ["like", "god", "internal", "me", "internet", "interval", "intension", "face", "intrusion"]
-  * Output: ["l2e","god","internal","me","i6t","interval","inte4n","f2e","intr4n"]
+* Input: `["like", "god", "internal", "me", "internet", "interval", "intension", "face", "intrusion"]`
+  * Output: `["l2e","god","internal","me","i6t","interval","inte4n","f2e","intr4n"]`
 
 ## Solution: 我的方法，速度 前5%
-这题的思路其实是比较符合直觉的，只是想的过程里，要考虑到一些特殊情况，写的过程也要细心，就像拿着一根狼毫为一粒江米上色
+这题的思路其实是比较符合直觉的，只是想的过程里，要考虑到一些特殊情况，写的过程也要细心，就像拿着一根狼毫为一粒米上色
 
 注意（能想到下面这些，只能用一个字来形容我了：太厉害了）：
 * 缩减的数字可以是多位的，比如 `abc250t` 和 `ab251t`
 * 完全有可能，缩减的数字变了，而总的缩写的长度不变，比如 `ab100t` 和 `abc99t`
 
 ### Complexity
-* Time: O(n)
-* Space: O(n)
+* Time: O(n^2 * m)，n 是words的个数，m 是每个词的平均长度
+  * 最差的情况，可能每个词都要和每个之前的词撞车一次，那么一共要撞车 1 + 2 + 3 + ... + (n-1) 次 <==== ？？？？
+* Space: O(n * m)，我们用到的map的size <==== ？？？？
 
 ### Java
 ```java
