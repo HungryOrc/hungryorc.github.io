@@ -81,6 +81,13 @@ class Solution {
         
         String abbr = abbreviate(lenOfPrefix, word);
         
+        // 在 map abbrs 里，我们设置三种情况：
+        // 如果一个缩写(string) abbr 从来没被用过，则map里不存在这个key abbr
+        // 如果这个 abbr 现在正在被一个word所用，即abbr目前是某个word的最新版的缩写，
+        //     则map里有它们这么一个entry: <abbr, word>
+        // 如果这个 abbr 曾是某个word的缩写，但现在不是了（那它也不能再成为任何word的缩写，否则必会有歧义），
+        //     则map里关于这个abbr的entry是：<abbr, null>
+        
         if (!abbrs.containsKey(abbr)) {
             abbrs.put(abbr, word);
             result[indexForCurWord] = abbr;
@@ -90,6 +97,7 @@ class Solution {
         if (abbrs.containsKey(abbr)) {
             getAbbr(word, lenOfPrefix + 1, indexes, abbrs, result);
             
+            // 下面的都是处理那个 conflict word 的了
             String conflictWord = abbrs.get(abbr);
             abbrs.put(abbr, null); // 对于发生冲突的位置，我们都必须做这个处理
             
