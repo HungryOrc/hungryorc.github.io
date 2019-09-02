@@ -32,7 +32,7 @@ You may not engage in multiple transactions at the same time (ie, you must sell 
 
 ### Complexity
 * Time: O(n)
-* Space: O(n)，dp数组。这个数组无法再缩减了，因为最后要把所有的 `profit = Math.max(left[i] + right[i], profit)` 这么loop一遍
+* Space: O(n)，dp数组的长度。这个空间消耗 没法再降低了，因为最后要把所有的 `profit = Math.max(left[i] + right[i], profit)` 这么loop一遍
 
 ### Java
 ```java
