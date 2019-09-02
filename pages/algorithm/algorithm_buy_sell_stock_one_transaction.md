@@ -27,6 +27,11 @@ Design an algorithm to find the maximum profit. You may complete **at most one t
 
 如果出现比现在记录的最低数更低的数，则更新这个最低数。但不消除maxProfit，而是留着，继续与新的optimalBuyPrice之后的各个profits比大小
 
+### Follow up
+初始的array很长，放不下一个机器，必须放不同机器怎么办
+
+做法：每个机器做相同算法，然后每个机器的范围内找min和max，然后把这些 (min, max) pairs 连成一个新的array，再对这个新的array做相同的算法处理。注意每个机器里的min要排在max的前面。
+
 ### Complexity
 * Time: O(n)
 * Space: O(1)
