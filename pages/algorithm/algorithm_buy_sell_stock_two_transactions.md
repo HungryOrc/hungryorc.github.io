@@ -42,9 +42,12 @@ class Solution {
             return 0;
         }
         
-        // 在 i 以及 i的左边，进行一次交易，所能得到的最大利润
+        // 在 i 以及 i的左边，进行一次交易，所能得到的最大利润，
+        // 这里实质上要求的是，第一次的卖出，最晚发生在i这个index上
         int[] left = new int[prices.length];
-        // 在 i 以及 i的右边，进行一次交易，所能得到的最大利润
+        
+        // 在 i 以及 i的右边，进行一次交易，所能得到的最大利润，
+        // 这里实质上的要求是，第二次的买入，最早发生在i这个index上
         int[] right = new int[prices.length];
 
         // DP from left to right
