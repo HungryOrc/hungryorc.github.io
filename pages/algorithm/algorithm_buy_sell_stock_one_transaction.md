@@ -40,16 +40,27 @@ Design an algorithm to find the maximum profit. You may complete **at most one t
 ```java
 class Solution {
     public int maxProfit(int[] prices) {
-        int lowest = Integer.MAX_VALUE;
-        int maxProfit = 0;
+        if (prices == null || prices.length == 0) return 0;
         
-        for (int i = 0; i < prices.length; i++) {
-            if (prices[i] < lowest) {
-                optimalBuyPrice = prices[i];
-            } else if (prices[i] - lowest > maxProfit) {
-                maxProfit = prices[i] - lowest;
+        int min = prices[0];
+        // int max = 0;
+        int maxProfit = 0;
+        int n = prices.length;
+        
+        for (int i = 1; i < n; i++) {
+            int cur = prices[i];
+            if (cur < min) {
+                min = cur;
+            } 
+            // 关键点：这里的else语句 不要再拿cur和min或者max来比了！
+            // 要直接比较 cur - min 和 当前的maxProfit 的关系！
+            // 下面这样处理还有个好处是，可以杜绝 买价在卖价后面出现 的可能性
+            else if (cur - min > maxProfit) {
+                // max = cur;
+                maxProfit = cur - min;
             }
         }
+
         return maxProfit;
     }
 }
