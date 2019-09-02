@@ -13,7 +13,7 @@ toc: false
 Reverse a singly linked list. 
 * Do it both iteratively and recursively
 * Definition for singly-linked list.
-  ```
+  ```java
   public class ListNode {
       int val;
       ListNode next;
