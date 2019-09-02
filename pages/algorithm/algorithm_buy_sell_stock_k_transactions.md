@@ -83,7 +83,8 @@ class Solution {
                 dp[i][j] = dp[i - 1][j];
                 for (int b = 0; b <= i - 1; b++) { // "b" means "buy date"
                     if (prices[i] > prices[b]) {
-                        dp[i][j] = Math.max(dp[i][j], dp[b][j - 1] + (prices[i] - prices[b]));
+                        dp[i][j] = Math.max(dp[i][j], 
+                                            dp[b][j - 1] + (prices[i] - prices[b]));
                     }
                 }
             }
@@ -145,10 +146,10 @@ class Solution {
             for (int i = 1; i < n; i++) {                
                 dp[i][j] = Math.max(dp[i - 1][j], prices[i] + preprocess[j - 1]);
                 
-                preprocess[j - 1] = Math.max(preprocess[j - 1], dp[i][j - 1] - prices[i]); // 改动之处！
+                preprocess[j - 1] = Math.max(preprocess[j - 1], 
+                                             dp[i][j - 1] - prices[i]); // 改动之处！
             }
         }
-
         return dp[n - 1][k];
     }
 }
