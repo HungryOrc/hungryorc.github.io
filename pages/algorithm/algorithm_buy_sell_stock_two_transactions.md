@@ -66,12 +66,12 @@ class Solution {
             right[i] = Math.max(right[i + 1], max - prices[i]);
         }
 
-        int profit = 0;
+        int maxProfit = 0;
         for (int i = 0; i < prices.length; i++){
-            profit = Math.max(left[i] + right[i], profit);  
+            maxProfit = Math.max(left[i] + right[i], maxProfit);  
         }
 
-        return profit;
+        return maxProfit;
     }
 }
 ```
