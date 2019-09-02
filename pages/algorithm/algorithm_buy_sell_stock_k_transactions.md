@@ -95,7 +95,7 @@ class Solution {
 ```
 
 ## Solution 2: DP 改进时间 kn^2 -> kn
-基于上面的方法，改进时间复杂度。着眼点是 `for (int b = 0; b <= i - 1; b++)`这个循环，它的时间复杂度是n。它里面的的 `dp[b][j - 1] + (prices[i] - prices[b])` 之内，注意到 `prices[i]` 是不断变的，**而 `dp[b][j - 1] - prices[b]` 的最大值 在dp[][]的第二维从 `j - 1` 变成 `j` 以后就不再变了！**
+基于上面的方法，改进时间复杂度。着眼点是 `for (int b = 0; b <= i - 1; b++)`这个循环，它的时间复杂度是n。它里面的的 `dp[b][j - 1] + (prices[i] - prices[b])` 之内，注意到 `prices[i]` 是不断变的，**而 `dp[b][j - 1] - prices[b]` 的最大值 在我们对于dp[][]的第二维的考察对象从 `j - 1` 变成 `j` 以后，就不再变了！**
 
 所以我们可以用一个 **预处理的int array** 来记录 `j - 1` 时候的 `dp[b][j - 1] - prices[b]` 的最大值，即：
 ````java
