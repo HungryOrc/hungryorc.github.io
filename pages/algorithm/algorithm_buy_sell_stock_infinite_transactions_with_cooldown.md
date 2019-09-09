@@ -35,10 +35,7 @@ You may complete **as many transactions as you like** (ie, buy one and sell one 
   * In this case, no transaction is done
 
 ## Solution: DP，我的方法，一次过，速度 前1%
-这题一看就应该用DP做。难点在于如何处理 “今天卖明天不能买”
-
-大部分buy and sell stocks的题目，都是故意把一个buy和一个sell合成一个整体作为一个transaction来考虑，这样会更简单，分开不好做。
-而这一题正好相反！得把buy和sell分开考虑才好做！捏在一起不好做！搞两个dp数组
+这题一看就应该用DP做。难点在于如何处理 “今天卖明天不能买”: 我们搞两个dp数组：
 * States 分成两种状态：
   * 在第i天结束时 有持仓，历史累计最大 profit 记为：`hold[i]`
   * 在第i天结束时 无持仓，历史累计最大 profit 记为：`empty[i]`
@@ -62,7 +59,7 @@ You may complete **as many transactions as you like** (ie, buy one and sell one 
 ```java
 class Solution {
     public int maxProfit(int[] prices) {
-        if (prices == null || prices.length == 0) {
+        if (prices == null || prices.length <= 1) {
             return 0;
         }
         
