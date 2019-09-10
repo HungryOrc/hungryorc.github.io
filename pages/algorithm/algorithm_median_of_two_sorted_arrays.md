@@ -41,8 +41,8 @@ Assumptions
 ### Java
 ```java
 public class Solution {
-  public double median(int[] A, int[] B) {
-    int totalLen = A.length + B.length;
+    public double median(int[] nums1, int[] nums2) {
+        int totalLen = A.length + B.length;
     
     if (totalLen % 2 == 1) { // median's index: k = totalLen / 2 + 1
       return findKthSmallest(A, 0, B, 0, totalLen / 2 + 1);
