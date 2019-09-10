@@ -45,46 +45,46 @@ public class Solution {
         int totalLen = nums1.length + nums2.length;
     
         if (totalLen % 2 == 1) { // median's index: k = totalLen / 2 + 1
-            return findKthSmallest(A, 0, B, 0, totalLen / 2 + 1);
+            return findKthSmallest(nums1, 0, nums2, 0, totalLen / 2 + 1);
         } else { // median's index k = (totalLen / 2 + totalLen / 2 + 1) / 2;
-            return (findKthSmallest(A, 0, B, 0, totalLen / 2) + 
-                    findKthSmallest(A, 0, B, 0, totalLen / 2 + 1)) 
+            return (findKthSmallest(nums1, 0, nums2, 0, totalLen / 2) + 
+                    findKthSmallest(nums1, 0, nums2, 0, totalLen / 2 + 1)) 
                     / 2.0;
         }
     }
   
-    private int findKthSmallest(int[] A, int startIndexA, int[] B, int startIndexB, int k) {
+    private int findKthSmallest(int[] nums1, int startIndex1, int[] nums2, int startIndex2, int k) {
         // 一共有 4 种情况
         // Case 1：两个数组里，有一个正好走完最后一位，不多不少。
         // 这个case必须放最前面，因为它关系到index溢出的问题！
-        if (startIndexA == A.length) {
-            return B[startIndexB + k - 1];
+        if (startIndex1 == nums1.length) {
+            return nums2[startIndex2 + k - 1];
         }
-        if (startIndexB == B.length) {
-            return A[startIndexA + k - 1];
+        if (startIndex2 == nums2.length) {
+            return nums1[startIndex1 + k - 1];
         }
     
         // Case 2：k 降低到1了，即再往下一个数就是我们要的数了
         if (k == 1) {
-            return Math.min(A[startIndexA], B[startIndexB]);
+            return Math.min(nums1[startIndex1], nums2[startIndex2]);
         }
     
         // Case 3：两个数组里，有任何一个的长度不到 k/2 了
         // 如果A里剩下的的元素不够k/2个，丢弃B里的前k/2个元素. 反之亦然
         // 两个数组里都不足 k/2 个数是不可能的
-        if (startIndexA + k/2 - 1 >= A.length) {
-            return findKthSmallest(A, startIndexA, B, startIndexB + k/2, k - k/2);
+        if (startIndex1 + k/2 - 1 >= nums1.length) {
+            return findKthSmallest(nums1, startIndex1, nums2, startIndex2 + k/2, k - k/2);
         }
-        if (startIndexB + k/2 - 1 >= B.length) {
-            return findKthSmallest(A, startIndexA + k/2, B, startIndexB, k - k/2);
+        if (startIndex2 + k/2 - 1 >= nums2.length) {
+            return findKthSmallest(nums1, startIndex1 + k/2, nums2, startIndex2, k - k/2);
         }
     
         // Case 4：两个数组的长度都大于等于 k/2
-        // 如果 A[mid] <= B[mid], (mid = k/2 - 1），丢弃A的前k/2个元素。反之亦然
-        if (A[startIndexA + k/2 - 1] >= B[startIndexB + k/2 - 1]) {
-            return findKthSmallest(A, startIndexA, B, startIndexB + k/2, k - k/2);
+        // 如果 nums1[mid] <= nums2[mid], (mid = k/2 - 1），丢弃nums1的 前k/2个元素。反之亦然
+        if (nums1[startIndex1 + k/2 - 1] >= nums2[startIndex2 + k/2 - 1]) {
+            return findKthSmallest(nums1, startIndex1, nums2, startIndex2 + k/2, k - k/2);
         } else {
-            return findKthSmallest(A, startIndexA + k/2, B, startIndexB, k - k/2);
+            return findKthSmallest(nums1, startIndex1 + k/2, nums2, startIndex2, k - k/2);
         }
     }
 }
