@@ -78,6 +78,9 @@ class Solution {
         if (s == null || t == null) return false;
         
         StringBuilder sbS = new StringBuilder();
+        // 这里先加一个`,`的作用是：如果一个树的root是 2，另一个树的root是 12，其他的所有nodes都相同，
+        // 那么如果不加这么一个 `,`，就会导致我们认为 2为root的那个树是 12为root的那个树 的子树，
+        // 而现实显然并不是。
         sbS.append(SPLITTER);
         serializeTree(s, sbS);
         String serS = sbS.toString();
