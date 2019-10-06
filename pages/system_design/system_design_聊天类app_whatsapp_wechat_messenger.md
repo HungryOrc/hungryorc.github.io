@@ -32,7 +32,14 @@ toc: false
 
 ## 系统承载能力 Scenario
 
-### 
+### 日活跃用户 (DAU)，月活跃用户 (MAU)
+* Monthly Active User 如果是 2 Million，那么我们可以设一个 Daily Active User 和它的比例，比如设为 DAU = MAU * 50%，则 DAU = 1 Million
+
+### Query per Second (QPS)
+* 要考虑这个App是一个读更多的App，还是一个写更多的App。一般来说 聊天类App的读比写多很多，比如多10倍
+*
+
+
 
 
 
