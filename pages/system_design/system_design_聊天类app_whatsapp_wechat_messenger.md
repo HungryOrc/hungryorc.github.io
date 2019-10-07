@@ -37,7 +37,12 @@ toc: false
 
 ### Query per Second (QPS)
 * 要考虑这个App是一个读更多的App，还是一个写更多的App。一般来说 聊天类App的读比写多很多，比如多10倍
-*
+* 如果每个用户每天做20次读写，那么一天就是 1 Million 用户 * 20 queries = 20 M queries，再除以 86400 秒，就是 Query per Second，或者说是 Average QPS
+* Peak QPS 可以认为是 Average QPS 的几倍，比如说是 5倍
+* 根据 Average QPS 和 Peak QPS 就可以计算需要多少的服务器资源
+
+### Storage
+* 假设每个用户每天发送 10条 新消息，那么一天就是 10 M 条新消息，每个消息平均 100个 letter 的话（每个letter 占用 1 Byte），就需要 1 GB / 天 的存储资源
 
 
 
