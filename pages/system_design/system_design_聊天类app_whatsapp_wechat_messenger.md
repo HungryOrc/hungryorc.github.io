@@ -40,10 +40,11 @@ toc: false
 * 如果每个用户每天做20次读写，那么一天就是 1 Million 用户 * 20 queries = 20 M queries，再除以 86400 秒，就是 Query per Second，或者说是 Average QPS
 * Peak QPS 可以认为是 Average QPS 的几倍，比如说是 5倍
 * 根据 Average QPS 和 Peak QPS 就可以计算需要多少的服务器资源
+* 据说超过 1000 QPS 就需要考虑 分布式系统了，即需要多服务器合作
 
 ### Storage
 * 假设每个用户每天发送 10条 新消息，那么一天就是 10 M 条新消息，每个消息平均 100个 letter 的话（每个letter 占用 1 Byte），就需要 1 GB / 天 的存储资源
-
+* 这个量是比较大的，需要存储做 分布式，sharding
 
 
 
